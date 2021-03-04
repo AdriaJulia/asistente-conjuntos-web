@@ -1,0 +1,32 @@
+App\Form\Model\DescripcionDatosDto:
+    properties:
+        denominacion:
+            - NotBlank: { message: 'La denominación del conjunto datos es requerida' }
+            - Length:
+                min: 3
+                minMessage: 'La denominación debe tener un minimo de {{ limit }} caracteres'
+                allowEmptyString: false
+        usuario:
+            - NotBlank:  { message: 'El usuario del conjunto datos es requerido' , groups: [workflow] }
+            - Length:
+                min: 3
+                max: 255
+                minMessage: 'El usuario debe tener un minimo de {{ limit }} caracteres'
+                maxMessage: 'El usuario debe tener un máximo de {{ limit }} caracteres'
+                allowEmptyString: false
+        sesion:
+            - NotBlank:  { message: 'La sesion del conjunto datos es requerida' ,  groups: [workflow]}
+            - Length:
+                min: 3
+                max: 255
+                minMessage: 'La sesion debe tener un minimo de {{ limit }} caracteres'
+                maxMessage: 'La sesion debe tener un máximo de {{ limit }} caracteres'
+                allowEmptyString: false
+        estado:
+            - NotBlank:  { message: 'El estado del conjunto datos es requerido', groups: [workflow] }
+            - Length:
+                min: 3
+                max: 32
+                minMessage: 'La sesion debe tener un minimo de {{ limit }} caracteres'
+                maxMessage: 'La sesion debe tener un máximo de {{ limit }} caracteres'
+                allowEmptyString: false

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdoPool workflow{% endblock title %}
+
+{% block body %}
+
+    <div>
+        {{ form_start(workflow_form) }}
+        {{ form_widget(workflow_form) }}
+        <input type="submit" value="Send" class="btn btn-success" />
+        {{ form_end(workflow_form) }}
+    </div>
+
+{% endblock %}

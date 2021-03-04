@@ -1,0 +1,43 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+#        users_in_memory: { memory: null }
+        aragon_ldap:
+            ldap:
+                service: Symfony\Component\Ldap\Ldap
+                base_dn: "o=isp"
+                uid_key: uid
+                default_roles: ROLE_USER,
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: lazy
+            form_login_ldap:
+               login_path: app_login
+               check_path: app_login
+               provider: aragon_ldap
+               service: Symfony\Component\Ldap\Ldap #system/provider your user authenticate to
+               dn_string: "uid={username},ou=People,o=aragon.es,o=isp"  
+            logout:
+                path: app_logout
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used ROLE_USER
+    access_control:
+         - { path: ^/login,      roles: IS_AUTHENTICATED_ANONYMOUSLY } 
+         - { path: ^/logout,     roles: IS_AUTHENTICATED_ANONYMOUSLY } 
+         - { path: ^/asistentecamposdatos,   roles: IS_AUTHENTICATED_ANONYMOUSLY  }
+      
+         
+         

@@ -1,0 +1,244 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado - Aragon Open Data{% endblock title %}
+
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col col-12 col-md-3 col-navegacion">
+            <div class="cabecera">
+                <p>Ayuda</p>
+            </div>
+            <div class="cuerpo">
+                <div class="categoria">
+                    <p class="titulo" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Asistente Paso 1</p>
+                    <ul id="collapseOne" class="collapse show" style="">
+                        <li>
+                            <a href="javascript: visible(11) ;">Descripción de los datos (Paso 1.1)</a>
+                        </li>
+                        <li>
+                            <a href="javascript: visible(12);">Descripción de los datos (Paso 1.2)</a>
+                        </li>
+                        <li>
+                            <a href="javascript: visible(13);">Descripción de los datos (Paso 1.3)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="categoria">
+                    <p class="titulo" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Asistente Paso 2</p>
+                    <ul id="collapseOne" class="collapse show" style="">
+                        <li>
+                            <a href="javascript: visible(21);">Origen de los datos Archivo (Paso 2)</a>
+                        </li>
+                         <li>
+                            <a href="javascript: visible(22);">Origen de los datos url (Paso 2)</a>
+                        </li>
+                         <li>
+                            <a href="javascript: visible(23);">Origen de los datos DB (Paso 2)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="categoria">
+                    <p class="titulo" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Asistente Paso 3</p>
+                    <ul id="collapseOne" class="collapse show" style="">
+                        <li>
+                            <a href="javascript: visible(31);">Alineación con el EI2A (PASO 3)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="categoria">
+                    <p class="titulo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Listado de conjunto de datos</p>
+                    <ul id="collapseTwo" class="collapse show">
+                        <li>
+                            <a href="javascript: visible(41);">Vista general</a>
+                        </li>
+                        <li>
+                            <a href="javascript: visible(42);">Acciones posibles</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="categoria">
+                    <p class="titulo" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Ficha del conjunto de datos</p>
+                    <ul id="collapseThree" class="collapse show">
+                        <li>
+                            <a href="javascript: visible(51);">Vista general</a>
+                        </li>
+                        <li>
+                            <a href="javascript: visible(52);">Acciones posibles</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>                    
+        </div>
+        <div class="col col-12 col-md-9">
+            <div id="ayuda_10" class="wrapCol">
+                <div class="header-resource">
+                    <div class="h1-container">
+                        <a href="#" id="volver_10" onclick="volver();" class="btn">Volver</a>
+                        <h1>Asistente edición conjunto de datos Paso 1</h1>
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div id="ayuda_11" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Descripción de los datos (Paso 1.1)</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit. Cras vulputate vitae purus id imperdiet. Ut sollicitudin iaculis sagittis. Integer varius enim ac ornare cursus. Pellentesque vehicula mollis ligula eu imperdiet. Sed eu consectetur quam, in egestas justo.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div>
+                    <div id="ayuda_12" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Descripción de los datos (Paso 1.2)</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit. Cras vulputate vitae purus id imperdiet. Ut sollicitudin iaculis sagittis. Integer varius enim ac ornare cursus. Pellentesque vehicula mollis ligula eu imperdiet. Sed eu consectetur quam, in egestas justo.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div>
+                    <div id="ayuda_13" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Descripción de los datos (Paso 1.3)</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit.</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div>               
+                </div>
+            </div>
+            <div id="ayuda_20" class="wrapCol">
+                <div class="header-resource">
+                    <div class="h1-container">
+                        <a href="#"  id="volver_20" onclick="volver();" class="btn">Volver</a>
+                        <h1>Asistente edición conjunto de datos Paso 2</h1>
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div id="ayuda_21" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Origen de los datos Archivo</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit. Cras vulputate vitae purus id imperdiet. Ut sollicitudin iaculis sagittis. Integer varius enim ac ornare cursus. Pellentesque vehicula mollis ligula eu imperdiet. Sed eu consectetur quam, in egestas justo.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div>
+                    <div id="ayuda_22" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Origen de los datos url</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit.</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div>
+                     <div id="ayuda_23" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Origen de los datos base datos</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit.</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div>
+                 </div>
+            </div> 
+            <div id="ayuda_30" class="wrapCol">
+                <div class="header-resource">
+                    <div class="h1-container">
+                        <a href="#" id="volver_30"  onclick="volver();" class="btn">Volver</a>
+                        <h1>Asistente edición conjunto de datos Paso 3</h1>
+                    </div>
+                </div>
+                <div class="contenido">
+                     <div id="ayuda_31" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Alineación con el EI2A</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit.</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div> 
+                 </div>
+            </div>                    
+            <div id="ayuda_40"class="wrapCol">
+                <div class="header-resource">
+                    <div class="h1-container">
+                        <a href="#" id="volver_40" onclick="volver();" class="btn">Volver</a>
+                        <h1>Listado de conjunto de datos</h1>
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div id="ayuda_41" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Vista general</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit. Cras vulputate vitae purus id imperdiet. Ut sollicitudin iaculis sagittis. Integer varius enim ac ornare cursus. Pellentesque vehicula mollis ligula eu imperdiet. Sed eu consectetur quam, in egestas justo.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div>
+                    <div id="ayuda_42" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Acciones posibles</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit. Cras vulputate vitae purus id imperdiet. Ut sollicitudin iaculis sagittis. Integer varius enim ac ornare cursus. Pellentesque vehicula mollis ligula eu imperdiet. Sed eu consectetur quam, in egestas justo.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div>       
+                </div>
+            </div>
+            <div id="ayuda_50"class="wrapCol">
+                <div class="header-resource">
+                    <div class="h1-container">
+                        <a href="#" onclick="volver();" class="btn">Volver</a>
+                        <h1>Ficha de conjunto de datos</h1>
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div id="ayuda_51" id="volver_50" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Vista general</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit. Cras vulputate vitae purus id imperdiet. Ut sollicitudin iaculis sagittis. Integer varius enim ac ornare cursus. Pellentesque vehicula mollis ligula eu imperdiet. Sed eu consectetur quam, in egestas justo.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">
+                    </div>
+                    <div id="ayuda_52" class="grupo grupo-subtitulo">
+                        <p class="titulo-principal">Acciones posibles</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et. Curabitur congue nec nisi varius luctus. Pellentesque elementum elementum eros eget blandit. Cras vulputate vitae purus id imperdiet. Ut sollicitudin iaculis sagittis. Integer varius enim ac ornare cursus. Pellentesque vehicula mollis ligula eu imperdiet. Sed eu consectetur quam, in egestas justo.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa elit, commodo eget lobortis ac, ornare sed magna. In congue dolor libero, sit amet accumsan justo vehicula et</p>
+                        <img src="/theme/resources/fondocomunidadejemplo.jpg" alt="Imagen">  
+                    </div>       
+                </div>
+            </div>
+        </div> 
+     </div>        
+</div> 
+{% endblock %}
+
+{% block javascripts %}
+   {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var uri = window.location.href.split("?");
+            var url = uri[0].split("/");
+            var id = url[url.length-1];
+            var ayudas = [11,12,13,21,22,23,31,41,42,51,52];
+            if (ayudas.find(x=>x==id)!=undefined) {
+               visible(id);
+            } else {
+               visible(11);
+            }
+            if (!getUrlParameter('locationAnterior')){
+                 $.each($("a[id^='volver_']"), function (){
+                   $(this).attr("style","display:none");
+                 });
+            }
+
+
+        });
+        
+        function visible(id) {            
+            $.each($("div[id^='ayuda_']"), function () {
+                id_padre =  id - (id % 10);
+                if (($(this).attr('id') == "ayuda_".concat(id)) || ($(this).attr('id') == "ayuda_".concat(id_padre))) {
+                   $(this).attr("style","display:block");
+                } else {
+                   $(this).attr("style","display:none");
+                }
+            });
+        }
+
+        function volver() {
+            location.href = getUrlParameter('locationAnterior');
+        }
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+            return false;
+        };
+    </script>
+{% endblock %}
