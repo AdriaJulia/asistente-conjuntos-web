@@ -1,6 +1,10 @@
 <?php
 namespace App\Enum;
 
+/**
+ * Descripcion: Enumerado de las rutas para llamar ala APirest según funcionalidad
+ */
+
 class RutasApirestEnum {
 
   private static $types = [
@@ -16,7 +20,8 @@ class RutasApirestEnum {
       'ORIGEN_DATOS_POST_ACTUALIZA_DATA' => self::ORIGEN_DATOS_POST_ACTUALIZA_DATA,  
       'ORIGEN_DATOS_POST_ACTUALIZA_ALINEACION' => self::ORIGEN_DATOS_POST_ACTUALIZA_ALINEACION, 
       'USUARIO_LOGIN_CHECK_POST' => self::USUARIO_LOGIN_CHECK_POST, 
-      'USUARIO_REGISTER_POST' => self::USUARIO_REGISTER_POST
+      'USUARIO_REGISTER_POST' => self::USUARIO_REGISTER_POST,
+      'SOPORTE_USUARIOS' => self::SOPORTE_USUARIOS,
     ];
    
 
@@ -38,6 +43,8 @@ class RutasApirestEnum {
   const USUARIO_REGISTER_POST = "/api/register";
 
   const ORIGEN_DATOS_FICHA = "/api/v1/origendatos/datosficha";
+
+  const SOPORTE_USUARIOS = "/api/v1/ayuda/soporte";
 
   public static function getValues(){
       return self::$types;

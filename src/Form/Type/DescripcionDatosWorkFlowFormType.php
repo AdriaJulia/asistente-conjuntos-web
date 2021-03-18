@@ -11,6 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/*
+ * Descripción: Es clase la que define el formulario popup para el cambio de estado de un conjunto datos
+ *               El que sale desde la ficha del conjunto de datos al pulsar un botón.         
+ */
+
 class DescripcionDatosWorkFlowFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

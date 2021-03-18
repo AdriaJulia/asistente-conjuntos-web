@@ -1,0 +1,291 @@
+BusinessEntityID;Title;FirstName;MiddleName;LastName;Suffix;JobTitle;PhoneNumber;PhoneNumberType;EmailAddress;EmailPromotion;AddressLine1;AddressLine2;City;StateProvinceName;PostalCode;CountryRegionName;AdditionalContactInfo;BirthDate
+1;NULL;Ken;J;Sánchez;NULL;Chief Executive Officer;697-555-0142;Cell;ken0@adventure-works.com;0;4350 Minute Dr.;NULL;Newport Hills;Washington;98006;United States;NULL;02/03/1963
+2;NULL;Terri;Lee;Duffy;NULL;Vice President of Engineering;819-555-0175;Work;terri0@adventure-works.com;1;7559 Worth Ct.;NULL;Renton;Washington;98055;United States;NULL;01/09/1965
+3;NULL;Roberto;NULL;Tamburello;NULL;Engineering Manager;212-555-0187;Cell;roberto0@adventure-works.com;0;2137 Birchwood Dr;NULL;Redmond;Washington;98052;United States;NULL;13/12/1968
+4;NULL;Rob;NULL;Walters;NULL;Senior Tool Designer;612-555-0100;Cell;rob0@adventure-works.com;0;5678 Lakeview Blvd.;NULL;Minneapolis;Minnesota;55402;United States;NULL;23/01/1969
+5;Ms.;Gail;A;Erickson;NULL;Design Engineer;849-555-0139;Cell;gail0@adventure-works.com;0;9435 Breck Court;NULL;Bellevue;Washington;98004;United States;NULL;29/10/1946
+6;Mr.;Jossef;H;Goldberg;NULL;Design Engineer;122-555-0189;Work;jossef0@adventure-works.com;0;5670 Bel Air Dr.;NULL;Renton;Washington;98055;United States;NULL;11/04/1953
+7;NULL;Dylan;A;Miller;NULL;Research and Development Manager;181-555-0156;Work;dylan0@adventure-works.com;2;7048 Laurel;NULL;Kenmore;Washington;98028;United States;NULL;27/03/1981
+8;NULL;Diane;L;Margheim;NULL;Research and Development Engineer;815-555-0138;Cell;diane1@adventure-works.com;0;475 Santa Maria;NULL;Everett;Washington;98201;United States;NULL;06/07/1980
+9;NULL;Gigi;N;Matthew;NULL;Research and Development Engineer;185-555-0186;Cell;gigi0@adventure-works.com;0;7808 Brown St.;NULL;Bellevue;Washington;98004;United States;NULL;21/02/1973
+10;NULL;Michael;NULL;Raheem;NULL;Research and Development Manager;330-555-2568;Work;michael6@adventure-works.com;2;1234 Seaside Way;NULL;San Francisco;California;94109;United States;NULL;01/01/1979
+11;NULL;Ovidiu;V;Cracium;NULL;Senior Tool Designer;719-555-0181;Cell;ovidiu0@adventure-works.com;0;5458 Gladstone Drive;NULL;Kenmore;Washington;98028;United States;NULL;18/02/1972
+12;NULL;Thierry;B;D'Hers;NULL;Tool Designer;168-555-0183;Work;thierry0@adventure-works.com;2;1970 Napa Ct.;NULL;Bothell;Washington;98011;United States;NULL;29/08/1953
+13;Ms.;Janice;M;Galvin;NULL;Tool Designer;473-555-0117;Work;janice0@adventure-works.com;2;3397 Rancho View Drive;NULL;Redmond;Washington;98052;United States;NULL;29/06/1983
+14;NULL;Michael;I;Sullivan;NULL;Senior Design Engineer;465-555-0156;Cell;michael8@adventure-works.com;2;6510 Hacienda Drive;NULL;Renton;Washington;98055;United States;NULL;17/07/1973
+15;NULL;Sharon;B;Salavaria;NULL;Design Engineer;970-555-0138;Cell;sharon0@adventure-works.com;2;7165 Brock Lane;NULL;Renton;Washington;98055;United States;NULL;03/06/1955
+16;NULL;David;M;Bradley;NULL;Marketing Manager;913-555-0172;Work;david0@adventure-works.com;1;3768 Door Way;NULL;Redmond;Washington;98052;United States;NULL;19/04/1969
+17;NULL;Kevin;F;Brown;NULL;Marketing Assistant;150-555-0189;Cell;kevin0@adventure-works.com;2;7883 Missing Canyon Court;NULL;Everett;Washington;98201;United States;NULL;03/06/1981
+18;NULL;John;L;Wood;NULL;Marketing Specialist;486-555-0150;Work;john5@adventure-works.com;2;9906 Oak Grove Road;NULL;Redmond;Washington;98052;United States;NULL;06/04/1972
+19;NULL;Mary;A;Dempsey;NULL;Marketing Assistant;124-555-0114;Cell;mary2@adventure-works.com;1;6307 Greenbelt Way;NULL;Bellevue;Washington;98004;United States;NULL;01/03/1972
+20;NULL;Wanida;M;Benshoof;NULL;Marketing Assistant;708-555-0141;Work;wanida0@adventure-works.com;2;6951 Harmony Way;NULL;Sammamish;Washington;98074;United States;NULL;17/04/1969
+21;NULL;Terry;J;Eminhizer;NULL;Marketing Specialist;138-555-0118;Cell;terry0@adventure-works.com;2;8668 Via Neruda;NULL;Bellevue;Washington;98004;United States;NULL;07/03/1980
+22;NULL;Sariya;E;Harnpadoungsataya;NULL;Marketing Specialist;399-555-0176;Work;sariya0@adventure-works.com;0;1185 Dallas Drive;NULL;Everett;Washington;98201;United States;NULL;21/06/1981
+23;NULL;Mary;E;Gibson;NULL;Marketing Specialist;531-555-0183;Work;mary0@adventure-works.com;0;3928 San Francisco;NULL;Everett;Washington;98201;United States;NULL;14/10/1956
+24;Ms.;Jill;A;Williams;NULL;Marketing Specialist;510-555-0121;Work;jill0@adventure-works.com;0;3238 Laguna Circle;NULL;Everett;Washington;98201;United States;NULL;19/07/1973
+25;NULL;James;R;Hamilton;NULL;Vice President of Production;870-555-0122;Work;james1@adventure-works.com;0;9652 Los Angeles;NULL;Monroe;Washington;98272;United States;NULL;07/02/1977
+26;NULL;Peter;J;Krebs;NULL;Production Control Manager;913-555-0196;Work;peter0@adventure-works.com;0;3670 All Ways Drive;NULL;Bellevue;Washington;98004;United States;NULL;04/12/1976
+27;NULL;Jo;A;Brown;NULL;Production Supervisor - WC60;632-555-0129;Cell;jo0@adventure-works.com;0;9693 Mellowood Street;NULL;Duvall;Washington;98019;United States;NULL;09/11/1950
+28;NULL;Guy;R;Gilbert;NULL;Production Technician - WC60;320-555-0195;Work;guy1@adventure-works.com;0;7726 Driftwood Drive;NULL;Monroe;Washington;98272;United States;NULL;15/05/1976
+29;NULL;Mark;K;McArthur;NULL;Production Technician - WC60;417-555-0154;Work;mark1@adventure-works.com;1;9863 Ridge Place;NULL;Redmond;Washington;98052;United States;NULL;26/10/1973
+30;NULL;Britta;L;Simon;NULL;Production Technician - WC60;955-555-0169;Cell;britta0@adventure-works.com;0;2046 Las Palmas;NULL;Edmonds;Washington;98020;United States;NULL;30/10/1983
+31;NULL;Margie;W;Shoop;NULL;Production Technician - WC60;818-555-0128;Cell;margie0@adventure-works.com;2;2080 Sycamore Drive;NULL;Edmonds;Washington;98020;United States;NULL;20/06/1980
+32;NULL;Rebecca;A;Laszlo;NULL;Production Technician - WC60;314-555-0113;Cell;rebecca0@adventure-works.com;1;3197 Thornhill Place;NULL;Bellevue;Washington;98004;United States;NULL;11/08/1971
+33;NULL;Annik;O;Stahl;NULL;Production Technician - WC60;499-555-0125;Work;annik0@adventure-works.com;0;7842 Ygnacio Valley Road;NULL;Seattle;Washington;98104;United States;NULL;27/01/1971
+34;NULL;Suchitra;O;Mohan;NULL;Production Technician - WC60;753-555-0129;Cell;suchitra0@adventure-works.com;2;5678 Clear Court;NULL;Bellevue;Washington;98004;United States;NULL;11/07/1981
+35;NULL;Brandon;G;Heidepriem;NULL;Production Technician - WC60;429-555-0137;Cell;brandon0@adventure-works.com;1;8000 Crane Court;NULL;Redmond;Washington;98052;United States;NULL;11/02/1971
+36;NULL;Jose;R;Lugo;NULL;Production Technician - WC60;587-555-0115;Cell;jose0@adventure-works.com;2;5125 Cotton Ct.;NULL;Seattle;Washington;98104;United States;NULL;01/09/1978
+37;NULL;Chris;O;Okelberry;NULL;Production Technician - WC60;315-555-0144;Cell;chris2@adventure-works.com;0;8467 Clifford Court;NULL;Redmond;Washington;98052;United States;NULL;07/09/1980
+38;NULL;Kim;B;Abercrombie;NULL;Production Technician - WC60;208-555-0114;Cell;kim1@adventure-works.com;2;9752 Jeanne Circle;NULL;Carnation;Washington;98014;United States;NULL;14/01/1961
+39;NULL;Ed;R;Dudenhoefer;NULL;Production Technician - WC60;919-555-0140;Work;ed0@adventure-works.com;0;4598 Manila Avenue;NULL;Seattle;Washington;98104;United States;NULL;12/10/1965
+40;NULL;JoLynn;M;Dobney;NULL;Production Supervisor - WC60;903-555-0145;Work;jolynn0@adventure-works.com;1;7126 Ending Ct.;NULL;Seattle;Washington;98104;United States;NULL;16/02/1950
+41;NULL;Bryan;NULL;Baker;NULL;Production Technician - WC60;712-555-0113;Cell;bryan0@adventure-works.com;0;2275 Valley Blvd.;NULL;Monroe;Washington;98272;United States;NULL;28/09/1967
+42;NULL;James;D;Kramer;NULL;Production Technician - WC60;119-555-0117;Cell;james0@adventure-works.com;2;4734 Sycamore Court;NULL;Monroe;Washington;98272;United States;NULL;26/08/1978
+43;NULL;Nancy;A;Anderson;NULL;Production Technician - WC60;970-555-0118;Cell;nancy0@adventure-works.com;1;7820 Bird Drive;NULL;Sammamish;Washington;98074;United States;NULL;21/12/1982
+44;NULL;Simon;D;Rapier;NULL;Production Technician - WC60;963-555-0134;Work;simon0@adventure-works.com;0;3421 Bouncing Road;NULL;Duvall;Washington;98019;United States;NULL;17/06/1984
+45;NULL;Thomas;R;Michaels;NULL;Production Technician - WC60;278-555-0118;Cell;thomas0@adventure-works.com;1;7338 Green St.;NULL;Edmonds;Washington;98020;United States;NULL;11/02/1980
+46;NULL;Eugene;O;Kogan;NULL;Production Technician - WC60;173-555-0179;Cell;eugene1@adventure-works.com;0;991 Vista Verde;NULL;Duvall;Washington;98019;United States;NULL;13/03/1970
+47;NULL;Andrew;R;Hill;NULL;Production Supervisor - WC10;908-555-0159;Cell;andrew0@adventure-works.com;1;6629 Polson Circle;NULL;Everett;Washington;98201;United States;NULL;08/10/1982
+48;NULL;Ruth;Ann;Ellerbrock;NULL;Production Technician - WC10;145-555-0130;Cell;ruth0@adventure-works.com;0;2176 Apollo Way;NULL;Everett;Washington;98201;United States;NULL;06/07/1950
+49;NULL;Barry;K;Johnson;NULL;Production Technician - WC10;206-555-0180;Work;barry0@adventure-works.com;0;3114 Notre Dame Ave.;NULL;Snohomish;Washington;98296;United States;NULL;27/04/1950
+50;NULL;Sidney;M;Higa;NULL;Production Technician - WC10;424-555-0189;Work;sidney0@adventure-works.com;0;9277 Country View Lane;NULL;Edmonds;Washington;98020;United States;NULL;01/10/1950
+51;NULL;Jeffrey;L;Ford;NULL;Production Technician - WC10;984-555-0185;Work;jeffrey0@adventure-works.com;0;5734 Ashford Court;NULL;Monroe;Washington;98272;United States;NULL;12/08/1950
+52;NULL;Doris;M;Hartwig;NULL;Production Technician - WC10;328-555-0150;Cell;doris0@adventure-works.com;0;5553 Cash Avenue;NULL;Kenmore;Washington;98028;United States;NULL;06/05/1950
+53;NULL;Diane;R;Glimp;NULL;Production Technician - WC10;202-555-0151;Cell;diane0@adventure-works.com;2;9006 Woodside Way;NULL;Redmond;Washington;98052;United States;NULL;30/04/1950
+54;NULL;Bonnie;N;Kearney;NULL;Production Technician - WC10;264-555-0150;Work;bonnie0@adventure-works.com;0;4852 Chaparral Court;NULL;Snohomish;Washington;98296;United States;NULL;11/10/1980
+55;NULL;Taylor;R;Maxwell;NULL;Production Supervisor - WC50;508-555-0165;Work;taylor0@adventure-works.com;0;504 O St.;NULL;Edmonds;Washington;98020;United States;NULL;03/05/1950
+56;NULL;Denise;H;Smith;NULL;Production Technician - WC50;869-555-0119;Cell;denise0@adventure-works.com;0;5669 Ironwood Way;NULL;Kenmore;Washington;98028;United States;NULL;07/08/1982
+57;NULL;Frank;T;Miller;NULL;Production Technician - WC50;167-555-0139;Work;frank1@adventure-works.com;1;591 Merriewood Drive;NULL;Snohomish;Washington;98296;United States;NULL;24/08/1965
+58;NULL;Kendall;C;Keil;NULL;Production Technician - WC50;138-555-0128;Work;kendall0@adventure-works.com;2;7439 Laguna Niguel;NULL;Seattle;Washington;98104;United States;NULL;30/06/1980
+59;NULL;Bob;N;Hohman;NULL;Production Technician - WC50;611-555-0116;Work;bob0@adventure-works.com;0;6387 Scenic Avenue;NULL;Bothell;Washington;98011;United States;NULL;16/09/1973
+60;NULL;Pete;C;Male;NULL;Production Technician - WC50;768-555-0123;Cell;pete0@adventure-works.com;2;5375 Clearland Circle;NULL;Seattle;Washington;98104;United States;NULL;07/03/1971
+61;NULL;Diane;H;Tibbott;NULL;Production Technician - WC50;361-555-0180;Work;diane2@adventure-works.com;0;8192 Seagull Court;NULL;Kenmore;Washington;98028;United States;NULL;10/09/1983
+62;NULL;John;T;Campbell;NULL;Production Supervisor - WC60;435-555-0113;Work;john0@adventure-works.com;1;2639 Anchor Court;NULL;Seattle;Washington;98104;United States;NULL;08/09/1950
+63;NULL;Maciej;W;Dusza;NULL;Production Technician - WC60;237-555-0128;Cell;maciej0@adventure-works.com;0;3026 Anchor Drive;NULL;Edmonds;Washington;98020;United States;NULL;02/03/1949
+64;NULL;Michael;J;Zwilling;NULL;Production Technician - WC60;582-555-0148;Cell;michael7@adventure-works.com;1;7511 Cooper Dr.;NULL;Edmonds;Washington;98020;United States;NULL;07/10/1967
+65;NULL;Randy;T;Reeves;NULL;Production Technician - WC60;961-555-0122;Cell;randy0@adventure-works.com;0;3632 Bank Way;NULL;Edmonds;Washington;98020;United States;NULL;29/05/1964
+66;NULL;Karan;R;Khanna;NULL;Production Technician - WC60;447-555-0186;Work;karan0@adventure-works.com;1;1102 Ravenwood;NULL;Seattle;Washington;98104;United States;NULL;07/04/1964
+67;NULL;Jay;G;Adams;NULL;Production Technician - WC60;407-555-0165;Work;jay0@adventure-works.com;0;896 Southdale;NULL;Monroe;Washington;98272;United States;NULL;14/03/1970
+68;NULL;Charles;B;Fitzgerald;NULL;Production Technician - WC60;931-555-0118;Work;charles0@adventure-works.com;2;5263 Etcheverry Dr;NULL;Sammamish;Washington;98074;United States;NULL;03/10/1965
+69;NULL;Steve;F;Masters;NULL;Production Technician - WC60;712-555-0170;Work;steve0@adventure-works.com;1;1398 Yorba Linda;NULL;Seattle;Washington;98104;United States;NULL;07/05/1985
+70;NULL;David;J;Ortiz;NULL;Production Technician - WC60;712-555-0119;Work;david2@adventure-works.com;0;931 Corte De Luna;NULL;Seattle;Washington;98104;United States;NULL;30/01/1979
+71;NULL;Michael;Sean;Ray;NULL;Production Supervisor - WC30;156-555-0199;Cell;michael3@adventure-works.com;2;6498 Mining Rd.;NULL;Seattle;Washington;98104;United States;NULL;02/03/1983
+72;NULL;Steven;T;Selikoff;NULL;Production Technician - WC30;925-555-0114;Work;steven0@adventure-works.com;2;181 Gaining Drive;NULL;Everett;Washington;98201;United States;NULL;15/06/1971
+73;NULL;Carole;M;Poland;NULL;Production Technician - WC30;688-555-0192;Cell;carole0@adventure-works.com;2;8411 Mt. Orange Place;NULL;Edmonds;Washington;98020;United States;NULL;19/11/1977
+74;NULL;Bjorn;M;Rettig;NULL;Production Technician - WC30;199-555-0117;Work;bjorn0@adventure-works.com;1;5802 Ampersand Drive;NULL;Seattle;Washington;98104;United States;NULL;08/12/1983
+75;NULL;Michiko;F;Osada;NULL;Production Technician - WC30;984-555-0148;Work;michiko0@adventure-works.com;0;1962 Ferndale Lane;NULL;Sammamish;Washington;98074;United States;NULL;28/07/1976
+76;NULL;Carol;M;Philips;NULL;Production Technician - WC30;609-555-0153;Cell;carol0@adventure-works.com;2;6872 Thornwood Dr.;NULL;Bothell;Washington;98011;United States;NULL;18/11/1982
+77;NULL;Merav;A;Netz;NULL;Production Technician - WC30;224-555-0187;Work;merav0@adventure-works.com;0;5666 Hazelnut Lane;NULL;Seattle;Washington;98104;United States;NULL;13/06/1977
+78;NULL;Reuben;H;D'sa;NULL;Production Supervisor - WC40;191-555-0112;Work;reuben0@adventure-works.com;2;1064 Slow Creek Road;NULL;Seattle;Washington;98104;United States;NULL;27/09/1981
+79;NULL;Eric;L;Brown;NULL;Production Technician - WC40;680-555-0118;Cell;eric1@adventure-works.com;0;5086 Nottingham Place;NULL;Duvall;Washington;98019;United States;NULL;08/01/1961
+80;NULL;Sandeep;P;Kaliyath;NULL;Production Technician - WC40;166-555-0156;Work;sandeep0@adventure-works.com;2;4310 Kenston Dr.;NULL;Sammamish;Washington;98074;United States;NULL;03/01/1965
+81;NULL;Mihail;U;Frintu;NULL;Production Technician - WC40;733-555-0128;Work;mihail0@adventure-works.com;0;2466 Clearland Circle;NULL;Edmonds;Washington;98020;United States;NULL;09/04/1965
+82;NULL;Jack;T;Creasey;NULL;Production Technician - WC40;521-555-0113;Cell;jack1@adventure-works.com;0;874 Olivera Road;NULL;Seattle;Washington;98104;United States;NULL;30/09/1967
+83;NULL;Patrick;M;Cook;NULL;Production Technician - WC40;425-555-0117;Cell;patrick1@adventure-works.com;0;9537 Ridgewood Drive;NULL;Seattle;Washington;98104;United States;NULL;24/01/1968
+84;NULL;Frank;R;Martinez;NULL;Production Technician - WC40;203-555-0196;Work;frank3@adventure-works.com;1;5724 Victory Lane;NULL;Snohomish;Washington;98296;United States;NULL;03/04/1946
+85;NULL;Brian;Richard;Goldstein;NULL;Production Technician - WC40;730-555-0117;Cell;brian2@adventure-works.com;0;8157 W. Book;NULL;Bothell;Washington;98011;United States;NULL;23/01/1965
+86;NULL;Ryan;L;Cornelsen;NULL;Production Technician - WC40;208-555-0114;Work;ryan0@adventure-works.com;2;177 11th Ave;NULL;Sammamish;Washington;98074;United States;NULL;15/07/1966
+87;NULL;Cristian;K;Petculescu;NULL;Production Supervisor - WC10;434-555-0133;Cell;cristian0@adventure-works.com;1;7166 Brock Lane;NULL;Seattle;Washington;98104;United States;NULL;13/05/1978
+88;NULL;Betsy;A;Stadick;NULL;Production Technician - WC10;405-555-0171;Cell;betsy0@adventure-works.com;0;5672 Hale Dr.;NULL;Bothell;Washington;98011;United States;NULL;17/01/1961
+89;NULL;Patrick;C;Wedge;NULL;Production Technician - WC10;413-555-0124;Cell;patrick0@adventure-works.com;0;3067 Maya;NULL;Bellevue;Washington;98004;United States;NULL;11/10/1980
+90;NULL;Danielle;C;Tiedt;NULL;Production Technician - WC10;500-555-0172;Cell;danielle0@adventure-works.com;1;5203 Virginia Lane;NULL;Kenmore;Washington;98028;United States;NULL;08/10/1980
+91;NULL;Kimberly;B;Zimmerman;NULL;Production Technician - WC10;123-555-0167;Work;kimberly0@adventure-works.com;0;8656 Lakespring Place;NULL;Seattle;Washington;98104;United States;NULL;14/10/1980
+92;NULL;Tom;M;Vande Velde;NULL;Production Technician - WC10;295-555-0161;Work;tom0@adventure-works.com;0;5242 Marvelle Ln.;NULL;Everett;Washington;98201;United States;NULL;01/11/1980
+93;NULL;Kok-Ho;T;Loh;NULL;Production Supervisor - WC50;999-555-0155;Work;kok-ho0@adventure-works.com;2;3708 Montana;NULL;Bellevue;Washington;98004;United States;NULL;30/05/1974
+94;NULL;Russell;NULL;Hunter;NULL;Production Technician - WC50;786-555-0144;Work;russell0@adventure-works.com;1;7616 Honey Court;NULL;Seattle;Washington;98104;United States;NULL;27/12/1966
+95;NULL;Jim;H;Scardelis;NULL;Production Technician - WC50;679-555-0113;Work;jim0@adventure-works.com;2;172 Turning Dr.;NULL;Edmonds;Washington;98020;United States;NULL;09/10/1980
+96;NULL;Elizabeth;I;Keyser;NULL;Production Technician - WC50;318-555-0137;Cell;elizabeth0@adventure-works.com;0;350 Pastel Drive;NULL;Kent;Washington;98031;United States;NULL;26/02/1984
+97;NULL;Mandar;H;Samant;NULL;Production Technician - WC50;140-555-0132;Work;mandar0@adventure-works.com;0;2598 La Vista Circle;NULL;Duvall;Washington;98019;United States;NULL;21/04/1980
+98;NULL;Sameer;A;Tejani;NULL;Production Technician - WC50;990-555-0172;Cell;sameer0@adventure-works.com;0;5379 Treasure Island Way;# 14;Duvall;Washington;98019;United States;NULL;27/07/1972
+99;NULL;Nuan;NULL;Yu;NULL;Production Technician - WC50;913-555-0184;Cell;nuan0@adventure-works.com;0;3454 Bel Air Drive;NULL;Bellevue;Washington;98004;United States;NULL;29/04/1973
+100;NULL;Lolan;B;Song;NULL;Production Technician - WC50;582-555-0178;Cell;lolan0@adventure-works.com;1;8152 Claudia Dr.;NULL;Edmonds;Washington;98020;United States;NULL;25/02/1967
+101;NULL;Houman;N;Pournasseh;NULL;Production Technician - WC50;180-555-0136;Cell;houman0@adventure-works.com;2;9882 Clay Rde;NULL;Redmond;Washington;98052;United States;NULL;30/09/1965
+102;NULL;Zheng;W;Mu;NULL;Production Supervisor - WC10;113-555-0173;Cell;zheng0@adventure-works.com;0;6578 Woodhaven Ln.;NULL;Seattle;Washington;98104;United States;NULL;26/11/1977
+103;NULL;Ebru;N;Ersan;NULL;Production Technician - WC10;202-555-0187;Cell;ebru0@adventure-works.com;2;8316 La Salle St.;NULL;Sammamish;Washington;98074;United States;NULL;23/10/1980
+104;NULL;Mary;R;Baker;NULL;Production Technician - WC10;283-555-0185;Work;mary1@adventure-works.com;2;2354 Frame Ln.;NULL;Seattle;Washington;98104;United States;NULL;20/10/1980
+105;NULL;Kevin;M;Homer;NULL;Production Technician - WC10;555-555-0113;Work;kevin2@adventure-works.com;0;6058 Hill Street;# 4;Bellevue;Washington;98004;United States;NULL;20/10/1980
+106;NULL;John;T;Kane;NULL;Production Technician - WC10;254-555-0114;Work;john4@adventure-works.com;1;8209 Green View Court;NULL;Duvall;Washington;98019;United States;NULL;29/10/1980
+107;NULL;Christopher;E;Hill;NULL;Production Technician - WC10;153-555-0166;Cell;christopher0@adventure-works.com;0;1902 Santa Cruz;NULL;Bothell;Washington;98011;United States;NULL;01/11/1980
+108;NULL;Jinghao;K;Liu;NULL;Production Supervisor - WC50;794-555-0159;Cell;jinghao0@adventure-works.com;0;9666 Northridge Ct.;NULL;Carnation;Washington;98014;United States;NULL;09/03/1983
+109;NULL;Alice;O;Ciccu;NULL;Production Technician - WC50;333-555-0173;Cell;alice0@adventure-works.com;1;3280 Pheasant Circle;NULL;Snohomish;Washington;98296;United States;NULL;27/02/1972
+110;NULL;Jun;T;Cao;NULL;Production Technician - WC50;299-555-0113;Work;jun0@adventure-works.com;0;4909 Poco Lane;NULL;Redmond;Washington;98052;United States;NULL;06/08/1973
+111;NULL;Suroor;R;Fatima;NULL;Production Technician - WC50;932-555-0161;Work;suroor0@adventure-works.com;0;3281 Hillview Dr.;NULL;Edmonds;Washington;98020;United States;NULL;28/03/1972
+112;NULL;John;P;Evans;NULL;Production Technician - WC50;172-555-0130;Cell;john1@adventure-works.com;1;136 Balboa Court;NULL;Seattle;Washington;98104;United States;NULL;01/07/1972
+113;NULL;Linda;K;Moschell;NULL;Production Technician - WC50;612-555-0171;Cell;linda0@adventure-works.com;1;3284 S. Blank Avenue;NULL;Bellevue;Washington;98004;United States;NULL;17/08/1981
+114;NULL;Mindaugas;J;Krapauskas;NULL;Production Technician - WC50;637-555-0120;Work;mindaugas0@adventure-works.com;1;9825 Coralie Drive;NULL;Edmonds;Washington;98020;United States;NULL;07/06/1972
+115;NULL;Angela;W;Barbariol;NULL;Production Technician - WC50;150-555-0194;Cell;angela0@adventure-works.com;2;2687 Ridge Road;NULL;Edmonds;Washington;98020;United States;NULL;01/07/1985
+116;NULL;Michael;W;Patten;NULL;Production Technician - WC50;441-555-0195;Work;michael2@adventure-works.com;0;2038 Encino Drive;NULL;Edmonds;Washington;98020;United States;NULL;03/06/1968
+117;NULL;Chad;W;Niswonger;NULL;Production Technician - WC50;559-555-0175;Work;chad0@adventure-works.com;1;5747 Shirley Drive;NULL;Bothell;Washington;98011;United States;NULL;04/09/1984
+118;NULL;Don;L;Hall;NULL;Production Technician - WC50;100-555-0174;Work;don0@adventure-works.com;0;1411 Ranch Drive;NULL;Carnation;Washington;98014;United States;NULL;14/07/1965
+119;NULL;Michael;T;Entin;NULL;Production Technician - WC50;817-555-0186;Work;michael4@adventure-works.com;1;2482 Buckingham Dr.;NULL;Redmond;Washington;98052;United States;NULL;17/07/1983
+120;NULL;Kitti;H;Lertpiriyasuwat;NULL;Production Technician - WC50;785-555-0132;Work;kitti0@adventure-works.com;0;5376 Catanzaro Way;NULL;Seattle;Washington;98104;United States;NULL;07/07/1981
+121;NULL;Pilar;G;Ackerman;NULL;Shipping and Receiving Supervisor;577-555-0185;Work;pilar0@adventure-works.com;0;5407 Cougar Way;NULL;Seattle;Washington;98104;United States;NULL;11/10/1966
+122;NULL;Susan;W;Eaton;NULL;Stocker;943-555-0196;Work;susan0@adventure-works.com;2;2736 Scramble Rd;NULL;Renton;Washington;98055;United States;NULL;20/03/1972
+123;NULL;Vamsi;N;Kuppa;NULL;Shipping and Receiving Clerk;937-555-0137;Work;vamsi0@adventure-works.com;0;9833 Mt. Dias Blv.;NULL;Bothell;Washington;98011;United States;NULL;19/04/1971
+124;NULL;Kim;T;Ralls;NULL;Stocker;309-555-0129;Work;kim0@adventure-works.com;2;1226 Shoe St.;NULL;Bothell;Washington;98011;United States;NULL;01/06/1978
+125;NULL;Matthias;T;Berndt;NULL;Shipping and Receiving Clerk;139-555-0120;Cell;matthias0@adventure-works.com;0;4312 Cambridge Drive;NULL;Renton;Washington;98055;United States;NULL;13/12/1967
+126;NULL;Jimmy;T;Bischoff;NULL;Stocker;927-555-0168;Cell;jimmy0@adventure-works.com;0;2176 Brown Street;NULL;Renton;Washington;98055;United States;NULL;05/06/1979
+127;NULL;David;P;Hamilton;NULL;Production Supervisor - WC40;986-555-0177;Cell;david4@adventure-works.com;1;4095 Cooper Dr.;NULL;Kenmore;Washington;98028;United States;NULL;02/08/1977
+128;NULL;Paul;B;Komosinski;NULL;Production Technician - WC40;147-555-0160;Work;paul0@adventure-works.com;2;7270 Pepper Way;NULL;Bellevue;Washington;98004;United States;NULL;15/12/1974
+129;NULL;Gary;W;Yukish;NULL;Production Technician - WC40;901-555-0125;Cell;gary0@adventure-works.com;0;6057 Hill Street;NULL;Edmonds;Washington;98020;United States;NULL;17/06/1982
+130;NULL;Rob;T;Caron;NULL;Production Technician - WC40;238-555-0116;Work;rob1@adventure-works.com;0;5030 Blue Ridge Dr.;NULL;Monroe;Washington;98272;United States;NULL;05/09/1967
+131;NULL;Baris;F;Cetinok;NULL;Production Technician - WC40;164-555-0114;Work;baris0@adventure-works.com;2;426 San Rafael;NULL;Seattle;Washington;98104;United States;NULL;07/11/1984
+132;NULL;Nicole;B;Holliday;NULL;Production Technician - WC40;508-555-0129;Cell;nicole0@adventure-works.com;0;3243 Buckingham Dr.;# 207;Seattle;Washington;98104;United States;NULL;10/05/1980
+133;NULL;Michael;L;Rothkugel;NULL;Production Technician - WC40;454-555-0119;Work;michael1@adventure-works.com;2;207 Berry Court;NULL;Edmonds;Washington;98020;United States;NULL;04/02/1985
+134;NULL;Eric;NULL;Gubbels;NULL;Production Supervisor - WC20;260-555-0119;Cell;eric0@adventure-works.com;2;371 Apple Dr.;NULL;Edmonds;Washington;98020;United States;NULL;20/02/1979
+135;NULL;Ivo;William;Salmre;NULL;Production Technician - WC20;115-555-0179;Work;ivo0@adventure-works.com;0;3841 Silver Oaks Place;NULL;Monroe;Washington;98272;United States;NULL;04/02/1976
+136;NULL;Sylvester;A;Valdez;NULL;Production Technician - WC20;492-555-0174;Cell;sylvester0@adventure-works.com;0;7902 Grammercy Lane;Unit A;Bellevue;Washington;98004;United States;NULL;13/12/1964
+137;NULL;Anibal;T;Sousa;NULL;Production Technician - WC20;106-555-0120;Work;anibal0@adventure-works.com;0;6891 Ham Drive;NULL;Redmond;Washington;98052;United States;NULL;06/10/1968
+138;NULL;Samantha;H;Smith;NULL;Production Technician - WC20;587-555-0114;Cell;samantha0@adventure-works.com;0;1648 Eastgate Lane;NULL;Bellevue;Washington;98004;United States;NULL;23/12/1981
+139;Mr.;Hung-Fu;T;Ting;NULL;Production Technician - WC20;497-555-0181;Cell;hung-fu0@adventure-works.com;0;7086 O St.;NULL;Sammamish;Washington;98074;United States;NULL;23/11/1965
+140;NULL;Prasanna;E;Samarawickrama;NULL;Production Technician - WC20;129-555-0199;Cell;prasanna0@adventure-works.com;1;9322 Driving Drive;NULL;Redmond;Washington;98052;United States;NULL;01/06/1947
+141;NULL;Min;G;Su;NULL;Production Technician - WC20;590-555-0152;Work;min0@adventure-works.com;0;7396 Stratton Circle;NULL;Bellevue;Washington;98004;United States;NULL;11/10/1968
+142;NULL;Olinda;C;Turner;NULL;Production Technician - WC20;306-555-0186;Cell;olinda0@adventure-works.com;0;7221 Peachwillow Street;NULL;Bellevue;Washington;98004;United States;NULL;05/05/1964
+143;NULL;Krishna;NULL;Sunkammurali;NULL;Production Technician - WC20;491-555-0183;Cell;krishna0@adventure-works.com;2;6870 D Bel Air Drive;NULL;Edmonds;Washington;98020;United States;NULL;06/10/1965
+144;NULL;Paul;R;Singh;NULL;Production Technician - WC20;727-555-0112;Cell;paul1@adventure-works.com;2;1343 Prospect St;NULL;Bellevue;Washington;98004;United States;NULL;05/12/1984
+145;NULL;Cynthia;S;Randall;NULL;Production Supervisor - WC30;352-555-0138;Cell;cynthia0@adventure-works.com;0;463 H Stagecoach Rd.;NULL;Kenmore;Washington;98028;United States;NULL;19/09/1975
+146;NULL;Jian Shuo;NULL;Wang;NULL;Production Technician - WC30;952-555-0178;Cell;jianshuo0@adventure-works.com;0;8310 Ridge Circle;NULL;Monroe;Washington;98272;United States;NULL;27/08/1977
+147;NULL;Sandra;NULL;Reátegui Alayo;NULL;Production Technician - WC30;896-555-0168;Work;sandra0@adventure-works.com;0;1619 Stillman Court;NULL;Seattle;Washington;98104;United States;NULL;06/12/1969
+148;NULL;Jason;M;Watters;NULL;Production Technician - WC30;571-555-0179;Work;jason0@adventure-works.com;0;9320 Teakwood Dr.;NULL;Bellevue;Washington;98004;United States;NULL;08/01/1983
+149;NULL;Andy;M;Ruth;NULL;Production Technician - WC30;118-555-0110;Cell;andy0@adventure-works.com;1;4777 Rockne Drive;NULL;Bellevue;Washington;98004;United States;NULL;20/11/1977
+150;NULL;Michael;T;Vanderhyde;NULL;Production Technician - WC30;296-555-0121;Cell;michael5@adventure-works.com;2;2812 Mazatlan;NULL;Edmonds;Washington;98020;United States;NULL;19/10/1976
+151;NULL;Rostislav;E;Shabalin;NULL;Production Technician - WC30;751-555-0134;Cell;rostislav0@adventure-works.com;2;3711 Rollingwood Dr;NULL;Bellevue;Washington;98004;United States;NULL;15/10/1971
+152;NULL;Yuhong;L;Li;NULL;Production Supervisor - WC20;965-555-0155;Cell;yuhong0@adventure-works.com;1;502 Alexander Pl.;NULL;Seattle;Washington;98104;United States;NULL;08/05/1971
+153;NULL;Hanying;P;Feng;NULL;Production Technician - WC20;319-555-0139;Work;hanying0@adventure-works.com;0;7297 RisingView;NULL;Redmond;Washington;98052;United States;NULL;16/11/1968
+154;NULL;Raymond;K;Sam;NULL;Production Technician - WC20;226-555-0197;Work;raymond0@adventure-works.com;0;9784 Mt Etna Drive;NULL;Edmonds;Washington;98020;United States;NULL;02/04/1961
+155;NULL;Fadi;K;Fakhouri;NULL;Production Technician - WC20;935-555-0116;Work;fadi0@adventure-works.com;2;1285 Greenbrier Street;NULL;Snohomish;Washington;98296;United States;NULL;19/03/1983
+156;NULL;Lane;M;Sacksteder;NULL;Production Technician - WC20;200-555-0117;Cell;lane0@adventure-works.com;1;3029 Pastime Dr;# 2;Seattle;Washington;98104;United States;NULL;24/10/1968
+157;NULL;Linda;A;Randall;NULL;Production Technician - WC20;696-555-0157;Work;linda1@adventure-works.com;0;77 Birchwood;NULL;Seattle;Washington;98104;United States;NULL;06/11/1971
+158;NULL;Shelley;N;Dyck;NULL;Production Technician - WC20;991-555-0184;Cell;shelley0@adventure-works.com;0;3747 W. Landing Avenue;NULL;Monroe;Washington;98272;United States;NULL;08/01/1981
+159;NULL;Terrence;W;Earls;NULL;Production Technician - WC20;110-555-0115;Work;terrence0@adventure-works.com;1;6968 Wren Ave.;NULL;Bellevue;Washington;98004;United States;NULL;09/01/1979
+160;NULL;Jeff;V;Hay;NULL;Production Supervisor - WC45;350-555-0167;Cell;jeff0@adventure-works.com;1;3385 Crestview Drive;NULL;Everett;Washington;98201;United States;NULL;16/02/1971
+161;NULL;Kirk;J;Koenigsbauer;NULL;Production Technician - WC45;669-555-0150;Work;kirk0@adventure-works.com;1;1220 Bradford Way;NULL;Seattle;Washington;98104;United States;NULL;10/03/1979
+162;NULL;Laura;C;Steele;NULL;Production Technician - WC45;777-555-0141;Work;laura0@adventure-works.com;0;1825 Corte Del Prado;NULL;Duvall;Washington;98019;United States;NULL;26/01/1975
+163;NULL;Alex;M;Nayberg;NULL;Production Technician - WC45;819-555-0198;Work;alex0@adventure-works.com;1;1400 Gate Drive;NULL;Newport Hills;Washington;98006;United States;NULL;14/05/1984
+164;NULL;Andrew;M;Cencini;NULL;Production Technician - WC45;207-555-0192;Cell;andrew1@adventure-works.com;0;4444 Pepper Way;NULL;Sammamish;Washington;98074;United States;NULL;26/10/1982
+165;NULL;Chris;T;Preston;NULL;Production Technician - WC45;200-555-0112;Cell;chris0@adventure-works.com;0;6657 Sand Pointe Lane;NULL;Seattle;Washington;98104;United States;NULL;17/01/1983
+166;NULL;Jack;S;Richins;NULL;Production Supervisor - WC30;552-555-0111;Work;jack0@adventure-works.com;0;1356 Grove Way;NULL;Monroe;Washington;98272;United States;NULL;23/07/1977
+167;NULL;David;N;Johnson;NULL;Production Technician - WC30;166-555-0162;Cell;david1@adventure-works.com;0;6697 Ridge Park Drive;NULL;Kenmore;Washington;98028;United States;NULL;03/12/1973
+168;NULL;Garrett;R;Young;NULL;Production Technician - WC30;609-555-0179;Work;garrett0@adventure-works.com;2;2115 Passing;NULL;Snohomish;Washington;98296;United States;NULL;26/09/1978
+169;NULL;Susan;A;Metters;NULL;Production Technician - WC30;639-555-0164;Cell;susan1@adventure-works.com;1;9104 Mt. Sequoia Ct.;NULL;Sammamish;Washington;98074;United States;NULL;03/05/1977
+170;NULL;George;Z;Li;NULL;Production Technician - WC30;518-555-0199;Cell;george0@adventure-works.com;0;3074 Arbor Drive;NULL;Carnation;Washington;98014;United States;NULL;18/05/1971
+171;NULL;David;A;Yalovsky;NULL;Production Technician - WC30;373-555-0142;Work;david3@adventure-works.com;1;5025 Holiday Hills;NULL;Seattle;Washington;98104;United States;NULL;04/09/1975
+172;NULL;Marc;J;Ingle;NULL;Production Technician - WC30;234-555-0169;Cell;marc0@adventure-works.com;2;2473 Orchard Way;NULL;Sammamish;Washington;98074;United States;NULL;24/11/1980
+173;NULL;Eugene;R;Zabokritski;NULL;Production Technician - WC30;241-555-0191;Cell;eugene0@adventure-works.com;0;7939 Bayview Court;NULL;Sammamish;Washington;98074;United States;NULL;15/08/1981
+174;NULL;Benjamin;R;Martin;NULL;Production Technician - WC30;533-555-0111;Cell;benjamin0@adventure-works.com;2;4231 Spar Court;NULL;Snohomish;Washington;98296;United States;NULL;06/02/1980
+175;NULL;Reed;T;Koch;NULL;Production Technician - WC30;678-555-0110;Work;reed0@adventure-works.com;0;1275 West Street;NULL;Redmond;Washington;98052;United States;NULL;09/02/1983
+176;NULL;David;Oliver;Lawrence;NULL;Production Technician - WC30;118-555-0177;Work;david7@adventure-works.com;0;158 Walnut Ave;NULL;Monroe;Washington;98272;United States;NULL;25/10/1979
+177;NULL;Russell;M;King;NULL;Production Technician - WC30;517-555-0122;Work;russell1@adventure-works.com;0;3919 Pinto Road;NULL;Bellevue;Washington;98004;United States;NULL;14/03/1976
+178;NULL;John;N;Frum;NULL;Production Technician - WC30;663-555-0172;Cell;john3@adventure-works.com;2;3665 Oak Creek Ct.;NULL;Everett;Washington;98201;United States;NULL;24/04/1976
+179;NULL;Jan;S;Miksovsky;NULL;Production Technician - WC30;139-555-0131;Work;jan0@adventure-works.com;0;8624 Pepper Way;NULL;Everett;Washington;98201;United States;NULL;16/12/1968
+180;NULL;Katie;L;McAskill-White;NULL;Production Supervisor - WC20;809-555-0133;Work;katie0@adventure-works.com;2;4948 West 4th St;NULL;Seattle;Washington;98104;United States;NULL;20/12/1978
+181;NULL;Michael;T;Hines;NULL;Production Technician - WC20;218-555-0126;Work;michael0@adventure-works.com;0;1792 Belmont Rd.;NULL;Monroe;Washington;98272;United States;NULL;19/12/1978
+182;NULL;Nitin;S;Mirchandani;NULL;Production Technician - WC20;143-555-0173;Cell;nitin0@adventure-works.com;0;4096 San Remo;NULL;Sammamish;Washington;98074;United States;NULL;01/01/1981
+183;NULL;Barbara;S;Decker;NULL;Production Technician - WC20;119-555-0192;Cell;barbara0@adventure-works.com;0;7145 Matchstick Drive;NULL;Sammamish;Washington;98074;United States;NULL;02/08/1973
+184;NULL;John;Y;Chen;NULL;Production Technician - WC20;201-555-0163;Cell;john2@adventure-works.com;2;3977 Central Avenue;NULL;Duvall;Washington;98019;United States;NULL;06/05/1980
+185;NULL;Stefen;A;Hesse;NULL;Production Technician - WC20;165-555-0113;Cell;stefen0@adventure-works.com;1;8463 Vista Avenue;NULL;Duvall;Washington;98019;United States;NULL;21/01/1970
+186;NULL;Shane;S;Kim;NULL;Production Supervisor - WC45;810-555-0178;Cell;shane0@adventure-works.com;2;9745 Bonita Ct.;NULL;Bellevue;Washington;98004;United States;NULL;24/06/1984
+187;NULL;Yvonne;S;McKay;NULL;Production Technician - WC45;286-555-0189;Work;yvonne0@adventure-works.com;0;1962 Cotton Ct.;NULL;Everett;Washington;98201;United States;NULL;17/05/1983
+188;NULL;Douglas;B;Hite;NULL;Production Technician - WC45;808-555-0172;Cell;douglas0@adventure-works.com;1;390 Ridgewood Ct.;NULL;Carnation;Washington;98014;United States;NULL;26/12/1979
+189;NULL;Janeth;M;Esteves;NULL;Production Technician - WC45;540-555-0191;Work;janeth0@adventure-works.com;1;4566 La Jolla;NULL;Monroe;Washington;98272;United States;NULL;25/08/1966
+190;NULL;Robert;J;Rounthwaite;NULL;Production Technician - WC45;589-555-0147;Cell;robert0@adventure-works.com;0;6843 San Simeon Dr.;NULL;Seattle;Washington;98104;United States;NULL;01/04/1979
+191;NULL;Lionel;C;Penuchot;NULL;Production Technician - WC45;450-555-0152;Cell;lionel0@adventure-works.com;1;7765 Sunsine Drive;NULL;Seattle;Washington;98104;United States;NULL;15/04/1982
+192;NULL;Brenda;M;Diaz;NULL;Production Supervisor - WC40;142-555-0139;Work;brenda0@adventure-works.com;1;1349 Steven Way;NULL;Seattle;Washington;98104;United States;NULL;31/03/1977
+193;NULL;Alejandro;E;McGuel;NULL;Production Technician - WC40;668-555-0130;Work;alejandro0@adventure-works.com;0;7127 Los Gatos Court;NULL;Seattle;Washington;98104;United States;NULL;06/01/1983
+194;NULL;Fred;T;Northup;NULL;Production Technician - WC40;818-555-0192;Cell;fred0@adventure-works.com;0;2601 Cambridge Drive;NULL;Snohomish;Washington;98296;United States;NULL;27/07/1983
+195;NULL;Kevin;H;Liu;NULL;Production Technician - WC40;714-555-0138;Work;kevin1@adventure-works.com;2;7594 Alexander Pl.;NULL;Seattle;Washington;98104;United States;NULL;26/01/1980
+196;NULL;Shammi;G;Mohamed;NULL;Production Technician - WC40;793-555-0179;Cell;shammi0@adventure-works.com;0;332 Laguna Niguel;NULL;Bellevue;Washington;98004;United States;NULL;05/11/1974
+197;NULL;Rajesh;M;Patel;NULL;Production Technician - WC40;373-555-0137;Cell;rajesh0@adventure-works.com;1;5423 Champion Rd.;NULL;Edmonds;Washington;98020;United States;NULL;05/11/1971
+198;NULL;Lorraine;O;Nay;NULL;Production Technician - WC40;845-555-0184;Work;lorraine0@adventure-works.com;1;2059 Clay Rd;NULL;Edmonds;Washington;98020;United States;NULL;28/12/1982
+199;NULL;Paula;R;Nartker;NULL;Production Technician - WC40;476-555-0119;Cell;paula1@adventure-works.com;1;2144 San Rafael;NULL;Seattle;Washington;98104;United States;NULL;13/03/1981
+200;NULL;Frank;T;Lee;NULL;Production Technician - WC40;158-555-0191;Cell;frank0@adventure-works.com;0;8290 Margaret Ct.;NULL;Seattle;Washington;98104;United States;NULL;07/10/1981
+201;NULL;Brian;T;Lloyd;NULL;Production Technician - WC40;110-555-0182;Cell;brian0@adventure-works.com;0;7230 Vine Maple Street;NULL;Snohomish;Washington;98296;United States;NULL;14/03/1971
+202;NULL;Tawana;G;Nusbaum;NULL;Production Technician - WC40;368-555-0113;Work;tawana0@adventure-works.com;0;9964 North Ridge Drive;NULL;Seattle;Washington;98104;United States;NULL;12/12/1983
+203;NULL;Ken;L;Myer;NULL;Production Technician - WC40;949-555-0174;Work;ken1@adventure-works.com;1;1362 Somerset Place;NULL;Everett;Washington;98201;United States;NULL;29/06/1975
+204;NULL;Gabe;B;Mares;NULL;Production Technician - WC40;310-555-0117;Work;gabe0@adventure-works.com;0;1061 Buskrik Avenue;NULL;Edmonds;Washington;98020;United States;NULL;11/06/1982
+205;NULL;Lori;A;Kane;NULL;Production Supervisor - WC45;289-555-0196;Cell;lori0@adventure-works.com;0;3066 Wallace Dr.;NULL;Redmond;Washington;98052;United States;NULL;19/08/1974
+206;NULL;Stuart;V;Munson;NULL;Production Technician - WC45;413-555-0136;Cell;stuart0@adventure-works.com;2;6448 Castle Court;NULL;Bellevue;Washington;98004;United States;NULL;14/10/1956
+207;NULL;Greg;F;Alderson;NULL;Production Technician - WC45;332-555-0150;Work;greg0@adventure-works.com;0;8684 Military East;NULL;Bellevue;Washington;98004;United States;NULL;18/11/1964
+208;NULL;Scott;R;Gode;NULL;Production Technician - WC45;391-555-0138;Cell;scott0@adventure-works.com;0;7403 N. Broadway;NULL;Seattle;Washington;98104;United States;NULL;13/03/1981
+209;NULL;Kathie;E;Flood;NULL;Production Technician - WC45;446-555-0118;Work;kathie0@adventure-works.com;0;9241 St George Dr.;NULL;Everett;Washington;98201;United States;NULL;02/12/1984
+210;NULL;Belinda;M;Newman;NULL;Production Technician - WC45;319-555-0126;Cell;belinda0@adventure-works.com;2;1399 Firestone Drive;NULL;Bothell;Washington;98011;United States;NULL;19/10/1963
+211;NULL;Hazem;E;Abolrous;NULL;Quality Assurance Manager;869-555-0125;Work;hazem0@adventure-works.com;0;5050 Mt. Wilson Way;NULL;Kenmore;Washington;98028;United States;NULL;27/11/1971
+212;NULL;Peng;J;Wu;NULL;Quality Assurance Supervisor;164-555-0164;Work;peng0@adventure-works.com;2;250 Race Court;NULL;Bothell;Washington;98011;United States;NULL;19/04/1970
+213;NULL;Sootha;T;Charncherngkha;NULL;Quality Assurance Technician;325-555-0137;Work;sootha0@adventure-works.com;0;4155 Working Drive;NULL;Kenmore;Washington;98028;United States;NULL;05/01/1961
+214;NULL;Andreas;T;Berglund;NULL;Quality Assurance Technician;181-555-0124;Cell;andreas0@adventure-works.com;0;1803 Olive Hill;NULL;Renton;Washington;98055;United States;NULL;29/04/1983
+215;NULL;Mark;L;Harrington;NULL;Quality Assurance Technician;147-555-0179;Cell;mark0@adventure-works.com;0;8585 Los Gatos Ct.;NULL;Issaquah;Washington;98027;United States;NULL;31/05/1980
+216;NULL;Sean;P;Alexander;NULL;Quality Assurance Technician;420-555-0173;Cell;sean0@adventure-works.com;2;7985 Center Street;NULL;Renton;Washington;98055;United States;NULL;07/04/1970
+217;NULL;Zainal;T;Arifin;NULL;Document Control Manager;204-555-0115;Cell;zainal0@adventure-works.com;1;342 San Simeon;NULL;Issaquah;Washington;98027;United States;NULL;02/03/1970
+218;NULL;Tengiz;N;Kharatishvili;NULL;Control Specialist;910-555-0116;Work;tengiz0@adventure-works.com;1;3333 Madhatter Circle;NULL;Issaquah;Washington;98027;United States;NULL;29/05/1984
+219;NULL;Sean;N;Chai;NULL;Document Control Assistant;205-555-0132;Cell;sean1@adventure-works.com;0;9314 Icicle Way;NULL;Issaquah;Washington;98027;United States;NULL;12/04/1981
+220;NULL;Karen;R;Berge;NULL;Document Control Assistant;746-555-0164;Work;karen0@adventure-works.com;0;3127 El Camino Drive;NULL;Index;Washington;98256;United States;NULL;25/01/1970
+221;NULL;Chris;K;Norred;NULL;Control Specialist;575-555-0126;Cell;chris1@adventure-works.com;0;989 Crown Ct;NULL;Issaquah;Washington;98027;United States;NULL;26/06/1981
+222;NULL;A. Scott;NULL;Wright;NULL;Master Scheduler;992-555-0194;Cell;ascott0@adventure-works.com;0;9297 Kenston Dr.;NULL;Newport Hills;Washington;98006;United States;NULL;19/10/1962
+223;NULL;Sairaj;L;Uddin;NULL;Scheduling Assistant;500-555-0159;Cell;sairaj0@adventure-works.com;0;8040 Hill Ct;NULL;Redmond;Washington;98052;United States;NULL;22/01/1982
+224;NULL;William;S;Vong;NULL;Scheduling Assistant;148-555-0145;Cell;william0@adventure-works.com;2;6774 Bonanza;NULL;Bellevue;Washington;98004;United States;NULL;08/12/1975
+225;NULL;Alan;J;Brewer;NULL;Scheduling Assistant;438-555-0172;Work;alan0@adventure-works.com;0;25 95th Ave NE;NULL;Kenmore;Washington;98028;United States;NULL;30/04/1978
+226;NULL;Brian;P;LaMee;NULL;Scheduling Assistant;313-555-0196;Cell;brian1@adventure-works.com;0;2294 West 39th St.;NULL;Everett;Washington;98201;United States;NULL;12/09/1978
+227;NULL;Gary;E.;Altman;III;Facilities Manager;110-555-0112;Cell;gary1@adventure-works.com;0;2598 Breck Court;NULL;Renton;Washington;98055;United States;NULL;21/03/1965
+228;NULL;Christian;E;Kleinerman;NULL;Maintenance Supervisor;846-555-0157;Cell;christian0@adventure-works.com;0;8036 Summit View Dr.;NULL;Gold Bar;Washington;98251;United States;NULL;18/02/1970
+229;NULL;Lori;K;Penor;NULL;Janitor;295-555-0161;Cell;lori1@adventure-works.com;0;3514 Sunshine;NULL;Index;Washington;98256;United States;NULL;31/08/1964
+230;NULL;Stuart;J;Macrae;NULL;Janitor;539-555-0149;Work;stuart1@adventure-works.com;0;2266 Greenwood Circle;NULL;Renton;Washington;98055;United States;NULL;17/01/1966
+231;NULL;Jo;L;Berry;NULL;Janitor;228-555-0159;Cell;jo1@adventure-works.com;0;1748 Bird Drive;NULL;Index;Washington;98256;United States;NULL;25/05/1948
+232;NULL;Pat;H;Coleman;NULL;Janitor;720-555-0158;Work;pat0@adventure-works.com;0;2425 Notre Dame Ave;NULL;Gold Bar;Washington;98251;United States;NULL;03/01/1965
+233;NULL;Magnus;E;Hedlund;NULL;Facilities Administrative Assistant;583-555-0182;Work;magnus0@adventure-works.com;0;9533 Working Drive;NULL;Renton;Washington;98055;United States;NULL;27/09/1965
+234;NULL;Laura;F;Norman;NULL;Chief Financial Officer;615-555-0110;Cell;laura1@adventure-works.com;1;6937 E. 42nd Street;NULL;Renton;Washington;98055;United States;NULL;06/02/1970
+235;NULL;Paula;M;Barreto de Mattos;NULL;Human Resources Manager;523-555-0175;Cell;paula0@adventure-works.com;2;4311 Clay Rd;NULL;Bellevue;Washington;98004;United States;NULL;14/03/1970
+236;NULL;Grant;N;Culbertson;NULL;Human Resources Administrative Assistant;955-555-0131;Work;grant0@adventure-works.com;2;213 Stonewood Drive;NULL;Gold Bar;Washington;98251;United States;NULL;18/05/1970
+237;NULL;Hao;O;Chen;NULL;Human Resources Administrative Assistant;806-555-0136;Work;hao0@adventure-works.com;0;7691 Benedict Ct.;# 141;Issaquah;Washington;98027;United States;NULL;19/05/1971
+238;NULL;Vidur;X;Luthra;NULL;Recruiter;153-555-0186;Work;vidur0@adventure-works.com;0;3030 Blackburn Ct.;NULL;Newport Hills;Washington;98006;United States;NULL;02/09/1978
+239;NULL;Mindy;C;Martin;NULL;Benefits Specialist;522-555-0147;Work;mindy0@adventure-works.com;0;9687 Shakespeare Drive;NULL;Newport Hills;Washington;98006;United States;NULL;22/12/1978
+240;NULL;Willis;T;Johnson;NULL;Recruiter;778-555-0141;Work;willis0@adventure-works.com;0;5452 Corte Gilberto;NULL;Everett;Washington;98201;United States;NULL;18/08/1972
+241;NULL;David;J;Liu;NULL;Accounts Manager;646-555-0185;Work;david6@adventure-works.com;0;9605 Pheasant Circle;NULL;Gold Bar;Washington;98251;United States;NULL;08/08/1977
+242;NULL;Deborah;E;Poe;NULL;Accounts Receivable Specialist;602-555-0194;Cell;deborah0@adventure-works.com;0;7640 First Ave.;NULL;Everett;Washington;98201;United States;NULL;07/04/1970
+243;NULL;Candy;L;Spoon;NULL;Accounts Receivable Specialist;920-555-0177;Cell;candy0@adventure-works.com;0;310 Winter Lane;NULL;Index;Washington;98256;United States;NULL;26/03/1970
+244;NULL;Bryan;A;Walton;NULL;Accounts Receivable Specialist;935-555-0199;Work;bryan1@adventure-works.com;0;1397 Paradise Ct.;NULL;Newport Hills;Washington;98006;United States;NULL;22/10/1978
+245;NULL;Barbara;C;Moreland;NULL;Accountant;822-555-0145;Cell;barbara1@adventure-works.com;0;137 Mazatlan;NULL;Seattle;Washington;98104;United States;NULL;04/02/1970
+246;NULL;Dragan;K;Tomic;NULL;Accounts Payable Specialist;117-555-0185;Work;dragan0@adventure-works.com;1;3884 Beauty Street;# 14;Gold Bar;Washington;98251;United States;NULL;18/03/1971
+247;NULL;Janet;L;Sheperdigian;NULL;Accounts Payable Specialist;393-555-0186;Work;janet0@adventure-works.com;0;6871 Thornwood Dr.;NULL;Sammamish;Washington;98074;United States;NULL;09/04/1973
+248;NULL;Mike;K;Seamans;NULL;Accountant;927-555-0150;Work;mike0@adventure-works.com;2;1245 Clay Road;NULL;Index;Washington;98256;United States;NULL;01/08/1973
+249;NULL;Wendy;Beth;Kahn;NULL;Finance Manager;248-555-0134;Work;wendy0@adventure-works.com;2;4525 Benedict Ct.;NULL;Sammamish;Washington;98074;United States;NULL;12/11/1978
+250;NULL;Sheela;H;Word;NULL;Purchasing Manager;210-555-0193;Work;sheela0@adventure-works.com;0;535 Greendell Pl;NULL;Sammamish;Washington;98074;United States;NULL;13/03/1972
+251;NULL;Mikael;Q;Sandberg;NULL;Buyer;309-555-0170;Work;mikael0@adventure-works.com;2;9539 Glenside Dr;NULL;Bothell;Washington;98011;United States;NULL;18/09/1978
+252;NULL;Arvind;B;Rao;NULL;Buyer;848-555-0163;Cell;arvind0@adventure-works.com;0;9495 Limewood Place;NULL;Renton;Washington;98055;United States;NULL;21/09/1968
+253;NULL;Linda;P;Meisner;NULL;Buyer;916-555-0165;Cell;linda2@adventure-works.com;0;6118 Grasswood Circle;NULL;Bellevue;Washington;98004;United States;NULL;31/12/1964
+254;NULL;Fukiko;J;Ogisu;NULL;Buyer;520-555-0177;Work;fukiko0@adventure-works.com;0;8751 Norse Drive;NULL;Bellevue;Washington;98004;United States;NULL;25/12/1964
+255;NULL;Gordon;L;Hee;NULL;Buyer;230-555-0144;Cell;gordon0@adventure-works.com;0;108 Lakeside Court;NULL;Bellevue;Washington;98004;United States;NULL;30/12/1960
+256;NULL;Frank;S;Pellow;NULL;Buyer;163-555-0147;Cell;frank2@adventure-works.com;0;5980 Icicle Circle;Unit H;Renton;Washington;98055;United States;NULL;13/06/1946
+257;NULL;Eric;S;Kurjan;NULL;Buyer;265-555-0195;Work;eric2@adventure-works.com;2;1378 String Dr;NULL;Renton;Washington;98055;United States;NULL;19/10/1966
+258;NULL;Erin;M;Hagens;NULL;Buyer;842-555-0158;Work;erin0@adventure-works.com;0;2947 Vine Lane;NULL;Bellevue;Washington;98004;United States;NULL;04/02/1965
+259;NULL;Ben;T;Miller;NULL;Buyer;151-555-0113;Work;ben0@adventure-works.com;0;101 Candy Rd.;NULL;Redmond;Washington;98052;United States;NULL;05/07/1967
+260;NULL;Annette;L;Hill;NULL;Purchasing Assistant;125-555-0196;Cell;annette0@adventure-works.com;1;6369 Ellis Street;NULL;Redmond;Washington;98052;United States;NULL;01/03/1972
+261;NULL;Reinout;N;Hillmann;NULL;Purchasing Assistant;370-555-0163;Work;reinout0@adventure-works.com;2;620 Woodside Ct.;NULL;Bellevue;Washington;98004;United States;NULL;18/02/1972
+262;NULL;David;M;Barber;NULL;Assistant to the Chief Financial Officer;477-555-0132;Work;david5@adventure-works.com;0;8967 Hamilton Ave.;NULL;Newport Hills;Washington;98006;United States;NULL;23/07/1958
+263;NULL;Jean;E;Trenary;NULL;Information Services Manager;685-555-0120;Work;jean0@adventure-works.com;2;2383 Pepper Drive;NULL;Redmond;Washington;98052;United States;NULL;13/01/1970
+264;NULL;Stephanie;A;Conroy;NULL;Network Manager;594-555-0110;Work;stephanie0@adventure-works.com;2;7435 Ricardo;NULL;Issaquah;Washington;98027;United States;NULL;26/04/1978
+265;NULL;Ashvini;R;Sharma;NULL;Network Administrator;656-555-0119;Work;ashvini0@adventure-works.com;1;6580 Poor Ridge Court;NULL;Issaquah;Washington;98027;United States;NULL;28/04/1971
+266;NULL;Peter;I;Connelly;NULL;Network Administrator;310-555-0133;Work;peter1@adventure-works.com;0;9530 Vine Lane;NULL;Issaquah;Washington;98027;United States;NULL;29/06/1974
+267;NULL;Karen;A;Berg;NULL;Application Specialist;654-555-0177;Work;karen1@adventure-works.com;0;5256 Chickpea Ct.;NULL;Issaquah;Washington;98027;United States;NULL;19/06/1972
+268;NULL;Ramesh;V;Meyyappan;NULL;Application Specialist;182-555-0134;Work;ramesh0@adventure-works.com;1;3848 East 39th Street;NULL;Issaquah;Washington;98027;United States;NULL;14/04/1982
+269;NULL;Dan;K;Bacon;Jr.;Application Specialist;166-555-0159;Work;dan0@adventure-works.com;0;1921 Ranch Road;NULL;Issaquah;Washington;98027;United States;NULL;28/07/1975
+270;NULL;François;P;Ajenstat;NULL;Database Administrator;785-555-0110;Cell;françois0@adventure-works.com;0;1144 Paradise Ct.;NULL;Issaquah;Washington;98027;United States;NULL;17/06/1969
+271;NULL;Dan;B;Wilson;NULL;Database Administrator;653-555-0144;Work;dan1@adventure-works.com;0;5863 Sierra;NULL;Bellevue;Washington;98004;United States;NULL;06/02/1970
+272;NULL;Janaina;Barreiro Gambaro;Bueno;NULL;Application Specialist;623-555-0155;Work;janaina0@adventure-works.com;0;5979 El Pueblo;NULL;Issaquah;Washington;98027;United States;NULL;03/03/1979
+273;Mr.;Brian;S;Welcker;NULL;Vice President of Sales;716-555-0127;Cell;brian3@adventure-works.com;0;7772 Golden Meadow;NULL;Issaquah;Washington;98027;United States;NULL;08/07/1971
+274;NULL;Stephen;Y;Jiang;NULL;North American Sales Manager;238-555-0197;Cell;stephen0@adventure-works.com;0;2427 Notre Dame Ave.;NULL;Redmond;Washington;98052;United States;NULL;17/11/1945
+275;NULL;Michael;G;Blythe;NULL;Sales Representative;257-555-0154;Cell;michael9@adventure-works.com;1;8154 Via Mexico;NULL;Detroit;Michigan;48226;United States;NULL;26/01/1963
+276;NULL;Linda;C;Mitchell;NULL;Sales Representative;883-555-0116;Work;linda3@adventure-works.com;0;2487 Riverside Drive;NULL;Nevada;Utah;84407;United States;NULL;30/03/1974
+277;NULL;Jillian;NULL;Carson;NULL;Sales Representative;517-555-0117;Work;jillian0@adventure-works.com;1;80 Sunview Terrace;NULL;Duluth;Minnesota;55802;United States;NULL;29/09/1956
+278;NULL;Garrett;R;Vargas;NULL;Sales Representative;922-555-0165;Work;garrett1@adventure-works.com;0;10203 Acorn Avenue;NULL;Calgary;Alberta;T2P 2G8;Canada;NULL;07/03/1969
+279;NULL;Tsvi;Michael;Reiter;NULL;Sales Representative;664-555-0112;Work;tsvi0@adventure-works.com;1;8291 Crossbow Way;NULL;Memphis;Tennessee;38103;United States;NULL;19/02/1968
+280;NULL;Pamela;O;Ansman-Wolfe;NULL;Sales Representative;340-555-0193;Cell;pamela0@adventure-works.com;1;636 Vine Hill Way;NULL;Portland;Oregon;97205;United States;NULL;06/01/1969
+281;NULL;Shu;K;Ito;NULL;Sales Representative;330-555-0120;Cell;shu0@adventure-works.com;2;5725 Glaze Drive;NULL;San Francisco;California;94109;United States;NULL;10/04/1962
+282;NULL;José;Edvaldo;Saraiva;NULL;Sales Representative;185-555-0169;Work;josé1@adventure-works.com;0;9100 Sheppard Avenue North;NULL;Ottawa;Ontario;K4B 1T7;Canada;NULL;11/01/1958
+283;NULL;David;R;Campbell;NULL;Sales Representative;740-555-0182;Work;david8@adventure-works.com;0;2284 Azalea Avenue;NULL;Bellevue;Washington;98004;United States;NULL;14/03/1968
+284;Mr.;Tete;A;Mensa-Annan;NULL;Sales Representative;615-555-0153;Work;tete0@adventure-works.com;1;3997 Via De Luna;NULL;Cambridge;Massachusetts;2139;United States;NULL;06/02/1972
+285;Mr.;Syed;E;Abbas;NULL;Pacific Sales Manager;926-555-0182;Work;syed0@adventure-works.com;0;7484 Roundtree Drive;NULL;Bothell;Washington;98011;United States;NULL;11/02/1969
+286;NULL;Lynn;N;Tsoflias;NULL;Sales Representative;1 (11) 500 555-0190;Cell;lynn0@adventure-works.com;2;34 Waterloo Road;NULL;Melbourne;Victoria;3000;Australia;NULL;18/04/1965
+287;NULL;Amy;E;Alberts;NULL;European Sales Manager;775-555-0164;Work;amy0@adventure-works.com;1;5009 Orange Street;NULL;Renton;Washington;98055;United States;NULL;22/10/1951
+288;NULL;Rachel;B;Valdez;NULL;Sales Representative;1 (11) 500 555-0140;Cell;rachel0@adventure-works.com;0;Pascalstr 951;NULL;Berlin;Hamburg;14111;Germany;NULL;09/08/1969
+289;NULL;Jae;B;Pak;NULL;Sales Representative;1 (11) 500 555-0145;Work;jae0@adventure-works.com;0;Downshire Way;NULL;Cambridge;England;BA5 3HX;United Kingdom;NULL;18/04/1962
+290;NULL;Ranjit;R;Varkey Chudukatil;NULL;Sales Representative;1 (11) 500 555-0117;Cell;ranjit0@adventure-works.com;0;94, rue Descartes;NULL;Bordeaux;Gironde;33000;France;NULL;31/10/1969

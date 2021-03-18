@@ -8,21 +8,41 @@ use App\Service\Manager\DescripcionDatosManager;
 use App\Enum\RutasAyudaEnum;
 use App\Enum\ModoFormularioAlineacionEnum;;
 use App\Service\Processor\AlineacionDatosFormProcessor;
+use App\Service\Controller\ToolController;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Psr\Log\LoggerInterface;
 
-
+/*
+ * Descripción: Es el controlador del paso3, muestra el formulario y guarda la entidad principal y las relaciones
+ *              campo - entidad  en un array json.
+ *              Todo el funcionamiento dinamico dellos cotroles se reliza con javascrip y con twig.
+ *              
+ */
 class AlineacionDatosController extends AbstractController
 {
 
     private $ClassBody = "asistente comunidad usuarioConectado";
     private $urlAyuda = "";
     private $urlCrear = "";
+    private $urlMenu = "";
 
-
+     /***
+     * Descripcion: Inserta una entidad principal y un conjunto de campos alienados en fomato json
+     *              El conjunto de datos alineado json, se crea en un campo oculto en front según va seleccionando campos .
+     *              
+     * Parametros:
+     *             iddes:                         id la descripcion de los dato de datos a actualizar
+     *             id:                            id del del origen  de datos que se dese alinear
+     *             alineacionDatosFormProcessor:  proceso back del origen de datos a una llamada
+     *             origenDatosManager :           repositorio del origen de datos
+     *             descripcionDatosManager :      repositorio de la descripcion de datos
+     *             toolController:                clase de herramientas para procesoso comunes de los controladores
+     *             request:                       El objeto request de la llamada
+     */
     /**
     * @Route("/asistentecamposdatos/{iddes}/{origen}/origen/{id}/alineacion", requirements={"iddes"="\d+", "id"="\d+", "origen"="url|file|database"}, name="insert_alineacion")
     */
@@ -32,39 +52,35 @@ class AlineacionDatosController extends AbstractController
                                 AlineacionDatosFormProcessor $alineacionDatosFormProcessor,
                                 OrigenDatosManager $origenDatosManager,
                                 DescripcionDatosManager $descripcionDatosManager,
+                                ToolController $toolController,
                                 LoggerInterface $logger,
                                 Request $request) {
 
-       $locationSiguiente = "";
-       $locationAnterior = "";
-       $errorProceso = "";
-       $this->urlCrear =  $this->generateUrl("insert_asistentecamposdatos_paso1");
-       $this->urlAyuda = $this->generateUrl('asistentecamposdatos_ayuda_index',["pagina"=>RutasAyudaEnum::ALINEACION_DATOS]);
-       $host = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-       $actual_link =  "$host$_SERVER[REQUEST_URI]";
-       $this->urlAyuda .= "?locationAnterior={$actual_link}";
-       switch ($origen) {
-           case 'url':
-            $locationAnterior = $this->generateUrl('update_asistentecamposdatos_url',["id"=>$id, "iddes"=>$iddes]);
-               break;
-           case 'file':
-            $locationAnterior = $this->generateUrl('update_asistentecamposdatos_file',["id"=>$id, "iddes"=>$iddes]);
-                break;  
-           case 'database':
-            $locationAnterior = $this->generateUrl('update_asistentecamposdatos_database',["id"=>$id, "iddes"=>$iddes]);
-                break;          
-       }
-       $locationAnterior = "$host$locationAnterior";
-       $origenDatos = $origenDatosManager->find($id, $request->getSession());
-       [$form,$modoFormulario, $origenDatos] = ($alineacionDatosFormProcessor)($iddes, $origenDatos, $request);
-       $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
-       $permisoEdicion = ($descripcionDatos->getEstado() == EstadoDescripcionDatosEnum::BORRADOR  ||
-                          $descripcionDatos->getEstado() == EstadoDescripcionDatosEnum::EN_CORRECCION) ? "block" : "none"; 
-       if ($form->isSubmitted() && $form->isValid()) {
+        $locationAnterior = "";
+        $errorProceso = "";
+        //tomo las urls del menu superior 
+        [$this->urlAyuda, $this->urlCrear, $this->urlMenu]  = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ALINEACION_DATOS,$this->getUser());
+        //toma la url del origen de datos donde se quedo el usuario
+        $locationAnterior = $toolController->DameUrlAnteriorOrigendatos($origen, $id, $iddes, $_SERVER);
+        //tom el objeto donde está el origen de datos
+        $origenDatos = $origenDatosManager->find($id, $request->getSession());
+        //recojo la entidad principal actual
+        $entidadPrincipal = $origenDatos->getAlineacionEntidad();
+        //lanzo el proceso de actualización 
+        [$form,$modoFormulario, $origenDatos] = ($alineacionDatosFormProcessor)($iddes, $origenDatos, $request);
+        //recojo la descripción del origen datos 
+        $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
+        // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
+        $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
+                                                                          $this->getUser(),
+                                                                          $descripcionDatos->getEstado());
+                                                                         
+        if ($form->isSubmitted() && $form->isValid()) {
+           //el usuario pude omitir el paso o guardar su alineación 
            if(($modoFormulario==ModoFormularioAlineacionEnum::Guardar) || ($modoFormulario==ModoFormularioAlineacionEnum::Omitir)) {
               return $this->redirectToRoute('asistentecamposdatos_id',["id"=> $descripcionDatos->getId()]); 
            }
-       } else {
+        } else {
            return $this->render('alineacion/seleccion.html.twig', [
             'errorProceso' => $errorProceso,
             'locationAnterior' => $locationAnterior,
@@ -72,19 +88,22 @@ class AlineacionDatosController extends AbstractController
             'ClassBody' => $this->ClassBody,
             'urlCrear' =>  $this->urlCrear,
             'urlAyuda' =>  $this->urlAyuda,
-            'permisoEdicion' => $permisoEdicion
+            'urlMenu' =>  $this->urlMenu,
+            'permisoEdicion' => $permisoEdicion,
+            'entidadPrincipal' => $entidadPrincipal
            ]);        
-       }
-       return $this->render('alineacion/seleccion.html.twig', [
-        'errorProceso' => $errorProceso,
-        'locationAnterior' => $locationAnterior,
-        'alineacion_form' => $form->createView(),
-        'ClassBody' => $this->ClassBody,
-        'urlCrear' =>  $this->urlCrear,
-        'urlAyuda' =>  $this->urlAyuda,
-        'permisoEdicion' => $permisoEdicion
-    ]);
+        }
+        return $this->render('alineacion/seleccion.html.twig', [
+            'errorProceso' => $errorProceso,
+            'locationAnterior' => $locationAnterior,
+            'alineacion_form' => $form->createView(),
+            'ClassBody' => $this->ClassBody,
+            'urlCrear' =>  $this->urlCrear,
+            'urlAyuda' =>  $this->urlAyuda,
+            'urlMenu' =>  $this->urlMenu,
+            'permisoEdicion' => $permisoEdicion,
+            'entidadPrincipal' => $entidadPrincipal
+        ]);
    }
-
 }
 

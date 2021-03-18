@@ -11,11 +11,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormBuilderInterface;
 
-
+/*
+ * Descripción: Es clase la que define el control personalizado consistente en:
+ *    Nombre del campo
+ *    Combo con las entidades principales a seleccionar
+ *    Botón para asignar.
+ * 
+ * El funcionamiento del botón y la composicion del json , etc.. se realiza con javascript
+ *             
+ */
 class EntidadCampoType extends AbstractType
 {
-    // ...
-
+  
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
        

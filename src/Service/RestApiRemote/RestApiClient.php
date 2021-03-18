@@ -6,10 +6,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 use Symfony\Component\HttpFoundation\Session\Session;
-/**
- * Clase que realiza las llamadas a otras Apirest de 3º como la del gobierno de Aragón  para 
- * la optencion de datos necesarios 
- */
+
+ /*
+ * Descripción: Clase que realiza las llamadas a otras Apirest de 3º como la del gobierno de Aragón  para 
+ *              la optencion de datos necesarios 
+*/
 class RestApiClient
 {
     private $client;
@@ -21,44 +22,56 @@ class RestApiClient
         $this->params = $params;
     }
     
+    /*
+     * Descripción: Devuelve las ontologias principales del paso3
+    */  
     public function GetOntologias():array {
        $Ontologiasview = array();
-       $Ontologiasview["categorization_1"] = "http://opendata.aragon.es/def/ei2a/categorization#1";
-       $Ontologiasview["categorization_2"] = "http://opendata.aragon.es/def/ei2a/categorization#2";
-       $Ontologiasview["categorization_3"] = "http://opendata.aragon.es/def/ei2a/categorization#3";
-       $organismosview["categorization_4"] = "http://opendata.aragon.es/def/ei2a/categorization#4";
+       $Ontologiasview["Hoteles"] = "http://opendata.aragon.es/def/ei2a/categorization#hoteles";
+       $Ontologiasview["Museos"] = "http://opendata.aragon.es/def/ei2a/categorization#museos";
+       $Ontologiasview["Ayuntamientos"] = "http://opendata.aragon.es/def/ei2a/categorization#ayuntamientos";
+       $organismosview["Paradores"] = "http://opendata.aragon.es/def/ei2a/categorization#paradores";
        ksort($organismosview);
        return $Ontologiasview;
     }
 
+    /*
+     * Descripción: Devuelve las ontologias segundarías principales del paso3
+     * 
+     * Parametros: ontologia principal  
+    */ 
     public function GetOntologia($ontologia):array {
         $Ontologiasview = array();
-        if ($ontologia=="http://opendata.aragon.es/def/ei2a/categorization#1") {
-            $Ontologiasview["entidad_11"] = "http://opendata.aragon.es/def/ei2a/categorization#1";
-            $Ontologiasview["entidad_12"] = "http://opendata.aragon.es/def/ei2a/categorization#12";
-            $Ontologiasview["entidad_13"] = "http://opendata.aragon.es/def/ei2a/categorization#13";
-            $organismosview["entidad_14"] = "http://opendata.aragon.es/def/ei2a/categorization#14";
-        } else if ($ontologia=="http://opendata.aragon.es/def/ei2a/categorization#2") {
-            $Ontologiasview["entidad_21"] = "http://opendata.aragon.es/def/ei2a/categorization#2";
-            $Ontologiasview["entidad_22"] = "http://opendata.aragon.es/def/ei2a/categorization#22";
-            $Ontologiasview["entidad_23"] = "http://opendata.aragon.es/def/ei2a/categorization#23";
-            $organismosview["entidad_24"] = "http://opendata.aragon.es/def/ei2a/categorization#24";
-        } else if ($ontologia=="http://opendata.aragon.es/def/ei2a/categorization#3") {
-            $Ontologiasview["entidad_31"] = "http://opendata.aragon.es/def/ei2a/categorization#3";
-            $Ontologiasview["entidad_32"] = "http://opendata.aragon.es/def/ei2a/categorization#32";
-            $Ontologiasview["entidad_33"] = "http://opendata.aragon.es/def/ei2a/categorization#33";
-            $organismosview["entidad_34"] = "http://opendata.aragon.es/def/ei2a/categorization#34";
+        if ($ontologia=="http://opendata.aragon.es/def/ei2a/categorization#hoteles") {
+            $Ontologiasview["localidad"] = "http://opendata.aragon.es/def/ei2a/categorization#localidad";
+            $Ontologiasview["direccion"] = "http://opendata.aragon.es/def/ei2a/categorization#direccion";
+            $Ontologiasview["telefono"] = "http://opendata.aragon.es/def/ei2a/categorization#telefono";
+            $organismosview["reservas"] = "http://opendata.aragon.es/def/ei2a/categorization#reservas";
+        } else if ($ontologia=="http://opendata.aragon.es/def/ei2a/categorization#museos") {
+            $Ontologiasview["localidad"] = "http://opendata.aragon.es/def/ei2a/categorization#localidad";
+            $Ontologiasview["tematica"] = "http://opendata.aragon.es/def/ei2a/categorization#tematica";
+            $Ontologiasview["horarios"] = "http://opendata.aragon.es/def/ei2a/categorization#horarios";
+            $organismosview["visitas"] = "http://opendata.aragon.es/def/ei2a/categorization#visitas";
+        } else if ($ontologia=="http://opendata.aragon.es/def/ei2a/categorization#ayuntamientos") {
+            $Ontologiasview["localidad"] = "http://opendata.aragon.es/def/ei2a/categorization#localidad";
+            $Ontologiasview["alcalde"] = "http://opendata.aragon.es/def/ei2a/categorization#alcalde";
+            $Ontologiasview["numero_concejales"] = "http://opendata.aragon.es/def/ei2a/categorization#numero_concejales";
+            $organismosview["partido_politico"] = "http://opendata.aragon.es/def/ei2a/categorization#partido_politico";
         } else {
-            $Ontologiasview["entidad_41"] = "http://opendata.aragon.es/def/ei2a/categorization#4";
-            $Ontologiasview["entidad_42"] = "http://opendata.aragon.es/def/ei2a/categorization#42";
-            $Ontologiasview["entidad_43"] = "http://opendata.aragon.es/def/ei2a/categorization#43";
-            $organismosview["entidad_44"] = "http://opendata.aragon.es/def/ei2a/categorization#44";
+            $Ontologiasview["ubicacion"] = "http://opendata.aragon.es/def/ei2a/categorization#ubicacion";
+            $Ontologiasview["capacidad"] = "http://opendata.aragon.es/def/ei2a/categorization#capacidad";
+            $Ontologiasview["parking"] = "http://opendata.aragon.es/def/ei2a/categorization#parking";
+            $organismosview["zona_verde"] = "http://opendata.aragon.es/def/ei2a/categorization#zona_verde";
         }
         ksort($organismosview);
         return $Ontologiasview;
      }
 
-        
+    /*
+     * Descripción: Devuelve las organismos públicos del paso 1.2
+     * 
+     * Parametros: ontologia principal
+    */     
     public function GetOrganismosPublicos():array {
         $organismosview = array();
         $url = $this->params->get('url_organismos');
@@ -71,7 +84,13 @@ class RestApiClient
         }
         ksort($organismosview);
         return $organismosview;
-   }
+    }
+
+    /*
+     * Descripción: Funcion generica para llamadas get apirest de 3º
+     * 
+     * Parametros: ruta: ruta get de los datos que se desea obtener
+    */  
 
     private function GetInformation($ruta): array {
         $content = array();

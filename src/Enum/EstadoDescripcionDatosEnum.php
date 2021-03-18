@@ -1,6 +1,9 @@
 <?php
 namespace App\Enum;
 
+/**
+ * Descripcion: Enumerado del estado del conjunto de datos 
+ */
 class EstadoDescripcionDatosEnum {
 
   private static $types = [

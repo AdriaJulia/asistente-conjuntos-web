@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Soporte - Aragon Open Data{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput-typeahead.css">  
+
+     <link href="{{ asset('theme/bootstrap-tagsinput.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+<div class="container" style="display:block">
+	<div class="row">                  
+        <input type='hidden' id="enviado" value='{{ enviado }}'/>  
+        <div id="col02" class="col col-12">
+            <div class="col col-12 col-md-9 col-seccion">
+                <div class="wrapCol">
+                    <div class="contenido">
+                        <div class="wrapCol">
+                            <div class="header-resource">
+                                <div class="h1-container">
+                                    <h1>Solocitud de soporte</h1>
+                                </div>
+                            </div>
+                            <div class="contenido">
+                                <div class="form formtheme01">
+                                    <h1></h1>
+                                    <div>
+                                    <div class="box">
+                                        {% if enviado != 'si' %}
+                                             {{ form_start(soporte_form) }}
+                                            <div class="fieldset fieldset01">
+                                                <fieldset class="mediumLabels">
+                                                    <h2>Formulario de contacto</h2>
+                                                    <div>
+                                                        {{ form_widget(soporte_form) }}
+                                                        {% if not errorProceso is empty  %}
+                                                            <div class='ko'>
+                                                                <p> {{ errorProceso }} </p>
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="fieldset actionButtons">
+                                                            <fieldset>
+                                                                <input class="submit principal" type="submit" value="Enviar">
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                            {{ form_end(soporte_form) }}
+                                        {% else %}
+                                            <div class='ok'>
+                                                <p> Mensaje enviado con éxito, en breve nos pondremos en contacto con usted. </p>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}
+{% block javascripts %}
+   {{ parent() }} 
+{% endblock %}

@@ -7,6 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/*
+ * Descripción: Es la clase usuario del conjunto de datos. 
+ *              Esta anotada con Doctrine, pero no persite en ninguna BD
+ *              WebSite envía todas las operaciones de persistencia via apitest 
+ *              que es donde realmente se guardan los datos.
+ *              la notacion ORM a que el modelo de seguridad lo pide.
+ *              
+ */
+
 /**
 * User
 * @ORM\Entity();
@@ -47,10 +56,6 @@ class User  implements UserInterface
      */
     protected $plainPassword;
 
-    /**
-     * @var string
-     */
-    protected $ldapToken;
 
     /**
      * @var array
@@ -140,24 +145,6 @@ class User  implements UserInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLdapToken()
-    {
-        return $this->ldapToken;
-    }
-
-    /**
-     * @param mixed $ldapToken
-     * @return self
-     */
-    public function setLdapToken($ldapToken)
-    {
-        $this->ldapToken = $ldapToken;
-
-        return $this;
-    }
 
     /**
      * @return mixed

@@ -11,6 +11,9 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+/*
+ * Descripción: Es clase la que define el control personalizado "teritorio" en el paso 1.1  
+ */
 class TerritorioType extends AbstractType
 {
     // ...

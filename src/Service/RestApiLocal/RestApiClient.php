@@ -9,14 +9,14 @@ use App\Enum\RutasApirestEnum;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
-
-/***
- * Clase que lanza la solicitud sobre la rest API.
- * Se instancia desde el constructor de las distintas clases de acceso a la rest API en este mismo namepace.
- * Su principal funcionalidad es hacer puente entre estas llamadas a la rest API y la obtención y refresco del JWT en ada llamada
- * También prepara todo los demás encabezados comunes a todas la llamadas cualquiera  que sea la funcionalidad.
- */   
+ 
+/*
+ * Descripción: Clase que lanza la solicitud sobre la rest API.
+ *              Se instancia desde el constructor de las distintas clases de acceso a la rest API en este mismo namepace.
+ *              Su principal funcionalidad es hacer puente entre estas llamadas a la rest API y la obtención 
+ *              y refresco del JWT en ada llamada.
+ *              También prepara todo los demás encabezados comunes a todas la llamadas cualquiera  que sea la funcionalidad.
+*/
 class RestApiClient
 {
     private $client;
@@ -31,20 +31,20 @@ class RestApiClient
         $this->currentUser = $currentUser;
     }
     
-   
     /*
-      Registro del usuario para la optencion del JWT.
-      Este usurio se persiste en la BD y no tiene nada que ver con el LDAP, es para la seguridad de las llamadas a la Apirest con JWT.
-      El nombre del usuario y el correo si es el mismo que el de LDAP, pero son usuarios de sisteas de seguridad distintos. 
-      El ldaptoken se pasa por seguimiento del usuario, no por que lo necesite el sistema de seguridad
-    */
+     * Descripción: Registro del usuario para la optencion del JWT.
+     *              Este usurio se persiste en la BD y no tiene nada que ver con el LDAP, 
+     *              es para la seguridad de las llamadas a la Apirest con JWT.
+     *              El nombre del usuario y el correo si es el mismo que el de LDAP, 
+     *              pero son usuarios de sisteas de seguridad distintos. 
+     * 
+     * Parametros: 
+     *          session sesion request
+    */ 
     public function register(Session $session){
 
         if ($session->get('registrado')==null){
-
-            $user = $this->currentUser->getCurrentUser()->getExtraFields()['mail'];
-            $password = $this->currentUser->getCurrentUser()->getExtraFields()['password'];
-            $roles = $this->currentUser->getCurrentUser()->getExtraFields()['roles'];
+            [$user,$password,$roles] = $this->dameUsuarioJWT();
 
             $url = $this->params->get('host_restapi') . RutasApirestEnum::USUARIO_REGISTER_POST;
             $data = "{\"username\":\"{$user}\",\"password\":\"{$password}\",\"roles\":\"{$roles}\" }";
@@ -53,37 +53,59 @@ class RestApiClient
         }
     }
 
-    //Obtención de un token JWT por su usuario y contraseña
-    private function login_check($usario, 
+    /*
+     * Descripción: Obtención de un token JWT por su usuario y contraseña
+     * 
+     * Parametros: 
+     *          session: sesion request
+     *          usario: usuario JWT
+     *          contasena: contraseña JWT
+    */ 
+    private function login_check($session,
+                                 $usario, 
                                  $contasena) : string {
-
-                                           
+            
         $url = $this->params->get('host_restapi') . RutasApirestEnum::USUARIO_LOGIN_CHECK_POST;
         $data = "{\"_username\":\"{$usario}\",\"_password\":\"{$contasena}\"}";
         $res = $this->PostInformation($url,$data);
-
+        if ($res['statusCode']==401) {
+            $session->remove('registrado');
+            $this->register($session);
+            $res = $this->PostInformation($url,$data);
+        }
         $token = "Bearer " . $res['data']['token'];
         return $token;
     }
 
-
-    //Obtención de un token JWT en sesion, para no hacer la llamada apirest todo el rato
-    //El token jwt dura una hora
+    /*
+     * Descripción: Obtención de un token JWT en sesion, para no hacer la llamada apirest todo el rato
+     *              El token jwt dura una hora
+     * 
+     * Parametros: 
+     *          session: sesion request
+     *          renew:   si renueva el token
+    */ 
     public function GetTokenSession(Session $session, bool $renew) : string {
         $token = "";
         $this->register($session);
         if (($session->get('jwt')!==null) && !$renew){
             $token  =  $session->get('jwt'); 
         } else {
-            $user = $this->currentUser->getCurrentUser()->getExtraFields()['mail'];
-            $password = $this->currentUser->getCurrentUser()->getExtraFields()['password'];
-            $token = $this->login_check($user,$password);
+            [$user,$password,$roles] = $this->dameUsuarioJWT();
+            $token = $this->login_check($session, $user,$password);
             $session->set('jwt',$token);
         } 
         return $token;
     }
 
-    //Llamada Get
+    /*
+     * Descripción: Llamada get api rest
+     * 
+     * Parametros: 
+     *          url: url a la que se llama
+     *          token: token JWT
+     *          session: sesion request
+    */ 
     public function GetContent($url, $token, $session): array {
         //dame contenido
         $content = $this->GetInformation($url, $token);
@@ -91,16 +113,23 @@ class RestApiClient
         if ($content['statusCode']==401) {
             //pido nuevo token
           //  $token = $this->GetTokenSession($session, true);
-            $user = $this->currentUser->getCurrentUser()->getExtraFields()['mail'];
-            $password = $this->currentUser->getCurrentUser()->getExtraFields()['password'];
-            $token = $this->login_check($user,$password);
+            [$user,$password,$roles] = $this->dameUsuarioJWT();
+            $token = $this->login_check($session,$user,$password);
             //dame contenido                       
             $content = $this->GetInformation($url, $token);
         }
         return  $content;
     }
 
-    //Llamada post
+    /*
+     * Descripción: Llamada post api rest
+     * 
+     * Parametros: 
+     *          url: url a la que se llama
+     *          jsondata: datos que se envían
+     *          token: token JWT
+     *          session: sesion request
+    */ 
     public function PostContent($url, $jsondata, $token, $session): array {
          //dame contenido
         $content = $this->PostInformation($url, $jsondata, $token);
@@ -112,7 +141,14 @@ class RestApiClient
         return  $content;
     }
 
-    //Llamada delete
+    /*
+     * Descripción: Llamada delete api rest
+     * 
+     * Parametros: 
+     *          url: url a la que se llama
+     *          token: token JWT
+     *          session: sesion request
+    */ 
     public function DeleteContent($url, $token, $session): array {
         //dame contenido
         $content = $this->DeleteInformation($url, $token);
@@ -124,7 +160,14 @@ class RestApiClient
         return  $content;
     }
 
-    //llamada Get solo devuelve data
+    /*
+     * Descripción: Llamada get api rest
+     *              Esta funcion es para hacer trasparente los errores de renovacion de JWT y registro Usuario JWT
+     * 
+     * Parametros: 
+     *          url: url a la que se llama
+     *          token: token JWT
+    */ 
     private function GetInformation($ruta, $token): array {
         $content = array();
 
@@ -159,7 +202,14 @@ class RestApiClient
         return array('data'=>$content,'statusCode'=>$statusCode);
     }
 
-     //llamada Post solo devuelve estado y data
+    /*
+     * Descripción: Llamada post api rest
+     *              Esta funcion es para hacer trasparente los errores de renovacion de JWT y registro Usuario JWT
+     * 
+     * Parametros: 
+     *          url: url a la que se llama
+     *          token: token JWT
+    */ 
     public function PostInformation($ruta, $jsondata, $token=null): array {
         
         $content = array();
@@ -202,7 +252,14 @@ class RestApiClient
        return array('data'=>$content,'statusCode'=>$statusCode);
     }
 
-    //delete Get solo devuelve estado
+    /*
+     * Descripción: Llamada delete api rest
+     *              Esta funcion es para hacer trasparente los errores de renovacion de JWT y registro Usuario JWT
+     * 
+     * Parametros: 
+     *          url: url a la que se llama
+     *          token: token JWT
+    */ 
     private function DeleteInformation($ruta, $token): array {
 
         $content = array();
@@ -213,21 +270,26 @@ class RestApiClient
                 'Authorization' => $token
             ],
         ]);
-        $statusCode = $response->getStatusCode();
-        // $statusCode = 200
-        $statusCode = $response->getStatusCode();
-        if ($statusCode==401){
+        $statusCode = $response->getStatusCode(); 
+        return  array('statusCode'=>$statusCode);
+    }
 
-            return  array('data'=>$content,'statusCode'=>$statusCode);
-        } 
+     /*
+     * Descripción: Esta funcion es para hacer las pruebas unitarias sin tener que estar logeado con LDAP 
+     * 
+    */ 
+    private function dameUsuarioJWT(): array {
 
-        $contentType = $response->getHeaders()['content-type'][0];
-        // $contentType = 'application/json'
-        $content = $response->getContent();
-        // $content = '{"id":521583, "name":"symfony-docs", ...}'
-        $content = $response->toArray();
-        // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
-        return array('data'=>$content,'statusCode'=>$statusCode);
+       if ($this->currentUser->getCurrentUser()!==null) {
+          $user = $this->currentUser->getCurrentUser()->getExtraFields()['mail'];
+          $password = $this->currentUser->getCurrentUser()->getExtraFields()['password'];
+          $roles = $this->currentUser->getCurrentUser()->getExtraFields()['roles'];
+       } else {
+           $user = $this->params->get('unit_test_user');
+           $password = $this->params->get('unit_test_pass');
+           $roles = $this->params->get('unit_test_roll');
+       }
+       return [$user,$password,$roles];
     }
 
 }

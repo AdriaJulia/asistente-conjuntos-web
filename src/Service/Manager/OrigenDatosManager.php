@@ -5,7 +5,11 @@ namespace App\Service\Manager;
 use App\Entity\OrigenDatos;
 use App\Service\RestApiLocal\RestApiClientOrigen;
 
-
+/*
+ * Descripción: Es el repositorio del origen de los datos
+ *              las operaciones de persistencia las realiza a traves de llamadas apirest
+ *              creadas por su correspondiete utilidad de llamadas http 
+*/
 class OrigenDatosManager
 {
 

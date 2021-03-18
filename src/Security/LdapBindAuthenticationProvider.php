@@ -20,6 +20,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
+/*
+ * Descripción: Refactorización del proveedor de autenticación Ldap
+ *              Es necesario por las especificación de los ditintos ramales Ldap del gobierno de aragon y la forma acceder a ellos.
+ *              Desde aquí se genera la clave JWT para registrarse en Apirest y solicitar Tokens autorizados.
+ *              También se raliza la gestion de roles dinamicamente cada vez que el usuario hace login, respecto a la configuración
+ *              actual de administradores. 
+ *                   
+ */
+
 class LdapBindAuthenticationProvider extends LdapUserProvider
 {
     private $ldap;
@@ -32,15 +41,17 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
     private $passwordAttribute;
     private $extraFields;
     private $params;
+
+    
     public function __construct(LdapInterface $ldap, 
                                 string $baseDn, 
                                 string $searchDn = null, 
                                 string $searchPassword = null, 
-                                array $defaultRoles = [], 
+                                array  $defaultRoles = [], 
                                 string $uidKey = null, 
                                 string $filter = null, 
                                 string $passwordAttribute = null, 
-                                array $extraFields = ["mail"],
+                                array  $extraFields = ["mail"],
                                 ContainerBagInterface $params)
     {
         $this->params = $params;
@@ -63,22 +74,27 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
         $this->extraFields = $extraFields;
     }
 
-        /**
+     /**
      * {@inheritdoc}
      */
     public function loadUserByUsername($username)
     { 
+        //separo el nombre del dominio
         $login = explode("@",$username);
         $aragonUsername = "";
         $aragonRama = "aragon.es";
         if (count($login)==2) {
+            //recojo el nombre usuario Ldap
             $aragonUsername = $login[0];
             $username = $login[0];
+             //asigno el nombre de la rama segun el dominio del usuario
             $aragonRama = ($login[1]=="ext.aragon.es") ? "dga" : $login[1];
         }
+        //preparo la consulta LDAP
         $this->searchDn = "uid={username},ou=People,o=" .  $aragonRama  . ",o=isp";
         $this->baseDn = "ou=People,o=" .  $aragonRama  . ",o=isp";
         try {
+             //pregunto al LDAP
             $this->ldap->bind($this->searchDn, $this->searchPassword);
             $username = $this->ldap->escape($username, '', LdapInterface::ESCAPE_FILTER);
             $query = str_replace('{username}', $username, $this->defaultSearch);
@@ -95,14 +111,12 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
         if (!$count) {
             $e = new UsernameNotFoundException(sprintf('User "%s" not found.', $username));
             $e->setUsername($username);
-
             throw $e;
         }
 
         if ($count > 1) {
             $e = new UsernameNotFoundException('More than one user found.');
             $e->setUsername($username);
-
             throw $e;
         }
 
@@ -177,6 +191,7 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
         foreach ($this->extraFields as $field) {
             $extraFields[$field] = $this->getAttributeValue($entry, $field);
         }
+        //miro si el usuario es administrador
         $mail = $extraFields['mail'];
         $administradores = $this->params->get('app_administrators');
         $administrators = [];
@@ -187,13 +202,14 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
         if (in_array($mail, $administrators)){
              $roll ="ROLE_ADMIN";
         }
+        //pongo el rol en extrafiles
         $extraFields['roles'] =  $roll;
         //$this->params->get('secret_key');
+         //pongo el pasword que se utiliza en JWT en extrafiles
         $password = $this->encrypt($mail);
         $password = base64_encode($password);
         $extraFields['password'] =  $password;
 
-  
         return new LdapUser($entry, $username, $password, $this->defaultRoles, $extraFields);
         
     }
@@ -213,6 +229,15 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
         return $values[0];
     }
 
+ 
+     /***
+     * Descripcion: Obtiene un alfanumérico dado una entrada (el correo del usuario) 
+     *              El objetivo es obtener una contraseña aleatoria (pero simpre la misma dado un correo)
+     *              para utilizar en JWT y que el proceso de registro en Apirest sea transparete al usuario
+     *              
+     * Parametros:
+     *             string: correo del usuario
+     */
     function encrypt($string) {
         $output = false;
         $encrypt_method = "AES-256-CBC";

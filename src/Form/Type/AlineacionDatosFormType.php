@@ -10,10 +10,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints\Callback;
+
+/*
+ * Descripción: Es la clase la que define el formulario de la alineación de los datos          
+ */
 
 class AlineacionDatosFormType extends AbstractType
 {
@@ -53,6 +56,8 @@ class AlineacionDatosFormType extends AbstractType
                 'label' => 'Seleccione',
                 'required' => false
         ]);
+        // si recibo desde el constructor una lista de entidades principales creo un control para cada campo
+        // con un combo con las opciones
         if (count($options['allowed_ontologias'])>0) {
             $builder->add('alineacionEntidades', EntidadesCampoType::class, [
                 'label_attr' =>  [

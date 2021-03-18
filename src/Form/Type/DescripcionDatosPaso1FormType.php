@@ -14,6 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/*
+ * Descripción: Es clase la que define el formulario paso 1.1 de la descripcion de los datos de los datos          
+ */
+
 class DescripcionDatosPaso1FormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -49,7 +53,7 @@ class DescripcionDatosPaso1FormType extends AbstractType
                     'spellcheck' => 'true',
                     'placeholder' => 'Escriba decripción de los datos',
                  ],
-                'help'=>' La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información. En algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles la realidad del dato.'
+                'help'=>'La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información. En algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles la realidad del dato.'
                
             ])
             ->add('frecuenciaActulizacion', ChoiceType::class, [

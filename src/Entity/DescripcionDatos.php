@@ -2,14 +2,20 @@
 
 namespace App\Entity;
 
-use App\Enum\FinalidadDatosEnum;
-use App\Service\RestApiRemote;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\OrigenDatos;
 use Doctrine\ORM\Mapping as ORM;
-use PhpParser\Node\Expr\Cast\Array_;
 
+
+use App\Service\Controller\ToolController;
+
+/*
+ * Descripción: Es la clase entidad de la descripcion del conjunto de datos. 
+ *              Esta anotada con Doctrine, pero no persite en ninguna BD
+ *              WebSite envía todas las operaciones de persistencia via apitest 
+ *              que es donde realmente se guardan los datos.
+ *              la notacion ORM es debida los formularios validadores y serializadores
+ *              
+ */
 /**
  * @ORM\Entity()
  */
@@ -77,10 +83,6 @@ class DescripcionDatos
      */
     private $condiciones;
 
-    /**
-     * @ORM\Column(type="string",length=255, nullable=true)
-     */
-    private $aspectosFormales;
 
      /**
      * @ORM\Column(type="string",length=255, nullable=true)
@@ -349,18 +351,6 @@ class DescripcionDatos
         return $this;
     }
 
-    public function getAspectosFormales(): ?string
-    {
-        return $this->aspectosFormales;
-    }
-
-    public function setAspectosFormales(?string $aspectosFormales): self
-    {
-        $this->aspectosFormales = $aspectosFormales;
-
-        return $this;
-    }
-
     public function getLicencias(): ?string
     {
         return $this->licencias;
@@ -544,7 +534,6 @@ class DescripcionDatos
             $json = !empty($this->getOrganoResponsable()) ?  $json . "\"organoResponsable\":\"{$this->getOrganoResponsable()}\"," : $json;
             $json = !empty($this->getFinalidad()) ?  $json . "\"finalidad\":\"{$this->getFinalidad()}\"," : $json;
             $json = !empty($this->getCondiciones()) ?  $json . "\"condiciones\":\"{$this->getCondiciones()}\"," : $json;
-            $json = !empty($this->getAspectosFormales()) ?  $json . "\"aspectosFormales\":\"{$this->getAspectosFormales()}\"," : $json;
             $json = !empty($this->getLicencias()) ?  $json . "\"licencias\":\"{$this->getLicencias()}\"," : $json;
             $json = !empty($this->getVocabularios()) ?  $json . "\"vocabularios\":\"{$this->getVocabularios()}\"," : $json;
             $json = !empty($this->getServicios()) ?  $json . "\"servicios\":\"{$this->getServicios()}\"," : $json;
@@ -596,7 +585,6 @@ class DescripcionDatos
         $res->etiquetas =  $array['etiquetas'];
         $res->estructura =  $array['estructura'];
         $res->estructuraDenominacion =  $array['estructuraDenominacion'];
-        $res->aspectosFormales =  $array['aspectosFormales'];
         $res->licencias =  $array['licencias'];
         $res->usuario =  $array['usuario'];
         $res->sesion =  $array['sesion'];
@@ -606,6 +594,50 @@ class DescripcionDatos
         $res->actualizadoEn = new \DateTime($array['actualizadoEn']);
         $res->origenDatos =  $origen->getFromArray($array['origenDatos']);
         return $res;
+    }
+
+    public function getToView(ToolController $ToolController) : array {
+ 
+        [$estadoKey, $estadoDescripcion] = $ToolController->DameEstadoDatos($this->getEstado());
+        $identificador = $this->getIdentificacion();
+        $denominacion = $this->getDenominacion();
+        $descripcion = $this->getDescripcion();
+        $frecuencia = !empty($this->getFrecuenciaActulizacion()) ? $this->getFrecuenciaActulizacion() : "";
+        $inicio =  ($this->getFechaInicio()!=null) ? $this->getFechaInicio()->format('Y-m-d') : "";
+        $fin =  ($this->getFechaFin()!=null)  ? $this->getFechaFin()->format('Y-m-d') : ""; 
+        $Instancias = !empty($this->getInstancias()) ? explode(",",$this->getInstancias()) : array();
+        $organo =  !empty($this->getOrganoResponsable()) ?  $this->getOrganoResponsable() : "";
+        $condiciones =  !empty($this->getCondiciones())  ? $this->getCondiciones() : "";
+        $finalidad =  !empty($this->getFinalidad())  ? $this->getFinalidad() : "";;
+        $licencias =  !empty($this->getLicencias()) ? $this->getLicencias() : ""; ;
+        $vocabularios = !empty($this->getVocabularios()) ? explode(",",$this->getVocabularios()) : array();
+        $servicios = !empty($this->getServicios()) ? explode(",",$this->getServicios()) : array();
+        $etiquetas = !empty($this->getEtiquetas()) ? explode(",",$this->getEtiquetas()) : array();
+        $estructura =  !empty($this->getEstructura()) ?  $this->getEstructura() : "";
+        $estructuraDenominacion =  !empty($this->getEstructuraDenominacion()) ?  $this->getEstructuraDenominacion():  "";
+        $formatos =  !empty($this->getFormatos())  ? $this->getFormatos(): "";
+
+
+        $datos  = array("estado"=>$estadoDescripcion,
+                        "estadoKey" =>  $estadoKey,
+                        "identificador"=> $identificador,
+                        "denominacion" =>  $denominacion, 
+                        "descripcion" => $descripcion,
+                        "frecuencia" => $frecuencia,
+                        "fechaInicio" =>$inicio,
+                        "fechaFin" =>$fin,
+                        "instancias" => $Instancias,
+                        "organo" => $organo,
+                        "condiciones"=> $condiciones,
+                        "finalidad" => $finalidad,
+                        "licencias" =>  $licencias,
+                        "vocabularios" =>  $vocabularios,
+                        "servicios" =>   $servicios,
+                        "etiquetas" =>  $etiquetas,
+                        "estructura" =>  $estructura,
+                        "estructuraDenominacion" =>  $estructuraDenominacion,
+                        "formatos" => $formatos);
+        return $datos;
     }
  
 }

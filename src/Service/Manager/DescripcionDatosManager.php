@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Service\Manager;
+namespace App\Service\Manager; 
 
 use App\Entity\DescripcionDatos;
 use App\Service\RestApiLocal\RestApiClientDescripcion;
 
-
+/*
+ * Descripción: Es el repositorio de la descripcion de los datos
+ *              las operaciones de persistencia las realiza a traves de llamadas apirest
+ *              creadas por su correspondiete utilidad de llamadas http 
+*/
 class DescripcionDatosManager
 {
 
@@ -53,8 +57,6 @@ class DescripcionDatosManager
     public function delete($id, $sesion)
     {
         $request = $this->ra->deleteDescripciondatos($id, $sesion);
-        $des = new DescripcionDatos();
-        return $des->getFromArray($request['data']);
     }
 
 

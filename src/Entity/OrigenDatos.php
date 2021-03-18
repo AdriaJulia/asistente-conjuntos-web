@@ -2,11 +2,17 @@
 
 namespace App\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
-use App\Service\Manager\DescripcionDatosManager;
 use \DateTime;
-use Symfony\Component\Validator\Constraints\Length;
+
+/*
+ * Descripción: Es la clase entidad de el origen de datos del conjunto de datos. 
+ *              Esta anotada con Doctrine, pero no persite en ninguna BD
+ *              WebSite envía todas las operaciones de persistencia via apitest 
+ *              que es donde realmente se guardan los datos.
+ *              la notacion ORM es debida los formularios validadores y serializadores
+ *              
+ */
 
 /**
  * @ORM\Entity()
@@ -425,11 +431,7 @@ class OrigenDatos
             if (array_key_exists('idDescripcion',$array )) {
                $res->idDescripcion = $array['idDescripcion'];
             }
-            $campos = $array['campos'];
-            if (strlen($campos)>1) {
-                $campos = substr($campos,0,-1);
-            }
-            
+        
             $res->id = $array['id'];
             $res->data = $array['data'];
             $res->tipoOrigen = $array['tipoOrigen'];
@@ -445,7 +447,7 @@ class OrigenDatos
             $res->alineacionRelaciones = $array['alineacionRelaciones'];
             $res->usuario =  $array['usuario'];
             $res->sesion =  $array['sesion'];
-            $res->campos =  $campos;
+            $res->campos =  $array['campos'];
             $res->creadoEl = new \DateTime($array['creadoEl']);
             $res->actualizadoEn = new \DateTime($array['actualizadoEn']);
             

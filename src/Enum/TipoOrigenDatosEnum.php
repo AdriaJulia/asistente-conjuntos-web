@@ -1,6 +1,10 @@
 <?php
 namespace App\Enum;
 
+/**
+ * Descripcion: Enumerado de los tipos de orígenes  de datos admitidos
+ */
+
 class TipoOrigenDatosEnum {
 
   private static $types = [

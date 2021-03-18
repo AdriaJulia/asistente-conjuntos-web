@@ -1,6 +1,11 @@
 <?php
 namespace App\Enum;
 
+/**
+ * Descripcion: Enumerado de las rutas de la ayuda según funcionalidad
+ */
+
+
 class RutasAyudaEnum {
 
   private static $types = [

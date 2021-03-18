@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use App\Enum\EstadoDescripcionDatosEnum;
+
 use App\Enum\RutasAyudaEnum;
 use App\Enum\TipoOrigenDatosEnum;
 use App\Enum\EstadoAltaDatosEnum;
+
+use App\Service\Controller\ToolController;
 use App\Service\Manager\DescripcionDatosManager;
 use App\Service\Processor\DescripcionDatosPaso1FormProcessor;
 use App\Service\Processor\DescripcionDatosPaso2FormProcessor;
@@ -22,14 +24,28 @@ use Symfony\Component\Ldap\Security\LdapUser;
 use Psr\Log\LoggerInterface;
 
 
-
+/*
+ * Descripción: Es el controlador de todas la llamadas del paso 1 (1.1, 1.2 y 1.3)
+ *              para crear o actualizar la descripción de los datos.
+ *              También controla la ficha del conjunto de datos y el listado.
+ */
 class DescripcionDatosController extends AbstractController
 {
 
-     private $ClassBody = "asistente comunidad usuarioConectado";
+     private $ClassBody = "";
      private $urlAyuda = "";
      private $urlCrear = "";
+     private $urlMenu = "";
 
+    /***
+     * Descripcion: Accion de la llamada al listado de los datos
+     * Parametros:
+     *             pagina:                    para el paginado de los datos
+     *             tamano:                    tamaño de la pagina para el paginado de los datos
+     *             descripcionDatosManager :  repositorio de la descripcion de datos
+     *             toolController:            clase de herramientas para procesoso comunes de los controladores
+     *             request:                   El objeto request de la llamada
+     */
      /**
      * @Route("/asistentecamposdatos", requirements={"pagina"="\d+","tamano"="\d+" }, name="asistentecamposdatos_index")
      */
@@ -37,26 +53,25 @@ class DescripcionDatosController extends AbstractController
                                 int $tamano=0,
                                 DescripcionDatosManager $descripcionDatosManager,
                                 LoggerInterface $logger,
+                                ToolController $toolController,
                                 Request $request) {
-               
-    
-        $this->ClassBody = "listado comunidad usuarioConectado";  
-        $this->urlCrear =  $this->generateUrl("insert_asistentecamposdatos_paso1");
-        $this->urlAyuda = $this->generateUrl('asistentecamposdatos_ayuda_index',["pagina"=>RutasAyudaEnum::LISTADO_ACCIONES]);   
-        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $this->urlAyuda .= "?locationAnterior={$actual_link}";   
+        //el class de body en este controlador no es siempre el mismo       
+        $this->ClassBody = "listado comunidad usuarioConectado";
+        //tomo las urls del menu superior 
+        [$this->urlAyuda, $this->urlCrear, $this->urlMenu]  = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::LISTADO_GENERAL,$this->getUser());
+        //tomo el listado
         $descripcionDatos = $descripcionDatosManager->get($pagina, $tamano, $request->getSession());
         $datosGrid = array();
         if ($descripcionDatos!= array()){
             if (count($descripcionDatos['data'])>0) {
+                //por cada uno de loe elementos del listado 
                 foreach($descripcionDatos['data'] as $data) {
-                    [$estadoKey, $estadoDescripcion] = $this->DameEstadoUsuario($data['estado']);
-                    $link = $this->generateUrl('asistentecamposdatos_id',["id"=>$data['id']]);
-                    $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$link";
-       
+                    //recojo el estado, el enlace a la ficha, etc..
+                    [$estadoKey, $estadoDescripcion] = $toolController->DameEstadoDatos($data['estado']);
+                    $actual_link = $this->generateUrl('asistentecamposdatos_id',["id"=>$data['id']]);
                     $inicio = (new DateTime($data['creadoEl']))->format('Y-m-d');
                     $fin =  (new DateTime($data['actualizadoEn']))->format('Y-m-d'); 
-    
+                    //relleno el array odt que se va a mostrar
                     $datosGrid[] = array("estadoKey"=>$estadoKey,  
                                          "estadoDescripcion"=> $estadoDescripcion,
                                          "link" =>  $actual_link, 
@@ -72,11 +87,21 @@ class DescripcionDatosController extends AbstractController
         return $this->render('grid.html.twig',['ClassBody' => $this->ClassBody,
                                                'urlCrear' =>  $this->urlCrear,
                                                'urlAyuda' =>  $this->urlAyuda,
+                                               'urlMenu' =>  $this->urlMenu,
                                                'descripcionDatos'=>  $datosGrid,
                                                "totalElementos"=>  $descripcionDatos['totalElementos']
                                               ]);
     }
 
+    /***
+     * Descripcion: Accion que muestra la ficha del conjunto de datos
+     * Parametros:
+     *             id:                        id de la descripcion de los datos que se la va a insertar el origen
+     *             descripcionDatosManager:   repositorio de la descripcion de datos
+     *             origenDatosManager :       repositorio del origen de datos
+     *             toolController:            clase de herramientas para procesoso comunes de los controladores
+     *             request:                   El objeto request de la llamada
+     */
      /**
      * @Route("/asistentecamposdatos/{id}", requirements={"id"="\d+"}, name="asistentecamposdatos_id")
      */
@@ -84,167 +109,80 @@ class DescripcionDatosController extends AbstractController
                               DescripcionDatosManager $descripcionDatosManager,
                               OrigenDatosManager $origendatosManager,
                               LoggerInterface $logger,
+                              ToolController $toolController,
                               Request $request) {
-           
-        $this->ClassBody = "fichaRecurso comunidad usuarioConectado"; 
-        $this->urlCrear =  $this->generateUrl("insert_asistentecamposdatos_paso1");
-        $this->urlAyuda = $this->generateUrl('asistentecamposdatos_ayuda_index',["pagina"=>RutasAyudaEnum::FICHA_ACCIONES]);  
-        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $this->urlAyuda .= "?locationAnterior={$actual_link}";
-        $data = $descripcionDatosManager->find($id, $request->getSession());
-        $tabla = null;
-        $errorProceso = "";
-        [$estadoKey, $estadoDescripcion] = $this->DameEstadoUsuario($data->getEstado());
-        $identificador = $data->getIdentificacion();
-        $denominacion = $data->getDenominacion();
-        $descripcion = $data->getDescripcion();
-        $frecuencia = !empty($data->getFrecuenciaActulizacion()) ? $data->getFrecuenciaActulizacion() : "";
-        $inicio =  ($data->getFechaInicio()!=null) ? $data->getFechaInicio()->format('Y-m-d') : "";
-        $fin =  ($data->getFechaFin()!=null)  ? $data->getFechaFin()->format('Y-m-d') : ""; 
-        $Instancias = !empty($data->getInstancias()) ? explode(",",$data->getInstancias()) : array();
-        $organo =  !empty($data->getOrganoResponsable()) ?  $data->getOrganoResponsable() : "";
-        $condiciones =  !empty($data->getCondiciones())  ? $data->getCondiciones() : "";
-        $finalidad =  !empty($data->getFinalidad())  ? $data->getFinalidad() : "";;
-        $licencias =  !empty($data->getLicencias()) ? $data->getLicencias() : ""; ;
-        $vocabularios = !empty($data->getVocabularios()) ? explode(",",$data->getVocabularios()) : array();
-        $servicios = !empty($data->getServicios()) ? explode(",",$data->getServicios()) : array();
-        $etiquetas = !empty($data->getEtiquetas()) ? explode(",",$data->getEtiquetas()) : array();
-        $estructura =  !empty($data->getEstructura()) ?  $data->getEstructura() : "";
-        $estructuraDenominacion =  !empty($data->getEstructuraDenominacion()) ?  $data->getEstructuraDenominacion():  "";
-        $formatos =  !empty($data->getFormatos())  ? $data->getFormatos(): "";
-
-        $datos  = array("estado"=>$estadoDescripcion,
-                        "estadoKey" =>  $estadoKey,
-                        "identificador"=> $identificador,
-                        "denominacion" =>  $denominacion, 
-                        "descripcion" => $descripcion,
-                        "frecuencia" => $frecuencia,
-                        "fechaInicio" =>$inicio,
-                        "fechaFin" =>$fin,
-                        "instancias" => $Instancias,
-                        "organo" => $organo,
-                        "condiciones"=> $condiciones,
-                        "finalidad" => $finalidad,
-                        "licencias" =>  $licencias,
-                        "vocabularios" =>  $vocabularios,
-                        "servicios" =>   $servicios,
-                        "etiquetas" =>  $etiquetas,
-                        "estructura" =>  $estructura,
-                        "estructuraDenominacion" =>  $estructuraDenominacion,
-                        "formatos" => $formatos);
-    
-        $link = "";
-        $origenDatos  = null;
-        $linkCreaOrigendatos = "";
-        if (!empty($data->getOrigenDatos())){
-            $origenDatos = ($data->getOrigenDatos());      
-        } else {
-            $linkCreaOrigendatos = $this->generateUrl('insert_asistentecamposdatos_url',["iddes"=>$data->getId()]);
-        }
-
-        if (($data->getEstado()==EstadoDescripcionDatosEnum::BORRADOR) || 
-            ($data->getEstado()==EstadoDescripcionDatosEnum::EN_CORRECCION)) {
-            switch ($data->getEstadoAlta()) {  
-                case EstadoAltaDatosEnum::paso1:
-                    $link = $this->generateUrl('update_asistentecamposdatos_paso1',["id"=>$data->getId()]);
-                    break;
-                case EstadoAltaDatosEnum::paso2:
-                    $link = $this->generateUrl('update_asistentecamposdatos_paso2',["id"=>$data->getId()]);
-                    break;
-                case EstadoAltaDatosEnum::paso3:
-                    $link = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$data->getId()]);
-                    break;
-                case EstadoAltaDatosEnum::origen_database:
-                    if (empty($linkCreaOrigendatos)){
-                        $link = $this->generateUrl('update_asistentecamposdatos_database',["iddes"=>$data->getId(),"id"=>$origenDatos->getId()]);
-                    } else {
-                        $link = $linkCreaOrigendatos;
-                    }
-                    break;
-                case EstadoAltaDatosEnum::origen_file:
-                    if (empty($linkCreaOrigendatos)){
-                        $link = $this->generateUrl('update_asistentecamposdatos_file',["iddes"=>$data->getId(),"id"=>$origenDatos->getId()]);
-                    } else {
-                        $link = $linkCreaOrigendatos;
-                    }  
-                    break;
-                case EstadoAltaDatosEnum::origen_url:
-                    if (empty($linkCreaOrigendatos)){
-                        $link = $this->generateUrl('update_asistentecamposdatos_url',["iddes"=>$data->getId(), "id"=>$origenDatos['id']]);
-                    } else {
-                        $link = $linkCreaOrigendatos;
-                    }  
-                    break;
-                case EstadoAltaDatosEnum::alineacion:
-                    if (empty($linkCreaOrigendatos)){
-                        $link = $this->generateUrl('insert_alineacion',["iddes"=>$data->getId(), "id"=>$origenDatos->getId(), "origen" =>  $origenDatos->getTipoOrigen()]);
-                    } else {
-                        $link = $linkCreaOrigendatos;
-                    } 
-                    break;                                                                                                                                  
-                default:
-                    $link = $this->generateUrl('update_asistentecamposdatos_paso1',["id"=>$data->getId()]);
-                    break;
-            }
-        }
-        $urlworkflow = $this->generateUrl('asistentecamposdatos_workflow',["id"=>$data->getId()]);
-        $editLink = $link;
+        //inicializo para la plantilla twig 
         $campos = "";
         $filas = "";
-        $tabla  = array();
         $camposDistintos = false;
         $muestraError = false;
         $camposActual =""; 
-        $tabla = array("campos" =>array(), "filas"=>0);
-        $tableAlineacion = array();
-        $ontologia =  "";
-        if ($origenDatos->getId()!=null) {
-            $campos = !empty($data->getOrigenDatos()->getCampos()) ? explode(";",$data->getOrigenDatos()->getCampos()) : array();
-            $ontologia =  (!empty($origenDatos->getAlineacionEntidad()))  ? $origenDatos->getAlineacionEntidad(): "";
-            $tableAlineacion = (!empty($origenDatos->getAlineacionRelaciones()))  ? get_object_vars(json_decode(str_replace(",}","}",$origenDatos->getAlineacionRelaciones()))) : array();
-
-            [$filas, $camposActuales, $errorProceso] = $origendatosManager->DatosFicha($data->getOrigenDatos()->getId(),$request->getSession());
-            $camposActual =  !empty($camposActuales) ? explode(";",$camposActuales) : array();
-            $camposDistintos = ($campos != $camposActual); 
-            $tabla = array("campos" => $campos, "filas"=>$filas);
-            $muestraError = $camposDistintos  || !empty($errorProceso); 
-        }
-
-        $this->urlCrear =  $this->generateUrl("insert_asistentecamposdatos_paso1");
-
-        $verbotonesModificacion = "none";
-        $verbotonesPublicacion = "none";
-        $verbotonesAdminValidar = "none";
-        $verbotonesAdminDesechar = "none";
-        $verbotonesAdminCorregir = "none";
-        $verEditar= "none";
-        [$usuario,  $esAdminitrador] = $this->DameUsuarioActual();
-        if ($esAdminitrador) {
-            if ($data->getEstado() == EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION ){
-                $verbotonesAdminValidar = "block";
-                $verbotonesAdminDesechar = "block";
-                $verbotonesAdminCorregir = "block";
-            } else if ($data->getEstado() == EstadoDescripcionDatosEnum::EN_ESPERA_MODIFICACION) {
-                $verbotonesAdminValidar = "block";
-                $verbotonesAdminDesechar = "block";
-                $verbotonesAdminCorregir = "none";
-            }
-        } else {
-            if ( $data->getEstado() == EstadoDescripcionDatosEnum::VALIDADO){
-                $verbotonesModificacion = "block";
-            }
-            if ( $data->getEstado() == EstadoDescripcionDatosEnum::BORRADOR ||  
-                 $data->getEstado() == EstadoDescripcionDatosEnum::EN_CORRECCION ){
-                $verbotonesPublicacion = "block";
-                $verEditar = "block";
-            }
-        }
-   
  
+        $errorProceso = "";
+        $urlworkflow = "";
+        $editLink= "";
+        $datos = array();
+        $ontologia = "";
+        $tableAlineacion = array();
+        $tabla = array();
+        $origenDatos  = null;
+ 
+        $verbotonesAdminValida = null;
+        $verbotonesAdminDesechar= null;;
+        $verbotonesAdminCorregir= null;
+        $verbotonesModificacion= null;
+        $verbotonesPublicacion= null;
+        $verEditar= null;
 
+        //el class de body en este controlador no es siempre el mismo    
+        $this->ClassBody = "fichaRecurso comunidad usuarioConectado";  
+        //tomo las urls del menu superior 
+        [$this->urlAyuda, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::FICHA_GENERAL,$this->getUser());
+        //recojo el objeto descripcion datos
+        $data = $descripcionDatosManager->find($id, $request->getSession());
+        // solo se puede acceder si el usuario es el mismo que lo creó
+        $permisoEdicion = $toolController->DamePermisoUsuarioActual($data->getUsuario(), $this->getUser());
+
+        if ($permisoEdicion!== "none") {
+            $tabla = null;
+            //recojo los valores de los campos del cojunto de datos formateados para la ficha 
+            $datos  = $data->getToView($toolController);
+            //recojo el enlace de boton "editar", que depende del últiomo estado donde se quedó el usuario en el asistente
+            [$origenDatos, $editLink] = $toolController->DameEnlaceEdicion($data);
+            //recojo la url contra la que se va alanzar cualquiera de las acciones con los botones de la ficha (validar, solicitar, etc...)
+            $urlworkflow = $this->generateUrl('asistentecamposdatos_workflow',["id"=>$data->getId()]);
+            //inicializo para la plantilla twig 
+            $tabla = array("campos" =>array(), "filas"=>0);
+            $tableAlineacion = array();
+            //recojo la informacion del paso 3 (la ontologia - entidad principal) y la lista de campos alineados
+            $ontologia =  "";
+            if ($origenDatos->getId()!=null) {
+                [$campos , $ontologia , $tableAlineacion] = $toolController->getOntologiasFicha($data->getOrigenDatos());
+                [$filas, $camposActuales, $errorProceso] = $origendatosManager->DatosFicha($data->getOrigenDatos()->getId(),$request->getSession());
+                $camposActual =  !empty($camposActuales) ? explode(";",$camposActuales) : array();
+                $camposDistintos = ($campos != $camposActual); 
+                $tabla = array("campos" => $campos, "filas"=>$filas);
+                $muestraError = $camposDistintos  || !empty($errorProceso); 
+            }
+
+           //recojo si el usuario es administrador para mostrar botones de su perfil o de perfil usuario (no administrador)
+            [$usuario, $esAdminitrador] = $toolController->DameUsuarioActual($this->getUser());
+            // recojo los fags  de los botones para mostrarlos o no
+            [$verbotonesAdminValida, 
+             $verbotonesAdminDesechar,
+             $verbotonesAdminCorregir,
+             $verbotonesModificacion, 
+             $verbotonesPublicacion,
+             $verEditar] = $toolController->DameBotonesFicha($esAdminitrador,
+                                                             $data->getEstado());
+        }
+       
+        
         return $this->render('descripcion/ficha.html.twig',['ClassBody' => $this->ClassBody,
+                                                            'permisoEdicion' => $permisoEdicion,
                                                             'urlCrear' =>  $this->urlCrear,
                                                             'urlAyuda' =>  $this->urlAyuda,
+                                                            'urlMenu' =>  $this->urlMenu,
                                                             'camposDistintos' => $camposDistintos,
                                                             'errorProceso' => $errorProceso,
                                                             'camposAprobados' => $campos,
@@ -253,7 +191,7 @@ class DescripcionDatosController extends AbstractController
                                                             'urlworkflow' => $urlworkflow,
                                                             'verbotonesModificacion' => $verbotonesModificacion,
                                                             'verbotonesPublicacion' => $verbotonesPublicacion,
-                                                            'verbotonesAdminValidar' => $verbotonesAdminValidar,
+                                                            'verbotonesAdminValidar' => $verbotonesAdminValida,
                                                             'verbotonesAdminDesechar' => $verbotonesAdminDesechar,
                                                             'verbotonesAdminCorregir' => $verbotonesAdminCorregir,
                                                             'editLink' => $editLink,
@@ -264,6 +202,17 @@ class DescripcionDatosController extends AbstractController
                                                             'table'=>$tabla]);
     }
 
+    /***
+     * Descripcion: Action de la solicitud  de un cambio de estado, al pulsar un botón de la ficha del conjunto de datos 
+     *              Es el action del popup donde se solicita el mensaje para el cambio de estado.
+     *              Este proceso envía el correo electrónico en la parte de Apirest
+     * Parametros:
+     *             id:                                      id de la descripcion de los datos
+     *             descripcionDatosWorkFlowFormProcessor:   objeto que realiza el proceso back de la solicitud
+     *             descripcionDatosManager:                 repositorio de la descripcion de datos
+     *             origenDatosManager :                     repositorio del origen de datos
+     *             request:                                 El objeto request de la llamada
+     */
     /**     
      * @Route("/asistentecamposdatos/workflow/{id}", requirements={"id"="\d+"}, name="asistentecamposdatos_workflow")
      */
@@ -272,24 +221,36 @@ class DescripcionDatosController extends AbstractController
                                          DescripcionDatosManager $descripcionDatosManager,
                                          LoggerInterface $logger,
                                          Request $request) {
-            $descripcionDatos = $descripcionDatosManager->find($id,$request->getSession());
-            [$form] = ($descripcionDatosWorkFlowFormProcessor)($descripcionDatos, $request);
-            if ($form->isSubmitted() && $form->isValid()) {
-              //  $this->addFlash('success', 'It sent!'); ; 
-                $response = new \Symfony\Component\HttpFoundation\Response(
-                    'ok actualizado',
-                    \Symfony\Component\HttpFoundation\Response::HTTP_OK,
-                    ['content-type' => 'text/html']
-                );
-            } else {
-                $response = new \Symfony\Component\HttpFoundation\Response(
-                    'ko no actualizado',
-                    \Symfony\Component\HttpFoundation\Response::HTTP_EXPECTATION_FAILED,
-                    ['content-type' => 'text/html']
-                );
-            }
-            return $response;
+        //se toma el objeto por id sde la BD con su estado actual                                           
+        $descripcionDatos = $descripcionDatosManager->find($id,$request->getSession());
+        //se procesa el cambio de estado
+        [$form] = ($descripcionDatosWorkFlowFormProcessor)($descripcionDatos, $request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //  $this->addFlash('success', 'It sent!'); ; 
+            $response = new \Symfony\Component\HttpFoundation\Response(
+                'ok actualizado',
+                \Symfony\Component\HttpFoundation\Response::HTTP_OK,
+                ['content-type' => 'text/html']
+            );
+        } else {
+            $response = new \Symfony\Component\HttpFoundation\Response(
+                'ko no actualizado',
+                \Symfony\Component\HttpFoundation\Response::HTTP_EXPECTATION_FAILED,
+                ['content-type' => 'text/html']
+            );
+        }
+        return $response;
      }
+
+    /***
+     * Descripcion: Inserta una descripción de datos en el formulario 1.1
+     * 
+     * Parametros:
+     *             descripcionDatosFormProcessor:   objeto que realiza el proceso back de la solicitud
+     *             descripcionDatosManager:         repositorio de la descripcion de datos
+     *             origenDatosManager :             repositorio del origen de datos
+     *             request:                         el objeto request de la llamada
+     */
 
     /**
      * @Route("/asistentecamposdatos/paso1", name="insert_asistentecamposdatos_paso1")
@@ -297,11 +258,14 @@ class DescripcionDatosController extends AbstractController
     public function InsertPaso1Action(DescripcionDatosPaso1FormProcessor $descripcionDatosFormProcessor,
                                       DescripcionDatosManager $descripcionDatosManager,
                                       LoggerInterface $logger,
+                                      ToolController $toolController,
                                       Request $request) {
+                    
+        //el class de body en este controlador no es siempre el mismo    
+        $this->ClassBody = "asistente comunidad usuarioConectado";
+        //tomo las urls del menu superior  
+        [$this->urlAyuda, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_PASO11,$this->getUser());
 
-        $this->urlAyuda = $this->generateUrl('asistentecamposdatos_ayuda_index',["pagina"=>RutasAyudaEnum::DESCRIPCION_PASO11]);  
-        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $this->urlAyuda .= "?locationAnterior={$actual_link}";
         $descripcionDatos = $descripcionDatosManager->new();
         [$form,$descripcion] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -312,6 +276,7 @@ class DescripcionDatosController extends AbstractController
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
+                'urlMenu' =>  $this->urlMenu,
                 'permisoEdicion' => "block",
                 'paso1_form' => $form->createView(),
                 'errors' => $form->getErrors()
@@ -319,7 +284,16 @@ class DescripcionDatosController extends AbstractController
         }
     }
              
-
+    /***
+     * Descripcion: Actualiza una descripción de datos en el formulario 1.1
+     * 
+     * Parametros:
+     *             id:                              id de la descripcion de los datos
+     *             descripcionDatosFormProcessor:   objeto que realiza el proceso back de la solicitud
+     *             descripcionDatosManager:         repositorio de la descripcion de datos
+     *             origenDatosManager :             repositorio del origen de datos
+     *             request:                         el objeto request de la llamada
+     */
     /**
      * @Route("/asistentecamposdatos/paso1/{id}", requirements={"id"="\d+"}, name="update_asistentecamposdatos_paso1")
      */
@@ -327,31 +301,47 @@ class DescripcionDatosController extends AbstractController
                                       DescripcionDatosPaso1FormProcessor $descripcionDatosFormProcessor,
                                       DescripcionDatosManager $descripcionDatosManager,
                                       LoggerInterface $logger,
+                                      ToolController $toolController,
                                       Request $request) {
+            
 
-            $this->urlAyuda = $this->generateUrl('asistentecamposdatos_ayuda_index',["pagina"=>RutasAyudaEnum::DESCRIPCION_PASO11]);     
-            $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            $this->urlAyuda .= "?locationAnterior={$actual_link}";                          
-            $this->urlCrear =  $this->generateUrl("insert_asistentecamposdatos_paso1");
-            $descripcionDatos = $descripcionDatosManager->find($id, $request->getSession());
-            $permisoEdicion = ($descripcionDatos->getEstado() == EstadoDescripcionDatosEnum::BORRADOR  ||
-                               $descripcionDatos->getEstado() == EstadoDescripcionDatosEnum::EN_CORRECCION) ? "block" : "none"; 
-            [$form] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
-            if ($form->isSubmitted() && $form->isValid()) {
-             //   $this->addFlash('success', 'Descripción actualizada'); 
-                return $this->redirectToRoute('update_asistentecamposdatos_paso2',["id"=>$id]); 
-            } else {
-                return $this->render('descripcion/paso1.html.twig', [
-                    'ClassBody' => $this->ClassBody,
-                    'urlCrear' =>  $this->urlCrear,
-                    'urlAyuda' =>  $this->urlAyuda,
-                    'permisoEdicion' => $permisoEdicion,
-                    'paso1_form' => $form->createView(),
-                    'errors' => $form->getErrors()
-                ]);
-            }
+         //el class de body en este controlador no es siempre el mismo    
+        $this->ClassBody = "asistente comunidad usuarioConectado"; 
+        //tomo las urls del menu superior 
+        [$this->urlAyuda, $this->urlCrear, $this->urlMenu]  = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_PASO11,$this->getUser());
+
+        $descripcionDatos = $descripcionDatosManager->find($id, $request->getSession());
+        // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
+        $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
+                                                                          $this->getUser(),
+                                                                          $descripcionDatos->getEstado());
+        [$form] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //   $this->addFlash('success', 'Descripción actualizada'); 
+            return $this->redirectToRoute('update_asistentecamposdatos_paso2',["id"=>$id]); 
+        } else {
+            return $this->render('descripcion/paso1.html.twig', [
+                'ClassBody' => $this->ClassBody,
+                'urlCrear' =>  $this->urlCrear,
+                'urlAyuda' =>  $this->urlAyuda,
+                'urlMenu' =>  $this->urlMenu,
+                'permisoEdicion' => $permisoEdicion,
+                'paso1_form' => $form->createView(),
+                'errors' => $form->getErrors()
+            ]);
+        }
     }
 
+    /***
+     * Descripcion: Actualiza una descripción de datos en el formulario 1.2
+     * 
+     * Parametros:
+     *             id:                              id de la descripcion de los datos
+     *             descripcionDatosFormProcessor:   objeto que realiza el proceso back de la solicitud
+     *             descripcionDatosManager:         repositorio de la descripcion de datos
+     *             origenDatosManager :             repositorio del origen de datos
+     *             request:                         el objeto request de la llamada
+     */
     /**
      * @Route("/asistentecamposdatos/paso2/{id}", requirements={"id"="\d+"}, name="update_asistentecamposdatos_paso2")
      */
@@ -359,14 +349,21 @@ class DescripcionDatosController extends AbstractController
                                       DescripcionDatosPaso2FormProcessor $descripcionDatosFormProcessor,
                                       DescripcionDatosManager $descripcionDatosManager,
                                       LoggerInterface $logger,
+                                      ToolController $toolController,
                                       Request $request) {
 
-        $this->urlAyuda = $this->generateUrl('asistentecamposdatos_ayuda_index',["pagina"=>RutasAyudaEnum::DESCRIPCION_PASO12]);  
-        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $this->urlAyuda .= "?locationAnterior={$actual_link}";
+        //el class de body en este controlador no es siempre el mismo    
+        $this->ClassBody = "asistente comunidad usuarioConectado"; 
+        //tomo las urls del menu superior 
+        [$this->urlAyuda, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_PASO12,$this->getUser());
+
         $descripcionDatos = $descripcionDatosManager->find($id, $request->getSession());
-        $permisoEdicion = ($descripcionDatos->getEstado() == EstadoDescripcionDatosEnum::BORRADOR  ||
-                           $descripcionDatos->getEstado() == EstadoDescripcionDatosEnum::EN_CORRECCION) ? "block" : "none"; 
+        // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
+        $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
+                                                                          $this->getUser(),
+                                                                          $descripcionDatos->getEstado());
+        [$form] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
+
         [$form] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
         if ($form->isSubmitted() && $form->isValid()) {
            // $this->addFlash('success', 'It sent!'); 
@@ -378,6 +375,7 @@ class DescripcionDatosController extends AbstractController
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
+                'urlMenu' =>  $this->urlMenu,
                 'permisoEdicion' => $permisoEdicion,
                 'paso2_form' => $form->createView(),
                 'errors' => $form->getErrors()
@@ -385,6 +383,16 @@ class DescripcionDatosController extends AbstractController
         }
     }
 
+    /***
+     * Descripcion: Actualiza una descripción de datos en el formulario 1.3
+     * 
+     * Parametros:
+     *             id:                              id de la descripcion de los datos
+     *             descripcionDatosFormProcessor:   objeto que realiza el proceso back de la solicitud
+     *             descripcionDatosManager:         repositorio de la descripcion de datos
+     *             origenDatosManager :             repositorio del origen de datos
+     *             request:                         el objeto request de la llamada
+     */
     /**
      * @Route("/asistentecamposdatos/paso3/{id}", requirements={"id"="\d+"}, name="update_asistentecamposdatos_paso3")
      */
@@ -392,29 +400,24 @@ class DescripcionDatosController extends AbstractController
                                       DescripcionDatosPaso3FormProcessor $descripcionDatosFormProcessor,
                                       DescripcionDatosManager $descripcionDatosManager,
                                       LoggerInterface $logger,
+                                      ToolController $toolController,
                                       Request $request) {
-        $this->urlAyuda = $this->generateUrl('asistentecamposdatos_ayuda_index',["pagina"=>RutasAyudaEnum::DESCRIPCION_PASO13]); 
-        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $this->urlAyuda .= "?locationAnterior={$actual_link}";
-        $this->urlCrear =  $this->generateUrl("insert_asistentecamposdatos_paso1");
+
+        //el class de body en este controlador no es siempre el mismo    
+        $this->ClassBody = "asistente comunidad usuarioConectado"; 
+        //tomo las urls del menu superior 
+        [$this->urlAyuda, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_PASO13,$this->getUser());
+
         $descripcionDatos = $descripcionDatosManager->find($id, $request->getSession());
-        $permisoEdicion = ($descripcionDatos->getEstado() == EstadoDescripcionDatosEnum::BORRADOR  ||
-                           $descripcionDatos->getEstado() == EstadoDescripcionDatosEnum::EN_CORRECCION) ? "block" : "none"; 
+        // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
+        $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
+                                                                          $this->getUser(),
+                                                                          $descripcionDatos->getEstado());
+
         [$form] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
         if ($form->isSubmitted() && $form->isValid()) {
-        //    $this->addFlash('success', 'It sent!'); 
-            $locationSiguiente = "";
-            if ($descripcionDatos->TieneOrigenDatos()) {
-                if ($descripcionDatos->getOrigenDatos()->getTipoOrigen() == TipoOrigenDatosEnum::BASEDATOS) {
-                    $locationSiguiente =  $this->generateUrl('update_asistentecamposdatos_database',["iddes"=>$id, "id"=>$descripcionDatos->getOrigenDatos()->getId()]);
-                } elseif ($descripcionDatos->getOrigenDatos()->getTipoOrigen() == TipoOrigenDatosEnum::ARCHIVO)  {
-                    $locationSiguiente =  $this->generateUrl('update_asistentecamposdatos_file',["iddes"=>$id, "id"=>$descripcionDatos->getOrigenDatos()->getId()]);
-                } else {
-                    $locationSiguiente =  $this->generateUrl('update_asistentecamposdatos_url',["iddes"=>$id, "id"=>$descripcionDatos->getOrigenDatos()->getId()]);
-                }
-            } else {
-                $locationSiguiente =  $this->generateUrl('insert_asistentecamposdatos_url',["iddes"=>$id]);
-            }               
+            //toma la url del boton siguiente que depende de lo ultimo realizado por el usuario
+            $locationSiguiente = $toolController->DameSiguienteOrigendatos($descripcionDatos);             
             return $this->redirect($locationSiguiente);
         } else {
             $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso2',["id"=>$id]);
@@ -423,55 +426,11 @@ class DescripcionDatosController extends AbstractController
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
+                'urlMenu' =>  $this->urlMenu,
                 'permisoEdicion' => $permisoEdicion,
                 'paso3_form' => $form->createView(),
                 'errors' => $form->getErrors()
             ]);
         }
-    }
-
-    private function DameUsuarioActual() : array {
-        if ($this->getUser()->getEntry()) {
-            $usuario =  $this->getUser()->getExtraFields()['mail'];
-            $esAdminitrador = ($this->getUser()->getExtraFields()['roles'] == "ROLE_ADMIN");
-        }
-        return  [$usuario , $esAdminitrador ] ;
-    }
-
-    private function DameEstadoUsuario($estado) :array {
-
-       $estadoKey = "";
-       $estadoDescripcion= "";
-       switch ($estado) {
-            case EstadoDescripcionDatosEnum::BORRADOR:
-                $estadoDescripcion = "En borrador";
-                $estadoKey = "borrador";
-                break;
-            case EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION:
-                $estadoDescripcion = "En espera validación";
-                $estadoKey = "espera publicacion";
-                break;
-            case EstadoDescripcionDatosEnum::EN_ESPERA_MODIFICACION:
-                $estadoDescripcion = "En espera validación";
-                $estadoKey = "espera modificacion";
-                break;
-            case EstadoDescripcionDatosEnum::VALIDADO:
-                $estadoDescripcion = "Validado";
-                $estadoKey = "validado";
-                break;
-            case EstadoDescripcionDatosEnum::DESECHADO:
-                $estadoDescripcion = "Desechado";
-                $estadoKey = "desechado";
-                break; 
-            case EstadoDescripcionDatosEnum::EN_CORRECCION:
-                $estadoDescripcion = "En corrección";
-                $estadoKey = "correccion";
-                break;                  
-            default:
-                $estadoDescripcion = "En borrador";
-                $estadoKey = "borrador";
-                break;
-        }
-        return[$estadoKey, $estadoDescripcion];
     }
 }

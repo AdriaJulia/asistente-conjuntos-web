@@ -13,6 +13,12 @@ use App\Service\CurrentUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
+/*
+ * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
+ *              Controla la validacion del formulario y serializa el Dto a la clase entidad
+ *              Envía los datos a su persistencia a traves de repositorio  
+ *              La clase se crea para el formulario origen de datos en su version de fichero el test como el guardado
+*/
 class OrigenDatosFileFormProcessor
 {
     private $currentUser;
@@ -24,7 +30,7 @@ class OrigenDatosFileFormProcessor
         CurrentUser $currentUser,
         OrigenDatosManager $origenDatosManager,
         ContainerBagInterface $params,
-        FormFactoryInterface $formFactory,
+        FormFactoryInterface $formFactory
     ) {
         $this->currentUser = $currentUser;
         $this->origenDatosManager = $origenDatosManager;
@@ -41,21 +47,28 @@ class OrigenDatosFileFormProcessor
         $campos = "";
         $prueba = false;
         $archivoActual = "";
+         //si el origen de datos actual no es nuevo
         if (!empty($origenDatos->getId())){
             $origenDatosDto = OrigenDatosDto::createFromOrigenDatos($origenDatos);
+            //si el origen de datos es ARCHIVO 
             if ($origenDatosDto->tipoOrigen == TipoOrigenDatosEnum::ARCHIVO ) {
+                //cargo la url a data
                 $origenDatosDto->archivo = $origenDatosDto->data;
                 $host_restapi = $this->params->get('host_restapi');
                 $archivoActual = "{$host_restapi}/storage/default/{$origenDatos->getData()}"; 
             } else {
+                  //borro la url a data
                 $origenDatosDto->data = "";
             }
+             // creo el formulario vacío con los datos actuales
             $form = $this->formFactory->create(OrigenDatosFileFormType::class, $origenDatosDto);
             $id = $origenDatos->getId();
         } else {
+             // creo el formulario vacío 
             $form = $this->formFactory->create(OrigenDatosFileFormType::class, null); 
         }
         $form->handleRequest($request);
+            //el formulario se ha enviado estoy recogiendo datos
         if ($form->isSubmitted()) {
             $base64 = "";
             $origenDatosDto = $form->getData();  
@@ -67,6 +80,7 @@ class OrigenDatosFileFormProcessor
             if ($form->isValid()) {    
                 $origenDatos->setIdDescripcion($idDescripcion);
                 $origenDatos->setTipoOrigen($origenDatosDto->tipoOrigen);
+                //si el archivo ya se ha subido y no es una comprobación
                 if (!empty($fileProbado) && !$prueba) {
                     $originalName =  $fileProbado;
                     $ext = explode(".", $originalName);
@@ -74,6 +88,8 @@ class OrigenDatosFileFormProcessor
                     $extesionNombre = $ext[$pos];
                     $fileaB64 = "{$host_restapi}/storage/default/{$fileProbado}";
                 } else {
+                     //si no tengo que subir el archivo y para eso tengo que pasarlo a Base64
+                     //el que guarda el archivo apirest
                     $origenDatosDto->archivo = $form->get('archivo')->getData(); 
                     $brochureFile = $form->get('archivo')->getData();
                     $originalName = $brochureFile->getClientOriginalName();
@@ -82,7 +98,7 @@ class OrigenDatosFileFormProcessor
                     $extesionNombre = $ext[$pos];
                     $fileaB64  = $brochureFile->getPathName();
                 }
-    
+                //saco la extension para mandar el archivo por apires en base 64
                 if ($extesionNombre) {
                     $mime = "";
                     switch ($extesionNombre) {
@@ -108,17 +124,24 @@ class OrigenDatosFileFormProcessor
                     if (empty($mime)) {
                         $errorProceso= "Por favor seleccione un archivo de los formatos señados valido";
                     }  else {
-                        $file = file_get_contents($fileaB64);     
+                        $file = file_get_contents($fileaB64); 
+                        //este es el archivo en base64    
                         $base64 = 'data:' . $mime . ';base64,' . base64_encode($file);
                         $origenDatos->setData($base64);
                     }
                 }
                 if (!empty($base64)) {
-                    $username =  $this->currentUser->getCurrentUser()->getUsername();
+                     // esto es para poder hacer los test unitarios sin LDAP
+                    if ($this->currentUser->getCurrentUser()!=null){
+                        $username = $this->currentUser->getCurrentUser()->getExtraFields()['mail'];
+                    } else {
+                        $username = "MOCKSESSID";
+                    }
                     $origenDatos->setUsuario($username);
                     $origenDatos->setSesion($request->getSession()->getId());
                     $origenDatos->updatedTimestamps();
                     $origenDatos->setCampos("");
+                        //ahora distingo si la llamada es de un origen nuevo o existente y prueba o guradar
                     if (empty($origenDatosDto->id)){
                         if ($prueba) {
                             [$origenDatos,$errorProceso] = $this->origenDatosManager->PruebaData($origenDatos,$request->getSession()); 

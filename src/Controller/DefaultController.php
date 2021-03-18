@@ -3,30 +3,20 @@ namespace App\Controller;
 
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Service\RestApiRemote\RestApiClient;
 
-use Symfony\Component\Ldap\Ldap;
-
+/*
+ * Descripción: para que cargue la pagina principal
+ */
 class DefaultController extends AbstractController
 {
 
-
-    private  $cli;
-    public function __construct(RestApiClient $cli)
-    {
-        $this->cli =  $cli;
-    }
-
-
-
      /**
-     * @Route("/adopool/index", name="app_index")
+     * @Route("/")
      */
-    public function index(): Response
+    public function indexA(): Response
     {
-        return new Response("Hola",Response::HTTP_OK);
+        return $this->redirect("/asistentecamposdatos");
     }
 }

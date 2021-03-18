@@ -9,9 +9,14 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormBuilderInterface;
 
 
+/*
+ * Descripción: Es clase la que define el control que contiene el conjunto de controles
+ * EntidadeCampoType. Symfony pide un control para unificar. 
+*/
+
 class EntidadesCampoType extends AbstractType
 {
-    // ...
+
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

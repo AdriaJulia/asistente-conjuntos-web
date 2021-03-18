@@ -1,6 +1,10 @@
 <?php
 namespace App\Enum;
 
+/**
+ * Descripcion: Enumerado de las extensiones soportadas 
+ */
+
 class TipoExtensionEnum {
 
   private static $types = [

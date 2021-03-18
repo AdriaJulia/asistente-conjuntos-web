@@ -5,13 +5,17 @@ namespace App\Form\Model;
 use App\Entity\User;
 use DateTime;
 
+/*
+ * Descripción: Es la clase dto del usuario  
+ *              Es el objeto que recoge los datos de los formularios login             
+ */
 class UserDto
 {
     public $username;
     public $password;
-    public $ldapToken;
 
- 
+
+
     public function __construct()
     {
  
@@ -22,7 +26,6 @@ class UserDto
         $dto = new self();
         $dto->username =  $user->getUsername();
         $dto->password =  $user->getPassword();
-        $dto->ldapToken =  $user->getLdapToken();
         return $dto;
     }
 

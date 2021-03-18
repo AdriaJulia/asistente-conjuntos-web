@@ -1,6 +1,9 @@
 <?php
 namespace App\Enum;
 
+/**
+ * Descripcion: Enumerado del estado del asistente 
+ */
 class EstadoAltaDatosEnum {
 
   private static $types = [

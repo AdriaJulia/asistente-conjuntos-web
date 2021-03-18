@@ -11,10 +11,12 @@ use App\Enum\RutasApirestEnum;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-/***
- * Clase que realiza las llamadas A la API rest de la funcionalidad descripcion datos
- * Actual como DAL de la WEB.
- */
+
+/*
+ * Descripción: Clase que realiza las llamadas A la API  a la apirest de la funcionalidad descripcion datos
+ *              La Clase trabaja a trabes de RestApiClient como un adaptador de la misma.
+ *              Actual como DAL de la WEB.
+*/
 class RestApiClientDescripcion
 {
 

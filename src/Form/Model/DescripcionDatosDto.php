@@ -4,6 +4,10 @@ namespace App\Form\Model;
 
 use App\Entity\DescripcionDatos;
 
+/*
+ * Descripción: Es la clase dto de la entidad de la descripción del conjunto de datos. 
+ * 
+ */
 class DescripcionDatosDto {
     public $id;
     public $denominacion;
@@ -22,7 +26,6 @@ class DescripcionDatosDto {
     public $etiquetas;
     public $estructura;
     public $estructuraDenominacion;
-    public $aspectosFormales;
     public $licencias;
     public $formatos;
     public $usuario;
@@ -57,7 +60,6 @@ class DescripcionDatosDto {
         $dto->etiquetas = $descripcionDatos->getEtiquetas();
         $dto->estructura = $descripcionDatos->getEstructura();
         $dto->estructuraDenominacion = $descripcionDatos->getEstructuraDenominacion();
-        $dto->aspectosFormales = $descripcionDatos->getAspectosFormales();
         $dto->licencias = $descripcionDatos->getLicencias();
         $dto->usuario = $descripcionDatos->getUsuario();
         $dto->sesion = $descripcionDatos->getSesion();

@@ -11,7 +11,12 @@ use Symfony\Component\Form\FormFactoryInterface;
 use App\Service\CurrentUser;
 use Symfony\Component\HttpFoundation\Request;
 
-
+/*
+ * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
+ *              Controla la validacion del formulario y serializa el Dto a la clase entidad
+ *              Envía los datos a su persistencia a traves de repositorio  
+ *              La clase se crea para el formulario cambio de estado (botones de la ficha)
+*/
 class DescripcionDatosWorkFlowFormProcessor
 {
     private $currentUser;
@@ -32,15 +37,18 @@ class DescripcionDatosWorkFlowFormProcessor
                              Request $request): array
     { 
 
+         //el origen de datos actual nunca  es nuevo
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
+        //inicializo con el origen de datos
         $form = $this->formFactory->create(DescripcionDatosWorkFlowFormType::class, $descripcionDatosDto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            //recojo los datos del formulario
             $descripcionDatos->setSesion($request->getSession()->getId());
             $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
             $descripcionDatos->setEstado($descripcionDatosDto->estado);
             $descripcionDatos->updatedTimestamps();
-            
+            //envío a apirest
             $descripcionDatos = $this->descripcionDatosManager->saveWorkflow($descripcionDatos,$request->getSession()); 
              /*
             switch ($descripcionDatosDto->estado) {

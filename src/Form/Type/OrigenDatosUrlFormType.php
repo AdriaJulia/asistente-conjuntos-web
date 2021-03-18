@@ -15,6 +15,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 
+/*
+ * Descripción: Es clase la que define el formulario paso2 en su formato url      
+ */
 class OrigenDatosUrlFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -77,7 +80,7 @@ class OrigenDatosUrlFormType extends AbstractType
                 $context->buildViolation('Por favor inserte una url')
                 ->atPath('url')
                 ->addViolation();
-        } else if (!strpos($extension,"json") && !strpos($extension,"xml") && !strpos($extension,"csv") && ! strpos($extension,"xsl")) {
+        } else if (!strpos($extension,"json") && !strpos($extension,"xml") && !strpos($extension,"csv") && ! strpos($extension,"xls")) {
             $context->buildViolation('Por favor inserte una url con los formatos señalados validos')
             ->atPath('url')
             ->addViolation();

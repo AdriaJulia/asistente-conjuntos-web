@@ -11,7 +11,12 @@ use Symfony\Component\Form\FormFactoryInterface;
 use App\Service\CurrentUser;
 use Symfony\Component\HttpFoundation\Request;
 
-
+/*
+ * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
+ *              Controla la validacion del formulario y serializa el Dto a la clase entidad
+ *              Envía los datos a su persistencia a traves de repositorio  
+ *              La clase se crea para el formulario origen de datos en su version de base datostanto el test como el guardado
+*/
 class OrigenDatosDataBaseFormProcessor
 {
     private $currentUser;
@@ -21,7 +26,7 @@ class OrigenDatosDataBaseFormProcessor
     public function __construct(
         CurrentUser $currentUser,
         OrigenDatosManager $origenDatosManager,
-        FormFactoryInterface $formFactory,
+        FormFactoryInterface $formFactory
     ) {
         $this->currentUser = $currentUser;
         $this->origenDatosManager = $origenDatosManager;
@@ -36,18 +41,24 @@ class OrigenDatosDataBaseFormProcessor
         $errorProceso= "";
         $campos = "";
         $prueba = false;
+       //si el origen de datos actual no es nuevo
         if (!empty($origenDatos->getId())){
+             //inicializo con el origen de datos
             $origenDatosDto = OrigenDatosDto::createFromOrigenDatos($origenDatos);
+            // creo el formulario vacío con los datos actuales
             $form = $this->formFactory->create(OrigenDatosDataBaseFormType::class, $origenDatosDto);
             $id = $origenDatos->getId();
         } else {
+            // creo el formulario vacío 
             $form = $this->formFactory->create(OrigenDatosDataBaseFormType::class); 
         }
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $origenDatosDto = $form->getData(); 
             if ($form->isValid()) {
+                // recojo si es modo prueba
                 $prueba = ($origenDatosDto->modoFormulario==ModoFormularioOrigenEnum::Test);
+                 //recojo los datos del formulario
                 $origenDatos->setIdDescripcion($idDescripcion);
                 $origenDatos->setTipoOrigen($origenDatosDto->tipoOrigen);
                 $origenDatos->setTipoBaseDatos($origenDatosDto->tipoBaseDatos);
@@ -59,11 +70,18 @@ class OrigenDatosDataBaseFormProcessor
                 $origenDatos->setUsuarioDB($origenDatosDto->usuarioDB);
                 $origenDatos->setContrasenaDB($origenDatosDto->contrasenaDB);  
 
-                $username = $this->currentUser->getCurrentUser()->getUsername();
+                // esto es para poder hacer los test unitarios sin LDAP
+                if ($this->currentUser->getCurrentUser()!=null){
+                    $username = $this->currentUser->getCurrentUser()->getExtraFields()['mail'];
+                } else {
+                    $username = "MOCKSESSID";
+                }
+
                 $origenDatos->setUsuario($username);
                 $origenDatos->setSesion($request->getSession()->getId());
                 $origenDatos->updatedTimestamps();
                 $origenDatos->setCampos("");
+                //ahora distingo si la llamada es de un origen nuevo o existente y prueba o guradar
                 if (empty($origenDatosDto->id)){
                     if ($prueba) {
                         $request->getSession()->set("dbRequest", $origenDatos->toJsonDatabase());

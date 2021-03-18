@@ -4,9 +4,9 @@
 
 {% block body %}
 <div class="container" style="display:{{ permisoEdicion }}">
-    <div class="row">              
+    <div class="row">     
+       <input type='hidden' id="entidadPrincipal" value='{{ entidadPrincipal }}'/>         
         <div id="col02" class="col col-12">
-
             <div class="form formtheme01">
                 <h1>Asistente de creación de conjunto de datos</h1>
                 <div class="listadoPasos">
@@ -59,13 +59,21 @@
    {{ parent() }}
      <script>
         $(function() {
-            $('select[name ="alineacionEntidad"]').change(function() {
+            $('select[name ="alineacionEntidad"]').change(function(e) {
                $('input[name ="modoFormulario"]').val("seleccion");
-               this.form.submit();
+                // $selecionOrigen = $('input[id ="entidadPrincipal"]').val();
+               //  $selecion = $('select[id="alineacionEntidad"]').val();
+              // if ($selecionOrigen !== $selecion){
+
+             //  }
+              this.form.submit();
             });
         });
         function enviar(valor) {
            $('input[name ="modoFormulario"]').val(valor);
+           if ($('div[class ="atributosAsignados"]').find("input").length==0){
+              $('select[id="alineacionEntidad"]').val("");
+           }
            $(this).parents(".form").submit();
         }
 
@@ -78,18 +86,22 @@
             } else {
                 var jsoninical = $('input[name ="alineacionRelaciones"]').val();
                 jsoninical = jsoninical.replace(",}","}");
-                var alineacionInicial = JSON.parse(jsoninical);
-                $.each(alineacionInicial, function(object,value) {
-                    var boton = $('div[name="' + object + '"]').find("button");
-                    var select = $('div[name="' + object + '"]').find("select");
-                    select.val(value);
-                    boton.click();
-                });
-                if (($('select[name ="alineacionEntidad"]').val().trim()!="") &&  ($('div[class ="atributosAsignados"]').find("input").length==0)) {
-                    $('select[name ="alineacionEntidad"]').change();
+                if ((jsoninical.trim()!=="") && $('div[class ="atributosAsignados"]').find("input").length==0){
+                    var alineacionInicial = JSON.parse(jsoninical);
+                    $.each(alineacionInicial, function(object,value) {
+                        var boton = $('div[name="' + object + '"]').find("button");
+                        var select = $('div[name="' + object + '"]').find("select");
+                        select.val(value);
+                        boton.click();
+                    });
                 }
-                e.preventDefault();
+                $alineacionEntidades = $('input[name ="alineacionRelaciones"]').val().length;
+ 
+                if (($alineacionEntidades >= 3) &&  ($('div[class ="atributosAsignados"]').find("input").length==0)) {
+                     $('select[name ="alineacionEntidad"]').change();
+                }
             }
+
         });
     </script>
 {% endblock %}

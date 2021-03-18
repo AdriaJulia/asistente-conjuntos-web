@@ -1,6 +1,10 @@
 <?php
 namespace App\Enum;
 
+/**
+ * Descripcion: Enumerado del las opciones del combo finalidad de los datos
+ */
+
 class FinalidadDatosEnum {
 
   private static $types = [

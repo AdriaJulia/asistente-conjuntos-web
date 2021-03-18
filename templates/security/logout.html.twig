@@ -1,0 +1,43 @@
+{% extends 'base_login.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div id="col02" class="col col-12">
+                <div class="form formtheme01 formularioRegistroUsuarios">
+                <div>
+                    <div class="box box01">
+                        <form action="{{ path('app_login') }}" method="post">
+                            <div class="fieldset fieldset01">
+                                <fieldset class="mediumLabels">
+                                <h3 class="titulo-principal">Gracias por su visita</h3>
+                            </div>
+                            <div class="box box02">
+                                <ul class="enlaces">
+                                    <li>
+                                    <a href="javascript: void(0);">Ayuda</a>
+                                    </li>
+                                    <li>
+                                    <a href="javascript: void(0);">Privacidad</a>
+                                    </li>
+                                    <li>
+                                    <a href="javascript: void(0);">Términos</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="iniciar_sesion">
+                                <input type="button" class="principal submit" value="Inicar sesión" onclick="this.form.submit()">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+{% endblock %}
+ 
+

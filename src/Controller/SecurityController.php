@@ -6,8 +6,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/*
+ * Descripción: 
+ */
 class SecurityController extends AbstractController
 {
+    /***
+     * Descripcion: Acción que realiza el evento login, lanza el formulario y recibe el resultado del proceso de autenticación
+     * Parametros: 
+     *             request: El objeto request de la llamada
+     *             authUtils: Nativo de symfony para gestionar la autenticación
+     */
      /**
      * @Route("/login", name="app_login")
      */
@@ -26,11 +35,14 @@ class SecurityController extends AbstractController
         
     }
 
+    /***
+     * Descripcion: Acción que realiza el evento logout
+     */
     /**
      * @Route("/logout", name="app_logout")
      */
     public function logout()
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    {   
+        return $this->render('security/logout.html.twig'); 
     }
 }

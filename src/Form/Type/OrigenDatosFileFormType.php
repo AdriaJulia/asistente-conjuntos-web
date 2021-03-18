@@ -15,6 +15,9 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 
+/*
+ * Descripción: Es clase la que define el formulario paso2 en su formato fichero      
+ */
 class OrigenDatosFileFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

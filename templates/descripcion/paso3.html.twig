@@ -44,7 +44,7 @@
                                 <div class="fieldset actionButtons">
                                     <fieldset>
                                         <input class="submit" value="Anterior" onclick="location.href='{{ locationAnterior }}'">
-                                        <input class="submit principal" type="submit" value="Guardar y siguiente...">
+                                        <input class="submit principal" type="submit" id="siguiente" value="Guardar y siguiente...">
                                     </fieldset>
                                 </div>
                             </div>
@@ -60,15 +60,6 @@
 
 {% block javascripts %}
    {{ parent() }}
-   <script>
-       $(document).ready(function() {
-            if ($(".container").attr("style") == "display:none") {
-                $("#accesoDenegado").modal("show");
-            }
-            $("#botonCerrraAccesoDenegado").bind("click", function() { 
-                window.location.href = "/asistentecamposdatos";
-            });
-        });
-   </script>
+   <script type="text/javascript" src="/js/paso3.js"></script>
    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" charset="UTF-8"></script>
 {% endblock %}

@@ -4,6 +4,11 @@ namespace App\Form\Model;
 
 use App\Entity\OrigenDatos;
 
+/*
+ * Descripción: Es la clase dto de la entidad de origen de datos del conjunto de datos. 
+ *              Es el objeto que recoge los datos de los formularios              
+ */
+
 class OrigenDatosDto {
     public $id;
     public $idDescripcion;

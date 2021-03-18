@@ -15,6 +15,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/*
+ * Descripción: Es clase la que define el formulario paso 1.2 de la descripcion de los datos de los datos          
+ */
+
 class DescripcionDatosPaso2FormType extends AbstractType
 {
     

@@ -1,6 +1,10 @@
 <?php
 namespace App\Enum;
 
+/**
+ * Descripcion: Enumerado de los tipos BD
+ */
+
 class TipoBaseDatosEnum {
 
   private static $types = [

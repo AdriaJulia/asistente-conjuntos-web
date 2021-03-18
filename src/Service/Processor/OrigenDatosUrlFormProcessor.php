@@ -12,7 +12,12 @@ use Symfony\Component\Form\FormFactoryInterface;
 use App\Service\CurrentUser;
 use Symfony\Component\HttpFoundation\Request;
 
-
+/*
+ * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
+ *              Controla la validacion del formulario y serializa el Dto a la clase entidad
+ *              Envía los datos a su persistencia a traves de repositorio  
+ *              La clase se crea para el formulario origen de datos en su version de url el test como el guardado
+*/
 class OrigenDatosUrlFormProcessor
 {
     private $currentUser;
@@ -22,7 +27,7 @@ class OrigenDatosUrlFormProcessor
     public function __construct(
         CurrentUser $currentUser,
         OrigenDatosManager $origenDatosManager,
-        FormFactoryInterface $formFactory,
+        FormFactoryInterface $formFactory
     ) {
         $this->currentUser = $currentUser;
         $this->origenDatosManager = $origenDatosManager;
@@ -37,33 +42,48 @@ class OrigenDatosUrlFormProcessor
         $errorProceso= "";
         $campos = "";
         $prueba = false;
+        //si el origen de datos actual no es nuevo
         if (!empty($origenDatos->getId())){
-            $origenDatosDto = OrigenDatosDto::createFromOrigenDatos($origenDatos);         
+            //inicializo con el origen de datos
+            $origenDatosDto = OrigenDatosDto::createFromOrigenDatos($origenDatos); 
+             //si el origen de datos es URL      
             if ($origenDatosDto->tipoOrigen == TipoOrigenDatosEnum::URL ) {
+                //cargo la url a data
                 $origenDatosDto->url = $origenDatosDto->data;
             } else {
+                //borro la url a data
                 $origenDatosDto->data = "";
             }
+            // creo el formulario vacío con los datos actuales
             $form = $this->formFactory->create(OrigenDatosUrlFormType::class, $origenDatosDto);
             $id = $origenDatos->getId();
         } else {
+             // creo el formulario vacío 
             $form = $this->formFactory->create(OrigenDatosUrlFormType::class); 
         }
         $form->handleRequest($request);
+        //el formulario se ha enviado estoy recogiendo datos
         if ($form->isSubmitted()) {
             $origenDatosDto = $form->getData(); 
+            // recojo si es modo prueba
             $prueba = ($origenDatosDto->modoFormulario==ModoFormularioOrigenEnum::Test);
             if ($form->isValid()) {
+                //recojo los datos del formulario
                 $origenDatos->setIdDescripcion($idDescripcion);
                 $origenDatos->setTipoOrigen($origenDatosDto->tipoOrigen);
                 $data = $origenDatosDto->url;
                 $origenDatos->setData($data);
-
-                $username = $this->currentUser->getCurrentUser()->getUsername();
+                // esto es para poder hacer los test unitarios sin LDAP
+                if ($this->currentUser->getCurrentUser()!=null){
+                    $username = $this->currentUser->getCurrentUser()->getExtraFields()['mail'];
+                } else {
+                    $username = "MOCKSESSID";
+                }
                 $origenDatos->setUsuario($username);
                 $origenDatos->setSesion($request->getSession()->getId());
                 $origenDatos->updatedTimestamps();
                 $origenDatos->setCampos("");
+                //ahora distingo si la llamada es de un origen nuevo o existente y prueba o guradar
                 if (empty($origenDatosDto->id)){
                     if ($prueba) {
                         $request->getSession()->set("urlRequest", $origenDatosDto->url);

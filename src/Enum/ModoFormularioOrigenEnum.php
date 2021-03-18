@@ -1,6 +1,11 @@
 <?php
 namespace App\Enum;
 
+/**
+ * Descripcion: Enumerado del las opciones del PASO2 para guradar o probar orígenes 
+ */
+
+
 class ModoFormularioOrigenEnum {
 
   private static $types = [

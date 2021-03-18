@@ -11,6 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/*
+ * Descripción: Es clase la que define el formulario paso 1.3 de la descripcion de los datos de los datos          
+ */
+
 class DescripcionDatosPaso3FormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
