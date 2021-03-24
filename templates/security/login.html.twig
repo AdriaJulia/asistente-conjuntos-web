@@ -1,0 +1,63 @@
+{% extends 'base_login.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div id="col02" class="col col-12">
+                <div class="form formtheme01 formularioRegistroUsuarios">
+                <div>
+                    <div class="box box01">
+                        <form action="{{ path('app_login') }}" method="post">
+
+                            <div class="fieldset fieldset01">
+                                <fieldset class="mediumLabels">
+                                <legend>Iniciar sesión</legend>
+                                <div class="fieldsetContent">    
+                                    <p>
+                                    <label for="correo">Correo electrónico</label>
+                                    <input id="username" name="_username"  value="{{ last_username }}" type="text" class="text medium" placeholder="Introduce tu correo electrónico">
+                                    </p>
+                                    <p>
+                                    <label for="password">Contraseña</label>
+                                    <input id="password" name="_password" type="password" class="text medium" placeholder="Introduce tu contraseña">
+                                    </p>
+                                </div>
+                                </fieldset>
+                                 <input type="hidden" name="_target_path" value="/asistentecamposdatos" />
+                            </div>
+                            {% if error %}
+                                <div id="loginError" style="display: block;">
+                                    <div class="ko" style="display: block;">
+                                        <p id="mensajeError">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                                    </div>
+                                </div>    
+                            {% endif %}
+                            <div class="box box02">
+                                <ul class="enlaces">
+                                    <li>
+                                    <a href="javascript: void(0);">Ayuda</a>
+                                    </li>
+                                    <li>
+                                    <a href="javascript: void(0);">Privacidad</a>
+                                    </li>
+                                    <li>
+                                    <a href="javascript: void(0);">Términos</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="iniciar_sesion">
+                                <input type="button" class="principal submit" value="Inicar sesión" onclick="this.form.submit()">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+{% endblock %}
+ 
+

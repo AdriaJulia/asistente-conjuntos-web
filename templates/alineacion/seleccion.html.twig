@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdoPool workflow{% endblock title %}
+
+{% block body %}
+<div class="container" style="display:{{ permisoEdicion }}">
+    <div class="row">     
+       <input type='hidden' id="entidadPrincipal" value='{{ entidadPrincipal }}'/>         
+        <div id="col02" class="col col-12">
+            <div class="form formtheme01">
+                <h1>Asistente de creación de conjunto de datos</h1>
+                <div class="listadoPasos">
+                    <ul>
+                        <li class="paso01 complete">
+                            <span>1</span>
+                        </li>
+                        <li class="paso01-1 complete">
+                            <span></span>
+                        </li>
+                        <li class="paso01-2 complete">
+                            <span></span>
+                        </li>
+                        <li class="paso02 complete">
+                            <span>2</span>
+                        </li>
+                        <li class="paso03 active">
+                            <span>3</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="box">
+                        {{ form_start(alineacion_form) }}
+                        <div class="fieldset fieldset01">
+                            <fieldset class="mediumLabels">
+                                <legend>Paso 3</legend>
+                                <h2>Alineación de datos con el EI2A</h2>
+                                <div class="fieldsetContent">
+                                    {{ form_widget(alineacion_form) }}
+                                      <div class="fieldset actionButtons">
+                                        <fieldset>
+                                            <input class="submit" value="Anterior" onclick="location.href='{{ locationAnterior }}'">
+                                            <input class="submit principal" type="submit" value="Omitir" onclick="enviar('omitir');">
+                                            <input class="submit principal" type="submit" value="Guardar y siguiente..." onclick="enviar('guardar')";>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        {{ form_end(alineacion_form) }}
+                    </div>      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+   {{ parent() }}
+     <script>
+        $(function() {
+            $('select[name ="alineacionEntidad"]').change(function(e) {
+               $('input[name ="modoFormulario"]').val("seleccion");
+                // $selecionOrigen = $('input[id ="entidadPrincipal"]').val();
+               //  $selecion = $('select[id="alineacionEntidad"]').val();
+              // if ($selecionOrigen !== $selecion){
+
+             //  }
+              this.form.submit();
+            });
+        });
+        function enviar(valor) {
+           $('input[name ="modoFormulario"]').val(valor);
+           if ($('div[class ="atributosAsignados"]').find("input").length==0){
+              $('select[id="alineacionEntidad"]').val("");
+           }
+           $(this).parents(".form").submit();
+        }
+
+        $(document).ready(function(e) {
+            if ($(".container").attr("style") == "display:none") {
+                $("#accesoDenegado").modal("show");
+                $("#botonCerrraAccesoDenegado").bind("click", function() { 
+                       window.location.href = "/asistentecamposdatos";
+                });
+            } else {
+                var jsoninical = $('input[name ="alineacionRelaciones"]').val();
+                jsoninical = jsoninical.replace(",}","}");
+                if ((jsoninical.trim()!=="") && $('div[class ="atributosAsignados"]').find("input").length==0){
+                    var alineacionInicial = JSON.parse(jsoninical);
+                    $.each(alineacionInicial, function(object,value) {
+                        var boton = $('div[name="' + object + '"]').find("button");
+                        var select = $('div[name="' + object + '"]').find("select");
+                        select.val(value);
+                        boton.click();
+                    });
+                }
+                $alineacionEntidades = $('input[name ="alineacionRelaciones"]').val().length;
+ 
+                if (($alineacionEntidades >= 3) &&  ($('div[class ="atributosAsignados"]').find("input").length==0)) {
+                     $('select[name ="alineacionEntidad"]').change();
+                }
+            }
+
+        });
+    </script>
+{% endblock %}

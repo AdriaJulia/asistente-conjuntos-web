@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Asistente - Aragon Open Data{% endblock title %}
+
+{% block body %}
+<div class="container" style="display:{{ permisoEdicion }}">
+		<div class="row">                  
+        <div id="col02" class="col col-12">
+             <div class="form formtheme01">
+                <h1>Asistente de creación de conjunto de datos</h1>
+                <div class="listadoPasos">
+                    <ul>
+                        <li class="paso01 complete">
+                            <span>1</span>
+                        </li>
+                        <li class="paso01-1 complete">
+                            <span></span>
+                        </li>
+                        <li class="paso01-2 complete">
+                            <span></span>
+                        </li>
+                        <li class="paso02 active">
+                            <span>2</span>
+                        </li>
+                        <li class="paso03 uncomplete">
+                            <span>3</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                  <div class="box">
+                    {{ form_start(origen_form) }}
+                    <div class="fieldset fieldset01">
+                        <fieldset class="mediumLabels">
+                            <legend>Paso 2</legend>
+                            <h2>Origen del conjunto de datos - contenido de los datos</h2>
+                            <div>
+                                {{ form_widget(origen_form) }}
+                                <div >
+                                    {% if not archivoActual is empty  %}
+                                         <div class="form-group" id="archivoActual">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td> {{ archivoActual }} </td>
+                                                        <td id="lineaArchivoActual">
+                                                            <a id="borrarArchivoActual" name="borrarArchivoActual" class="remove"></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {% endif %}  
+                                    <input id="comprobar_origen" name="comprobaro_rigen"  class="rounded" type="button" value="Comprobar origen" onclick="this.form.submit()">      
+                                    {% if errorProceso %}
+                                        <div class='ko'>
+                                            <p> {{ errorProceso }} </p>
+                                        </div>
+                                    {% endif %}
+                                    {% if campos %}
+                                        <div class='ok'>
+                                            <p> Origen de datos validado con los campos: </p>
+                                            <ul>
+                                            {% for campo in campos %}
+                                                <li>
+                                                  {{ campo }}
+                                                </li>
+                                            {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="fieldset actionButtons">
+                                    <fieldset>
+                                        <input class="submit" value="Anterior" onclick="location.href='{{ locationAnterior }}'">
+                                        {% if campos %}
+                                            <input id="siguiente" class="submit principal" type="submit" value="Guardar y siguiente...">
+                                        {% endif %}
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                   {{ form_end(origen_form) }}
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+   {{ parent() }}
+   <script type="text/javascript" src="/js/origen.js"></script>
+{% endblock %}

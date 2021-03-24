@@ -1,0 +1,320 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdoPool ficha del conjunto datos{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+     <link rel="stylesheet" href="/theme/libraries/datatables/css/jquery.dataTables.css">
+     <link rel="stylesheet" href="/theme/libraries/datatables/css/jquery.dataTables.min.css">  
+{% endblock %}
+{% block body %}
+<div class="container" style="display:{{ permisoEdicion }}">
+    <input type="hidden" id="muestraError" value="{{ muestraError }}"/>
+    <input type="hidden" id="urlworkflow" value="{{ urlworkflow }}"/>
+    <div class="row">
+        <div class="col col-12">
+            <div class="wrapCol">
+                 <div class="botones-flujo"> 
+                    <ul>
+                        <li style="display:{{ verbotonesModificacion }}">    
+                            <a href="#" onclick="javascript:MuestraFormularioEstado('Solicitar modificación','EN_ESPERA_MODIFICACION'); return 0" class="btn">Solicitar modificación</a>
+                        </li>
+                         <li style="display:{{ verbotonesPublicacion }}">    
+                            <a href="#" onclick="javacript:MuestraFormularioEstado('Solicitar publicación','EN_ESPERA_PUBLICACION'); return 0" class="btn">Solicitar publicación</a>
+                        </li>
+                         <li style="display:{{ verbotonesAdminValidar }}">     
+                            <a href="#" onclick="javascript:MuestraFormularioEstado('Validar','VALIDADO');" class="btn">Validar</a>
+                        </li>
+                        <li style="display:{{ verbotonesAdminDesechar }}">    
+                            <a href="#" onclick="javascript:MuestraFormularioEstado('Desechar','DESECHADO');" class="btn">Desechar</a>
+                        </li>
+                        <li style="display:{{ verbotonesAdminCorregir }}">    
+                            <a href="#" onclick="javascript:MuestraFormularioEstado('Corregir','EN_CORRECCION');" class="btn">Corregir</a>
+                        </li>
+                         <li style="display:{{ verEditar }}">    
+                            <a href="{{ editLink }}"class="btn">Editar</a>
+                        </li>
+                        <li style="display:block">    
+                            <a href="/asistentecamposdatos" class="btn">Volver al listado</a>
+                        </li>
+                    </ul>
+                </div>
+                {% if data | length > 0 %}
+                    <div class="header-resource">
+                        <div class="tipo">
+                            <span class="estado {{data.estadoKey}}"></span>
+                            <span>{{ data.estado }}</span>
+                        </div>
+                        <div class="h1-container">
+                            <h1>Nombre del conjunto de Datos</h1>
+                        </div>
+                    </div>
+                    <div class="contenido">
+                        <div class="grupo grupo-descripcion">
+                            <p class="titulo-principal">Descripción del conjunto de datos - contenido de los datos</p>
+                            <div class="form-row">
+                                <div class="col col-12 col-md-3">
+                                    <label for="identificador">Identificador</label>
+                                    <input type="text" name="identificador" id="identificador" value="{{ data.identificador }}" class="text big" readonly>
+                                </div>
+                                <div class="col col-12 col-md-6">
+                                    <label for="identificador">Denominación</label>
+                                    <input type="text" name="identificador" id="identificador" value="{{ data.denominacion }}" class="text big" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="descripcionContenido">Descripción</label>
+                                <textarea name="descripcionContenido" id="descripcionContenido" cols="30" rows="10" readonly>{{ data.descripcion }}</textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="col col-12 col-md-6">
+                                    <label for="frecuenciaActulizacion">Frecuencia de actualización</label>
+                                    <input type="text" name="frecuencia" id="frecuencia" value="{{ data.frecuencia }}" class="text big" readonly>
+                                </div>
+                                <div class="col col-12 col-md-3">
+                                    <label for="fechaInicio">Fecha inicio</label>
+                                    <input type="text" name="fechaInicio" id="fechaInicio" value="{{ data.fechaInicio }}" class="text big" readonly>
+                                </div>
+                                <div class="col col-12 col-md-3">
+                                    <label for="fechaFinal">Fecha fin</label>
+                                    <input type="text" name="fechaFin" id="fechaFin" value="{{ data.fechaFin }}" class="text big" readonly>
+                                </div>
+                            </div>
+                            {% if data.instancias|length > 0 %}
+                                <div class="form-group">
+                                    <label for="txtTags" id="lblEtiquetas">Instacias</label>
+                                    <div class="autocompletar">
+                                        <span class="contenedor">
+                                            {% for instacia in data.instancias %}
+                                                <div class="tag" title="{{ instacia }}">
+                                                    <div>
+                                                        {{ instacia }}
+                                                    </div>
+                                                    <input type="text" value="{{ instacia }}">
+                                                </div>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                    <input type="hidden" id="txtTagsEnlaces">
+                                </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label for="organoresponsable">Organo responsable</label>
+                                <input type="text" name="organo" id="organo" value="{{ data.organo }}" class="text big" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="organoresponsable">Condiciones de uso</label>
+                                <input type="text" name="condiciones" id="condiciones" value="{{ data.condiciones }}" class="text big" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="organoresponsable">Finalidad</label>
+                                <input type="text" name="finalidad" id="finalidad" value="{{ data.finalidad }}" class="text big" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="organoresponsable">Licencias</label>
+                                <input type="text" name="licencias" id="licencias" value="{{ data.licencias }}" class="text big" readonly>
+                            </div>
+                        {% if data.vocabularios|length > 0 %}
+                                <div class="form-group">
+                                    <label for="txtTags" id="lblEtiquetas">Vocabularios</label>
+                                    <div class="autocompletar">
+                                        <span class="contenedor">
+                                            {% for vocabulario in data.vocabularios %}
+                                                <div class="tag" title="{{ vocabulario }}">
+                                                    <div>
+                                                        {{ vocabulario }}
+                                                    </div>
+                                                    <input type="text" value="{{ vocabulario }}">
+                                                </div>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                    <input type="hidden" id="txtTagsEnlaces">
+                                </div>
+                            {% endif %}
+                            {% if data.servicios|length > 0 %}
+                                <div class="form-group">
+                                    <label for="txtTags" id="lblEtiquetas">Servicios</label>
+                                    <div class="autocompletar">
+                                        <span class="contenedor">
+                                            {% for servicio in data.servicios %}
+                                                <div class="tag" title="{{ servicio }}">
+                                                    <div>
+                                                        {{ servicio }}
+                                                    </div>
+                                                    <input type="text" value="{{ servicio }}">
+                                                </div>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                    <input type="hidden" id="txtTagsEnlaces">
+                                </div>
+                            {% endif %}         
+                            <div class="form-group">
+                                <label for="estructura">Estructura</label>
+                                <textarea name="estructura" id="estructura" cols="30" rows="10" readonly>{{ data.estructura }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="estructura">Denominación y orden de aspectos formales como las instancias o entidades que ofrece</label>
+                                <textarea name="estructuraDenominacion" id="estructuraDenominacion" cols="30" rows="10" readonly>{{ data.estructuraDenominacion }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="formatos">Formatos posibles</label>
+                                <textarea name="formatos" id="formatos" cols="30" rows="10" readonly>{{ data.formatos }}</textarea>
+                            </div>
+                            {% if data.etiquetas|length > 0 %}
+                                <div class="form-group">
+                                    <label for="txtTags" id="lblEtiquetas">Etiquetas</label>
+                                    <div class="autocompletar">
+                                        <span class="contenedor">
+                                            {% for etiqueta in data.etiquetas %}
+                                                <div class="tag" title="{{ etiqueta }}">
+                                                    <div>
+                                                        {{ etiqueta }}
+                                                    </div>
+                                                    <input type="text" value="{{ etiqueta }}">
+                                                </div>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                    <input type="hidden" id="txtTagsEnlaces">
+                                </div> 
+                        {% endif %}  
+                       
+                        {% if tableAlineacion |length > 0 %} 
+                                <div class="grupo grupo-tabla tablaScrool">
+                                    <p class="titulo-principal">Alineación de datos con el EI2A</p>
+                                    <label>Entidad principal</label>
+                                    <input type="text" name="finalidad" id="finalidad" value="{{ ontologia }}" class="text big" readonly>
+                                    <table class="table display" width="100%">
+                                        <thead>
+                                            <tr>   
+                                                <th>Nombre Campo</th>
+                                                <th>Nombre Entidad secundaria</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for key, value in tableAlineacion %}
+                                                <tr>
+                                                <td><span>{{ key }}</span></td>
+                                                <td><span>{{ value }}</span></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                        {% if table.campos |length > 0 %}
+                            <div class="grupo grupo-descripcion tablaScrool">
+                                <p class="titulo-principal">Descripción del conjunto de datos - contenido de los datos</p>
+                                <table id="grid" class="table display" width="100%">
+                                    <thead>
+                                        <tr>   
+                                        {% for key , campo  in table.campos %}
+                                            <th> {{ campo }} </th>
+                                        {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for fila in table.filas %}
+                                        <tr>
+                                            {% for campo in fila %}
+                                                <td><span>{{ campo }}</span></td>
+                                            {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+               
+            </div>
+        </div>
+    </div>
+<div>
+<div class="modal fade" id="camposErrormodal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aviso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if camposDistintos %}
+                    <p>La estructura de campos actual, respecto a la que se aprobó ha cambiado</p>
+                    <p> Campos Aprobados: </p>
+                    <ul>
+                        {% for campo in camposAprobados %}
+                            <li>
+                                {{ campo }}
+                            </li>
+                        {% endfor %}
+                    </ul>                                                                            
+                    <p> Campos Actuales: </p>  
+                    <ul>
+                        {% for campo in camposActuales %}
+                            <li>
+                                {{ campo }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if not errorProceso is empty %}
+                    <p>Error en la compobación y extración de datos:</p>
+                    <p>{{ errorProceso }}</p>
+                {% endif %}
+
+                <input class="btn primary" type="button" value="Aceptar" data-dismiss="modal">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade formulario" id="formularioPublicacion" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Gestion de estado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body"  >
+                <form method="post" id="formulariodatos">
+                    <div class="fieldset fieldset01">
+                        <fieldset class="mediumLabels">
+                            <legend id="tituloPopUp">Solicitar publicación</legend>
+                            <h2>Notas acerca del cambio de estado</h2>
+                                <div style="padding-left: 20px;"><div>
+                                    <div class="form-group">
+                                        <label for="estructura">Mensaje sobre el cambio de  estado</label>
+                                        <textarea id="descripcion" name="descripcion" placeholder="Escriba estructura de los datos" spellcheck="true"></textarea>
+                                        <p>Puede comentar aquí lo que desee acerca del cambio de estado. 
+                                           Esta información se enviará adjunta en el email de aviso.
+                                           Si la solictuid  </p>
+                                        <input type="hidden" id="estado" name="estado">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div>
+                            <input class="btn primary" type="submit" value="Aceptar">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+   {{ parent() }}
+    <script type="text/javascript" src="/theme/libraries/datatables/js/jquery.dataTables.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/theme/libraries/datatables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/ficha.js"></script>
+{% endblock %}

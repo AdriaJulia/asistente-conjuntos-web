@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado - Aragon Open Data{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+     <link rel="stylesheet" href="/theme/libraries/datatables/css/jquery.dataTables.css">
+     <link rel="stylesheet" href="/theme/libraries/datatables/css/jquery.dataTables.min.css">  
+{% endblock %}
+
+{% block body %}
+<div class="buscador">
+        <div class="container">
+            <div class="row">
+                <div class="col col-12 col-md-3">
+                    <select name="table-filter" id="table-filter">
+                        <option value="TODOS">Todos</option>
+                        <option value="BORRADOR">En borrador</option>
+                        <option value="EN_ESPERA">En espera de validación</option>
+                        <option value="VALIDADO">Validado</option>
+                        <option value="EN_CORRECCION">En corrección</option>
+                        <option value="DESECHADO">Desechado</option>
+                    </select>
+                </div>
+                <div class="col col-12 col-md-6">
+                    <span class="lupa"></span>
+                    <input type="text" name="search" id="search" placeholder="Buscar...">
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="container">
+    <div class="row">
+        <div class="col col-12 col-contenido">
+            <div class="wrapCol">
+                <div class="header-contenido">
+                    <div class="h1-container">
+                        <h1>
+                            Listado banco de datos
+                            <span class="numResultados">({{ totalElementos }})</span>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <table id="grid" class="table display" width="100%">
+                <thead>
+                    <tr>
+                        <th class="th-estado">Estado</th>
+                        <th class="th-dato">Conjunto de datos</th>
+                        <th class="th-fecha">Creación</th>
+                        <th class="th-fecha">Modificación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if totalElementos > 0 %}
+                        {% for descripcion in descripcionDatos %}
+                            <tr>
+                                <td class="td-estado">
+                                    <span class="estado {{descripcion.estadoKey}}"></span>
+                                    <span>{{descripcion.estadoDescripcion}}</span>
+                                </td>
+                                <td class="td-dato">
+                                    <a href="{{descripcion.link}}">{{descripcion.descripcion }}</a>
+                                </td>
+                                <td class="td-fecha">{{descripcion.fechaInicio}}</td>
+                                <td class="td-fecha">{{descripcion.fechaFin}}</td>
+                            </tr>
+                        {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>    
+    </div>  
+</div>     
+{% endblock %}
+{% block javascripts %}
+   {{ parent() }}
+    <script type="text/javascript" src="/theme/libraries/datatables/js/jquery.dataTables.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/theme/libraries/datatables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/grid.js"></script>
+{% endblock %}

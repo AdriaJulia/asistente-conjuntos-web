@@ -1,0 +1,127 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xmlns:og="http://ogp.me/ns#">
+<head>
+   
+    <title>{% block title %} - Aragon Open Data{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="robots" content="noindex,nofollow">
+    {% block stylesheets %}
+
+        <!-- FUENTES -->
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700&display=swap" rel="stylesheet">
+        <!-- MATERIAL ICONS -->
+        <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&amp;op0ubx" media="all" />
+
+        <!-- FONT AWESOME
+        <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet"> -->
+
+        <!-- BOOTSTRAP 4 + PROPELLER -->
+        <link href="{{ asset('theme/libraries/bootstrap/bootstrap.min.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('theme/libraries/propeller/css/propeller.min.css') }}" type="text/css" rel="stylesheet" />
+
+        <!-- LIGHTGALLERY -->
+        <link href="{{ asset('theme/libraries/lightgallery/css/lightgallery.min.css') }}" type="text/css" rel="stylesheet" />
+        <!-- PERSONALIZACION TEMA -->
+        <link href="{{ asset('theme/theme.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('theme/theme2.css') }}" type="text/css" rel="stylesheet" />
+
+    {% endblock %}
+</head>
+
+<body class="{{ ClassBody }}" cz-shortcut-listen="true">
+
+<header id="header">
+	<div class="container-fluid">
+		<div class="row">
+            <div class="col borde">
+                <div class="izq"></div>
+                <div class="centro"></div>
+                <div class="der"></div>
+            </div>
+			<div class="col col01">
+				<div class="logo-wrapper">
+					<a href="/asistentecamposdatos">
+                        <img class="logo-corporativo" src="/theme/resources/logotipos/logo.png" alt="Aragon Open Data">
+                    </a>
+				</div>
+			</div>
+			<div class="col col02">
+				<ul>
+                    <li class="active"><a href="{{ urlCrear }}">Crear</a></li>
+                    <li><a href="{{ urlAyuda }}">Ayuda</a></li>
+                    {% if not urlMenu is empty %}
+                       <li><a href="{{ urlMenu }}">Salir</a></li>  
+                    {% endif %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</header>
+
+<main role="main">
+    {% include 'flash_messages.html.twig' %}
+    {% block body %}{% endblock %}
+</main><!-- /.container -->
+<div id="loadingDiv" class="loader"></div>
+<div class="modal fade" id="accesoDenegado" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aviso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Acceso denegado para la edición del origen de datos</p>
+                <input id="botonCerrraAccesoDenegado" href="#" class="btn primary" type="button" value="Aceptar" data-dismiss="modal">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mascara"></div>
+<div class="pmd-sidebar-overlay"></div>
+<div id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col col-12 col-md-4 col-logo">
+            </div>
+            <div class="col col-12 col-md-8 col-enlaces">
+                <ul>
+                    <li>
+                        <a href="javascript: void(0);">Aviso legal</a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);">Política de privacidad y cookies</a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);">Seguridad</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+{% block javascripts %}
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins)  -->
+    <script src="http://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=" crossorigin="anonymous"></script>
+  
+
+    <!-- BOOTSTRAP 4 + PROPELLER -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="/theme/libraries/bootstrap/bootstrap.min.js"></script>
+    <script src="/theme/libraries/propeller/js/propeller.js"></script>
+
+
+     <!-- PERSONALIZACION TEMA -->
+    <script type="text/javascript" src="/theme/theme.js"></script>
+    <script type="text/javascript" src="/theme/theme2.js"></script>
+{% endblock %}
+</body>
+</html>
