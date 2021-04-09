@@ -41,11 +41,22 @@ class OrigenDatosManager
         $errorProceso = null;
         $campos = "";
         $request = $this->ra->getDatosFichaId($id,$sesion);
-        if ($request['statusCode']==200) {
-            $datos = $request['data']['data'];
-            $campos = $request['data']['campos'];
-            $errorProceso =  $request['data']['error_proceso']; 
-        } 
+        if (isset($request)) {
+            if ($request['statusCode']==422) {
+                $datos = array();
+                $campos = array();
+                $errorProceso =  $request['data']; 
+            } else {
+                $datos = $request['data']['data'];
+                $campos = $request['data']['campos'];
+                $errorProceso =  $request['data']['error_proceso']; 
+            }
+
+        } else {
+            $datos = array();
+            $campos = array();
+            $errorProceso =  "Error al procesar los datos de la ficha."; 
+        }
         return [$datos, $campos, $errorProceso];
     }
 

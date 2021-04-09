@@ -191,6 +191,16 @@ class RestApiClient
         if ($statusCode==401){
             return array('data'=>$content,'statusCode'=>$statusCode);
         } 
+        if ($statusCode>=422) {
+            $headers = $response->getInfo()['response_headers'];
+            $error = "Error al procesar el archivo";
+            foreach($headers as $head){
+                if (str_contains($head,"error_proceso")){
+                    $error = explode(":",$head)[1];
+                }
+            }
+            return array('data'=>$error ,'statusCode'=>$statusCode);
+        }
         // $statusCode = 200
         $contentType = $response->getHeaders()['content-type'][0];
         // $contentType = 'application/json'
