@@ -20,8 +20,11 @@ $('#table-filter').change(function() {
       case 'BORRADOR':
           value = 'En borrador';
           break;
-      case 'EN_ESPERA':
-          value = 'En espera de validación';
+      case 'EN_ESPERA_PUBLICACION':
+            value = 'En espera validación';
+            break;
+      case 'EN_ESPERA_MODIFICACION':
+          value = 'En espera modificación';
           break;
       case 'VALIDADO':
           value = 'Validado';

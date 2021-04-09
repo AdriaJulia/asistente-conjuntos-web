@@ -91,7 +91,7 @@ class AlineacionDatosFormProcessor
                 if ($omitir || $guardar) {
                     $descripcionDatos = $this->descripcionDatosManager->find($idDescripcion,$request->getSession());
                     $descripcionDatos->setSesion($request->getSession()->getId());
-                    $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
+                    $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION);
                     $descripcionDatos->setDescripcion("");
                     $this->descripcionDatosManager->saveWorkflow($descripcionDatos,$request->getSession()); 
                 } 

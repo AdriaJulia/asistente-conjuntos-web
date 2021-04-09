@@ -76,27 +76,27 @@ class ToolController
         switch ($estado) {
              case EstadoDescripcionDatosEnum::BORRADOR:
                  $estadoDescripcion = "En borrador";
-                 $estadoKey = "borrador";
+                 $estadoKey = EstadoDescripcionDatosEnum::BORRADOR;
                  break;
              case EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION:
                  $estadoDescripcion = "En espera validación";
-                 $estadoKey = "espera publicacion";
+                 $estadoKey = EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION;
                  break;
              case EstadoDescripcionDatosEnum::EN_ESPERA_MODIFICACION:
-                 $estadoDescripcion = "En espera validación";
-                 $estadoKey = "espera modificacion";
+                 $estadoDescripcion = "En espera modificación";
+                 $estadoKey = EstadoDescripcionDatosEnum::EN_ESPERA_MODIFICACION;
                  break;
              case EstadoDescripcionDatosEnum::VALIDADO:
                  $estadoDescripcion = "Validado";
-                 $estadoKey = "validado";
+                 $estadoKey = EstadoDescripcionDatosEnum::VALIDADO;
                  break;
              case EstadoDescripcionDatosEnum::DESECHADO:
                  $estadoDescripcion = "Desechado";
-                 $estadoKey = "desechado";
+                 $estadoKey = EstadoDescripcionDatosEnum::DESECHADO;
                  break; 
              case EstadoDescripcionDatosEnum::EN_CORRECCION:
                  $estadoDescripcion = "En corrección";
-                 $estadoKey = "correccion";
+                 $estadoKey = EstadoDescripcionDatosEnum::EN_CORRECCION;
                  break;                  
              default:
                  $estadoDescripcion = "En borrador";
@@ -185,7 +185,7 @@ class ToolController
                 $esAdminitrador = ($usurioActual->getExtraFields()['roles'] == "ROLE_ADMIN");
         }else{
             $usuario =  "MOCKSESSID";
-            $esAdminitrador = true;
+            $esAdminitrador = false;
         }
         return  [$usuario , $esAdminitrador ] ;
     }
@@ -198,7 +198,7 @@ class ToolController
      *             usurioActual:  usuario actual
      *             usuariodatos:  usuario de los datos           
      */
-    public  function DamePermisoUsuarioActual($usurioActual, $usuariodatos) : string {
+    public  function DamePermisoUsuarioActual($usuariodatos,$usurioActual) : string {
         [$usuario , $esAdminitrador ] = $this->DameUsuarioActual($usurioActual);
         $permisoEdicion = (($esAdminitrador) || ($usuario == $usuariodatos)) ? "block" : "none";
         return $permisoEdicion; 
@@ -213,7 +213,7 @@ class ToolController
      *             usuariodatos:  usuario de los datos
      *             estado:        estado de los datos             
      */
-    public  function DamePermisoUsuarioActualEstado($usurioActual, $usuariodatos, $estado) : string {
+    public  function DamePermisoUsuarioActualEstado( $usuariodatos,$usurioActual,$estado) : string {
 
         [$usuario , $esAdminitrador ] = $this->DameUsuarioActual($usurioActual);
         $permisoEdicion = ($estado == EstadoDescripcionDatosEnum::BORRADOR  || $estado == EstadoDescripcionDatosEnum::EN_CORRECCION) ? "block" : "none";

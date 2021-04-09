@@ -31,6 +31,9 @@ $("#borrarArchivoActual").on("click", function(e){
 $(function() {
     $("input:file").change(function (){
         $("#archivoActual").attr("style","display:none");
+        $("#archivoCargado").attr("style","display:block");
+        $('#archivoCargado > table > tbody > tr > td').text($("#selectorarchivo > input").val().replace(/C:\\fakepath\\/i, ''))
+        $("#lineaArchivoActual").attr("style","display:none");
         $("input[class=rounded]").attr("style","display:revert"); 
         $("div[class=ok]").attr("style","display:none"); 
         $("div[class=ko]").attr("style","display:none");
@@ -38,6 +41,7 @@ $(function() {
 });
 
 $(document).ready(function() {
+    $("#archivoCargado").attr("style","display:none");
     if ($(".container").attr("style") == "display:none") {
         $("#accesoDenegado").modal("show");
         $("#botonCerrraAccesoDenegado").bind("click", function() { 
@@ -45,7 +49,7 @@ $(document).ready(function() {
         });
     } else {
         if ($("#lineaArchivoActual").text() !== "") {
-        $("input[class=rounded]").attr("style","display:none");        
+            $("input[class=rounded]").attr("style","display:none");        
         }
         $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
     }
