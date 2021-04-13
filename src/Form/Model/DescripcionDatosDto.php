@@ -33,6 +33,7 @@ class DescripcionDatosDto {
     public $estado;
     public $estadoAlta;
     public $territorios;
+
     public function __construct()
     {
         $this->territorios =  array();
@@ -53,7 +54,7 @@ class DescripcionDatosDto {
         $dto->instancias = $descripcionDatos->getInstancias();
         $dto->organoResponsable = $descripcionDatos->getOrganoResponsable();
         $dto->finalidad = $descripcionDatos->getFinalidad();
-        $dto->condiciones = $descripcionDatos->getCondiciones();
+        $dto->condiciones = "";
         $dto->vocabularios = $descripcionDatos->getVocabularios();
         $dto->formatos = $descripcionDatos->getFormatos();
         $dto->servicios = $descripcionDatos->getServicios();

@@ -5,7 +5,6 @@ namespace App\Service\RestApiRemote;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
-use Symfony\Component\HttpFoundation\Session\Session;
 
  /*
  * Descripción: Clase que realiza las llamadas a otras Apirest de 3º como la del gobierno de Aragón  para 
@@ -22,51 +21,6 @@ class RestApiClient
         $this->params = $params;
     }
     
-    /*
-     * Descripción: Devuelve las ontologias principales del paso3
-    */  
-    public function GetOntologias():array {
-       $Ontologiasview = array();
-       $Ontologiasview["Hoteles"] = "http://opendata.aragon.es/def/ei2a/categorization#hoteles";
-       $Ontologiasview["Museos"] = "http://opendata.aragon.es/def/ei2a/categorization#museos";
-       $Ontologiasview["Ayuntamientos"] = "http://opendata.aragon.es/def/ei2a/categorization#ayuntamientos";
-       $organismosview["Paradores"] = "http://opendata.aragon.es/def/ei2a/categorization#paradores";
-       ksort($organismosview);
-       return $Ontologiasview;
-    }
-
-    /*
-     * Descripción: Devuelve las ontologias segundarías principales del paso3
-     * 
-     * Parametros: ontologia principal  
-    */ 
-    public function GetOntologia($ontologia):array {
-        $Ontologiasview = array();
-        if ($ontologia=="http://opendata.aragon.es/def/ei2a/categorization#hoteles") {
-            $Ontologiasview["localidad"] = "http://opendata.aragon.es/def/ei2a/categorization#localidad";
-            $Ontologiasview["direccion"] = "http://opendata.aragon.es/def/ei2a/categorization#direccion";
-            $Ontologiasview["telefono"] = "http://opendata.aragon.es/def/ei2a/categorization#telefono";
-            $organismosview["reservas"] = "http://opendata.aragon.es/def/ei2a/categorization#reservas";
-        } else if ($ontologia=="http://opendata.aragon.es/def/ei2a/categorization#museos") {
-            $Ontologiasview["localidad"] = "http://opendata.aragon.es/def/ei2a/categorization#localidad";
-            $Ontologiasview["tematica"] = "http://opendata.aragon.es/def/ei2a/categorization#tematica";
-            $Ontologiasview["horarios"] = "http://opendata.aragon.es/def/ei2a/categorization#horarios";
-            $organismosview["visitas"] = "http://opendata.aragon.es/def/ei2a/categorization#visitas";
-        } else if ($ontologia=="http://opendata.aragon.es/def/ei2a/categorization#ayuntamientos") {
-            $Ontologiasview["localidad"] = "http://opendata.aragon.es/def/ei2a/categorization#localidad";
-            $Ontologiasview["alcalde"] = "http://opendata.aragon.es/def/ei2a/categorization#alcalde";
-            $Ontologiasview["numero_concejales"] = "http://opendata.aragon.es/def/ei2a/categorization#numero_concejales";
-            $organismosview["partido_politico"] = "http://opendata.aragon.es/def/ei2a/categorization#partido_politico";
-        } else {
-            $Ontologiasview["ubicacion"] = "http://opendata.aragon.es/def/ei2a/categorization#ubicacion";
-            $Ontologiasview["capacidad"] = "http://opendata.aragon.es/def/ei2a/categorization#capacidad";
-            $Ontologiasview["parking"] = "http://opendata.aragon.es/def/ei2a/categorization#parking";
-            $organismosview["zona_verde"] = "http://opendata.aragon.es/def/ei2a/categorization#zona_verde";
-        }
-        ksort($organismosview);
-        return $Ontologiasview;
-     }
-
     /*
      * Descripción: Devuelve las organismos públicos del paso 1.2
      * 

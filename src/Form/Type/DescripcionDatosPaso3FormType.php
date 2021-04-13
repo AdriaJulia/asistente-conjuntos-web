@@ -26,32 +26,35 @@ class DescripcionDatosPaso3FormType extends AbstractType
                     "class" => "form-group"
                 ],
                 "attr"=>[
-                    'placeholder' => 'Escriba estructura de los datos',
+                    'placeholder' => 'Escribe un texto detallado...',
                     "spellcheck"=>"true"
                 ],
-                'required' => false
+                'required' => false,
+                'help' => 'Introduce un resumen sobre como se encuentran estructurados los datos.'
             ])
             ->add('estructuraDenominacion', TextareaType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                 ],
                 "attr"=>[
-                    'placeholder' => 'Escriba denominación de los datos',
+                    'placeholder' => 'Escribe un texto detallado...',
                     "spellcheck"=>"true"
                 ],
                 'required' => false,
-                 'label'=>'Denominación y orden de aspectos formales como las instancias o entidades que ofrece'
+                 'label'=>'Denominación y orden de aspectos formales como las instancias o entidades que ofrece',
+                 'help' => 'Introduce una breve descripción sobre la granularidad de los datos.'
              ])
             ->add('formatos', TextareaType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                 ],
                 "attr"=>[
-                    'placeholder' => 'Escriba formato de los datos',
+                    'placeholder' => 'Escribe un texto detallado...',
                     "spellcheck"=>"true"
                 ],
                 'required' => false,
-                'label'=>'Formatos posibles'
+                'label'=>'Formatos disponibles',
+                'help' => 'Introduce una breve descripción sobre los formatos.'
             ])
             ->add('etiquetas', TextType::class,[
                 "row_attr" => [
@@ -61,10 +64,11 @@ class DescripcionDatosPaso3FormType extends AbstractType
                 "attr"=>[
                     'id' => 'inputetiquetas',
                     'data-role' => 'tagsinput',
-                    'placeholder' => 'Inserte etiqueta y pulse enter'
+                    'placeholder' => 'Inserta un TAG y pulsa ENTER...'
                 ],
                 "required" => false,
-                'label'=>'Etiquetas'
+                'label'=>'Etiquetas',
+                'help' => 'Introduce el texto y pulsa ENTER para añadir uno.'
             ]);
     }
 

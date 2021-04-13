@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Form\Type;
-
-use App\Service\RestApiRemote\RestApiClient;
+use App\Service\Processor\Tool\OntologiasAlineacionTool;
 use App\Form\Type\EntidadesCampoType;
 use App\Form\Model\AlineacionDatosDto;
 use Symfony\Component\OptionsResolver\Options;
@@ -21,10 +20,10 @@ use Symfony\Component\Validator\Constraints\Callback;
 class AlineacionDatosFormType extends AbstractType
 {
 
-    private $clientHttprest;
+    private $ontologiasAlineacionTool;
 
-    function __construct(RestApiClient $clientHttprest){
-        $this->clientHttprest = $clientHttprest;
+    function __construct(OntologiasAlineacionTool $ontologiasAlineacionTool){
+        $this->ontologiasAlineacionTool = $ontologiasAlineacionTool;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -46,13 +45,13 @@ class AlineacionDatosFormType extends AbstractType
                 "row_attr" => [
                     "class" => "form-group"
                 ],   
-                'choices' => $this->clientHttprest->GetOntologias(),
+                'choices' => $this->ontologiasAlineacionTool->GetOntologias(),
                 'attr' => [
                     'class' => 'select big',
                     'onchange' => ''
                 ],
-                'placeholder' => 'Seleccione una entidad...',
-                'help'=>'Por favor, indica la entidad con la que quieres relacionar tu origen de datos,',
+                'placeholder' => 'Selecciona la entidad principal...',
+                'help'=>'Elige cuál es la entidad que representa tus datos principalmente y a continuación empareja tus atributos con sus propiedades. Si en tus datos tienes más entidades, que se relacionan con la principal, también puedes escogerlas en la lista desplegable disponible para cada atributo y vincular tus atributos con sus propiedades.',
                 'label' => 'Seleccione',
                 'required' => false
         ]);

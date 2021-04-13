@@ -34,7 +34,7 @@ class EntidadCampoType extends AbstractType
                       'label_attr' =>  [
                           "style" =>"display:none"
                       ],
-                     'placeholder' => 'Introduzca...',
+                     'placeholder' => 'Selecciona...',
                      'required' => false
         ]);
         $builder->add('boton', ButtonType::class, array(

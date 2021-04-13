@@ -31,7 +31,7 @@ class SoporteFormType extends AbstractType
                     'class' => 'dropdown',
                 ],
                 'placeholder' => 'Seleccione una opción...',
-                'help'=>'Indique el tipo de soporte que desea obtener',
+                'help'=>'Indique el tipo de soporte que deseas obtener',
                 'label' => 'Tipo Petición',
                 'required' => true])
             ->add('titulo', TextType::class, [
@@ -40,7 +40,7 @@ class SoporteFormType extends AbstractType
                     "spellcheck"=>"true"
                 ],
                 'attr' => [
-                    'placeholder' => 'Escriba el titulo de su solicitud',
+                    'placeholder' => 'Escribe el titulo de tu solicitud',
                 ],
                 'label' => 'Título',
                 'required' => true,
@@ -53,11 +53,11 @@ class SoporteFormType extends AbstractType
                 ],
                 'attr' => [
                     'spellcheck' => 'true',
-                    'placeholder' => 'Escriba su solicitud de soporte',
+                    'placeholder' => 'Escribe tu solicitud de soporte',
                  ],
                'required' => true,
                'label' => 'Descripción',
-               'help'=>'Detalle en que consiste el soporte que desea obtener, o incidencia , o error que ha observado para poder ayudarle' 
+               'help'=>'Detalla en que consiste la duda, incidencia o error que ha observado para poder ayudarle' 
             ])
             ->add('nombre', TextType::class, [
                 "row_attr" => [
@@ -65,11 +65,11 @@ class SoporteFormType extends AbstractType
                     "spellcheck"=>"true"
                 ],
                 'attr' => [
-                    'placeholder' => 'Escriba su nombre, para dirigirnos a usted y poder identificarle',
+                    'placeholder' => 'Escribe tu nombre',
                 ],
-                'label' => 'Su nombre',
+                'label' => 'Tu nombre',
                 'required' => true,
-                'help'=>'El administrador se dirigirá a usted, por este nombre' 
+                'help'=>'El administrador se dirigirá a ti por este nombre' 
             ])
             ->add('emailContacto', TextType::class, [
                 "row_attr" => [
@@ -77,11 +77,11 @@ class SoporteFormType extends AbstractType
                     "spellcheck"=>"true"
                 ],
                 'attr' => [
-                    'placeholder' => 'Escriba su email',
+                    'placeholder' => 'Escribe tu email',
                 ],
                 'label' => 'Email de contacto',
                 'required' => true,
-                'help'=>'El administrador se pondrá en contacto con usetes a traves de este correo' 
+                'help'=>'El administrador se pondrá en contacto contigo a través de este correo' 
             ])
             ->add('emailContacto2', TextType::class, [
                 "row_attr" => [
@@ -89,11 +89,11 @@ class SoporteFormType extends AbstractType
                     "spellcheck"=>"true"
                 ],
                 'attr' => [
-                    'placeholder' => 'Escriba su email otra vez',
+                    'placeholder' => 'Escribe tu email otra vez',
                 ],
-                'label' => 'Confirmanacion Email de contacto',
+                'label' => 'Confirmar email de contacto',
                 'required' => true,
-                'help'=>'Confirme su email de contacto' 
+                'help'=>'Confirma tu email de contacto' 
             ]);
     }
 

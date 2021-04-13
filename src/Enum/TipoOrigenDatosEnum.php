@@ -8,9 +8,9 @@ namespace App\Enum;
 class TipoOrigenDatosEnum {
 
   private static $types = [
-      'ARCHIVO' => self::ARCHIVO,
+      'Archivo' => self::ARCHIVO,
       'URL' => self::URL,
-      'BASEDATOS' => self::BASEDATOS,
+      'Base de datos' => self::BASEDATOS,
     ];
 
   const ARCHIVO = "file";

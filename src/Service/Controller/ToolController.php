@@ -75,32 +75,32 @@ class ToolController
         $estadoDescripcion= "";
         switch ($estado) {
              case EstadoDescripcionDatosEnum::BORRADOR:
-                 $estadoDescripcion = "En borrador";
-                 $estadoKey = EstadoDescripcionDatosEnum::BORRADOR;
+                 $estadoDescripcion = "Borrador";
+                 $estadoKey = EstadoDescripcionDatosEnum::BORRADOR_KEY;
                  break;
              case EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION:
-                 $estadoDescripcion = "En espera validación";
-                 $estadoKey = EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION;
+                 $estadoDescripcion = "En espera de validación";
+                 $estadoKey = EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION_KEY;
                  break;
              case EstadoDescripcionDatosEnum::EN_ESPERA_MODIFICACION:
-                 $estadoDescripcion = "En espera modificación";
-                 $estadoKey = EstadoDescripcionDatosEnum::EN_ESPERA_MODIFICACION;
+                 $estadoDescripcion = "Solicitud de modificación";
+                 $estadoKey = EstadoDescripcionDatosEnum::EN_ESPERA_MODIFICACION_KEY;
                  break;
              case EstadoDescripcionDatosEnum::VALIDADO:
                  $estadoDescripcion = "Validado";
-                 $estadoKey = EstadoDescripcionDatosEnum::VALIDADO;
+                 $estadoKey = EstadoDescripcionDatosEnum::VALIDADO_KEY;
                  break;
              case EstadoDescripcionDatosEnum::DESECHADO:
                  $estadoDescripcion = "Desechado";
-                 $estadoKey = EstadoDescripcionDatosEnum::DESECHADO;
+                 $estadoKey = EstadoDescripcionDatosEnum::DESECHADO_KEY;
                  break; 
              case EstadoDescripcionDatosEnum::EN_CORRECCION:
                  $estadoDescripcion = "En corrección";
-                 $estadoKey = EstadoDescripcionDatosEnum::EN_CORRECCION;
+                 $estadoKey = EstadoDescripcionDatosEnum::EN_CORRECCION_KEY;
                  break;                  
              default:
-                 $estadoDescripcion = "En borrador";
-                 $estadoKey = "borrador";
+                 $estadoDescripcion = "Borrador";
+                 $estadoKey = EstadoDescripcionDatosEnum::BORRADOR_KEY;
                  break;
          }
          return[$estadoKey, $estadoDescripcion];

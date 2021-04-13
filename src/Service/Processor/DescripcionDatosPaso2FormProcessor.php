@@ -50,7 +50,9 @@ class DescripcionDatosPaso2FormProcessor
                //recojo los datos del formulario
             $descripcionDatos->setOrganoResponsable($descripcionDatosDto->organoResponsable);
             $descripcionDatos->setFinalidad($descripcionDatosDto->finalidad);
-            $descripcionDatos->setCondiciones($descripcionDatosDto->condiciones);
+            //$descripcionDatos->setCondiciones($descripcionDatosDto->condiciones);
+            //se quita erl campo ya que se unifica con licencias se deja por posible retoma
+            $descripcionDatos->setCondiciones("");
             $descripcionDatos->setLicencias($descripcionDatosDto->licencias);
             $descripcionDatos->setVocabularios($descripcionDatosDto->vocabularios);
             $descripcionDatos->setServicios($descripcionDatosDto->servicios);

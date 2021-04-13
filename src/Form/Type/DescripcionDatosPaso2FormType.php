@@ -14,7 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints\Callback;
 /*
  * Descripción: Es clase la que define el formulario paso 1.2 de la descripcion de los datos de los datos          
  */
@@ -40,11 +41,12 @@ class DescripcionDatosPaso2FormType extends AbstractType
                 'attr' => [
                     'class' => 'dropdown'
                 ],
-                'placeholder' => 'Seleccione una opción...',
-                'required' => true,
-                'help'=>'Seleccione una organización entre las disponibles. En esta sección se muestran la organización encargada de la publicación de este conjunto de datos tal y cómo se facilitarán a los usuarios. Esta información se ha confeccionado con los datos aportados al dar de alta la organización publicadora, para modificarla utiliza la pizarra de administración de tu organización.'
+                'label' => 'Órgano responsable*',
+                'placeholder' => 'Selecciona una opción...',
+                'required' => false,
+                'help'=>'Esta información se ha confeccionado con los datos aportados al dar de alta la organización publicadora, para modificarla utiliza la pizarra de administración de tu organización.'
             ])
-            ->add('finalidad', ChoiceType::class, [
+            ->add('finalidad', ChoiceType::class, [ 
                 "row_attr" => [
                     "class" => "form-group"
                 ],
@@ -52,35 +54,38 @@ class DescripcionDatosPaso2FormType extends AbstractType
                 'attr' => [
                     'class' => 'dropdown'
                 ],
-                'placeholder' => 'Seleccione una opción...',
-                'required' => true,
-                'help'=>'Estos son los temas conforme a la Norma Técnica de Interoperabilidad: elige el que crea que se adapta mejor a la información que contiene tu conjunto de datos.'
+                'label' => 'Finalidad*',
+                'placeholder' => 'Selecciona una opción...',
+                'required' => false,
+                'help'=>'Elige el que creas que se adapta mejor a la información que contiene tu conjunto de datos.'
             ])
+            /*
             ->add('condiciones', TextType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                 ],
                 'attr' => [
-                    'placeholder' => 'Escriba condiciones de uso de los datos',
+                    'placeholder' => 'Escribe el texto',
                     "spellcheck"=>"true"
                 ],
                 'label' => 'Condiciones de uso',
                 'required' => false,
                 'help'=>''
-            ])
+           ])
+           */
             ->add('licencias', TextType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                 ],
                 'attr' => [
-                    'placeholder' => 'Escriba licencias aplicables de uso de los datos',
+                    'placeholder' => "Escribe el texto...",
                     "spellcheck"=>"true"
                 ],
-                'label' => 'Licencia tipo aplicable',
+                'label' => 'Licencia tipo aplicable y Condiciones de uso',
                 'required' => false,
                 'help_html' => true,
-                'help'=>'Para promover la máxima reutilización, en Aragón Open Data establecemos por defecto una licencia Creative Commons Attribution 4.0 según se expone en la sección <a href="http://opendata.aragon.es/terminos">Términos de uso</a>. Si tu conjunto de datos por alguna razón legal, contractual o de otro tipo no puede ser ofrecido con esta licencia escríbenos a opendata@aragon.es y la modificaremos'
-                ])
+                'help'=>'Para promover la máxima reutilización, en Aragón Open Data establecemos por defecto una licencia Creative Commons Attribution 4.0 según se expone en la sección Términos de uso. Si tu conjunto de datos por alguna razón legal, contractual o de otro tipo no puede ser ofrecido con esta licencia escríbenos a opendata@aragon.es y la modificaremos.'
+               ])
             ->add('vocabularios', TextType::class,[
                 "row_attr" => [
                     'id' => 'divvocabularios',
@@ -89,9 +94,10 @@ class DescripcionDatosPaso2FormType extends AbstractType
                 "attr"=>[
                     'id' => 'inputvocabularios',
                     'data-role' => 'tagsinput',
-                    'placeholder' => 'Inserte url y pulse enter'
+                    'placeholder' => 'Inserta una URL y pulsa ENTERr'
                 ],
-                "required" => false
+                "required" => false,
+                'help'=>'Puedes introducir una o varias URLs y pulsar ENTER para añadir cada una.'
                 ])
             ->add('servicios', TextType::class,[
                 "row_attr" => [
@@ -102,18 +108,22 @@ class DescripcionDatosPaso2FormType extends AbstractType
                 "attr"=>[
                     'id' => 'inputservicios',
                     'data-role' => 'tagsinput',
-                    'placeholder' => 'Inserte url y pulse enter',
+                    'placeholder' => 'Inserta una URL y pulsa ENTER',
                ],
                "label" => "Servicios y estándares implicados",
                "required" => false,
-               'help'=>' Si has utilizado alguna metodología para controlar la calidad de los datos este es el lugar para explicarla, por ejemplo normas ISO, normas concretas… etc Si tus metodologías de control de calidad están explicadas en un enlace externo copia aquí la dirección o direcciones.' 
+               'help'=>'Puedes introducir una o varias URLs y pulsar ENTER para añadir cada una'
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'help' => null,
             'data_class' => DescripcionDatosDto::class,
+            'constraints' => [
+                new Callback([$this, 'validate']),
+            ],
             'csrf_protection' => false
         ]);
     }
@@ -126,5 +136,19 @@ class DescripcionDatosPaso2FormType extends AbstractType
     public function getName()
     {
         return '';
+    }
+
+    public function validate($data, ExecutionContextInterface $context,$payload): void
+    {
+       if (empty($data->organoResponsable)){ 
+            $context->buildViolation('El órgano responsable no puede estar vacío')
+            ->atPath("organoResponsable")
+            ->addViolation();
+       }
+       if (empty($data->finalidad)){
+            $context->buildViolation('La finalidad no puede estar vacía')
+            ->atPath("finalidad")
+            ->addViolation();
+      }
     }
 }

@@ -18,7 +18,7 @@ use App\Enum\TipoBaseDatosEnum;
 use App\Enum\TipoOrigenDatosEnum;
 use App\Form\Model\AlineacionDatosDto;
 
-use Ramsey\Uuid\Uuid;
+use App\Service\Processor\ProcessorTool; 
 
 class AlineacionDatosManagerTest extends WebTestCase
 {
@@ -51,10 +51,8 @@ class AlineacionDatosManagerTest extends WebTestCase
         $descripcionDatosDto->fechaFin = "2021-01-31";
         $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
 
-        $uuidGenerator = Uuid::uuid4();
-   
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         

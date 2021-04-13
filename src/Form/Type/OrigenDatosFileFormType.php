@@ -32,7 +32,7 @@ class OrigenDatosFileFormType extends AbstractType
                   'data' => 'file'
             ])
             ->add('archivo', FileType::class, [
-                'label' => 'Seleccione (XML,JSON,CSV.XLS)',
+                'label' => 'Selecciona un archivo de tipo XML, JSON, CSV o XLS',
                 'row_attr' => array(
                     'style' => 'margin-bottom: 30px;',
                     "class" => "form-group",
@@ -117,7 +117,7 @@ class OrigenDatosFileFormType extends AbstractType
                     break;
             }
             if (empty($mime)) {
-                $context->buildViolation("Por favor seleccione un archivo de los formatos señados valido")
+                $context->buildViolation("Por favor, selecciona un archivo que cumpla con alguno de los formatos indicados como válidos.")
                 ->atPath('archivo')
                 ->addViolation();
             }

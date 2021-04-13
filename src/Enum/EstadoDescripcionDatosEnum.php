@@ -22,6 +22,13 @@ class EstadoDescripcionDatosEnum {
   const DESECHADO = "DESECHADO"; 
   const EN_CORRECCION = "EN_CORRECCION"; 
 
+  const BORRADOR_KEY = "borrador";
+  const EN_ESPERA_PUBLICACION_KEY = "espera"; 
+  const EN_ESPERA_MODIFICACION_KEY= "espera";
+  const VALIDADO_KEY = "validado"; 
+  const DESECHADO_KEY = "desechado"; 
+  const EN_CORRECCION_KEY = "correccion"; 
+
   public static function getValues(){
       return self::$types;
   }

@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints\Callback;
 
 /*
  * Descripción: Es clase la que define el formulario paso 1.1 de la descripcion de los datos de los datos          
@@ -38,11 +40,11 @@ class DescripcionDatosPaso1FormType extends AbstractType
                     "spellcheck"=>"true"
                 ],
                 'attr' => [
-                    'placeholder' => 'Escriba denominación de los datos',
+                    'placeholder' => 'Escribe un texto',
                 ],
-                'label' => 'Denominacion',
-                'required' => true,
-                'help'=>'Por favor, dale una denominación del conjunto de datos. El nombre que des al conjunto de datos es importante porque se convierte en su identificador.' 
+                'label' => 'Denominación*',
+                'required' => false,
+                'help'=>'Debe ser único porque se va a convertir en su identificador.' 
             ])
             ->add('descripcion', TextareaType::class, [
                 "row_attr" => [
@@ -51,10 +53,11 @@ class DescripcionDatosPaso1FormType extends AbstractType
                 ],
                 'attr' => [
                     'spellcheck' => 'true',
-                    'placeholder' => 'Escriba decripción de los datos',
+                    'placeholder' => 'Escribe un texto detallado',
                  ],
-                'help'=>'La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información. En algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles la realidad del dato.'
-               
+                'required' => false,
+                'label' => 'Descripción',
+                'help'=>'La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias, este es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información.'
             ])
             ->add('frecuenciaActulizacion', ChoiceType::class, [
                 "row_attr" => [
@@ -64,8 +67,8 @@ class DescripcionDatosPaso1FormType extends AbstractType
                 'attr' => [
                     'class' => 'dropdown',
                 ],
-                'placeholder' => 'Seleccione una opción...',
-                'help'=>'Por favor, indica la frecuencia con la que se actualiza la información del conjunto de datos,',
+                'placeholder' => 'Selecciona una opción...',
+                'help'=>'Este campo sirve para indicar con qué frecuencia (Anual, Semestral, Cuatrimestral, Trimestral, Mensual, Diaria o Instantánea) se actualiza la información aquí contenida.',
                 'label' => 'Frecuencia de actualización',
                 'required' => false])
             ->add('fechaInicio', DateType::class, [
@@ -75,11 +78,14 @@ class DescripcionDatosPaso1FormType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => [
+                    'placeholder' => 'Escoge una fecha...',
+                    'class' => 'datepicker',
                     'class' => 'datepicker',
                     'dateFormat' => 'yy-mm-dd',
                ],
-               'help'=>'Por favor, indica en este campo la fecha de inicio del periodo temporal del que contiene información tu conjunto de datos. Si tu conjunto de datos está vivo y se va refrescando a medida que pasa el tiempo, deja seleccionada la casilla de selección que aparece en la parte de "hasta…". En ese caso entenderemos que tu conjunto de datos contiene información desde la fecha que indiques hasta la actualidad.',
-               'label' => 'Fecha Inicio',
+               'help'=>'',
+               'label' => 'Fecha de inicio',
+               'placeholder' => 'Escoge una fecha...',
                'required' => false,
             ])
             ->add('fechaFin', DateType::class, [
@@ -89,12 +95,13 @@ class DescripcionDatosPaso1FormType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => [
+                    'placeholder' => 'Escoge una fecha o déjalo en blanco...',
                     'class' => 'datepicker',
                     'dateFormat' => 'yy-mm-dd',
                 ],
-                'label' => 'Fecha Fin',
+                'label' => 'Fecha final',
                 'required' => false,
-                'help'=>'Por favor, indica en este campo la fecha final del  periodo temporal del que contiene información tu conjunto de datos. Si tu conjunto de datos está vivo y se va refrescando a medida que pasa el tiempo, deja seleccionada la casilla de selección que aparece en la parte de "hasta…". En ese caso entenderemos que tu conjunto de datos contiene información desde la fecha que indiques hasta la actualidad.'
+                'help'=>'Si tu conjunto de datos está vivo y se va refrescando a medida que pasa el tiempo, deja este campo en blanco. Si has indicado una fecha de inicio, en ese caso entenderemos que tu conjunto de datos contiene información desde la fecha que indiques hasta la actualidad.'
             ])
             ->add('territorio', HiddenType::class,[
                 "row_attr" => [
@@ -107,9 +114,10 @@ class DescripcionDatosPaso1FormType extends AbstractType
                 ],
                 'label' => 'Territorio que abarcan',
                 'data' =>  $myCustomFormData,
-                'help'=>'Por favor introduce el ámbito geográfico del que tu conjunto de datos contiene información. Únicamente es posible escribir dentro de una de las opciones que se muestran y además hay que hacerlo con uno de los territorios que se da en los listados (salvo si se rellena el campo otro)',   
+                'help' => 'Selecciona el ámbito deseado y si es "Provincia", "Comarca" o "Localidad", escribe el nombre y la función de autocompletado te permitirá seleccionar el valor normalizado del que disponemos. En el caso de no encontrar el nombre requerido, introduce el valor en "Otros".'
               ]
-            )
+            );
+            /*
             ->add('instancias', TextType::class,[
                     "row_attr" => [
                         "class" => "form-group",
@@ -123,7 +131,8 @@ class DescripcionDatosPaso1FormType extends AbstractType
                 'label' => 'Instancias o entidades que representan',
                 'required' => false
                ]
-            );
+            )
+            */
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -131,6 +140,9 @@ class DescripcionDatosPaso1FormType extends AbstractType
         $resolver->setDefaults([
             'help' => null,
             'data_class' => DescripcionDatosDto::class,
+            'constraints' => [
+                new Callback([$this, 'validate']),
+            ],
             'csrf_protection' => false
         ]);
     }
@@ -143,5 +155,20 @@ class DescripcionDatosPaso1FormType extends AbstractType
     public function getName()
     {
         return '';
+    }
+
+    public function validate($data, ExecutionContextInterface $context,$payload): void
+    {
+       if (empty($data->denominacion)){
+            $context->buildViolation('La denominación no puede estar vacía')
+            ->atPath("[denominacion]")
+            ->addViolation();
+       }
+       if (empty($data->descripcion)){
+            $context->buildViolation('La descripción no puede estar vacía')
+            ->atPath("[descripcion]")
+            ->addViolation();
+       }
+
     }
 }

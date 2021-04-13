@@ -23,10 +23,10 @@
                             <a href="#" onclick="javacript:MuestraFormularioEstado('Solicitar publicación','EN_ESPERA_PUBLICACION'); return 0" class="btn">Solicitar publicación</a>
                         </li>
                          <li style="display:{{ verbotonesAdminValidar }}">     
-                            <a href="#" onclick="javascript:MuestraFormularioEstado('Validar','VALIDADO');" class="btn">Validar</a>
+                            <a href="#" onclick="javascript:MuestraFormularioEstado('Validar','VALIDADO');" class="btn">Aceptar</a>
                         </li>
                         <li style="display:{{ verbotonesAdminDesechar }}">    
-                            <a href="#" onclick="javascript:MuestraFormularioEstado('Desechar','DESECHADO');" class="btn">Desechar</a>
+                            <a href="#" onclick="javascript:MuestraFormularioEstado('Desechar','DESECHADO');" class="btn">Rechazar</a>
                         </li>
                         <li style="display:{{ verbotonesAdminCorregir }}">    
                             <a href="#" onclick="javascript:MuestraFormularioEstado('Corregir','EN_CORRECCION');" class="btn">Corregir</a>
@@ -46,21 +46,14 @@
                             <span>{{ data.estado }}</span>
                         </div>
                         <div class="h1-container">
-                            <h1>Nombre del conjunto de Datos</h1>
+                            <h1>{{ data.denominacion }}</h1>
                         </div>
                     </div>
                     <div class="contenido">
                         <div class="grupo grupo-descripcion">
-                            <p class="titulo-principal">Descripción del conjunto de datos - contenido de los datos</p>
-                            <div class="form-row">
-                                <div class="col col-12 col-md-3">
-                                    <label for="identificador">Identificador</label>
-                                    <input type="text" name="identificador" id="identificador" value="{{ data.identificador }}" class="text big" readonly>
-                                </div>
-                                <div class="col col-12 col-md-6">
-                                    <label for="identificador">Denominación</label>
-                                    <input type="text" name="identificador" id="identificador" value="{{ data.denominacion }}" class="text big" readonly>
-                                </div>
+                            <div class="form-group">
+                                <label for="identificador">Identificador</label>
+                                <input type="text" name="identificador" id="identificador" value="{{ data.identificador }}" class="text big" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="descripcionContenido">Descripción</label>
@@ -189,8 +182,8 @@
                                     <table class="table display" width="100%">
                                         <thead>
                                             <tr>   
-                                                <th>Nombre Campo</th>
-                                                <th>Nombre Entidad secundaria</th>
+                                                <th>Campo en origen</th>
+                                                <th>Atributo del EI2A</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -208,7 +201,7 @@
                         </div>
                         {% if table.campos |length > 0 %}
                             <div class="grupo grupo-descripcion tablaScrool">
-                                <p class="titulo-principal">Descripción del conjunto de datos - contenido de los datos</p>
+                                <p class="titulo-principal">Datos</p>
                                 <table id="grid" class="table display" width="100%">
                                     <thead>
                                         <tr>   
@@ -289,21 +282,18 @@
                     <div class="fieldset fieldset01">
                         <fieldset class="mediumLabels">
                             <legend id="tituloPopUp">Solicitar publicación</legend>
-                            <h2>Notas acerca del cambio de estado</h2>
                                 <div style="padding-left: 20px;"><div>
                                     <div class="form-group">
-                                        <label for="estructura">Mensaje sobre el cambio de  estado</label>
-                                        <textarea id="descripcion" name="descripcion" placeholder="Escriba estructura de los datos" spellcheck="true"></textarea>
-                                        <p>Puede comentar aquí lo que desee acerca del cambio de estado. 
-                                           Esta información se enviará adjunta en el email de aviso.
-                                           Si la solictuid  </p>
+                                        <label for="estructura">Mensaje sobre el cambio de estado</label>
+                                        <textarea id="descripcion" name="descripcion" placeholder="Escribe el mensaje" spellcheck="true"></textarea>
+                                        <p>Esta información se enviará adjunta en el email de aviso</p>
                                         <input type="hidden" id="estado" name="estado">
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
                         <div>
-                            <input class="btn primary" type="submit" value="Aceptar">
+                            <input class="btn primary" type="submit" value="Enviar">
                         </div>
                     </div>
                 </form>

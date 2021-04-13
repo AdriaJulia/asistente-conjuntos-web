@@ -48,6 +48,7 @@ class TerritorioType extends AbstractType
         ->add('provincias', TextType::class,
         [
             'attr' => [
+                'placeholder' => 'Escribe el nombre y selecciona entre los valores propuestos...',
                 'style' => 'display:block',
                 'class' =>'povinciasAutoComplete',
             ],
@@ -70,6 +71,7 @@ class TerritorioType extends AbstractType
         ->add('comarcas', TextType::class,
         [
              'attr' => [
+                'placeholder' => 'Escribe el nombre y selecciona entre los valores propuestos...',
                 'class' =>'comarcasAutoComplete',
              ],
              'label' => ' ',
@@ -90,6 +92,7 @@ class TerritorioType extends AbstractType
         ->add('localidades', TextType::class,
         [
             'attr' => [
+               'placeholder' => 'Escribe el nombre y selecciona entre los valores propuestos...',
                'class' =>'localidadesAutoComplete',
             ],
             'label' => ' ',
@@ -108,9 +111,13 @@ class TerritorioType extends AbstractType
             'required' => false
         ))
         ->add('otros',TextType::class,
-          [ 'label' => ' ',
-            'required' => false]
-        );
+          [ 
+            'attr' => [
+                'placeholder' => 'Escribe texto...',
+             ],
+            'label' => ' ',
+            'required' => false
+         ]);
     }
 
     public function getBlockPrefix()

@@ -12,7 +12,7 @@ use App\Enum\EstadoAltaDatosEnum;
 use App\Form\Model\DescripcionDatosDto;
 use App\Entity\DescripcionDatos;
 
-use Ramsey\Uuid\Uuid;
+use App\Service\Processor\ProcessorTool; 
 
 
 
@@ -58,11 +58,9 @@ class DescripcionDatosManagerTest extends WebTestCase
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
         $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
-
-        $uuidGenerator = Uuid::uuid4();
    
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         
@@ -109,10 +107,9 @@ class DescripcionDatosManagerTest extends WebTestCase
         $descripcionDatosDto->fechaFin = "2021-01-31";
         $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
 
-        $uuidGenerator = Uuid::uuid4();
-   
+
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         
@@ -182,10 +179,9 @@ class DescripcionDatosManagerTest extends WebTestCase
         $descripcionDatosDto->fechaFin = "2021-01-31";
         $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
 
-        $uuidGenerator = Uuid::uuid4();
    
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         

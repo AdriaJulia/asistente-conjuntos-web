@@ -5,16 +5,17 @@ namespace App\Service\Processor;
 use App\Enum\EstadoAltaDatosEnum;
 use App\enum\FrecuenciaActualizacionEnum;
 use App\Entity\DescripcionDatos;
+use App\Enum\EstadoDescripcionDatosEnum;
 
 use App\Form\Type\DescripcionDatosPaso1FormType;
 use App\Form\Model\DescripcionDatosDto;
 
 use App\Service\Manager\DescripcionDatosManager;
 
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormFactoryInterface;
 use App\Service\CurrentUser;
-use App\Enum\EstadoDescripcionDatosEnum;
+
+use App\Service\Processor\Tool\ProcessorTool; 
 
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
@@ -65,11 +66,10 @@ class DescripcionDatosPaso1FormProcessor
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //recojo los datos del formulario
-            $uuidGenerator = Uuid::uuid4();
             $descripcionDatosDto = $form->getData();   
 
             $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-            $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+            $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
             $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
             $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
             

@@ -38,7 +38,7 @@ class OrigenDatosUrlFormType extends AbstractType
                     "class" => "form-group"
                 ],
                 'attr' => [
-                    'placeholder' => 'Escriba url para el origen de los datos',
+                    'placeholder' => 'Escribe url para el origen de los datos',
                 ],
                 'help' =>' formatos admitidos xml, json, csv, xls',
                 'required' => true
@@ -81,7 +81,7 @@ class OrigenDatosUrlFormType extends AbstractType
                 ->atPath('url')
                 ->addViolation();
         } else if (!strpos($extension,"json") && !strpos($extension,"xml") && !strpos($extension,"csv") && ! strpos($extension,"xls")) {
-            $context->buildViolation('Por favor inserte una url con los formatos señalados validos')
+            $context->buildViolation('Por favor, inserta una url que cumpla con alguno de los formatos indicados como válidos')
             ->atPath('url')
             ->addViolation();
         }

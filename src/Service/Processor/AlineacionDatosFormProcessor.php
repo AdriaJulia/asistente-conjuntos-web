@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Service\Processor;
+use App\Service\Processor\Tool\OntologiasAlineacionTool;
 use App\Enum\ModoFormularioAlineacionEnum;
 use App\Enum\EstadoDescripcionDatosEnum;
-use App\Service\RestApiRemote\RestApiClient;
 use App\Form\Type\AlineacionDatosFormType;
 use App\Form\Model\AlineacionDatosDto;
 use App\Entity\OrigenDatos;
@@ -25,21 +25,20 @@ class AlineacionDatosFormProcessor
     private $alineacionDatosManager;
     private $descripcionDatosManager;
     private $formFactory;
-    private $clientHttprest;
-
+    private $ontologiasAlineacionTool;
 
     public function __construct(
         CurrentUser $currentUser,
         AlineacionDatosManager $alineacionDatosManager,
         DescripcionDatosManager $descripcionDatosManager,
         FormFactoryInterface $formFactory,
-        RestApiClient $clientHttprest
+        OntologiasAlineacionTool $ontologiasAlineacionTool
     ) {
         $this->currentUser = $currentUser;
         $this->alineacionDatosManager = $alineacionDatosManager;
         $this->descripcionDatosManager = $descripcionDatosManager;
+        $this->ontologiasAlineacionTool = $ontologiasAlineacionTool;
         $this->formFactory = $formFactory;
-        $this->clientHttprest = $clientHttprest;
     }
 
     public function __invoke(int $idDescripcion,
@@ -61,7 +60,7 @@ class AlineacionDatosFormProcessor
                 $options  = array('allowed_campos' => $campos, 'allowed_ontologias'=>array());
             } else {
                 //cargo las opciones con ontologias y los campos del origen de datos
-                $ontologias = $this->clientHttprest->GetOntologia($_POST['alineacionEntidad']);
+                $ontologias = $this->ontologiasAlineacionTool->GetOntologia($_POST['alineacionEntidad']);
                 $options  = array('allowed_campos' => $campos, 'allowed_ontologias'=>$ontologias);
             }
             //cargo el formulario con los campos y las ontologias

@@ -17,7 +17,7 @@ use App\Enum\ModoFormularioOrigenEnum;
 use App\Enum\TipoBaseDatosEnum;
 use App\Enum\TipoOrigenDatosEnum;
 
-use Ramsey\Uuid\Uuid;
+use App\Service\Processor\ProcessorTool; 
 
 
 class OrigenDatosManagerTest extends WebTestCase
@@ -56,10 +56,9 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
 
-        $uuidGenerator = Uuid::uuid4();
    
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
@@ -140,10 +139,9 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
 
-        $uuidGenerator = Uuid::uuid4();
    
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
@@ -224,10 +222,9 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
 
-        $uuidGenerator = Uuid::uuid4();
    
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
@@ -310,10 +307,9 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
 
-        $uuidGenerator = Uuid::uuid4();
    
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
@@ -393,11 +389,9 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
-
-        $uuidGenerator = Uuid::uuid4();
    
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $$descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
@@ -485,11 +479,9 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
-
-        $uuidGenerator = Uuid::uuid4();
    
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
@@ -579,10 +571,8 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
 
-        $uuidGenerator = Uuid::uuid4();
-   
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion($uuidGenerator->toString());
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    

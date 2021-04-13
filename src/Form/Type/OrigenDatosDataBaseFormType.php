@@ -31,6 +31,7 @@ class OrigenDatosDataBaseFormType extends AbstractType
                   'attr' => [
                       'class' => 'select big',
                   ],
+                  'label'=>'Tipo de origen',
                   'data' => 'database'
                 ])
             ->add('tipoBaseDatos', ChoiceType::class, [
