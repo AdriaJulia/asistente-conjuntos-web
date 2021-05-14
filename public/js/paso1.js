@@ -41,6 +41,9 @@ $(document).ready(function() {
                 $('input[type=radio][id=territorios_otro]').prop('checked', true); 
                 $('input[type=text][id=territorios_otros').val(descricion);  
                 CONTROL.cambio(false,false,false,false,true,true);
+            } else {
+                $('input[type=radio][id=territorios_aragon]').prop('checked', true);
+                CONTROL.cambio(true,false,false,false,false,false); 
             }
         }   
     }                     
@@ -123,7 +126,7 @@ CONTROL = {
             $('input[type=text][id=territorios_localidades').val('');
         }
         if (!territorio) { 
-           $('input[type=hidden][id=territorio').val('');
+           $('input[type=hidden][id=territorio').val('CO:Aragón');
         }
     }
 } 
@@ -168,6 +171,12 @@ $('input[type=text][id=territorios_otros]').focus(function() {
      CONTROL.cambio(false,false,false,false,true,false);
      $('input[type=radio][id=territorios_otro]').prop('checked', true);
 });
+
+
+$('input[type=text][id=territorios_aragon]').change(function() {
+    var territorio = "CO:" + $('input[type=text][id=territorios_aragon]').val();
+    $('input[type=hidden][id=territorio').val(territorio );
+}); 
 
 
 $('input[type=text][id=territorios_provincias]').change(function() {

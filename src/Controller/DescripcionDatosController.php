@@ -128,11 +128,12 @@ class DescripcionDatosController extends AbstractController
         $origenDatos  = null;
  
         $verbotonesAdminValida = null;
-        $verbotonesAdminDesechar= null;;
-        $verbotonesAdminCorregir= null;
-        $verbotonesModificacion= null;
-        $verbotonesPublicacion= null;
-        $verEditar= null;
+        $verbotonesAdminDesechar = null;;
+        $verbotonesAdminCorregir = null;
+        $verbotonesModificacion = null;
+        $verbotonesPublicacion = null;
+        $verbotonesAdminEditar = null;
+        $verEditar = null;
 
         //el class de body en este controlador no es siempre el mismo    
         $this->ClassBody = "fichaRecurso comunidad usuarioConectado";  
@@ -173,6 +174,7 @@ class DescripcionDatosController extends AbstractController
              $verbotonesAdminCorregir,
              $verbotonesModificacion, 
              $verbotonesPublicacion,
+             $verbotonesAdminEditar,
              $verEditar] = $toolController->DameBotonesFicha($esAdminitrador,
                                                              $data->getEstado());
         }
@@ -194,6 +196,7 @@ class DescripcionDatosController extends AbstractController
                                                             'verbotonesAdminValidar' => $verbotonesAdminValida,
                                                             'verbotonesAdminDesechar' => $verbotonesAdminDesechar,
                                                             'verbotonesAdminCorregir' => $verbotonesAdminCorregir,
+                                                            'verbotonesAdminEditar' => $verbotonesAdminEditar,
                                                             'editLink' => $editLink,
                                                             'verEditar' => $verEditar,
                                                             'ontologia' => $ontologia,
@@ -239,7 +242,7 @@ class DescripcionDatosController extends AbstractController
                 ['content-type' => 'text/html']
             );
         }
-        return $response;
+        return $this->redirectToRoute('asistentecamposdatos_id',["id"=>$id]); 
      }
 
     /***
@@ -413,7 +416,7 @@ class DescripcionDatosController extends AbstractController
         $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
                                                                           $this->getUser(),
                                                                           $descripcionDatos->getEstado());
-
+        $urltags = $this->getParameter('url_tags');
         [$form] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
         if ($form->isSubmitted() && $form->isValid()) {
             //toma la url del boton siguiente que depende de lo ultimo realizado por el usuario
@@ -427,6 +430,7 @@ class DescripcionDatosController extends AbstractController
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
                 'urlMenu' =>  $this->urlMenu,
+                'urltags' =>  $urltags,
                 'permisoEdicion' => $permisoEdicion,
                 'paso3_form' => $form->createView(),
                 'errors' => $form->getErrors()

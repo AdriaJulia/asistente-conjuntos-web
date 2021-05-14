@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Asistente - Aragon Open Data{% endblock title %}
+{% block title %}Asistente de creación de conjunto de datos - Origen de los datos{% endblock title %}
 
 {% block body %}
 <div class="container" style="display:{{ permisoEdicion }}">
@@ -84,7 +84,7 @@
                                 <div class="fieldset actionButtons">
                                     <fieldset>
                                         <input class="submit" value="Anterior" onclick="location.href='{{ locationAnterior }}'">
-                                        {% if campos %}
+                                        {% if muestraSiguiente %}
                                             <input id="siguiente" class="submit principal" type="submit" value="Guardar y siguiente...">
                                         {% endif %}
                                     </fieldset>

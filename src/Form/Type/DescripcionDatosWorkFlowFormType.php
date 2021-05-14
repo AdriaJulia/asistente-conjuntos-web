@@ -6,6 +6,7 @@ use App\Form\Model\DescripcionDatosDto;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +23,9 @@ class DescripcionDatosWorkFlowFormType extends AbstractType
     {
 
         $builder
+            ->add('porcesaAdo', CheckboxType::class,[
+                'required' => false, 
+            ])
             ->add('descripcion', TextType::class)
             ->add('estado', TextType::class);
     }

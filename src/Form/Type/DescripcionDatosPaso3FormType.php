@@ -64,11 +64,11 @@ class DescripcionDatosPaso3FormType extends AbstractType
                 "attr"=>[
                     'id' => 'inputetiquetas',
                     'data-role' => 'tagsinput',
-                    'placeholder' => 'Inserta un TAG y pulsa ENTER...'
+                    'placeholder' => 'Inserta una y pulsa ENTER'
                 ],
                 "required" => false,
                 'label'=>'Etiquetas',
-                'help' => 'Introduce el texto y pulsa ENTER para añadir uno.'
+                'help' => 'Introduce el texto, selecciona de las opciones y pulsa enter para añadir una.'
             ]);
     }
 

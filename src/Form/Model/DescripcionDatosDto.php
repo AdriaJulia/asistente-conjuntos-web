@@ -33,6 +33,7 @@ class DescripcionDatosDto {
     public $estado;
     public $estadoAlta;
     public $territorios;
+    public $porcesaAdo;
 
     public function __construct()
     {

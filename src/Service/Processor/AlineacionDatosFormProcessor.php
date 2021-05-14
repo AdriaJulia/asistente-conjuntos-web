@@ -48,7 +48,9 @@ class AlineacionDatosFormProcessor
         $id = "";
         $errorProceso= "";
         $campos = "";
-        $prueba = false;
+        $prueba = false; 
+        $descripcionOntologia = array();
+        $enlaceOntologia = array();;
         //extraigo delorigen de datos los campos para hacer el formulario
         $campos = explode(";",$origenDatos->getCampos());
         $alineacionDatosDto = AlineacionDatosDto::createFromAlineacionDatos($origenDatos);
@@ -57,11 +59,18 @@ class AlineacionDatosFormProcessor
             //si no tengo ontologias 
             if (empty($_POST['alineacionEntidad'])){
                 //cargo las opciones sin ontologias
-                $options  = array('allowed_campos' => $campos, 'allowed_ontologias'=>array());
+                $options  = array('allowed_campos' => $campos, 
+                                  'allowed_ontologias'=>array(),
+                                  'allowed_decripcion'=> array(""),
+                                  'allowed_enlace'=> array(""));
             } else {
                 //cargo las opciones con ontologias y los campos del origen de datos
-                $ontologias = $this->ontologiasAlineacionTool->GetOntologia($_POST['alineacionEntidad']);
-                $options  = array('allowed_campos' => $campos, 'allowed_ontologias'=>$ontologias);
+                $ontologias = $this->ontologiasAlineacionTool->GetOntologia($_POST['alineacionEntidad']); 
+                [$descripcionOntologia,$enlaceOntologia] =  $this->ontologiasAlineacionTool->GetDescricionEnlaceOntologia($_POST['alineacionEntidad']);
+                $options  = array('allowed_campos' => $campos, 
+                                  'allowed_ontologias'=>$ontologias,
+                                  'allowed_decripcion'=>$descripcionOntologia,
+                                  'allowed_enlace'=>$enlaceOntologia);
             }
             //cargo el formulario con los campos y las ontologias
             $form = $this->formFactory->create(AlineacionDatosFormType::class, $alineacionDatosDto, $options);
@@ -85,7 +94,14 @@ class AlineacionDatosFormProcessor
                     $origenDatos->setSesion($request->getSession()->getId());
                     $origenDatos->updatedTimestamps();
                     [$origenDatos,$errorProceso] = $this->alineacionDatosManager->saveAlineacionDatosEntidad($origenDatos,$request->getSession());                  
-                } 
+                } else if ($omitir) {
+                    $origenDatos->setAlineacionEntidad("");
+                    $origenDatos->setAlineacionRelaciones("");
+                    $origenDatos->setSesion($request->getSession()->getId());
+                    $origenDatos->updatedTimestamps();
+                    [$origenDatos,$errorProceso] = $this->alineacionDatosManager->saveAlineacionDatosEntidad($origenDatos,$request->getSession()); 
+                }
+
                 //ademas si el usuario omite el paso envío el workflow
                 if ($omitir || $guardar) {
                     $descripcionDatos = $this->descripcionDatosManager->find($idDescripcion,$request->getSession());

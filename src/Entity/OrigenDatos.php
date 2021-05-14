@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\TipoBaseDatosEnum;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
 
@@ -455,5 +456,25 @@ class OrigenDatos
         return $res;
     }
 
-        
+    public function getGaodcoreUri() : string {
+        $uri = "";
+        switch ($this->getTipoBaseDatos()) {
+            case TipoBaseDatosEnum::MYSQL:
+                $uri = "{URI:{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={$this->getHost()})(PORT={$this->getPuerto()}))CONNECT_DATA=(SERVICE_NAME={$this->getHost()}))";
+                break;
+            case TipoBaseDatosEnum::ORACLE:
+                $uri = "{URI:{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={$this->getHost()})(PORT={$this->getPuerto()}))CONNECT_DATA=(SERVICE_NAME={$this->getHost()}))";
+                break;
+            break; 
+            case TipoBaseDatosEnum::SQLSERVER:
+                $uri = "{URI:{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={$this->getHost()})(PORT={$this->getPuerto()}))CONNECT_DATA=(SERVICE_NAME={$this->getHost()}))";
+                break;
+            break; 
+            case TipoBaseDatosEnum::POSTGRESQL:
+                $uri = "{URI:{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={$this->getHost()})(PORT={$this->getPuerto()}))CONNECT_DATA=(SERVICE_NAME={$this->getHost()}))";
+                break;
+            break; 
+        }         
+        return $uri;
+    }       
 }

@@ -5,6 +5,8 @@ $(document).ready(function() {
     $("#botonCerrraAccesoDenegado").bind("click", function() { 
            window.location.href = "/asistentecamposdatos";
     });
+    $('#divvocabularios > div > input[type=text]').attr('style', 'width: 300px !important');
+    $('#divservicios > div > input[type=text]').attr('style', 'width: 300px !important');
 });
 $('#vocabularios').on('itemAdded', function(event) {
 var tag = event.item;

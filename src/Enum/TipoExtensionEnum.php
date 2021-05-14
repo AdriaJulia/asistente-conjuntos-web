@@ -10,12 +10,14 @@ class TipoExtensionEnum {
   private static $types = [
       'CSV' => self::CSV,
       'XLS' => self::XLS,
+      'XLSX' => self::XLSX,
       'XML' => self::XML,
       'JSON'  => self::JSON,
     ];
     
   const CSV = "CSV";
   const XLS = "XLS";
+  const XLSX = "XLSX";
   const XML = "XML";
   const JSON = "JSON";
 

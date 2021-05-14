@@ -6,6 +6,7 @@ use App\Form\Type\EntidadesCampoType;
 use App\Form\Model\AlineacionDatosDto;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -34,6 +35,7 @@ class AlineacionDatosFormType extends AbstractType
             ],
             'required' => false
         ]);
+
         $builder->add('modoFormulario', HiddenType::class,[
             "row_attr" => [
                 "class" => "form-group",
@@ -41,6 +43,16 @@ class AlineacionDatosFormType extends AbstractType
             "data"=>"seleccion",
             'required' => false
         ]);
+
+        $enlace =  "";
+        if (array_values($options['allowed_decripcion'])[0] !== ""){
+            $enlace =   array_values($options['allowed_decripcion'])[0] . 
+            '<p></p><p>'
+           . 'Para más información sobre la entidad seleccionada, puede acceder al siguiente enlace: <a target="_blank" href="' 
+           . array_values($options['allowed_enlace'])[0]  
+           . '">Haz click Aquí</a></p>';
+        }
+
         $builder->add('alineacionEntidad', ChoiceType::class, [
                 "row_attr" => [
                     "class" => "form-group"
@@ -51,10 +63,26 @@ class AlineacionDatosFormType extends AbstractType
                     'onchange' => ''
                 ],
                 'placeholder' => 'Selecciona la entidad principal...',
-                'help'=>'Elige cuál es la entidad que representa tus datos principalmente y a continuación empareja tus atributos con sus propiedades. Si en tus datos tienes más entidades, que se relacionan con la principal, también puedes escogerlas en la lista desplegable disponible para cada atributo y vincular tus atributos con sus propiedades.',
+                'help'=>'',
                 'label' => 'Seleccione',
                 'required' => false
         ]);
+
+        $builder->add('descripcionEntidad', TextareaType::class, [
+            "row_attr" => [
+                "class" => "form-group",
+                "id" => "descripcionEntidadId",
+                "value" => "",
+            ],  
+            'data' =>  "",
+            'help_html' => true,
+            'help'=>$enlace,
+            'label' => '', 
+
+            'disabled' =>true,
+            'required' => false
+        ]);
+
         // si recibo desde el constructor una lista de entidades principales creo un control para cada campo
         // con un combo con las opciones
         if (count($options['allowed_ontologias'])>0) {
@@ -74,6 +102,8 @@ class AlineacionDatosFormType extends AbstractType
         $resolver->setDefaults([
             'allowed_campos' => null,
             'allowed_ontologias' => null,
+            'allowed_enlace' => null,
+            'allowed_decripcion' => null,
             'data_class' => AlineacionDatosDto::class,
             'csrf_protection' => false,
             'constraints' => [
@@ -83,7 +113,33 @@ class AlineacionDatosFormType extends AbstractType
 
         $resolver->setAllowedTypes('allowed_campos', ['null', 'string', 'array']);
         $resolver->setAllowedTypes('allowed_ontologias', ['null', 'string', 'array']);
+        $resolver->setAllowedTypes('allowed_enlace', ['null', 'string', 'array']);
+        $resolver->setAllowedTypes('allowed_decripcion', ['null', 'string', 'array']);
         
+        $resolver->setNormalizer('allowed_enlace', static function (Options $options, $states) {
+            if (null === $states) {
+                return $states;
+            }
+
+            if (is_string($states)) {
+                $states = (array) $states;
+            }
+
+            return array_combine(array_values($states), array_values($states));
+        });
+
+        $resolver->setNormalizer('allowed_decripcion', static function (Options $options, $states) {
+            if (null === $states) {
+                return $states;
+            }
+
+            if (is_string($states)) {
+                $states = (array) $states;
+            }
+
+            return array_combine(array_values($states), array_values($states));
+        });
+
         $resolver->setNormalizer('allowed_campos', static function (Options $options, $states) {
             if (null === $states) {
                 return $states;

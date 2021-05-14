@@ -17,7 +17,7 @@ use App\Enum\ModoFormularioOrigenEnum;
 use App\Enum\TipoBaseDatosEnum;
 use App\Enum\TipoOrigenDatosEnum;
 
-use App\Service\Processor\ProcessorTool; 
+use App\Service\Processor\Tool\ProcessorTool; 
 
 
 class OrigenDatosManagerTest extends WebTestCase
@@ -78,7 +78,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -161,7 +161,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -244,7 +244,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -329,7 +329,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -368,6 +368,89 @@ class OrigenDatosManagerTest extends WebTestCase
         $this->descripcionDatosManager->delete($id, $session); 
     }
 
+
+    public function testPaso2UrlXlsxAction()
+    {      
+        $this->logIn();
+        $session = self::$container->get('session');
+        $descripcionDatos = new DescripcionDatos();
+        $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
+
+         //paso1,1
+        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
+        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
+        $descripcionDatosDto->fechaInicio = "2021-01-01";
+        $descripcionDatosDto->fechaFin = "2021-01-31";
+        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
+        $descripcionDatosDto->organoResponsable = "Organo responsable";
+        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
+        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
+        $descripcionDatosDto->licencias = "licencias conjunto datos";
+        $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->servicios = "servicios1, servicio2";
+
+   
+        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
+        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
+        $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
+        $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
+        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
+
+        $username = $session->getName();
+        $descripcionDatos->setUsuario($username);
+        $descripcionDatos->setSesion($session->getId());
+        $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
+        $descripcionDatos->updatedTimestamps();
+
+        $id= $descripcionDatos->getId();
+        $idexiste = !empty($id);
+
+        $this->assertTrue($idexiste);
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+
+        $contains = "html:contains('Nombre del conjunto de Datos')";
+        $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter($contains)->count());
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode()); 
+
+        $origenDatos = new OrigenDatos();
+        $descripcionDatosDto = OrigenDatosDto::createFromOrigenDatos($origenDatos);
+
+        $descripcionDatosDto->idDescripcion = $id;
+        $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::URL;
+        $descripcionDatosDto->url = "http://localhost:8080/storage/default/Libro1.xlsx";
+        $descripcionDatosDto->data = "";
+        $descripcionDatosDto->tipoBaseDatos = "";
+        $descripcionDatosDto->host = "";
+        $descripcionDatosDto->puerto = "";
+        $descripcionDatosDto->servicio = "";
+        $descripcionDatosDto->esquema = "";
+        $descripcionDatosDto->tabla = "";
+        $descripcionDatosDto->usuarioDB = "";
+        $descripcionDatosDto->contrasenaDB = "";
+        $descripcionDatosDto->campos = "";
+        
+        $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
+        $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setData($descripcionDatosDto->url);
+        $origenDatos->setUsuario($username);
+        $origenDatos->setSesion($session->getId());
+        $origenDatos->updatedTimestamps();
+        $origenDatos->setCampos("");
+        [$origenDatos,$errorProceso] = $this->origenDatosManager->PruebaData($origenDatos,$session); 
+        $this->assertTrue(empty($errorProceso));
+        $this->assertTrue(!empty($origenDatos->getCampos()));
+
+        $this->descripcionDatosManager->delete($id, $session); 
+    }
     public function testPaso2DBSqlServerAction()
     {      
         $this->logIn();
@@ -391,7 +474,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto->servicios = "servicios1, servicio2";
    
         $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $$descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
         $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
@@ -411,7 +494,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -501,7 +584,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -592,7 +675,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");

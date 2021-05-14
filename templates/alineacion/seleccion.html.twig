@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}AdoPool workflow{% endblock title %}
+{% block title %}Asistente de creación de conjunto de datos - Alineacion EI2A{% endblock title %}
 
 {% block body %}
 <div class="container" style="display:{{ permisoEdicion }}">
@@ -36,6 +36,8 @@
                                 <legend>Paso 3</legend>
                                 <h2>Integración de los datos - Alineamiento con el modelo EI2A</h2>
                                 <div class="fieldsetContent">
+                                    <p id="alineacionEntidad_help">Elige cuál es la entidad que representa tus datos principalmente y a continuación empareja tus atributos con sus propiedades. Si en tus datos tienes más entidades, que se relacionan con la principal, también puedes escogerlas en la lista desplegable disponible para cada atributo y vincular tus atributos con sus propiedades.</p>
+                                    <br/>
                                     {{ form_widget(alineacion_form) }}
                                       <div class="fieldset actionButtons">
                                         <fieldset>
@@ -57,51 +59,5 @@
 {% endblock %}
 {% block javascripts %}
    {{ parent() }}
-     <script>
-        $(function() {
-            $('select[name ="alineacionEntidad"]').change(function(e) {
-               $('input[name ="modoFormulario"]').val("seleccion");
-                // $selecionOrigen = $('input[id ="entidadPrincipal"]').val();
-               //  $selecion = $('select[id="alineacionEntidad"]').val();
-              // if ($selecionOrigen !== $selecion){
-
-             //  }
-              this.form.submit();
-            });
-        });
-        function enviar(valor) {
-           $('input[name ="modoFormulario"]').val(valor);
-           if ($('div[class ="atributosAsignados"]').find("input").length==0){
-              $('select[id="alineacionEntidad"]').val("");
-           }
-           $(this).parents(".form").submit();
-        }
-
-        $(document).ready(function(e) {
-            if ($(".container").attr("style") == "display:none") {
-                $("#accesoDenegado").modal("show");
-                $("#botonCerrraAccesoDenegado").bind("click", function() { 
-                       window.location.href = "/asistentecamposdatos";
-                });
-            } else {
-                var jsoninical = $('input[name ="alineacionRelaciones"]').val();
-                jsoninical = jsoninical.replace(",}","}");
-                if ((jsoninical.trim()!=="") && $('div[class ="atributosAsignados"]').find("input").length==0){
-                    var alineacionInicial = JSON.parse(jsoninical);
-                    $.each(alineacionInicial, function(object,value) {
-                        var boton = $('div[name="' + object + '"]').find("button");
-                        var select = $('div[name="' + object + '"]').find("select");
-                        select.val(value);
-                        boton.click();
-                    });
-                }
-                $alineacionEntidades = $('input[name ="alineacionRelaciones"]').val().length;
- 
-                if (($alineacionEntidades >= 3) &&  ($('div[class ="atributosAsignados"]').find("input").length==0)) {
-                     $('select[name ="alineacionEntidad"]').change();
-                }
-            }
-
-        });
-    </script>
+   <script type="text/javascript" src="/js/seleccion.js"></script>
 {% endblock %}

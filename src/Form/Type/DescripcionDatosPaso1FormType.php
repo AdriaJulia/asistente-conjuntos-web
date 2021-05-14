@@ -2,6 +2,7 @@
 
 namespace App\Form\Type; 
 
+use App\Service\Processor\Tool\IdentificadorUnicoTool;
 use App\Form\Type\TerritorioType;
 use App\Form\Model\DescripcionDatosDto;
 use App\Enum\FrecuenciaActualizacionEnum;
@@ -22,6 +23,15 @@ use Symfony\Component\Validator\Constraints\Callback;
 
 class DescripcionDatosPaso1FormType extends AbstractType
 {
+
+    private $identificadorUnicoTool;
+
+    public function __construct(
+        IdentificadorUnicoTool $IdentificadorUnicoTool
+    ) {
+        $this->identificadorUnicoTool = $IdentificadorUnicoTool;      
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -161,12 +171,22 @@ class DescripcionDatosPaso1FormType extends AbstractType
     {
        if (empty($data->denominacion)){
             $context->buildViolation('La denominación no puede estar vacía')
-            ->atPath("[denominacion]")
+            ->atPath("denominacion")
             ->addViolation();
        }
+       $this->identificadorUnicoTool->Inicializa();
+       if (!isset($data->id)) {
+            if ($this->identificadorUnicoTool->ExiteIdentificador($data->denominacion)){
+                $context->buildViolation('Ya existe un conjunto de datos con esta denominación')
+                ->atPath("denominacion")
+                ->addViolation();
+            }
+       }
+
+
        if (empty($data->descripcion)){
             $context->buildViolation('La descripción no puede estar vacía')
-            ->atPath("[descripcion]")
+            ->atPath("descripcion")
             ->addViolation();
        }
 

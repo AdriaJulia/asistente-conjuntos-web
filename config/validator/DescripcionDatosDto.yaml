@@ -1,7 +1,6 @@
 App\Form\Model\DescripcionDatosDto:
     properties:
         denominacion:
-            - NotBlank: { message: 'La denominación del conjunto datos es requerida' }
             - Length:
                 min: 3
                 minMessage: 'La denominación debe tener un minimo de {{ limit }} caracteres'

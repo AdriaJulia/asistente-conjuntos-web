@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\OrigenDatos;
 use Doctrine\ORM\Mapping as ORM;
 
-
 use App\Service\Controller\ToolController;
 
 /*
@@ -134,6 +133,18 @@ class DescripcionDatos
      */
     private $estadoAlta;
 
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $gaodcoreResourceId;
+
+    /**
+     * @ORM\Column(type="string", length=1, nullable=true)
+     */
+    private $procesaAdo;
+
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -233,7 +244,19 @@ class DescripcionDatos
 
     public function getTerritorio(): ?string
     {
-        return $this->territorio;
+        return $this->territorio;;
+    }
+
+
+    public function getTerritorioFicha(): ?string
+    {
+        $territorio = $this->territorio;
+        $territorio = str_replace("CO:","Comunidad de: ",$territorio);
+        $territorio = str_replace("CM:","Comarca de: ",$territorio);
+        $territorio = str_replace("LO:","Localidad de: ",$territorio);
+        $territorio = str_replace("PR:","Provincia de: ",$territorio);
+        $territorio = str_replace("OT:","Otros territorios de: ",$territorio);
+        return $territorio;
     }
 
     public function setTerritorio(?string $territorio): self
@@ -423,6 +446,31 @@ class DescripcionDatos
         return $this;
     }
 
+    public function getGaodcoreResourceId(): ?string
+    {
+        return $this->gaodcoreResourceId;
+    }
+
+    public function setGaodcoreResourceId(?string $gaodcoreResourceId): self
+    {
+        $this->gaodcoreResourceId = $gaodcoreResourceId;
+
+        return $this;
+    }
+
+    public function getProcesaAdo(): ?string
+    {
+        return $this->procesaAdo;
+    }
+
+    public function setProcesaAdo(?string $procesaAdo): self
+    {
+        $this->procesaAdo = $procesaAdo;
+
+        return $this;
+    }
+
+
     public function getCreadoEl(): ?\DateTimeInterface
     {
         return $this->creadoEl;
@@ -508,7 +556,7 @@ class DescripcionDatos
             $json = !empty($this->getDescripcion()) ?  $json . "\"descripcion\":\"{$this->getDescripcion()}\"," : $json;
             $json = !empty($this->getTerritorio()) ?  $json . "\"territorio\":\"{$this->getTerritorio()}\"," : $json;
             $json = !empty($this->getInstancias()) ?  $json . "\"instancias\":\"{$this->getInstancias()}\"," : $json;
-         
+
             $json = $json . "\"usuario\":\"{$this->getUsuario()}\",";
             $json = $json . "\"sesion\":\"{$this->getSesion()}\",";
             $json = $json . "\"estado\":\"{$this->getEstado()}\",";
@@ -549,12 +597,13 @@ class DescripcionDatos
     }
 	
     public function toJsonWorkflow() : string {
- 
+        $gaodcore = !empty($this->getGaodcoreResourceId()) ? $this->getGaodcoreResourceId() : "";
         return "{
             \"descripcion\":\"{$this->getDescripcion()}\",
             \"usuario\":\"{$this->getUsuario()}\",
             \"sesion\":\"{$this->getSesion()}\",
-            \"estado\":\"{$this->getEstado()}\"
+            \"estado\":\"{$this->getEstado()}\",
+            \"gaodCoreResourceId\":\"{$gaodcore}\"
           }";
     }
 
@@ -605,6 +654,7 @@ class DescripcionDatos
         $frecuencia = !empty($this->getFrecuenciaActulizacion()) ? $this->getFrecuenciaActulizacion() : "";
         $inicio =  ($this->getFechaInicio()!=null) ? $this->getFechaInicio()->format('Y-m-d') : "";
         $fin =  ($this->getFechaFin()!=null)  ? $this->getFechaFin()->format('Y-m-d') : ""; 
+        $territorio =  ($this->getTerritorio()!=null)  ? $this->getTerritorioFicha() : "";      
         $Instancias = !empty($this->getInstancias()) ? explode(",",$this->getInstancias()) : array();
         $organo =  !empty($this->getOrganoResponsable()) ?  $this->getOrganoResponsable() : "";
         $condiciones =  !empty($this->getCondiciones())  ? $this->getCondiciones() : "";
@@ -626,6 +676,7 @@ class DescripcionDatos
                         "frecuencia" => $frecuencia,
                         "fechaInicio" =>$inicio,
                         "fechaFin" =>$fin,
+                        "territorio" =>$territorio,
                         "instancias" => $Instancias,
                         "organo" => $organo,
                         "condiciones"=> $condiciones,
@@ -639,5 +690,6 @@ class DescripcionDatos
                         "formatos" => $formatos);
         return $datos;
     }
- 
+
+
 }

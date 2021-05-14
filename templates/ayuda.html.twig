@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Listado - Aragon Open Data{% endblock title %}
+{% block title %}Asistente de creación de conjunto de datos - Ayuda{% endblock title %}
 
 {% block body %}
 <div class="container">
@@ -280,7 +280,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <p>Los formatos permitidos son XML, JSON, CSV y XLS. Esto quiere decir que la url informada ha de tener como destino un archivo accesible de manera directa y pública. No serán válidas las url con redirecciones o no públicas.</p>
+                            <p>Los formatos permitidos son XML, JSON, CSV,  XLS y XLSX. Esto quiere decir que la url informada ha de tener como destino un archivo accesible de manera directa y pública. No serán válidas las url con redirecciones o no públicas.</p>
                             <ul>   
                                 <li>
                                     A modo de ejemplo ponemos algunas url validas
@@ -288,7 +288,8 @@
                                         <li>http://dominio.ejemplo.com/datos.xml</li>
                                         <li>http://dominio.ejemplo.com/datos.json</li>
                                         <li>http://dominio.ejemplo.com/datos.csv</li>
-                                        <li>http://dominio.ejemplo.com/datos.csv</li>                                   
+                                        <li>http://dominio.ejemplo.com/datos.xls</li>  
+                                        <li>http://dominio.ejemplo.com/datos.xlsx</li>                                  
                                     </ul>
                                 </li>
                             </ul>   
@@ -299,7 +300,8 @@
                                         <li><a href="/shared/Libro1.xml" class="descarga">Enlace a plantilla XML</a></li>
                                         <li><a href="/shared/Libro1.json" class="descarga">Enlace a plantilla JSON</a></li>
                                         <li><a href="/shared/Libro1.csv" class="descarga">Enlace a plantilla CSV</a></li>
-                                        <li><a href="/shared/Libro1.xls" class="descarga">Enlace a plantilla XLS</a></li>                                 
+                                        <li><a href="/shared/Libro1.xls" class="descarga">Enlace a plantilla XLS</a></li>   
+                                        <li><a href="/shared/Libro1.xlsx" class="descarga">Enlace a plantilla XLSX</a></li>                                
                                     </ul>
                                 </li>
                             </ul>
@@ -333,7 +335,7 @@
                                             <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
                                         </tr>
                                         <tr>
-                                            <td>XLS</td>
+                                            <td>XLS y XLSX</td>
                                             <td>La fila se 1 interpreta como contenedora de los nombre de los campos.</td>
                                         </tr>
                                         <tr>
@@ -400,7 +402,8 @@
                                         <li><a href="/shared/Libro1.xml" class="descarga">Enlace a plantilla XML</a></li>
                                         <li><a href="/shared/Libro1.json" class="descarga">Enlace a plantilla JSON</a></li>
                                         <li><a href="/shared/Libro1.csv" class="descarga">Enlace a plantilla CSV</a></li>
-                                        <li><a href="/shared/Libro1.xls" class="descarga">Enlace a plantilla XLS</a></li>                                 
+                                        <li><a href="/shared/Libro1.xls" class="descarga">Enlace a plantilla XLS</a></li>  
+                                        <li><a href="/shared/Libro1.xlsx" class="descarga">Enlace a plantilla XLSX</a></li>                                  
                                     </ul>
                                 </li>
                             </ul>
@@ -434,7 +437,7 @@
                                             <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
                                         </tr>
                                         <tr>
-                                            <td>XLS</td>
+                                            <td>XLS y XLSX</td>
                                             <td>La fila se 1 interpreta como contenedora de los nombre de los campos.</td>
                                         </tr>
                                         <tr>

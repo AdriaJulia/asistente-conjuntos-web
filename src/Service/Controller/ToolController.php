@@ -152,7 +152,7 @@ class ToolController
                     break;
                 case EstadoAltaDatosEnum::origen_url:
                     if (empty($linkCreaOrigendatos)){
-                        $link = $this->urlGeneratorInterface->generate('update_asistentecamposdatos_url',["iddes"=>$data->getId(), "id"=>$origenDatos['id']]);
+                        $link = $this->urlGeneratorInterface->generate('update_asistentecamposdatos_url',["iddes"=>$data->getId(), "id"=>$origenDatos->getId()]);
                     } else {
                         $link = $linkCreaOrigendatos;
                     }  
@@ -185,7 +185,7 @@ class ToolController
                 $esAdminitrador = ($usurioActual->getExtraFields()['roles'] == "ROLE_ADMIN");
         }else{
             $usuario =  "MOCKSESSID";
-            $esAdminitrador = false;
+            $esAdminitrador = true;
         }
         return  [$usuario , $esAdminitrador ] ;
     }
@@ -238,6 +238,7 @@ class ToolController
         $verbotonesAdminValidar = "none";
         $verbotonesAdminDesechar = "none";
         $verbotonesAdminCorregir = "none";
+        $verbotonesAdminEditar = "none";
         $verEditar = "none";
 
         if ($esAdminitrador) {
@@ -245,23 +246,25 @@ class ToolController
                 $verbotonesAdminValidar = "block";
                 $verbotonesAdminDesechar = "block";
                 $verbotonesAdminCorregir = "block";
+                $verbotonesAdminEditar = "block";
             } else if ($estado == EstadoDescripcionDatosEnum::EN_ESPERA_MODIFICACION) {
                 $verbotonesAdminValidar = "block";
                 $verbotonesAdminDesechar = "block";
-                $verbotonesAdminCorregir = "none";
+            } else if ($estado == EstadoDescripcionDatosEnum::EN_CORRECCION ) {
+                $verEditar = "block";
             }
         } else {
             if ( $estado == EstadoDescripcionDatosEnum::VALIDADO){
                 $verbotonesModificacion = "block";
             }
             if ( $estado == EstadoDescripcionDatosEnum::BORRADOR ||  
-                    $estado == EstadoDescripcionDatosEnum::EN_CORRECCION ){
+                  $estado == EstadoDescripcionDatosEnum::EN_CORRECCION ){
                 $verbotonesPublicacion = "block";
                 $verEditar = "block";
             }
         }
         return [$verbotonesAdminValidar, $verbotonesAdminDesechar,$verbotonesAdminCorregir,
-                $verbotonesModificacion, $verbotonesPublicacion,$verEditar];
+                $verbotonesModificacion, $verbotonesPublicacion,$verbotonesAdminEditar,$verEditar];
     }
 
     /***

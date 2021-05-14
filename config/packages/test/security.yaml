@@ -33,5 +33,5 @@ security:
     access_control:
          - { path: ^/login,      roles: IS_AUTHENTICATED_ANONYMOUSLY } 
          - { path: ^/logout,     roles: IS_AUTHENTICATED_ANONYMOUSLY } 
-         - { path: ^/asistentecamposdatos,   roles: ROLE_USER  }
-         #- { path: ^/asistentecamposdatos, roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: [127.0.0.1, ::1, 192.168.1.1/24] }
+         - { path: ^/asistentecamposdatos, roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: [127.0.0.1, ::1, 192.168.1.1/24] }
+         #- { path: ^/asistentecamposdatos,   roles: ROLE_USER  }

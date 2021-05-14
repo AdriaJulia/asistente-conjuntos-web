@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}AdoPool ficha del conjunto datos{% endblock title %}
+{% block title %}Asistente de creación de conjunto de datos - Ficha del conjunto datos{% endblock title %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -30,6 +30,9 @@
                         </li>
                         <li style="display:{{ verbotonesAdminCorregir }}">    
                             <a href="#" onclick="javascript:MuestraFormularioEstado('Corregir','EN_CORRECCION');" class="btn">Corregir</a>
+                        </li>
+                        <li style="display:{{ verbotonesAdminEditar }}">    
+                             <a href="#" onclick="javascript:MuestraFormularioEstado('Corregir','EN_CORRECCION');" class="btn">Editar</a>
                         </li>
                          <li style="display:{{ verEditar }}">    
                             <a href="{{ editLink }}"class="btn">Editar</a>
@@ -65,14 +68,20 @@
                                     <input type="text" name="frecuencia" id="frecuencia" value="{{ data.frecuencia }}" class="text big" readonly>
                                 </div>
                                 <div class="col col-12 col-md-3">
-                                    <label for="fechaInicio">Fecha inicio</label>
+                                    <label for="fechaInicio">Fecha de inicio</label>
                                     <input type="text" name="fechaInicio" id="fechaInicio" value="{{ data.fechaInicio }}" class="text big" readonly>
                                 </div>
                                 <div class="col col-12 col-md-3">
-                                    <label for="fechaFinal">Fecha fin</label>
+                                    <label for="fechaFinal">Fecha final</label>
                                     <input type="text" name="fechaFin" id="fechaFin" value="{{ data.fechaFin }}" class="text big" readonly>
                                 </div>
                             </div>
+                            <div class="form-row">
+                                <div class="col col-12 col-md-6">
+                                    <label for="frecuenciaActulizacion">Territorio que abarcan</label>
+                                    <input type="text" name="frecuencia" id="frecuencia" value="{{ data.territorio }}" class="text big" readonly>
+                                </div>
+                             </div>
                             {% if data.instancias|length > 0 %}
                                 <div class="form-group">
                                     <label for="txtTags" id="lblEtiquetas">Instacias</label>
@@ -92,20 +101,12 @@
                                 </div>
                             {% endif %}
                             <div class="form-group">
-                                <label for="organoresponsable">Organo responsable</label>
+                                <label for="organoresponsable">Órgano responsable</label>
                                 <input type="text" name="organo" id="organo" value="{{ data.organo }}" class="text big" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="organoresponsable">Condiciones de uso</label>
-                                <input type="text" name="condiciones" id="condiciones" value="{{ data.condiciones }}" class="text big" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="organoresponsable">Finalidad</label>
+                                <label for="finalidad">Finalidad</label>
                                 <input type="text" name="finalidad" id="finalidad" value="{{ data.finalidad }}" class="text big" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="organoresponsable">Licencias</label>
-                                <input type="text" name="licencias" id="licencias" value="{{ data.licencias }}" class="text big" readonly>
                             </div>
                         {% if data.vocabularios|length > 0 %}
                                 <div class="form-group">
@@ -175,7 +176,7 @@
                         {% endif %}  
                        
                         {% if tableAlineacion |length > 0 %} 
-                                <div class="grupo grupo-tabla tablaScrool">
+                                <div id="divTablaAlineacion" class="grupo grupo-tabla tablaScrool">
                                     <p class="titulo-principal">Alineación de datos con el EI2A</p>
                                     <label>Entidad principal</label>
                                     <input type="text" name="finalidad" id="finalidad" value="{{ ontologia }}" class="text big" readonly>
@@ -272,19 +273,24 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Gestion de estado</h5>
+                <h5 class="modal-title">Gestión de estado</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body"  >
+            <div class="modal-body">
                 <form method="post" id="formulariodatos">
                     <div class="fieldset fieldset01">
                         <fieldset class="mediumLabels">
                             <legend id="tituloPopUp">Solicitar publicación</legend>
                                 <div style="padding-left: 20px;"><div>
+                                    <div id="divapiaod" class="form-group">
+                                         <input type="checkbox" name="porcesaAdo" value="apiado" id="porcesaAdo"
+                                                style="position: relative;opacity: initial;cursor: pointer;height: auto;width: auto;">
+                                         <label for="apiaod" style="display: inline;">Integrar los datos en el grafo de conocimiento de Aragón Open Data</label><br>
+                                    </div>
                                     <div class="form-group">
-                                        <label for="estructura">Mensaje sobre el cambio de estado</label>
+                                        <label for="descripcion">Mensaje sobre el cambio de  estado</label>
                                         <textarea id="descripcion" name="descripcion" placeholder="Escribe el mensaje" spellcheck="true"></textarea>
                                         <p>Esta información se enviará adjunta en el email de aviso</p>
                                         <input type="hidden" id="estado" name="estado">

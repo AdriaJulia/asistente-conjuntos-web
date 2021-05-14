@@ -18,7 +18,7 @@ use App\Enum\TipoBaseDatosEnum;
 use App\Enum\TipoOrigenDatosEnum;
 use App\Form\Model\AlineacionDatosDto;
 
-use App\Service\Processor\ProcessorTool; 
+use App\Service\Processor\Tool\ProcessorTool; 
 
 class AlineacionDatosManagerTest extends WebTestCase
 {
@@ -73,7 +73,7 @@ class AlineacionDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");

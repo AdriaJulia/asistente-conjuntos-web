@@ -56,11 +56,15 @@ class OrigenDatosController extends AbstractController
         $origenDatos = $origenDatosManager->new();    
         $id=null;
         $Istest = true;
+        $muestraSiguiente = "";
         //tomo la url para el botón anterior
         $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
         //tomo las urls del menu superior
         [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_URL,$this->getUser());
         [$form,$campos,$id,$Istest,$errorProceso]  = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
+        if (!empty($campos)) {
+            $muestraSiguiente = "muestraSiguiente";
+        } 
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
             if ($Istest) {
@@ -75,6 +79,7 @@ class OrigenDatosController extends AbstractController
                     'errorProceso' => $errorProceso,
                     'locationAnterior' => $locationAnterior,
                     'locationSigiente' => "",
+                    'muestraSiguiente' => $muestraSiguiente,
                     'campos' => $listaCampos,
                     'archivoActual' => "",
                     'ClassBody' => $this->ClassBody,
@@ -98,6 +103,7 @@ class OrigenDatosController extends AbstractController
                 'errorProceso' => $errorProceso,
                 'locationAnterior' => $locationAnterior,
                 'locationSigiente' => "",
+                'muestraSiguiente' => $muestraSiguiente, 
                 'campos' => $campos,
                 'archivoActual' => "",
                 'ClassBody' => $this->ClassBody,
@@ -139,9 +145,13 @@ class OrigenDatosController extends AbstractController
         $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
         $id=null;
         $Istest = true;
+        $muestraSiguiente = "";
          //tomo las urls del menu superior
         [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_FILE,$this->getUser());
         [$form,$campos,$id, $Istest,  $archivoActual, $errorProceso] = ($origenDatosFormProcessor)($iddes,$origenDatos, $request);
+        if (!empty($campos)) {
+            $muestraSiguiente = "muestraSiguiente";
+        } 
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
             if ($Istest) {
@@ -156,6 +166,7 @@ class OrigenDatosController extends AbstractController
                     'errorProceso' => $errorProceso,
                     'locationAnterior' => $locationAnterior,
                     'locationSigiente' => "",
+                    'muestraSiguiente' => $muestraSiguiente, 
                     'campos' => $listaCampos,
                     'archivoActual' =>  $archivoActual,
                     'ClassBody' => $this->ClassBody,
@@ -181,6 +192,7 @@ class OrigenDatosController extends AbstractController
                 'errorProceso' => $errorProceso,
                 'locationAnterior' => $locationAnterior,
                 'locationSigiente' => "",
+                'muestraSiguiente' => $muestraSiguiente, 
                 'campos' => $campos,
                 'archivoActual' =>  $archivoActual,
                 'ClassBody' => $this->ClassBody,
@@ -221,9 +233,13 @@ class OrigenDatosController extends AbstractController
         $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
         $id=null;
         $Istest = true;
+        $muestraSiguiente = "";
         //tomo las urls del menu superior
         [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
         [$form,$campos,$id, $Istest, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
+        if (!empty($campos)) {
+            $muestraSiguiente = "muestraSiguiente";
+        } 
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
              if ($Istest) {
@@ -238,6 +254,7 @@ class OrigenDatosController extends AbstractController
                     'errorProceso' => $errorProceso,
                     'locationAnterior' => $locationAnterior,
                     'locationSigiente' => "",
+                    'muestraSiguiente' => $muestraSiguiente,
                     'campos' => $listaCampos,
                     'archivoActual' => "",
                     'ClassBody' => $this->ClassBody,
@@ -262,6 +279,7 @@ class OrigenDatosController extends AbstractController
                 'errorProceso' => $errorProceso,
                 'locationAnterior' => $locationAnterior,
                 'locationSigiente' => "",
+                'muestraSiguiente' => $muestraSiguiente,
                 'campos' => $campos,
                 'archivoActual' => "",
                 'ClassBody' => $this->ClassBody,
@@ -306,9 +324,13 @@ class OrigenDatosController extends AbstractController
         $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
         $id=null;
         $Istest = true;
+        $muestraSiguiente ="";
         //tomo las urls del menu superior
         [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_URL,$this->getUser());
         [$form,$campos,$id, $Istest, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
+        if (!empty($campos)) {
+            $muestraSiguiente = "muestraSiguiente";
+        } 
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
             if ($Istest) {
@@ -323,6 +345,7 @@ class OrigenDatosController extends AbstractController
                     'errorProceso' => $errorProceso,
                     'locationAnterior' => $locationAnterior,
                     'locationSigiente' => "",
+                    'muestraSiguiente' => $muestraSiguiente,
                     'campos' => $listaCampos,
                     'archivoActual' => "",
                     'ClassBody' => $this->ClassBody,
@@ -347,6 +370,7 @@ class OrigenDatosController extends AbstractController
                 'errorProceso' => $errorProceso,
                 'locationAnterior' => $locationAnterior,
                 'locationSigiente' => "",
+                'muestraSiguiente' => $muestraSiguiente,
                 'campos' => $campos,
                 'archivoActual' => "",
                 'ClassBody' => $this->ClassBody,
@@ -393,9 +417,14 @@ class OrigenDatosController extends AbstractController
         $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
         $id=null;
         $Istest = true;
+        $muestraSiguiente = null;
        //tomo las urls del menu superior
         [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_FILE,$this->getUser());
         [$form,$campos,$id, $Istest,  $archivoActual, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
+        if (!empty($archivoActual) || !empty($campos)) {
+            $muestraSiguiente = "muestraSiguiente";
+        } 
+
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
         //si es test devuelvo el resultado del test, si no redirijo al paso3
              if ($Istest) {
@@ -412,6 +441,7 @@ class OrigenDatosController extends AbstractController
                     'locationSigiente' => "",
                     'archivoActual' => $archivoActual,
                     'campos' => $listaCampos,
+                    'muestraSiguiente' => $muestraSiguiente, 
                     'ClassBody' => $this->ClassBody,
                     'urlCrear' =>  $this->urlCrear,
                     'urlAyuda' =>  $this->urlAyuda,
@@ -435,6 +465,7 @@ class OrigenDatosController extends AbstractController
                 'locationAnterior' => $locationAnterior,
                 'locationSigiente' => "",
                 'campos' => $campos,
+                'muestraSiguiente' => $muestraSiguiente, 
                 'archivoActual' => $archivoActual,
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
@@ -478,9 +509,13 @@ class OrigenDatosController extends AbstractController
         $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
         $id=null;
         $Istest = true;
+        $muestraSiguiente = "";
         //tomo las urls del menu superior
         [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
         [$form,$campos,$id, $Istest, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
+        if (!empty($campos)) {
+            $muestraSiguiente = "muestraSiguiente";
+        } 
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
             if ($Istest) {
@@ -496,6 +531,7 @@ class OrigenDatosController extends AbstractController
                     'locationAnterior' => $locationAnterior,
                     'locationSigiente' => "",
                     'campos' => $listaCampos,
+                    'muestraSiguiente' => $muestraSiguiente, 
                     'archivoActual' => "",
                     'ClassBody' => $this->ClassBody,
                     'urlCrear' =>  $this->urlCrear,
@@ -520,6 +556,7 @@ class OrigenDatosController extends AbstractController
                 'locationAnterior' => $locationAnterior,
                 'locationSigiente' => "",
                 'campos' => $campos,
+                'muestraSiguiente' => $muestraSiguiente, 
                 'archivoActual' => "",
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,

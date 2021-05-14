@@ -7,21 +7,19 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: username
+         #       property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: lazy
-            form_login_ldap:
-               login_path: app_login
-               check_path: app_login
-               provider: aragon_ldap
-               service: Symfony\Component\Ldap\Ldap #system/provider your user authenticate to
-               dn_string: ""
+            provider: aragon_ldap
             logout:
                 path: app_logout
+            guard:
+                authenticators:
+                  - App\Security\LdapFormAuthenticator
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
             # https://symfony.com/doc/current/security/impersonating_user.html
@@ -34,6 +32,4 @@ security:
          - { path: ^/login,      roles: IS_AUTHENTICATED_ANONYMOUSLY } 
          - { path: ^/logout,     roles: IS_AUTHENTICATED_ANONYMOUSLY } 
          - { path: ^/asistentecamposdatos,   roles: ROLE_USER  }
-      
-         
-         
+         #- { path: ^/asistentecamposdatos, roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: [127.0.0.1, ::1, 192.168.1.1/24] }

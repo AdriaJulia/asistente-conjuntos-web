@@ -10,7 +10,7 @@ use App\Service\Manager\DescripcionDatosManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use App\Service\CurrentUser;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 /*
  * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
  *              Controla la validacion del formulario y serializa el Dto a la clase entidad
@@ -26,11 +26,13 @@ class DescripcionDatosPaso2FormProcessor
     public function __construct(
         CurrentUser $currentUser,
         DescripcionDatosManager $descripcionDatosManager,
+        ContainerBagInterface $params,
         FormFactoryInterface $formFactory
     ) {
         $this->currentUser = $currentUser;
         $this->descripcionDatosManager = $descripcionDatosManager;
         $this->formFactory = $formFactory;
+        $this->params = $params;
     }
 
     public function __invoke(DescripcionDatos $descripcionDatos,
@@ -53,7 +55,8 @@ class DescripcionDatosPaso2FormProcessor
             //$descripcionDatos->setCondiciones($descripcionDatosDto->condiciones);
             //se quita erl campo ya que se unifica con licencias se deja por posible retoma
             $descripcionDatos->setCondiciones("");
-            $descripcionDatos->setLicencias($descripcionDatosDto->licencias);
+
+            $descripcionDatos->setLicencias($this->params->get("licencia_conjunto_datos"));
             $descripcionDatos->setVocabularios($descripcionDatosDto->vocabularios);
             $descripcionDatos->setServicios($descripcionDatosDto->servicios);
 

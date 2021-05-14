@@ -1358,7 +1358,7 @@ img { max-width: 100%; }
   .asistente #col02 .fieldset .mediumLabels .form-group ul > li { color: #f00; }
 
   .asistente #col02 .fieldset .mediumLabels #selectorarchivo {}
-  .asistente #col02 .fieldset .mediumLabels #selectorarchivo label { font-weight: 400; height: 50px; background-color: var(--c-gris); color: var(--white); padding: 0 33px; border: 0; cursor: pointer; display: flex; align-items: center; width: 50%; }
+  .asistente #col02 .fieldset .mediumLabels #selectorarchivo label { font-weight: 400; height: 50px; background-color: var(--c-gris); color: var(--white); padding: 0 33px; border: 0; cursor: pointer; display: flex; align-items: center; width: 53%; }
   .asistente #col02 .fieldset .mediumLabels #selectorarchivo input { display: none; }
 
   .asistente #col02 .fieldset .mediumLabels .form-group.form-atributo { display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }

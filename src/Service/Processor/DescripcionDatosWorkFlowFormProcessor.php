@@ -2,6 +2,9 @@
 
 namespace App\Service\Processor;
 
+use App\Service\RestApiRemote\RestApiClient;
+use App\Enum\EstadoDescripcionDatosEnum;
+use App\Enum\TipoOrigenDatosEnum;
 use App\Form\Type\DescripcionDatosWorkFlowFormType;
 use App\Form\Model\DescripcionDatosDto;
 use App\Entity\DescripcionDatos;
@@ -22,15 +25,18 @@ class DescripcionDatosWorkFlowFormProcessor
     private $currentUser;
     private $descripcionDatosManager;
     private $formFactory;
+    private $restApiClient;
 
     public function __construct(
         CurrentUser $currentUser,
         DescripcionDatosManager $descripcionDatosManager,
+        RestApiClient $restApiClient,
         FormFactoryInterface $formFactory
     ) {
         $this->currentUser = $currentUser;
         $this->descripcionDatosManager = $descripcionDatosManager;
         $this->formFactory = $formFactory;
+        $this->restApiClient = $restApiClient;
     }
 
     public function __invoke(DescripcionDatos $descripcionDatos,
@@ -47,10 +53,20 @@ class DescripcionDatosWorkFlowFormProcessor
             $descripcionDatos->setSesion($request->getSession()->getId());
             $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
             $descripcionDatos->setEstado($descripcionDatosDto->estado);
+            $descripcionDatos->setProcesaAdo($descripcionDatosDto->porcesaAdo);
             $descripcionDatos->updatedTimestamps();
-            //envío a apirest
-            $descripcionDatos = $this->descripcionDatosManager->saveWorkflow($descripcionDatos,$request->getSession()); 
-             /*
+             
+            $origendatos = $descripcionDatos->getOrigenDatos();
+            if (($descripcionDatosDto->estado==EstadoDescripcionDatosEnum::VALIDADO) && 
+                ($origendatos->getTipoOrigen() ==TipoOrigenDatosEnum::BASEDATOS))
+            {
+                $uriGaodecore = $origendatos->getGaodcoreUri();
+                $IdGaodecore =  $this->restApiClient->GetGaodcoreResource($uriGaodecore,$origendatos->getEsquema(),true,$descripcionDatos->getIdentificacion());   
+                $descripcionDatos->setGaodcoreResourceId($IdGaodecore['resourceid']);
+            } else {
+                $descripcionDatos->setGaodcoreResourceId("");
+            }
+            /*
             switch ($descripcionDatosDto->estado) {
                 case EstadoDescripcionDatosEnum::EN_ESPERA:
                     $this->mailtool->sendEmail($descripcionDatos, $descripcionDatosDto->descripcion);
@@ -65,7 +81,10 @@ class DescripcionDatosWorkFlowFormProcessor
                     $this->mailtool->sendEmail($descripcionDatos, $descripcionDatosDto->descripcion);
                     break;
             }
-            */
+*/
+           //envío a apirest
+            $descripcionDatos = $this->descripcionDatosManager->saveWorkflow($descripcionDatos,$request->getSession()); 
+            
             
         }
         return [$form];

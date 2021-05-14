@@ -32,7 +32,7 @@ class OrigenDatosFileFormType extends AbstractType
                   'data' => 'file'
             ])
             ->add('archivo', FileType::class, [
-                'label' => 'Selecciona un archivo de tipo XML, JSON, CSV o XLS',
+                'label' => 'Selecciona un archivo de tipo XML, JSON, CSV, XLS, o XLSX',
                 'row_attr' => array(
                     'style' => 'margin-bottom: 30px;',
                     "class" => "form-group",
@@ -114,6 +114,12 @@ class OrigenDatosFileFormType extends AbstractType
                     break;
                 case 'x-xls':
                     $mime = "application/xls";
+                break;
+                case 'xlsx':
+                    $mime = "application/xlsx";
+                    break;
+                case 'x-xlsx':
+                    $mime = "application/xlsx";
                     break;
             }
             if (empty($mime)) {

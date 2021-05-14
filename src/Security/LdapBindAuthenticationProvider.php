@@ -2,11 +2,7 @@
 
 namespace App\Security;
 
-
-use App\Entity\User;
 use Symfony\Component\Ldap\Security\LdapUser;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\AST\Join;
 use Symfony\Component\Ldap\Security\LdapUserProvider;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
@@ -15,9 +11,7 @@ use Symfony\Component\Ldap\LdapInterface;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 /*
@@ -79,57 +73,6 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
      */
     public function loadUserByUsername($username)
     { 
-        //separo el nombre del dominio
-        $login = explode("@",$username);
-        $aragonUsername = "";
-        $aragonRama = "aragon.es";
-        if (count($login)==2) {
-            //recojo el nombre usuario Ldap
-            $aragonUsername = $login[0];
-            $username = $login[0];
-             //asigno el nombre de la rama segun el dominio del usuario
-            $aragonRama = ($login[1]=="ext.aragon.es") ? "dga" : $login[1];
-        }
-        //preparo la consulta LDAP
-        $this->searchDn = "uid={username},ou=People,o=" .  $aragonRama  . ",o=isp";
-        $this->baseDn = "ou=People,o=" .  $aragonRama  . ",o=isp";
-        try {
-             //pregunto al LDAP
-            $this->ldap->bind($this->searchDn, $this->searchPassword);
-            $username = $this->ldap->escape($username, '', LdapInterface::ESCAPE_FILTER);
-            $query = str_replace('{username}', $username, $this->defaultSearch);
-            $search = $this->ldap->query($this->baseDn, $query);
-        } catch (ConnectionException $e) {
-            $e = new UsernameNotFoundException(sprintf('User "%s" not found.', $username), 0, $e);
-            $e->setUsername($username);
-
-            throw $e;
-        }
-       
-        $entries = $search->execute();
-        $count = \count($entries);
-        if (!$count) {
-            $e = new UsernameNotFoundException(sprintf('User "%s" not found.', $username));
-            $e->setUsername($username);
-            throw $e;
-        }
-
-        if ($count > 1) {
-            $e = new UsernameNotFoundException('More than one user found.');
-            $e->setUsername($username);
-            throw $e;
-        }
-
-        $entry = $entries[0];
-
-        try {
-            if (null !== $this->uidKey) {
-                $username = $this->getAttributeValue($entry, $this->uidKey);
-            }
-        } catch (InvalidArgumentException $e) {
-        }
-
-        return $this->loadUser($username, $entry);
     }
 
     /**
@@ -138,7 +81,7 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
     public function refreshUser(UserInterface $user)
     {
         if (!$user instanceof LdapUser) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+            throw new UnsupportedUserException(sprintf('Las instancias of "%s" no son soportadas.', \get_class($user)));
         }
 
         return new LdapUser($user->getEntry(), $user->getUsername(), $user->getPassword(), $user->getRoles(), $user->getExtraFields());
@@ -150,7 +93,7 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
         if (!$user instanceof LdapUser) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+            throw new UnsupportedUserException(sprintf('Las instancias of "%s" no son soportadas.', \get_class($user)));
         }
 
         if (null === $this->passwordAttribute) {
@@ -175,7 +118,7 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
     }
 
     /**
-     * Loads a user from an LDAP entry.
+     * Carga el usuario desde LDAP entry.
      *
      * @return UserInterface
      */
@@ -209,21 +152,69 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
         $password = $this->encrypt($mail);
         $password = base64_encode($password);
         $extraFields['password'] =  $password;
-
         return new LdapUser($entry, $username, $password, $this->defaultRoles, $extraFields);
         
+    }
+
+    /***
+     * Descripcion: Es la funcion que intercepta la autenticación y lanza el proceso 
+     *              de loging personalizado contra el LDAP
+     *              
+     * Parametros:
+     *             username: nombre de usuario del formulario
+     *             password: contraseña de usuario del formulario
+     */
+    public function getUserEntityCheckedFromLdap($username,$password){
+
+        $correcto = !((empty($username) || empty($password)));
+        $login = explode("@",$username);
+        $aragonUsername = "";
+        $aragonRama = "aragon.es";
+        if (count($login)==2) {
+            //recojo el nombre usuario Ldap
+            $aragonUsername = $login[0];
+            $username = $login[0];
+            //asigno el nombre de la rama segun el dominio del usuario
+            $aragonRama = ($login[1]=="ext.aragon.es") ? "dga" : $login[1];
+        }
+        //preparo la consulta LDAP
+        $this->ldapSearchDnString = "uid={$username},ou=People,o=" .  $aragonRama  . ",o=isp";
+        $this->ldapBaseDn = "ou=People,o=" .  $aragonRama  . ",o=isp";
+      
+        try{
+            $this->ldap->bind($this->ldapSearchDnString, $password);
+        } catch(\Exception $ex){
+            $correcto = false; 
+        }
+        if (!$correcto){
+          throw new UsernameNotFoundException("Credenciales incorrectas. Por favor, vuelva a intentarlo de nuevo");
+        }
+        
+        $username = $this->ldap->escape($username, '', LdapInterface::ESCAPE_FILTER);
+        $search = $this->ldap->query($this->ldapBaseDn, 'uid=' . $username);
+        $entries = $search->execute();
+        $count = count($entries);
+        if (!$count) {
+            throw new UsernameNotFoundException(sprintf('El usuario "%s" no existe en el directorio.', $username));
+        }
+        if ($count > 1) {
+            throw new UsernameNotFoundException('Más de un usuario encontrado');
+        }
+        $entry = $entries[0];
+        
+        return $this->loadUser($username, $entry);
     }
 
     private function getAttributeValue(Entry $entry, string $attribute)
     {
         if (!$entry->hasAttribute($attribute)) {
-            throw new InvalidArgumentException(sprintf('Missing attribute "%s" for user "%s".', $attribute, $entry->getDn()));
+            throw new InvalidArgumentException(sprintf('El atributo "%s" para el usuario "%s" no existe.', $attribute, $entry->getDn()));
         }
 
         $values = $entry->getAttribute($attribute);
 
         if (1 !== \count($values)) {
-            throw new InvalidArgumentException(sprintf('Attribute "%s" has multiple values.', $attribute));
+            throw new InvalidArgumentException(sprintf('El atributo "%s" tiene multiples valores.', $attribute));
         }
 
         return $values[0];

@@ -72,7 +72,7 @@ class DescripcionDatosPaso2FormType extends AbstractType
                 'required' => false,
                 'help'=>''
            ])
-           */
+           
             ->add('licencias', TextType::class,[
                 "row_attr" => [
                     "class" => "form-group"
@@ -85,7 +85,7 @@ class DescripcionDatosPaso2FormType extends AbstractType
                 'required' => false,
                 'help_html' => true,
                 'help'=>'Para promover la máxima reutilización, en Aragón Open Data establecemos por defecto una licencia Creative Commons Attribution 4.0 según se expone en la sección Términos de uso. Si tu conjunto de datos por alguna razón legal, contractual o de otro tipo no puede ser ofrecido con esta licencia escríbenos a opendata@aragon.es y la modificaremos.'
-               ])
+               ])*/
             ->add('vocabularios', TextType::class,[
                 "row_attr" => [
                     'id' => 'divvocabularios',
@@ -94,7 +94,7 @@ class DescripcionDatosPaso2FormType extends AbstractType
                 "attr"=>[
                     'id' => 'inputvocabularios',
                     'data-role' => 'tagsinput',
-                    'placeholder' => 'Inserta una URL y pulsa ENTERr'
+                    'placeholder' => 'Inserta una URL y pulsa ENTER'
                 ],
                 "required" => false,
                 'help'=>'Puedes introducir una o varias URLs y pulsar ENTER para añadir cada una.'

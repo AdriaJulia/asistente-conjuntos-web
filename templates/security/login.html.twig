@@ -1,4 +1,7 @@
 {% extends 'base_login.html.twig' %}
+
+{% block title %}Asistente de creación de conjunto de datos - Autenticación{% endblock title %}
+
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
@@ -31,7 +34,7 @@
                             {% if error %}
                                 <div id="loginError" style="display: block;">
                                     <div class="ko" style="display: block;">
-                                        <p id="mensajeError">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                                        <p id="mensajeError">Credenciales incorrectas.<br/>Por favor, vuelva a intentarlo de nuevo.</p>
                                     </div>
                                 </div>    
                             {% endif %}

@@ -18,6 +18,7 @@ class AlineacionDatosDto {
     public $usuario;
     public $sesion;
     public $alineacionEntidades;
+    public $descripcionEntidad;
 
     public function __construct()
     {

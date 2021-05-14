@@ -12,7 +12,7 @@ use App\Enum\EstadoAltaDatosEnum;
 use App\Form\Model\DescripcionDatosDto;
 use App\Entity\DescripcionDatos;
 
-use App\Service\Processor\ProcessorTool; 
+use App\Service\Processor\Tool\ProcessorTool; 
 
 
 
@@ -81,7 +81,7 @@ class DescripcionDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -153,7 +153,7 @@ class DescripcionDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -217,7 +217,7 @@ class DescripcionDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
  
         $this->assertTrue($idexiste);
-        $this->assertEquals($uuidGenerator, $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
  
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");

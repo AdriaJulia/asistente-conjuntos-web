@@ -39,8 +39,14 @@ function submitForm(){
 
 function MuestraFormularioEstado(titulo, estado ){
    var urlworkflow = $("#urlworkflow").val();
+   var conAlineacion = ($('#divTablaAlineacion').length>0);
    $('legend[id="tituloPopUp"]').text(titulo);
    $('input[name="estado"]').val(estado);
    $('#formulariodatos').attr('action', urlworkflow);
+   if ((estado == 'VALIDADO') &&  (conAlineacion)){
+     $("#divapiaod").show();
+   } else{
+     $("#divapiaod").hide();
+   }
    $("#formularioPublicacion").modal("show");
 }

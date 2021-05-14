@@ -52,7 +52,6 @@ class DescripcionDatosPaso3FormProcessor
             //recojo los datos del formulario
             $descripcionDatos->setEstructura($descripcionDatosDto->estructura);
             $descripcionDatos->setEstructuraDenominacion($descripcionDatosDto->estructuraDenominacion);
-            $descripcionDatos->setLicencias($descripcionDatosDto->licencias);
             $descripcionDatos->setFormatos($descripcionDatosDto->formatos);
             $descripcionDatos->setEtiquetas($descripcionDatosDto->etiquetas);
             

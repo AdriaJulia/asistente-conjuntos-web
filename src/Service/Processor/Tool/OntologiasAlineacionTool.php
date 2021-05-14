@@ -2,8 +2,6 @@
 
 namespace App\Service\Processor\Tool; 
 
-
-use App\Enum\PrefijosOntologiasEnum;
 /*
  * Descripción: Es la clase aparece como conjunto de utilidades para generar las ontologia que se seleccionan en
  *              El formulario de alineación (paso 3)
@@ -16,11 +14,24 @@ class OntologiasAlineacionTool
 
      private $simplexml;
      private $simpleowl;
+     private $prefijosOntologias;
+
      public function __construct(){
           $sassistantMapping = str_replace($_SERVER['SCRIPT_URL'] , "", $_SERVER['SCRIPT_URI']) . "/resources/assistant_mapping.xml";   
           $this->simplexml = simplexml_load_file($sassistantMapping);
+          $ie2a = str_replace($_SERVER['SCRIPT_URL'] , "", $_SERVER['SCRIPT_URI']) . "/resources/EI2A.owl";
+          $this->simpleowl = simplexml_load_file($ie2a);
      }
 
+
+   /** 
+   * Descripción: Devuelve las ontologias principales del paso3
+   */  
+   public function GetPrefijosOntologias() {
+      if (!isset($this->prefijosOntologias)) {
+         $this->prefijosOntologias = $this->simplexml->getDocNamespaces(); 
+      }     
+   }
 
 
    /** 
@@ -45,19 +56,10 @@ class OntologiasAlineacionTool
      */ 
     public function GetOntologia($ontologia):array {
       $nombreOntologia = $this->DameNombreOntologia($ontologia);
-      $ie2a = str_replace($_SERVER['SCRIPT_URL'] , "", $_SERVER['SCRIPT_URI']) . "/resources/EI2A.owl";
-      $this->simpleowl = simplexml_load_file($ie2a);
       $ontologiaExtendida = $this->ExtiendeEntidad($ontologia);
-      $ontologiaPrincipal = array();
-      $Ontologiasview = array();
-      $atributesPrincipales = array();
       //primero recogemos los tributos de la entidad principal
-      foreach($this->simpleowl->children('owl',true)->Class as $Entry) {
-         if ($this->getAtributeXML($Entry,"rdf","about") == $ontologiaExtendida) {
-            $ontologiaPrincipal = $this->getAtributesEntidad($ontologia, $nombreOntologia);   
-         }
-      }
-      //ahora recogemos las entidades secundarias del mapa
+      $ontologiaPrincipal = $this->getAtributosEntidadHerencia($ontologia,$ontologiaExtendida,$nombreOntologia,array(),"","");
+    //ahora recogemos las entidades secundarias del mapa
       $subentides = array();
       foreach($this->simplexml->Entity as $Entry) {
          if ($this->getAtributeXML($Entry,"rdf","type") == $ontologia) {
@@ -74,25 +76,77 @@ class OntologiasAlineacionTool
          $ontologias = explode(">",$keySecubdaria);
          $ontologia =  $ontologias[count($ontologias) -1];
          $nombreOntologias = explode("> ",$valueSecundaria);
+
          $nombreOntologia = $nombreOntologias[count($nombreOntologias) -1];
          $ontologiaExtendida = $this->ExtiendeEntidad($ontologia);
-         //recorro el archivo ontologico otra vez con las secudaria
-         foreach($this->simpleowl->children('owl',true)->Class as $Entry) {
-            if ($this->getAtributeXML($Entry,"rdf","about") == $ontologiaExtendida) {
-               $ontologiasecundaria = $this->getAtributesEntidad($ontologia, $nombreOntologia);
-               ksort($ontologiasecundaria);
-               //ahora arreglo las etiquetas y las rutas ya que el principio de la secundaria se repite pon el final de la  primaria
-               foreach($ontologiasecundaria as $key=>$value) {  
-                  $keyJoin = str_replace($ontologia,"", $keySecubdaria) . $key; 
-                  $ValueJoin = str_replace($nombreOntologia,"", $valueSecundaria) . $value;   
-                  $ontologiaPrincipal[$keyJoin] = $ValueJoin;
-               } 
-            }
-         }
+
+         $ontologiaPrincipal = $this->getAtributosEntidadHerencia($ontologia,$ontologiaExtendida,$nombreOntologia,$ontologiaPrincipal, $keySecubdaria, $valueSecundaria);
       }
       return $ontologiaPrincipal;
    }
 
+   /** 
+     * Descripción: Devuelve el array de atributos en formato clave valor de un nodo y sus padres en herecia
+     * 
+     * Parametros: 
+     *             ontologia:  nombre ontologia contraida con prefijo
+     *             ontologiaExtendida: nombre ontologia extendida url completa
+     *             nombreOntologia: Nombre de la ontologia para las etiquetas
+     *             ontologiaJoin: array de la ontologia padre si el el padre es un array vacío
+     *             keySecubdaria: la key de la ontologia secundaria para formar la cadena seguimiento 
+     *             valueSecundaria: el valor la key de la ontologia secundaria para formar la cadena seguimiento    
+   */ 
+
+   public function getAtributosEntidadHerencia($ontologia, $ontologiaExtendida, $nombreOntologia, $ontologiaJoin, $keySecubdaria, $valueSecundaria): array {
+      $ontologiaPrincipal = array();
+      foreach($this->simpleowl->children('owl',true)->Class as $Entry) {
+         if ($this->getAtributeXML($Entry,"rdf","about") == $ontologiaExtendida) {
+            $ontologiasPadre = $this->DameEntidadesPadre($Entry);
+            foreach($ontologiasPadre as $ontologiaPadre) {
+               $ontologiaPadreComprimida = $this->ComprimeEntidad($ontologiaPadre);
+               $ontologiaPrincipal = $this->getAtributesEntidad($ontologia, $nombreOntologia);   
+               foreach($this->simpleowl->children('owl',true)->Class as $Entry) {
+                  if ($this->getAtributeXML($Entry,"rdf","about") == $ontologiaPadre) {
+                     $ontologiasPrincipalPadre = $this->getAtributesEntidad($ontologiaPadreComprimida, $nombreOntologia); 
+                     foreach($ontologiasPrincipalPadre as $key => $value) {
+                        $ontologiaPrincipal[$key] = $value;
+                     }   
+                  }
+               }
+            }
+            ksort($ontologiaPrincipal);
+         }
+         foreach($ontologiaPrincipal as $key=>$value) {  
+            $keyJoin = str_replace($ontologia,"", $keySecubdaria) . $key; 
+            $ValueJoin = str_replace($nombreOntologia,"", $valueSecundaria) . $value;   
+            $ontologiaJoin[$keyJoin] = $ValueJoin;
+         } 
+      }
+
+      return $ontologiaJoin;
+   }
+
+    /** 
+     * Descripción: Devuelve la descripcion y el enlace del la ontologia
+
+     * 
+     * Parametros: ontologia principal  
+     */ 
+   public function GetDescricionEnlaceOntologia($ontologia): array {
+      $descripcion = null;
+      $enalce = null;
+      foreach($this->simplexml->Entity as $Entry) {
+         if ($ontologia == $this->getAtributeXML($Entry,"rdf","type")) {
+               $descripcion = [$this->getAtributeXML($Entry,"rdfs","comment")]; 
+               $enalce = [$this->getAtributeXML($Entry,"rdf","about")];  
+            break;
+         }
+      }
+      return [$descripcion,$enalce];
+    }
+
+
+   
    /** 
      * Descripción: Devuelve el nombre (label) de la ontologia 
      * 
@@ -106,7 +160,7 @@ class OntologiasAlineacionTool
                                  $atributePefijo .">" . $this->getAtributeXML($entidad,"rdf","type"); 
       $titulo = empty($titulo) ? 
                   $this->getAtributeXML($entidad,"rdfs","label") :
-                         $titulo . "> " .$this->getAtributeXML($entidad,"rdfs","label"); 
+                         $titulo . " > " .$this->getAtributeXML($entidad,"rdfs","label"); 
       if ($entidad->Children()) { 
          $propiedades = $entidad->Property;
          foreach($propiedades as $propiedad) { 
@@ -121,6 +175,26 @@ class OntologiasAlineacionTool
        } 
 
        return $arraySubentidades;
+    } 
+
+   /** 
+     * Descripción: Loas ontologias Padre de la principal
+     * 
+     * Parametros: ontologia principal prefijada  
+     */ 
+    private function DameEntidadesPadre($entidad): array 
+    {
+      $entidadesPadre = [];
+      $count =0;
+      $clasesPadre =  $this->getNodesXML($entidad,"rdfs","subClassOf");
+      if ($clasesPadre) {
+         foreach((array)iterator_to_array($clasesPadre) as $subClassOf) {
+            $clasePadre =  $this->getAtributeXML($subClassOf,"rdf","resource");
+            $entidadesPadre[$count ] = $clasePadre;
+            $count++;
+         } 
+      }    
+      return $entidadesPadre;
     } 
 
    /** 
@@ -148,12 +222,31 @@ class OntologiasAlineacionTool
    private function ExtiendeEntidad($ontologia) : string {
       $extendida = "";
       $separador = explode(":",$ontologia);
+      $this->GetPrefijosOntologias();
       if (count($separador) == 2){
          $entidad = $separador[1];
-         $prefijo = PrefijosOntologiasEnum::fromString($separador[0]);
+         $prefijo = $this->prefijosOntologias[$separador[0]];
          $extendida = $prefijo . $entidad;
       }
       return $extendida;
+   }
+
+   /** 
+    * Descripción: Devuelve la entidad comprimida por su prefijo
+    * 
+    * Parametros: ontologiaextendida : nobre de la entidad extendido
+    */ 
+    private function ComprimeEntidad($ontologiaextendida) : string {
+      $comprimida = "";
+      $this->GetPrefijosOntologias();
+      foreach($this->prefijosOntologias as $key=>$value) {
+        if (strpos($ontologiaextendida,$value) !== false){
+         $entidad = trim(str_replace($value,"",$ontologiaextendida));
+         $comprimida= "{$key}:{$entidad}";
+         break;
+        }
+      }
+      return $comprimida;
    }
 
    /** 
@@ -215,7 +308,7 @@ class OntologiasAlineacionTool
             $atributoFinal = $this->DamePropiedad($Atributo, $Entidad, "#");
             foreach($atributoFinal as $key => $value){
                if (array_search($value, $atributos) == 0) {
-                  $atributos[$key] = $NombreEntidad . '> ' . $value;
+                  $atributos[$key] = $NombreEntidad . ' > ' . $value;
                }
             }
          }
@@ -226,7 +319,7 @@ class OntologiasAlineacionTool
             $atributoFinal = $this->DamePropiedad($Atributo, $Entidad, "@");
             foreach($atributoFinal as $key => $value){
                if (array_search($value, $atributos) == 0) {
-                  $atributos[$key] = $NombreEntidad . '> ' . $value;
+                  $atributos[$key] = $NombreEntidad . ' > ' . $value;
                }
             }
          }
@@ -257,12 +350,19 @@ class OntologiasAlineacionTool
          case '@':
                foreach($this->simpleowl->Children('owl',true)->FunctionalProperty as $Entry) {
                   if ($this->getAtributeXML($Entry,"rdf","about") == $atributo) {
-                     $node = $Entry->Children('rdfs',true)->label;
-                     $valor = ((array)iterator_to_array($node)['label'])[0];
+                     if (count(iterator_to_array($Entry->Children('rdfs',true)->label))) {
+                        $node = $Entry->Children('rdfs',true)->label;
+                        $valor = ((array)iterator_to_array($node)['label'])[0];
+                     } else if(count(iterator_to_array($Entry->Children('rdfs',true)->comment))) {
+                        $node = $Entry->Children('rdfs',true)->comment;
+                        $valor = ((array)iterator_to_array($node)['comment'])[0];
+                     } else {
+                        $valor = "Error";
+                     }
                      break;
                   }
                }
-               break;         
+               break;       
          default:
             # code...
             break;
@@ -277,7 +377,11 @@ class OntologiasAlineacionTool
      * Parametros: ontologia principal  
      */ 
    private function getAtributeXML($node, $pefix, $name ): string {
-      return ((array)iterator_to_array($node->attributes($pefix,true))[$name])[0];
+      $atribute = "";
+      if (in_array($name,array_keys((array)iterator_to_array($node->attributes($pefix,true))))) {
+         $atribute= ((array)iterator_to_array($node->attributes($pefix,true))[$name])[0];
+      }
+      return $atribute;
    }
 
 
@@ -288,7 +392,8 @@ class OntologiasAlineacionTool
     */ 
    private function AtributoPrefijado($atributo): string {
         $prefijado = "";
-        foreach(PrefijosOntologiasEnum::$types as $clave => $valor) {
+        $this->GetPrefijosOntologias();
+        foreach($this->prefijosOntologias as $clave => $valor) {
            if (!(strpos($atributo,$valor) === false)) {
               $nombre = str_replace($valor, "", $atributo);
               $prefijado = $clave . ":" . $nombre;

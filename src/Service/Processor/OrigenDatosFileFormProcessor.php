@@ -76,7 +76,8 @@ class OrigenDatosFileFormProcessor
             $request->getSession()->get("fileRequest","");
             $host_restapi = $this->params->get('host_restapi');
             $fileProbado =  $request->getSession()->get("fileProbado","");
- 
+            
+            $extesionNombre = "";
             if ($form->isValid()) {    
                 $origenDatos->setIdDescripcion($idDescripcion);
                 $origenDatos->setTipoOrigen($origenDatosDto->tipoOrigen);
@@ -92,14 +93,16 @@ class OrigenDatosFileFormProcessor
                      //el que guarda el archivo apirest
                     $origenDatosDto->archivo = $form->get('archivo')->getData(); 
                     $brochureFile = $form->get('archivo')->getData();
-                    $originalName = $brochureFile->getClientOriginalName();
-                    $ext = explode(".", $originalName);
-                    $pos = count($ext) -1;
-                    $extesionNombre = $ext[$pos];
-                    $fileaB64  = $brochureFile->getPathName();
+                    if ($brochureFile!=null) {
+                        $originalName = $brochureFile->getClientOriginalName();
+                        $ext = explode(".", $originalName);
+                        $pos = count($ext) -1;
+                        $extesionNombre = $ext[$pos];
+                        $fileaB64  = $brochureFile->getPathName();
+                    }
                 }
                 //saco la extension para mandar el archivo por apires en base 64
-                if ($extesionNombre) {
+                if (!empty($extesionNombre)) {
                     $mime = "";
                     switch ($extesionNombre) {
                         case 'xml':
@@ -119,6 +122,12 @@ class OrigenDatosFileFormProcessor
                             break;
                         case 'x-xls':
                             $mime = "application/xls";
+                            break;
+                        case 'xlsx':
+                            $mime = "application/xlsx";
+                            break;
+                        case 'x-xlsx':
+                            $mime = "application/xlsx";
                             break;
                     } 
                     if (empty($mime)) {
