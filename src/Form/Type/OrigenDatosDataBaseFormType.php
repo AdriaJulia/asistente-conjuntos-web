@@ -7,6 +7,7 @@ use App\Enum\TipoOrigenDatosEnum;
 use App\Enum\TipoBaseDatosEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,9 +32,34 @@ class OrigenDatosDataBaseFormType extends AbstractType
                   'attr' => [
                       'class' => 'select big',
                   ],
-                  'label'=>'Tipo de origen',
+                  'label'=>'Acceso al recurso:',
+                  'help' => 'Seleccione la forma de cómo se va a obtener el recurso.',
                   'data' => 'database'
                 ])
+            ->add('nombre', textType::class,[
+                "row_attr" => [
+                    "class" => "form-group"
+                ],
+                'attr' => [
+                    'class' => 'select big',
+                    'placeholder' => 'Introduce un nombre descriptivo',  
+                ],
+                'label'=>'Nombre:',
+                'help' => 'Introduce un nombre descriptivo puedes utilizar el mismo nombre que para el conjunto de datos.',
+                'required' => true
+            ])
+            ->add('descripcion', TextareaType::class,[
+                "row_attr" => [
+                  "class" => "form-group"
+                ],
+                'attr' => [
+                    'class' => 'select big',
+                    'placeholder' => 'Escribe un texto detallado',  
+                ],
+                'label'=>'Descripción:',
+                'help' => 'Si deseas dar más detalle sobre los datos',
+                'required' => false
+             ])
             ->add('tipoBaseDatos', ChoiceType::class, [
                 "row_attr" => [
                     "class" => "form-group"
@@ -50,7 +76,7 @@ class OrigenDatosDataBaseFormType extends AbstractType
                     "class" => "form-group"
                   ],
                 'attr' => [
-                    'placeholder' => 'Escriba el nombre del host',
+                    'placeholder' => 'Escribe el nombre del host',
                 ],
                 'help' =>'El nombre del host o ip de la conexión ejemplos: en SQLserever localhost\sqlexpress, en Mysql localhost',
                 'required' => true
@@ -60,38 +86,49 @@ class OrigenDatosDataBaseFormType extends AbstractType
                     "class" => "form-group"
                   ],
                 'attr' => [
-                    'placeholder' => 'Escriba el puerto',
+                    'placeholder' => 'Escribe el puerto',
                 ],
                 'help' =>'El puerto obligatorio aunque sea el de por defecto',
                 'required' => true
             ])
-            /*
-            ->add('servicio', TextType::class,[
-                'attr' => [
-                    'placeholder' => 'Escriba el servicio',
-                ],
-                'help' =>'Nombre del servicio o instancia de la BD',
-                'required' => true
-            ])
-            */
             ->add('esquema', TextType::class,[ 
                 "row_attr" => [ 
                     "class" => "form-group"
                   ],
                 'attr' => [
-                    'placeholder' => 'Escriba el esquema, o nombre de la Base datos',
+                    'placeholder' => 'Escribe el esquema, o nombre de la Base datos',
                 ],
-                'help' =>'Nombre del esquema de la BD. En sqlserver por ejemplo sería Northwind, en Mysql el nombre del esquema',
-                'required' => true
+                'help_html' => true,
+                'help' =>'Nombre del esquema de la BD. En sqlserver por ejemplo sería Northwind, en Mysql el nombre del esquema, en Oracle el workspace. <br>' .
+                         'Opcional para Oracle.',
+                'required' => false,
+                'label' => "Esquema*"
+            ])
+            ->add('servicio', TextType::class,[ 
+                "row_attr" => [ 
+                    "class" => "form-group"
+                  ],
+                'attr' => [
+                    'placeholder' => 'Escribe otros parámetros',
+                ],
+                'help_html' => true,
+                'help' => 'Otros parámetros para la conexión en formato uri. <br>' .
+                          'En Oracle se añadirá a CONNECT_DATA. Ejemplo de textos posibles: SID=orac, o SERVICE_NAME=preapp1.dga.eso <br>' .
+                          'En Mysql y/o PostgresSQL se añadirá como parámetro de la uri, Ejemplo de textos posibles: charset=utf8&init_command=SET NAMES UTF8',
+                'label' => 'Otros parámetros',
+                'required' => false
             ])
             ->add('tabla', TextType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                   ],
                 'attr' => [
-                    'placeholder' => 'Escriba el la tabla o vista',
+                    'placeholder' => 'Escribe el la tabla o vista',
                 ],
-                'help' =>'Nombre de la tabla o vista',
+                'help_html' => true,
+                'help' =>'Nombre de la tabla o vista.<br>'. 
+                         'Es posible que en algunos casos, se necesite especificar el prefijo de la tabla o vista como el esquema de seguridad.<br>' .
+                         'Ejemplo de textos posibles: tabla, prefijo.tabla',
                 'required' => true
             ])
             ->add('usuarioDB', TextType::class,[
@@ -99,7 +136,7 @@ class OrigenDatosDataBaseFormType extends AbstractType
                     "class" => "form-group"
                   ],
                 'attr' => [
-                    'placeholder' => 'Escriba del usuario de la BD',
+                    'placeholder' => 'Escribe del usuario de la BD',
                 ],
                 'help' =>'Nombre del usuario de la BD',
                 'label' => 'Usuario',
@@ -111,7 +148,7 @@ class OrigenDatosDataBaseFormType extends AbstractType
                     "class" => "form-group"
                   ],
                 'attr' => [
-                    'placeholder' => 'Escriba la contraseña  de la BD',
+                    'placeholder' => 'Escribe la contraseña  de la BD',
                 ],
                 'help' =>'Contraseña del usuario de la BD',
                 'label' => 'Contraseña',
@@ -150,12 +187,16 @@ class OrigenDatosDataBaseFormType extends AbstractType
 
     public function validate($data, ExecutionContextInterface $context,$payload): void
     {
+        if (empty($data->nombre)) {
+            $context->buildViolation('El nombre no puede estar vacío')
+            ->atPath('nombre')
+            ->addViolation();
+        }
         if (empty($data->tipoBaseDatos)) {
             $context->buildViolation('Seleccione una un tipo de base datos')
             ->atPath('tipoBaseDatos')
             ->addViolation();
         }
-
         if (empty($data->host)) {
             $context->buildViolation('El host no es valido')
             ->atPath('host')
@@ -166,10 +207,12 @@ class OrigenDatosDataBaseFormType extends AbstractType
             ->atPath('puerto')
             ->addViolation();
         }
-        if (empty($data->esquema)) {
-            $context->buildViolation('El esquema no es valido')
-            ->atPath('esquema')
-            ->addViolation();
+        if ($data->tipoBaseDatos!=TipoBaseDatosEnum::ORACLE) {
+            if (empty($data->esquema)) {
+                $context->buildViolation('El esquema no es valido')
+                ->atPath('esquema')
+                ->addViolation();
+            }
         }
         if (empty($data->tabla)) {
             $context->buildViolation('La tabla no es valida')

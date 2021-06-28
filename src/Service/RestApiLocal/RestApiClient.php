@@ -9,6 +9,8 @@ use App\Enum\RutasApirestEnum;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+use Psr\Log\LoggerInterface;
  
 /*
  * Descripción: Clase que lanza la solicitud sobre la rest API.
@@ -22,12 +24,15 @@ class RestApiClient
     private $client;
     private $params;
     private $currentUser;
+    private $logger;
 
     public function __construct(HttpClientInterface $client,
                                 ContainerBagInterface $params,
-                                CurrentUser $currentUser){
+                                CurrentUser $currentUser,
+                                LoggerInterface $logger){
         $this->client = $client;
         $this->params = $params;
+        $this->logger = $logger;
         $this->currentUser = $currentUser;
     }
     
@@ -132,6 +137,8 @@ class RestApiClient
     */ 
     public function PostContent($url, $jsondata, $token, $session): array {
          //dame contenido
+        $contex = array("URL" =>$url);
+        $this->logger->info($jsondata,$contex);
         $content = $this->PostInformation($url, $jsondata, $token);
           //si devuelves error 401 es ie el token JWT esta caducado y tengo que pedir otro.
         if ($content['statusCode']==401) {
@@ -191,7 +198,7 @@ class RestApiClient
         if ($statusCode==401){
             return array('data'=>$content,'statusCode'=>$statusCode);
         } 
-        if ($statusCode>=422) {
+        if ($statusCode>=400) {
             $headers = $response->getInfo()['response_headers'];
             $error = "Error al procesar el archivo";
             foreach($headers as $head){

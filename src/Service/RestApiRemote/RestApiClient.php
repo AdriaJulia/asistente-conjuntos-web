@@ -2,9 +2,11 @@
 
 namespace App\Service\RestApiRemote;
 
+use Exception;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
-
+use Symfony\Component\HttpClient\Exception\TransportException;
+use Psr\Log\LoggerInterface;
 
  /*
  * Descripción: Clase que realiza las llamadas a otras Apirest de 3º como la del gobierno de Aragón  para 
@@ -14,11 +16,13 @@ class RestApiClient
 {
     private $client;
     private $params;
-
+    private $logger;
     public function __construct(HttpClientInterface $client,
+                                LoggerInterface $logger,
                                 ContainerBagInterface $params){
         $this->client = $client;
         $this->params = $params;
+        $this->logger = $logger;
     }
     
     /*
@@ -43,118 +47,103 @@ class RestApiClient
     }
 
     /*
-     * Descripción: Devuelve la validacion de gaodcore
-     * Parametros: 
-     *            uri: URL de la BD
-     *            objectlocation: 
-    */     
-    private function GetGaodcoreValidator($uri, $objectlocation) : array {
-        $url = $this->params->get('url_gaodcore_validator');
-        $url = "{$url}?uri={$uri}&object_location={$objectlocation}";
-        $validator = $this->GetInformation($url);
-        $validado = (count($validator)>0); 
-        return ["validado"=>$validado];
-    }
-
-    /*
-     * Descripción:  Devuelve el conector de gaodcore 
-     * Parametros: 
-     *            uri: URL de la BD
-     *            objectlocation: Nombre de la tabla o vista. de forma completa - Ejemplo postgreSQL: schema.table
-     *            enable: si se quiere tener activa desde el inicio
-     *            name: Nombre que se le quiera dar.
-     * 
-    */     
-    private function GetGaodcoreConnector($uri, $objectlocation, $enable, $name):array {
-     
-        $conector = array();
-        if ($this->GetGaodcoreValidator($uri, $objectlocation)["validado"]) {
-            $url = $this->params->get('url_gaodcore_connector');
-            $params = ["uri"=>$uri, "enabled"=> $enable,"name"=>$name];
-            $conector = $this->PostInformation($url,$params);
-        }
-        return $conector;
-    }
-
-   /*
-     * Descripción:  Devuelve el recurso de gaodcore
-     * Parametros: 
-     *            name: Nombre que se le quiera dar.
-     *            connector_config: models.ForeignKey ConnectorConfig, on_delete=models.CASCADE Id del conector. Lo obtienes del paso anterior.
-     *            enable:True si se quiere tener activa desde el inicio
-     *            objectlocation: Nombre de la tabla o vista. de forma completa - Ejemplo postgreSQL: schema.table
-     * 
-    */     
-    public function GetGaodcoreResource($uri, $objectlocation, $enable, $name):array {
-
-        $resource = array();
-        $connector = $this->GetGaodcoreConnector($uri, $objectlocation, $enable, $name);
-        if (count($connector)){
-            $connector_config = $connector['connectorConfig']['id'];
-            $url = $this->params->get('url_gaodcore_resource');
-            $params = ["name"=>$name, "enabled"=> $enable,"object_location"=>$objectlocation,"connector_config"=>$connector_config];
-            $resource = $this->PostInformation($url,$params);
-            $resourceid = $resource['resourceConfig']['id'];
-            $resource = ["resourceid" => $resourceid];
-        } 
-        return $resource;
-    }
-
-    /*
      * Descripción: Funcion generica para llamadas get apirest de 3º
      * 
      * Parametros: ruta: ruta get de los datos que se desea obtener
     */  
 
-    private function GetInformation($ruta): array {
+    public function GetInformation($ruta, $autorization=""): array {
         $content = array();
 
-        $response = $this->client->request('GET', $ruta, [
-            'headers' => [
+        $headers =  [
+            'content-type' => 'application/json',
+            'accept' => 'application/json'
+        ];
+        if (!empty($autorization)) {
+            $autorization= "Basic " . $autorization;
+            $headers =  [
                 'content-type' => 'application/json',
-                'accept' => 'application/json'
-            ],
-        ]);
-        
-        $statusCode = $response->getStatusCode();
-        // $statusCode = 200
-        $contentType = $response->getHeaders()['content-type'][0];
-        // $contentType = 'application/json'
-        $content = $response->getContent();
-        // $content = '{"id":521583, "name":"symfony-docs", ...}'
-        $content = $response->toArray();
+                'accept' => 'application/json',
+                'authorization' => $autorization
+            ];
+        }
+        try{
+            $response = $this->client->request('GET', $ruta, [
+                'timeout' => 2.5,
+                'headers' =>$headers,
+            ]);
+            
+            $statusCode = $response->getStatusCode();
+            // $statusCode = 200
+            if(($statusCode>=200) && ($statusCode<300)) {
+                $contentType = $response->getHeaders()['content-type'][0];
+                // $contentType = 'application/json'
+                $content = $response->getContent();
+                // $content = '{"id":521583, "name":"symfony-docs", ...}'
+                $content = $response->toArray();
+                // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
+            } else {
+                $error = "Website GetInformation statusCode: {$statusCode}: - Ruta: {$ruta}";
+                $this->logger->error($error);
+            }
+        } catch(TransportException $ex){
+            $this->logger->error($ex->getMessage());
+        }
         // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
-
         return $content;
     }
 
 
-        /*
+    /*
      * Descripción: Funcion generica para llamadas get apirest de 3º
      * 
      * Parametros: ruta: ruta get de los datos que se desea obtener
     */  
 
-    private function PostInformation($ruta,$parameters): array {
+    public function PostInformation($ruta,$parameters,$autorization=""): array {
         $content = array();
 
-        $response = $this->client->request('POST', $ruta, [
-            'headers' => [
-                'content-type' => 'application/x-www-form-urlencoded',
-                'accept' => 'application/json'
-            ],
-            'body' => $parameters
-        ]);
-        
-        $statusCode = $response->getStatusCode();
-        // $statusCode = 200
-        $contentType = $response->getHeaders()['content-type'][0];
-        // $contentType = 'application/json'
-        $content = $response->getContent();
-        // $content = '{"id":521583, "name":"symfony-docs", ...}'
-        $content = $response->toArray();
-        // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
+        $headers =  [
+            'content-type' => 'application/json',
+            'accept' => 'application/json'
+        ];
+        if (!empty($autorization)) {
+            $autorization= "Basic " . $autorization;
+            $headers =  [
+                'content-type' => ' application/x-www-form-urlencoded',
+                'accept' => 'application/json',
+                'authorization' => $autorization
+            ];
+        }
 
+        try{
+            $response = $this->client->request('POST', $ruta, [
+                'timeout' => 2.5,
+                'headers' => $headers,
+                'body' => $parameters
+            ]);
+            
+            $statusCode = $response->getStatusCode();
+            // $statusCode = 200
+            if(($statusCode>=200) && ($statusCode<300)) {
+                $contentType = $response->getHeaders()['content-type'][0];
+                // $contentType = 'application/json'
+                $content = $response->getContent();
+                // $content = '{"id":521583, "name":"symfony-docs", ...}'
+                $content = $response->toArray();
+                // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
+            }  else {
+                $paramErro= "";
+                foreach($parameters as $key=>$value){
+                    $par = "[{$key}]={$value} \n";
+                    $paramErro = $paramErro + $par;
+                }
+                $error = "Website PostInformation statusCode: {$statusCode}: - Ruta: {$ruta} - Parametros : {$paramErro}";
+                $this->logger->error($error);
+            }
+        } catch(TransportException $ex){
+            $this->logger->error($ex->getMessage());
+        }
         return $content;
     }
 

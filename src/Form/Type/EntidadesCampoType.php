@@ -80,7 +80,7 @@ class EntidadesCampoType extends AbstractType
                 $states = (array) $states;
             }
 
-            return array_combine(array_values($states), array_values($states));
+            return array_combine(array_values($states), array_keys($states));
         });
     }
 }

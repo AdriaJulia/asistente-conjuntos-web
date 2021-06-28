@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Service\Processor\SoporteFormProcessor;
 
-use Symfony\Component\Ldap\Ldap;
+use Psr\Log\LoggerInterface;
 
 /*
  * Descripción: Es el controlador de la ayuda y del envío mail a soporte
@@ -31,20 +31,21 @@ class AyudaController extends AbstractController
      *             request:                   El objeto request de la llamada
      */
     /**
-    * @Route("/asistentecamposdatos/ayuda/{pagina}", requirements={"pagina"="\d+"}, name="asistentecamposdatos_ayuda_index")
+    * @Route("/asistentecamposdatos/ayuda/{pagina}", name="asistentecamposdatos_ayuda_index")
     */
-   public function indexAction(int $pagina=1,
+   public function indexAction(string $pagina="distribucion",
                                ToolController $toolController,
                                Request $request) {
 
        //el class de body en este controlador no es siempre el mismo     
       $this->ClassBody = "ayuda comunidad usuarioConectado";
       //tomo las urls del menu superior 
-      [$this->urlAyuda, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_PASO11,$this->getUser());
+      [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_DISTRIBUCION,$this->getUser());
       $locationAnterior = $request->getRequestUri();
       return $this->render('ayuda.html.twig',[
                               'ClassBody' => $this->ClassBody,
                               'urlAyuda' => $this->urlAyuda,
+                              'urlSoporte' => $this->urlSoporte,
                               'urlCrear' => $this->urlCrear,
                               'urlMenu' =>  $this->urlMenu,
                               'locationAnterior' => $locationAnterior
@@ -60,21 +61,24 @@ class AyudaController extends AbstractController
      *             request:                   El objeto request de la llamada
      */
     /**
-    * @Route("/asistentecamposdatos/ayuda/soporte", name="asistentecamposdatos_ayuda_soporte")
+    * @Route("/asistentecamposdatos/soporte", name="asistentecamposdatos_ayuda_soporte")
     */
      public function soporteAction(SoporteFormProcessor $soporteFormProcessor,
                                    ToolController $toolController,
+                                   LoggerInterface $logger,
                                    Request $request) {
 
         //el class de body en este controlador no es siempre el mismo                                  
         $this->ClassBody = "asistente comunidad usuarioConectado";
         //tomo las urls del menu superior 
-        [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_PASO11,$this->getUser());
+        [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_DISTRIBUCION,$this->getUser());
         $locationAnterior = $request->getRequestUri();
-        //recojo la url de la pagina de soporte para volver a la ayuda con locationAnterior
-        $this->urlSoporte = $toolController->getSoporte($_SERVER);
         // este el pro
-        [$form, $soporte] = ($soporteFormProcessor)($request);
+        $error = "";
+        [$form, $soporte,$error] = ($soporteFormProcessor)($request);
+        if (!empty($error)) {
+            $logger->error($error);
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             //muestro elm mensaje de correo enviado
             return $this->render('soporte.html.twig', [
@@ -83,9 +87,10 @@ class AyudaController extends AbstractController
                 'soporte_form' => $form->createView(),
                 'enviado' => 'si',
                 'urlAyuda' => $this->urlAyuda,
+                'urlSoporte' => $this->urlSoporte,
                 'urlMenu' =>  $this->urlMenu,
                 'urlCrear' => $this->urlCrear,
-                'errorProceso' => ''
+                'errorProceso' => $error
             ]);
         } else {
             //muestro el formulario 
@@ -94,10 +99,11 @@ class AyudaController extends AbstractController
                 'locationAnterior' =>  $locationAnterior,
                 'enviado' => '',
                 'urlAyuda' => $this->urlAyuda,
+                'urlSoporte' => $this->urlSoporte,
                 'urlMenu' =>  $this->urlMenu,
                 'urlCrear' => $this->urlCrear,
                 'soporte_form' => $form->createView(),
-                'errorProceso' => ''
+                'errorProceso' => $error
             ]);
         }
     }

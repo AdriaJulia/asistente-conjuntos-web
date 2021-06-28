@@ -16,7 +16,7 @@
                     <select name="table-filter" id="table-filter">
                         <option value="TODOS">Todos</option>
                         <option value="BORRADOR">Borrador</option>
-                        <option value="EN_ESPERA_PUBLICACION">En espera de validación</option>
+                        <option value="EN_ESPERA_VALIDACION">En espera de validación</option>
                         <option value="EN_ESPERA_MODIFICACION">Solicitud de modificación</option>
                         <option value="VALIDADO">Validado</option>
                         <option value="EN_CORRECCION">En corrección</option>
@@ -31,13 +31,14 @@
         </div>
     </div>
 <div class="container">
+    <input type="hidden" id="esAdmnistrador" value="{{ esAdministrador }}"/>
     <div class="row">
         <div class="col col-12 col-contenido">
             <div class="wrapCol">
                 <div class="header-contenido">
                     <div class="h1-container">
                         <h1>
-                            Listado de conjuntos de datos
+                            Listado de distribuciones de conjuntos de datos
                             <span class="numResultados">({{ totalElementos }})</span>
                         </h1>
                     </div>
@@ -47,7 +48,12 @@
                 <thead>
                     <tr>
                         <th class="th-estado">Estado</th>
+                        <th class="th-dato">Título</th>
                         <th class="th-dato">Conjunto de datos</th>
+                        <th class="th-dato">Principal</th>
+                        {% if esAdministrador == true %}
+                           <th class="th-dato">Usuario</th>
+                        {% endif %}
                         <th class="th-fecha">Creación</th>
                         <th class="th-fecha">Modificación</th>
                     </tr>
@@ -61,8 +67,23 @@
                                     <span>{{descripcion.estadoDescripcion}}</span>
                                 </td>
                                 <td class="td-dato">
-                                    <a href="{{descripcion.link}}">{{descripcion.descripcion }}</a>
+                                   {% if descripcion.conjuntoDatos |length > 0 %}
+                                        <a href="{{descripcion.link}}">{{descripcion.conjuntoDatos}}</a>
+                                   {% else %}
+                                        <a href="{{descripcion.link}}"><i>pendiente</i></a>
+                                   {% endif %}
                                 </td>
+                                <td class="td-dato">
+                                    <span>{{descripcion.descripcion}}</span>
+                                </td>
+                                <td class="td-dato">
+                                    <span>{{descripcion.principal}}</span>
+                                </td>
+                                {% if esAdministrador == true %}
+                                    <td class="td-dato">
+                                        <span>{{descripcion.usuario}}</span>
+                                    </td>
+                                {% endif %}
                                 <td class="td-fecha">{{descripcion.fechaInicio}}</td>
                                 <td class="td-fecha">{{descripcion.fechaFin}}</td>
                             </tr>

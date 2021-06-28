@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Asistente de creación de conjunto de datos - Paso 1.1{% endblock title %}
+{% block title %}Asistente de creación de conjunto de datos - Paso 1{% endblock title %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,6 +13,7 @@
 
 {% block body %}
 <div class="container" style="display:{{ permisoEdicion }}">
+    <input type="hidden" id="urltags" value="{{ urltags }}">
 	<div class="row">                  
         <div id="col02" class="col col-12">
              <div class="form formtheme01">
@@ -22,17 +23,14 @@
                         <li class="paso01 active">
                             <span>1</span>
                         </li>
-                        <li class="paso01-1 uncomplete">
-                            <span></span>
-                        </li>
-                        <li class="paso01-2 uncomplete">
-                            <span></span>
-                        </li>
                         <li class="paso02 uncomplete">
                             <span>2</span>
                         </li>
-                        <li class="paso03 uncomplete">
+                        <li class="paso04 uncomplete">
                             <span>3</span>
+                        </li>
+                        <li class="paso03 uncomplete">
+                            <span>4</span>
                         </li>
                     </ul>
                 </div>
@@ -41,11 +39,11 @@
                     {{ form_start(paso1_form) }}
                     <div class="fieldset fieldset01">
                         <fieldset class="mediumLabels">
-                            <legend>Paso 1.1</legend>
-                            <h2>Descripción del conjunto de datos - Contenido</h2>
+                            <legend>Paso 1</legend>
+                            <h2>Contenido</h2>
                             <div>
                                 {{ form_widget(paso1_form) }}
-                                <div class="fieldset actionButtons">
+                                <div id="actionButtons" class="fieldset actionButtons" style="display: none;">
                                     <fieldset>
                                         <input class="submit principal" type="submit" id="siguiente" value="Guardar y siguiente...">
                                     </fieldset>

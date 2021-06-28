@@ -11,6 +11,7 @@
 <div class="container" style="display:{{ permisoEdicion }}">
     <input type="hidden" id="muestraError" value="{{ muestraError }}"/>
     <input type="hidden" id="urlworkflow" value="{{ urlworkflow }}"/>
+{% if permisoEdicion != 'none' %}
     <div class="row">
         <div class="col col-12">
             <div class="wrapCol">
@@ -20,19 +21,29 @@
                             <a href="#" onclick="javascript:MuestraFormularioEstado('Solicitar modificación','EN_ESPERA_MODIFICACION'); return 0" class="btn">Solicitar modificación</a>
                         </li>
                          <li style="display:{{ verbotonesPublicacion }}">    
-                            <a href="#" onclick="javacript:MuestraFormularioEstado('Solicitar publicación','EN_ESPERA_PUBLICACION'); return 0" class="btn">Solicitar publicación</a>
+                            <a href="#" onclick="javacript:MuestraFormularioEstado('Solicitar publicación','EN_ESPERA_VALIDACION'); return 0" class="btn">Solicitar publicación</a>
                         </li>
-                         <li style="display:{{ verbotonesAdminValidar }}">     
-                            <a href="#" onclick="javascript:MuestraFormularioEstado('Validar','VALIDADO');" class="btn">Aceptar</a>
-                        </li>
-                        <li style="display:{{ verbotonesAdminDesechar }}">    
-                            <a href="#" onclick="javascript:MuestraFormularioEstado('Desechar','DESECHADO');" class="btn">Rechazar</a>
-                        </li>
+                        {% if data.estado == "En espera de validación" %}
+                            <li style="display:{{ verbotonesAdminValidar }}">     
+                                <a href="#" onclick="javascript:MuestraFormularioEstado('Validar','VALIDADO');" class="btn">Validar</a>
+                            </li>
+                            <li style="display:{{ verbotonesAdminDesechar }}">    
+                                <a href="#" onclick="javascript:MuestraFormularioEstado('Desechar','DESECHADO');" class="btn">Desechar</a>
+                            </li>
+                        {% endif %}
+                        {% if data.estado == "Solicitud de modificación" %}
+                            <li style="display:{{ verbotonesAdminValidar }}">     
+                                <a href="#" onclick="javascript:MuestraFormularioEstado('Validar','VALIDADO');" class="btn">Aceptar</a>
+                            </li>
+                            <li style="display:{{ verbotonesAdminDesechar }}">    
+                                <a href="#" onclick="javascript:MuestraFormularioEstado('Desechar','DESECHADO');" class="btn">Rechazar</a>
+                            </li>
+                        {% endif %}
                         <li style="display:{{ verbotonesAdminCorregir }}">    
-                            <a href="#" onclick="javascript:MuestraFormularioEstado('Corregir','EN_CORRECCION');" class="btn">Corregir</a>
+                            <a href="#" onclick="javascript:MuestraFormularioEstado('Solicitar corrección','EN_CORRECCION');" class="btn">Solicitar corrección</a>
                         </li>
                         <li style="display:{{ verbotonesAdminEditar }}">    
-                             <a href="#" onclick="javascript:MuestraFormularioEstado('Corregir','EN_CORRECCION');" class="btn">Editar</a>
+                             <a href="#" onclick="javascript:MuestraAsistenteEstado();" class="btn">Editar</a>
                         </li>
                          <li style="display:{{ verEditar }}">    
                             <a href="{{ editLink }}"class="btn">Editar</a>
@@ -48,12 +59,25 @@
                             <span class="estado {{data.estadoKey}}"></span>
                             <span>{{ data.estado }}</span>
                         </div>
-                        <div class="h1-container">
-                            <h1>{{ data.denominacion }}</h1>
-                        </div>
+                        <br>
+                        {% if nombreOrigen |length > 0 %}
+                            <div class="h1-container">                             
+                                 <h1>{{ nombreOrigen }} </h1>
+                            </div>
+                        {% else %}
+                            <div class="h1-container">                             
+                                 <h1>{{ data.titulo }}</h1>
+                            </div>
+                         {% endif %}
                     </div>
                     <div class="contenido">
                         <div class="grupo grupo-descripcion">
+                            {% if nombreOrigen |length > 0 %}
+                                <div class="form-group">
+                                    <label for="conjunto_datos_nombre">Conjunto de datos</label>
+                                    <input type="text" name="conjunto_datos_nombre" id="conjunto_datos_nombre" value="{{ data.titulo }}" class="text big" readonly>
+                                </div>
+                            {% endif %}
                             <div class="form-group">
                                 <label for="identificador">Identificador</label>
                                 <input type="text" name="identificador" id="identificador" value="{{ data.identificador }}" class="text big" readonly>
@@ -63,36 +87,54 @@
                                 <textarea name="descripcionContenido" id="descripcionContenido" cols="30" rows="10" readonly>{{ data.descripcion }}</textarea>
                             </div>
                             <div class="form-row">
-                                <div class="col col-12 col-md-6">
-                                    <label for="frecuenciaActulizacion">Frecuencia de actualización</label>
-                                    <input type="text" name="frecuencia" id="frecuencia" value="{{ data.frecuencia }}" class="text big" readonly>
-                                </div>
-                                <div class="col col-12 col-md-3">
-                                    <label for="fechaInicio">Fecha de inicio</label>
-                                    <input type="text" name="fechaInicio" id="fechaInicio" value="{{ data.fechaInicio }}" class="text big" readonly>
-                                </div>
-                                <div class="col col-12 col-md-3">
-                                    <label for="fechaFinal">Fecha final</label>
-                                    <input type="text" name="fechaFin" id="fechaFin" value="{{ data.fechaFin }}" class="text big" readonly>
-                                </div>
+                                {% if data.frecuencia|length > 0 %}
+                                    <div class="col col-12 col-md-6">
+                                        <label for="frecuenciaActulizacion">Frecuencia de actualización</label>
+                                        <input type="text" name="frecuencia" id="frecuencia" value="{{ data.frecuencia }}" class="text big" readonly>
+                                    </div>
+                                {% endif %}
+                                {% if data.fechaInicio|length > 0 %}
+                                    <div class="col col-12 col-md-3">
+                                        <label for="fechaInicio">Contiene información desde</label>
+                                        <input type="text" name="fechaInicio" id="fechaInicio" value="{{ data.fechaInicio }}" class="text big" readonly>
+                                    </div>
+                                {% endif %}
+                                {% if data.fechaFin|length > 0 %}
+                                    <div class="col col-12 col-md-3">
+                                        <label for="fechaFinal">hasta</label>
+                                        <input type="text" name="fechaFin" id="fechaFin" value="{{ data.fechaFin }}" class="text big" readonly>
+                                    </div>
+                                {% endif %}
                             </div>
-                            <div class="form-row">
-                                <div class="col col-12 col-md-6">
-                                    <label for="frecuenciaActulizacion">Territorio que abarcan</label>
-                                    <input type="text" name="frecuencia" id="frecuencia" value="{{ data.territorio }}" class="text big" readonly>
+                             <div class="form-row">
+                                 {% if data.coberturaGeografica|length > 0 %}
+                                    <div class="col col-12 col-md-6">
+                                        <label for="coberturaGeografica">Cobertura geográfica</label>
+                                        <input type="text" name="coberturaGeografica" id="coberturaGeografica" value="{{ data.coberturaGeografica }}" class="text big" readonly>
+                                    </div>
+                                 {% endif %}
+                             </div>
+                             <div class="form-row">
+                                <div class="col col-12 col-md-12">
+                                    <label for="licencias">Licencia</label>
+                                      {% if data.licencias_url | length > 0 %}
+                                           <a href="{{data.licencias_url}}" target="_blanck" class="text big" readonly>{{data.licencias_texto}}</a> 
+                                      {% else %}
+                                          <label class="text big">Sin licencia</label>
+                                      {% endif %}
                                 </div>
                              </div>
-                            {% if data.instancias|length > 0 %}
+                            {% if data.idiomas|length > 0 %}
                                 <div class="form-group">
-                                    <label for="txtTags" id="lblEtiquetas">Instacias</label>
+                                    <label for="txtTags" id="lblEtiquetas">Idiomas</label>
                                     <div class="autocompletar">
                                         <span class="contenedor">
-                                            {% for instacia in data.instancias %}
-                                                <div class="tag" title="{{ instacia }}">
+                                            {% for idioma in data.idiomas %}
+                                                <div class="tag" title="{{ idioma }}">
                                                     <div>
-                                                        {{ instacia }}
+                                                        {{ idioma }}
                                                     </div>
-                                                    <input type="text" value="{{ instacia }}">
+                                                    <input type="text" value="{{ idioma }}">
                                                 </div>
                                             {% endfor %}
                                         </span>
@@ -100,62 +142,76 @@
                                     <input type="hidden" id="txtTagsEnlaces">
                                 </div>
                             {% endif %}
-                            <div class="form-group">
-                                <label for="organoresponsable">Órgano responsable</label>
-                                <input type="text" name="organo" id="organo" value="{{ data.organo }}" class="text big" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="finalidad">Finalidad</label>
-                                <input type="text" name="finalidad" id="finalidad" value="{{ data.finalidad }}" class="text big" readonly>
-                            </div>
-                        {% if data.vocabularios|length > 0 %}
+                           {% if data.publicador|length > 0 %}
                                 <div class="form-group">
-                                    <label for="txtTags" id="lblEtiquetas">Vocabularios</label>
-                                    <div class="autocompletar">
+                                    <label for="publicador">Publicador</label>
+                                    <input type="text" name="publicador" id="publicador" value="{{ data.publicador }}" class="text big" readonly>
+                                </div>
+                           {% endif %}
+                            {% if data.tematica|length > 0 %}
+                                <div class="form-group">
+                                    <label for="tematica">Temática</label>
+                                    <input type="text" name="tematica" id="tematica" value="{{ data.tematica }}" class="text big" readonly>
+                                </div>
+                           {% endif %}
+                           {% if (data.descripcionVocabularios|length > 0) or (data.vocabularios|length > 0) %}
+                                <div class="form-group">
+                                    <label for="txtTags" id="lblEtiquetas">Diccionario de datos</label>
+                                    {% if data.descripcionVocabularios|length > 0 %}
+                                        <label for="Descripcion" id="lblEtiquetas">Descripción</label>
                                         <span class="contenedor">
-                                            {% for vocabulario in data.vocabularios %}
-                                                <div class="tag" title="{{ vocabulario }}">
-                                                    <div>
-                                                        {{ vocabulario }}
-                                                    </div>
-                                                    <input type="text" value="{{ vocabulario }}">
-                                                </div>
-                                            {% endfor %}
+                                            <textarea name="descripcionVocavularios" id="descripcionVocavularios" cols="30" rows="10" readonly>{{ data.descripcionVocabularios }}</textarea>
                                         </span>
+                                    {% endif %} 
+                                    {% if data.vocabularios|length > 0 %}
+                                        <div class="autocompletar">
+                                            <span class="contenedor">
+                                                {% for vocabulario in data.vocabularios %}
+                                                    <div class="tag" title="{{ vocabulario }}">
+                                                        <div>
+                                                            {{ vocabulario }}
+                                                        </div>
+                                                        <input type="text" value="{{ vocabulario }}">
+                                                    </div>
+                                                {% endfor %}
+                                            </span>
+                                        </div>
+                                        <input type="hidden" id="txtTagsEnlaces">
+                                    {% endif %} 
+                                </div>
+                            {% endif %} 
+                                {% if (data.descripcionServicios|length > 0) or (data.servicios|length > 0) %}
+                                    <div class="form-group">
+                                        <label for="txtTags" id="lblEtiquetas">Calidad del dato</label>
+                                        {% if data.descripcionServicios|length > 0 %}
+                                            <label for="Descripcion" id="lblEtiquetas">Descripción</label>
+                                            <span class="contenedor">
+                                                <textarea name="descripcionServicios" id="descripcionServicios" cols="30" rows="10" readonly>{{ data.descripcionServicios }}</textarea>
+                                            </span>
+                                        {% endif %} 
+                                        {% if data.servicios|length > 0 %}
+                                            <div class="autocompletar">
+                                                <span class="contenedor">
+                                                    {% for servicio in data.servicios %}
+                                                        <div class="tag" title="{{ servicio }}">
+                                                            <div>
+                                                                {{ servicio }}
+                                                            </div>
+                                                            <input type="text" value="{{ servicio }}">
+                                                        </div>
+                                                    {% endfor %}
+                                                </span>
+                                            </div>
+                                            <input type="hidden" id="txtTagsEnlaces">
+                                        {% endif %} 
                                     </div>
-                                    <input type="hidden" id="txtTagsEnlaces">
+                                {% endif %} 
+                            {% if data.nivelDetalle|length > 0 %}       
+                                <div class="form-group">
+                                    <label for="nivelDetalle">Nivel de detalle</label>
+                                    <textarea name="nivelDetalle" id="nivelDetalle" cols="30" rows="10" readonly>{{ data.nivelDetalle }}</textarea>
                                 </div>
                             {% endif %}
-                            {% if data.servicios|length > 0 %}
-                                <div class="form-group">
-                                    <label for="txtTags" id="lblEtiquetas">Servicios</label>
-                                    <div class="autocompletar">
-                                        <span class="contenedor">
-                                            {% for servicio in data.servicios %}
-                                                <div class="tag" title="{{ servicio }}">
-                                                    <div>
-                                                        {{ servicio }}
-                                                    </div>
-                                                    <input type="text" value="{{ servicio }}">
-                                                </div>
-                                            {% endfor %}
-                                        </span>
-                                    </div>
-                                    <input type="hidden" id="txtTagsEnlaces">
-                                </div>
-                            {% endif %}         
-                            <div class="form-group">
-                                <label for="estructura">Estructura</label>
-                                <textarea name="estructura" id="estructura" cols="30" rows="10" readonly>{{ data.estructura }}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="estructura">Denominación y orden de aspectos formales como las instancias o entidades que ofrece</label>
-                                <textarea name="estructuraDenominacion" id="estructuraDenominacion" cols="30" rows="10" readonly>{{ data.estructuraDenominacion }}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="formatos">Formatos posibles</label>
-                                <textarea name="formatos" id="formatos" cols="30" rows="10" readonly>{{ data.formatos }}</textarea>
-                            </div>
                             {% if data.etiquetas|length > 0 %}
                                 <div class="form-group">
                                     <label for="txtTags" id="lblEtiquetas">Etiquetas</label>
@@ -173,61 +229,158 @@
                                     </div>
                                     <input type="hidden" id="txtTagsEnlaces">
                                 </div> 
-                        {% endif %}  
-                       
+                        {% endif %}             
                         {% if tableAlineacion |length > 0 %} 
-                                <div id="divTablaAlineacion" class="grupo grupo-tabla tablaScrool">
+                            <div class="form-group">
                                     <p class="titulo-principal">Alineación de datos con el EI2A</p>
-                                    <label>Entidad principal</label>
-                                    <input type="text" name="finalidad" id="finalidad" value="{{ ontologia }}" class="text big" readonly>
-                                    <table class="table display" width="100%">
+                                    <div class="form-row">
+                                            <div class="col col-12 col-md-6">
+                                                <label>Entidad principal</label>
+                                                <input type="text" name="ontologia" id="ontologia" value="{{ ontologia }}" class="text big" readonly>
+                                            </div>
+                                            {% if subentidad |length > 0 %} 
+                                                <div class="col col-12 col-md-6">
+                                                    <label>Sub-Entidad</label>
+                                                    <input type="text" name="ontologia" id="ontologia" value="{{ subentidad }}" class="text big" readonly>
+                                                </div>
+                                            {% endif %} 
+                                    </div>
+                                    <div class="form-row">
+                                        <div id="divTablaAlineacion" class="grupo grupo-tabla tablaScrool">
+                                            <table class="table display" width="100%">
+                                                <thead>
+                                                    <tr>   
+                                                        <th>Campo en origen</th>
+                                                        <th>Atributo del EI2A</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for alineacion in tableAlineacion %}
+                                                        <tr>
+                                                        <td><span>{{ alineacion.key }}</span></td>
+                                                        <td><span>{{ alineacion.value }}</span></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                            </div>
+                        {% endif %}
+                        {% if xmlAlineacion |length > 0 %} 
+                            <div class="form-group">
+                                    <div id="divTablaAlineacion" class="grupo grupo-tabla tablaScrool">
+                                        <p class="titulo-principal">Alineación de datos con el EI2A</p>
+                                        <label>Alineamiento mediante XML de mapeo</label>
+                                        <span class="contenedor">
+                                            <textarea name="xmlAlineanmiento" id="xmlAlineanmiento" cols="30" rows="10" readonly>{{ xmlAlineacion }}</textarea>
+                                        </span>
+                                    </div>
+                            </div>
+                        {% endif %}
+                        {% if table.campos |length > 0 %}
+                            <div class="form-group">
+                                <p class="titulo-principal">Datos</p>
+                                <div class="form-row"> 
+                                    {% if extension |length > 0 %} 
+                                        <div class="">
+                                            <label for="nivelDetalle">Extensión</label>
+                                            <input type="text" name="extension" id="extension" value="{{extension}}" class="text big" readonly>  
+                                        </div>
+                                    {% endif %}
+                                 </div>
+                                {% if baseDatos %} 
+                                    <div class="form-row">
+                                        <div class="autocompletar">
+                                            <label for="coberturaGeografica">Gestor</label>
+                                            <span class="contenedor">
+                                                    <div class="tag" title="{{  baseDatos.TipoBaseDatos  }}">
+                                                        <div> {{ baseDatos.TipoBaseDatos  }}</div>
+                                                        <input type="text" value="{{ baseDatos.TipoBaseDatos }}">
+                                                    </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    </p>
+                                    <div class="form-row">
+                                        <div class="col col-3 col-md-3">
+                                            <label for="baseDatosHost">Host</label>
+                                            <input type="text" name=" baseDatosHost " id=" baseDatosHost " value="{{ baseDatos.Host }}" class="text big" readonly>
+                                        </div>
+                                        <div class="col col-3 col-md-3">
+                                            <label for="baseDatosPuerto">Puerto</label>
+                                            <input type="text" name="baseDatosPuerto" id=" baseDatosPuerto " value="{{ baseDatos.Puerto }}" class="text big" readonly>
+                                        </div>
+                                        {% if baseDatos.Servicio |length > 0 %}
+                                        <div class="col col-3 col-md-3">
+                                            <label for="baseDatosServicio">Servicio</label>
+                                            <input type="text" name="baseDatosServicio" id=" baseDatosEsquema" value="{{ baseDatos.Servicio }}" class="text big" readonly>
+                                        </div>
+                                        {% endif %}
+                                        <div class="col col-3 col-md-3">
+                                            <label for="baseDatosEsquema">Esquema</label>
+                                            <input type="text" name="baseDatosEsquema" id=" baseDatosEsquema" value="{{ baseDatos.Esquema }}" class="text big" readonly>
+                                        </div>
+                                        <div class="col col-3 col-md-3">
+                                            <label for="baseDatosTabla">Tabla</label>
+                                            <input type="text" name="baseDatosTabla" id=" baseDatosTabla " value="{{ baseDatos.Tabla }}" class="text big" readonly>
+                                        </div>
+                                        {% if baseDatos.GaodCoreId |length > 0 %}
+                                            <div class="col col-3 col-md-3">
+                                                <label for="baseDatosGaoDcore">GA_OD_CORE ID</label>
+                                                <input type="text" name="baseDatosGaoDcore" id=" baseDatosGaoDcore " value="{{ baseDatos.GaodCoreId }}" class="text big" readonly>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col col-3 col-md-3">
+                                            <label for="baseDatosUsuarioDB">Usuario</label>
+                                            <input type="text" name="baseDatosUsuarioDB" id="baseDatosUsuarioDB" value="{{ baseDatos.UsuarioDB }}" class="text big" readonly>
+                                        </div>
+                                        
+                                        <div class="col col-3 col-md-3">
+                                            <label for="baseDatosContrasenaDB">Contraseña</label>
+                                            <input type="text" name="baseDatosContrasenaDB" id=" baseDatosContrasenaDB " value="{{ baseDatos.ContrasenaDB }}" class="text big" readonly>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="">
+                                    <label for="nivelDetalle">Nombre</label>
+                                    <input type="text" name="nombreOrigen" id="ontologia" value="{{nombreOrigen}}" class="text big" readonly>  
+                                </div>
+                                {% if descripcionOrigen |length > 0 %} 
+                                    <div class="">
+                                        <label for="nivelDetalle">Descripción</label>
+                                        <textarea name="nivelDetalle" id="nivelDetalle" cols="30" rows="10" readonly> {{descripcionOrigen}} </textarea>
+                                    </div>
+                                {% endif %}
+                                <div class="grupo grupo-descripcion tablaScrool">
+                                    <table id="grid" class="table display" width="100%">
                                         <thead>
                                             <tr>   
-                                                <th>Campo en origen</th>
-                                                <th>Atributo del EI2A</th>
+                                            {% for key , campo  in table.campos %}
+                                                <th> {{ campo }} </th>
+                                            {% endfor %}
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for key, value in tableAlineacion %}
-                                                <tr>
-                                                <td><span>{{ key }}</span></td>
-                                                <td><span>{{ value }}</span></td>
-                                                </tr>
+                                        {% for fila in table.filas %}
+                                            <tr>
+                                                {% for campo in fila %}
+                                                    <td><span>{{ campo }}</span></td>
+                                                {% endfor %}
+                                            </tr>
                                             {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
-                            {% endif %}
-
-                        </div>
-                        {% if table.campos |length > 0 %}
-                            <div class="grupo grupo-descripcion tablaScrool">
-                                <p class="titulo-principal">Datos</p>
-                                <table id="grid" class="table display" width="100%">
-                                    <thead>
-                                        <tr>   
-                                        {% for key , campo  in table.campos %}
-                                            <th> {{ campo }} </th>
-                                        {% endfor %}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for fila in table.filas %}
-                                        <tr>
-                                            {% for campo in fila %}
-                                                <td><span>{{ campo }}</span></td>
-                                            {% endfor %}
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
                             </div>
                         {% endif %}
                     </div>
                 {% endif %}
-               
             </div>
         </div>
+        {% endif %}
     </div>
 <div>
 <div class="modal fade" id="camposErrormodal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -284,16 +437,19 @@
                         <fieldset class="mediumLabels">
                             <legend id="tituloPopUp">Solicitar publicación</legend>
                                 <div style="padding-left: 20px;"><div>
-                                    <div id="divapiaod" class="form-group">
+                                    <div class="form-group"  id="divapiaod">
                                          <input type="checkbox" name="porcesaAdo" value="apiado" id="porcesaAdo"
                                                 style="position: relative;opacity: initial;cursor: pointer;height: auto;width: auto;">
                                          <label for="apiaod" style="display: inline;">Integrar los datos en el grafo de conocimiento de Aragón Open Data</label><br>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" id="divmail">
                                         <label for="descripcion">Mensaje sobre el cambio de  estado</label>
                                         <textarea id="descripcion" name="descripcion" placeholder="Escribe el mensaje" spellcheck="true"></textarea>
                                         <p>Esta información se enviará adjunta en el email de aviso</p>
                                         <input type="hidden" id="estado" name="estado">
+                                    </div>
+                                     <div class="form-group" id="divconfirma">
+                                        <label>¿Está seguro de que desea validar los datos?</label>
                                     </div>
                                 </div>
                             </div>

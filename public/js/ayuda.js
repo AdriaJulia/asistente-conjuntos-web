@@ -2,11 +2,21 @@ $(document).ready(function() {
     var uri = window.location.href.split("?");
     var url = uri[0].split("/");
     var id = url[url.length-1];
-    var ayudas = [11,12,13,21,22,23,31,41,42,51,52];
+    var ayudas = ['paso0_nuevo_conjunto',
+                  'paso0_nueva_distribucion',
+                  'paso1_contenido',
+                  'paso2_contexto',
+                  'paso3_origen_archivo',
+                  'paso3_origen_url',
+                  'paso3_origen_basedatos',
+                  'paso4_integracion_seleccion',
+                  'paso4_integracion_xml',
+                  'listado_info',
+                  'ficha_info'];
     if (ayudas.find(x=>x==id)!=undefined) {
        visible(id);
     } else {
-       visible(11);
+       visible('descripcion_distribuciones');
     }
     if (!getUrlParameter('locationAnterior')){
          $.each($("a[id^='volver_']"), function (){
@@ -17,9 +27,20 @@ $(document).ready(function() {
 
 });
 
+function navega(id) {            
+    $.each($("div[id^='ayuda_']"), function () {
+        uri = window.location.origin + "/asistentecamposdatos/ayuda/" + id;
+        if (uri!=location.href) {
+            location.href = window.location.origin + "/asistentecamposdatos/ayuda/" + id;
+        }
+    });
+}
+
 function visible(id) {            
     $.each($("div[id^='ayuda_']"), function () {
-        id_padre =  id - (id % 10);
+        
+        ids_padre = id.split('_');
+        id_padre = ids_padre[0];
         if (($(this).attr('id') == "ayuda_".concat(id)) || ($(this).attr('id') == "ayuda_".concat(id_padre))) {
            $(this).attr("style","display:block");
         } else {
@@ -30,10 +51,6 @@ function visible(id) {
 
 function volver() {
     location.href = getUrlParameter('locationAnterior');
-}
-
-function solicitarSoporte() {
-    location.href = "/asistentecamposdatos/ayuda/soporte";
 }
 
 var getUrlParameter = function getUrlParameter(sParam) {

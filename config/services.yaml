@@ -53,9 +53,15 @@ parameters:
     unit_test_user: 'MOCKSESSID'
     unit_test_pass: '123456'
     unit_test_roll: 'ROLE_USER'
-    url_tags: '%env(URL_TAGS)%'
+    url_tags: '%env(URL_TAGS)%' 
     url_gaodcore_validator: '%env(URL_GAODCORE_VALIDATOR)%'
     url_gaodcore_connector: '%env(URL_GAODCORE_CONNECTOR)%'
     url_gaodcore_resource: '%env(URL_GAODCORE_RESOURCE)%'
+    url_gaodcore_autorization: '%env(URL_GAODCORE_AUTORIZATION)%'
     licencia_conjunto_datos: '%env(LICENCIA_CONJUNTO_DATOS)%'
+    url_ei2a_owl: '%env(URL_EI2A_OWL)%'
+    url_mapping_xml: '%env(URL_MAPPING_XML)%'
+    path_storage: '%env(PATH_STORAGE)%'
+
+ 
     

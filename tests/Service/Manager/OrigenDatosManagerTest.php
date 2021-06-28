@@ -42,35 +42,34 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
-        $descripcionDatosDto->organoResponsable = "Organo responsable";
-        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
-        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
+        $descripcionDatosDto->publicador = "Publicador";
+        $descripcionDatosDto->tematica = "tematica conjunto datos";
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->descripcionVocabularios = "descripcion Vocabularios";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
+        $descripcionDatosDto->descripcionServicios = "descripcion Servicios";
 
    
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
 
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -78,7 +77,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -91,6 +90,8 @@ class OrigenDatosManagerTest extends WebTestCase
         
         $descripcionDatosDto->idDescripcion = $id;
         $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::URL;
+        $descripcionDatosDto->nombre = "tipo-origen-datos-test-url-xml";
+        $descripcionDatosDto->descripcion = "Esta es la descripcion del tipo origen datos url xml";
         $descripcionDatosDto->url = "http://localhost:8080/storage/default/Libro1.xml";
         $descripcionDatosDto->data = "";
         $descripcionDatosDto->tipoBaseDatos = "";
@@ -105,6 +106,8 @@ class OrigenDatosManagerTest extends WebTestCase
         
         $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
         $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setNombre($descripcionDatosDto->nombre);
+        $origenDatos->setDescripcion($descripcionDatosDto->descripcion);
         $origenDatos->setData($descripcionDatosDto->url);
         $origenDatos->setUsuario($username);
         $origenDatos->setSesion($session->getId());
@@ -125,35 +128,34 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
-        $descripcionDatosDto->organoResponsable = "Organo responsable";
-        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
-        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
+        $descripcionDatosDto->publicador = "publicador";
+        $descripcionDatosDto->tematica = "tematica conjunto datos";
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->descripcionVocabularios = "descripcion Vocabularios";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
+        $descripcionDatosDto->descripcionServicios = "descripcion Servicios";
 
    
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
 
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -161,7 +163,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -174,6 +176,8 @@ class OrigenDatosManagerTest extends WebTestCase
 
         $descripcionDatosDto->idDescripcion = $id;
         $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::URL;
+        $descripcionDatosDto->nombre = "tipo-origen-datos-test-url-json";
+        $descripcionDatosDto->descripcion = "Esta es la descripcion del tipo origen datos url json";
         $descripcionDatosDto->url = "http://localhost:8080/storage/default/Libro1.json";
         $descripcionDatosDto->data = "";
         $descripcionDatosDto->tipoBaseDatos = "";
@@ -188,6 +192,8 @@ class OrigenDatosManagerTest extends WebTestCase
         
         $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
         $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setNombre($descripcionDatosDto->nombre);
+        $origenDatos->setDescripcion($descripcionDatosDto->descripcion);
         $origenDatos->setData($descripcionDatosDto->url);
         $origenDatos->setUsuario($username);
         $origenDatos->setSesion($session->getId());
@@ -208,35 +214,34 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
-        $descripcionDatosDto->organoResponsable = "Organo responsable";
-        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
-        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
+        $descripcionDatosDto->publicador = "publicador";
+        $descripcionDatosDto->tematica = "tematica conjunto datos";
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->descripcionVocabularios = "descripcion Vocabularios";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
+        $descripcionDatosDto->descripcionServicios = "descripcion Servicios";
 
    
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
 
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -244,7 +249,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -257,6 +262,8 @@ class OrigenDatosManagerTest extends WebTestCase
 
         $descripcionDatosDto->idDescripcion = $id;
         $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::URL;
+        $descripcionDatosDto->nombre = "tipo-origen-datos-test-url-csv";
+        $descripcionDatosDto->descripcion = "Esta es la descripcion del tipo origen datos url csv";
         $descripcionDatosDto->url = "http://localhost:8080/storage/default/Libro1.csv";
         $descripcionDatosDto->data = "";
         $descripcionDatosDto->tipoBaseDatos = "";
@@ -273,6 +280,8 @@ class OrigenDatosManagerTest extends WebTestCase
         //paso2 url xls
         $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
         $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setNombre($descripcionDatosDto->nombre);
+        $origenDatos->setDescripcion($descripcionDatosDto->descripcion);
         $origenDatos->setData($descripcionDatosDto->url);
         $origenDatos->setUsuario($username);
         $origenDatos->setSesion($session->getId());
@@ -293,35 +302,34 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
-        $descripcionDatosDto->organoResponsable = "Organo responsable";
-        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
-        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
+        $descripcionDatosDto->publicador = "publicador";
+        $descripcionDatosDto->tematica = "tematica conjunto datos";
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->descripcionVocabularios = "descripcion Vocabularios";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
+        $descripcionDatosDto->descripcionServicios = "descripcion Servicios";
 
    
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
 
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -329,7 +337,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -342,6 +350,8 @@ class OrigenDatosManagerTest extends WebTestCase
 
         $descripcionDatosDto->idDescripcion = $id;
         $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::URL;
+        $descripcionDatosDto->nombre = "tipo-origen-datos-test-url-xls";
+        $descripcionDatosDto->descripcion = "Esta es la descripcion del tipo origen datos url xls";
         $descripcionDatosDto->url = "http://localhost:8080/storage/default/Libro1.xls";
         $descripcionDatosDto->data = "";
         $descripcionDatosDto->tipoBaseDatos = "";
@@ -356,6 +366,8 @@ class OrigenDatosManagerTest extends WebTestCase
         
         $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
         $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setNombre($descripcionDatosDto->nombre);
+        $origenDatos->setDescripcion($descripcionDatosDto->descripcion);
         $origenDatos->setData($descripcionDatosDto->url);
         $origenDatos->setUsuario($username);
         $origenDatos->setSesion($session->getId());
@@ -377,35 +389,34 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
-        $descripcionDatosDto->organoResponsable = "Organo responsable";
-        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
-        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
+        $descripcionDatosDto->publicador = "publicador";
+        $descripcionDatosDto->tematica = "tematica conjunto datos";
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->descripcionVocabularios = "descripcion Vocabularios";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
+        $descripcionDatosDto->descripcionServicios = "descripcion Servicios";
 
    
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
 
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -413,7 +424,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -426,6 +437,8 @@ class OrigenDatosManagerTest extends WebTestCase
 
         $descripcionDatosDto->idDescripcion = $id;
         $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::URL;
+        $descripcionDatosDto->nombre = "tipo-origen-datos-test-url-xlsx";
+        $descripcionDatosDto->descripcion = "Esta es la descripcion del tipo origen datos url xlsx";
         $descripcionDatosDto->url = "http://localhost:8080/storage/default/Libro1.xlsx";
         $descripcionDatosDto->data = "";
         $descripcionDatosDto->tipoBaseDatos = "";
@@ -440,6 +453,8 @@ class OrigenDatosManagerTest extends WebTestCase
         
         $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
         $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setNombre($descripcionDatosDto->nombre);
+        $origenDatos->setDescripcion($descripcionDatosDto->descripcion);
         $origenDatos->setData($descripcionDatosDto->url);
         $origenDatos->setUsuario($username);
         $origenDatos->setSesion($session->getId());
@@ -459,34 +474,33 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
-        $descripcionDatosDto->organoResponsable = "Organo responsable";
-        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
-        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
+        $descripcionDatosDto->publicador = "publicador";
+        $descripcionDatosDto->tematica = "tematica conjunto datos";
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->descripcionVocabularios = "descripcion Vocabularios";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
+        $descripcionDatosDto->descripcionServicios = "descripcion Servicios";
    
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
 
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -494,7 +508,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -508,6 +522,8 @@ class OrigenDatosManagerTest extends WebTestCase
         //paso2 base SQLSERVER
         $descripcionDatosDto->idDescripcion = $id;
         $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::BASEDATOS;
+        $descripcionDatosDto->nombre = "tipo-origen-datos-test-base datos-sqls";
+        $descripcionDatosDto->descripcion = "Esta es la descripcion del tipo origen datos url sqls";
         $descripcionDatosDto->url = "";
         $descripcionDatosDto->data = "";
         $descripcionDatosDto->host = "localhost";
@@ -520,11 +536,13 @@ class OrigenDatosManagerTest extends WebTestCase
  
         $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
         $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setNombre($descripcionDatosDto->nombre);
+        $origenDatos->setDescripcion($descripcionDatosDto->descripcion);
         $origenDatos->setTipoBaseDatos($descripcionDatosDto->tipoBaseDatos);
         $origenDatos->setData($descripcionDatosDto->data);
         $origenDatos->setUsuario($username);
         $origenDatos->setHost($descripcionDatosDto->host);
-        $origenDatos->setServicio("_");
+        $origenDatos->setServicio("");
         $origenDatos->setPuerto($descripcionDatosDto->puerto);
         $origenDatos->setEsquema($descripcionDatosDto->esquema);
         $origenDatos->setTabla($descripcionDatosDto->tabla);
@@ -549,34 +567,33 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
-        $descripcionDatosDto->organoResponsable = "Organo responsable";
-        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
-        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
+        $descripcionDatosDto->publicador = "publicador";
+        $descripcionDatosDto->tematica = "tematica conjunto datos";
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->descripcionVocabularios = "descripcion Vocabularios";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
+        $descripcionDatosDto->descripcionServicios = "descripcion Servicios";
    
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
 
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -584,7 +601,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -598,6 +615,8 @@ class OrigenDatosManagerTest extends WebTestCase
         //paso2 base MYSQL
         $descripcionDatosDto->idDescripcion = $id;
         $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::BASEDATOS;
+        $descripcionDatosDto->nombre = "tipo-origen-datos-test-base datos-mysql";
+        $descripcionDatosDto->descripcion = "Esta es la descripcion del tipo origen datos url mysql";
         $descripcionDatosDto->url = "";
         $descripcionDatosDto->data = "";
         $descripcionDatosDto->host = "localhost";
@@ -610,12 +629,14 @@ class OrigenDatosManagerTest extends WebTestCase
  
         $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
         $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setNombre($descripcionDatosDto->nombre);
+        $origenDatos->setDescripcion($descripcionDatosDto->descripcion);
         $origenDatos->setData($descripcionDatosDto->data);
         $origenDatos->setUsuario($username);
         $origenDatos->setTipoBaseDatos($descripcionDatosDto->tipoBaseDatos);
         $origenDatos->setHost($descripcionDatosDto->host);
         $origenDatos->setPuerto($descripcionDatosDto->puerto);
-        $origenDatos->setServicio("_");
+        $origenDatos->setServicio("");
         $origenDatos->setEsquema($descripcionDatosDto->esquema);
         $origenDatos->setTabla($descripcionDatosDto->tabla);
         $origenDatos->setUsuarioDB($descripcionDatosDto->usuarioDB);
@@ -640,34 +661,32 @@ class OrigenDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
-        $descripcionDatosDto->organoResponsable = "Organo responsable";
-        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
-        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
-        $descripcionDatosDto->licencias = "licencias conjunto datos";
+        $descripcionDatosDto->publicador = "publicador";
+        $descripcionDatosDto->tematica = "tematica conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->descripcionVocabularios = "descripcion Vocabularios";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
+        $descripcionDatosDto->descripcionServicios = "descripcion Servicios";
 
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
 
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -675,7 +694,7 @@ class OrigenDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -689,6 +708,8 @@ class OrigenDatosManagerTest extends WebTestCase
         //paso2 base POSTGRESQL
         $descripcionDatosDto->idDescripcion = $id;
         $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::BASEDATOS;
+        $descripcionDatosDto->nombre = "tipo-origen-datos-test-base datos-psgr";
+        $descripcionDatosDto->descripcion = "Esta es la descripcion del tipo origen datos url psgr";
         $descripcionDatosDto->url = "";
         $descripcionDatosDto->data = "";
         $descripcionDatosDto->host = "localhost";
@@ -701,12 +722,14 @@ class OrigenDatosManagerTest extends WebTestCase
 
         $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
         $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setNombre($descripcionDatosDto->nombre);
+        $origenDatos->setDescripcion($descripcionDatosDto->descripcion);
         $origenDatos->setData($descripcionDatosDto->data);
         $origenDatos->setUsuario($username);
         $origenDatos->setTipoBaseDatos($descripcionDatosDto->tipoBaseDatos);
         $origenDatos->setHost($descripcionDatosDto->host);
         $origenDatos->setPuerto($descripcionDatosDto->puerto);
-        $origenDatos->setServicio("_");
+        $origenDatos->setServicio("");
         $origenDatos->setEsquema($descripcionDatosDto->esquema);
         $origenDatos->setTabla($descripcionDatosDto->tabla);
         $origenDatos->setUsuarioDB($descripcionDatosDto->usuarioDB);

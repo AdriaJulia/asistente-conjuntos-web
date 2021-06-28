@@ -37,6 +37,9 @@ class OrigenDatosDataBaseFormProcessor
                              OrigenDatos $origenDatos,
                              Request $request): array
     { 
+        if (empty($request->getSession()->getId())) {
+            session_start(); 
+        }
         $id = "";
         $errorProceso= "";
         $campos = "";
@@ -60,11 +63,12 @@ class OrigenDatosDataBaseFormProcessor
                 $prueba = ($origenDatosDto->modoFormulario==ModoFormularioOrigenEnum::Test);
                  //recojo los datos del formulario
                 $origenDatos->setIdDescripcion($idDescripcion);
-                $origenDatos->setTipoOrigen($origenDatosDto->tipoOrigen);
                 $origenDatos->setTipoBaseDatos($origenDatosDto->tipoBaseDatos);
+                $origenDatos->setNombre($origenDatosDto->nombre);
+                $origenDatos->setDescripcion($origenDatosDto->descripcion);
                 $origenDatos->setHost($origenDatosDto->host);
                 $origenDatos->setPuerto($origenDatosDto->puerto);
-                $origenDatos->setServicio(!empty($origenDatosDto->servicio) ? $origenDatosDto->servicio : "_");
+                $origenDatos->setServicio(!empty($origenDatosDto->servicio) ? $origenDatosDto->servicio : "");
                 $origenDatos->setEsquema($origenDatosDto->esquema);
                 $origenDatos->setTabla($origenDatosDto->tabla);
                 $origenDatos->setUsuarioDB($origenDatosDto->usuarioDB);

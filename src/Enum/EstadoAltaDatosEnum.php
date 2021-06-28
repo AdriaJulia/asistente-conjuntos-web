@@ -7,23 +7,21 @@ namespace App\Enum;
 class EstadoAltaDatosEnum {
 
   private static $types = [
-    
-    'paso1' => self::paso1,
-    'paso2' => self::paso2,
-    'paso3'  => self::paso3,
-    'origen_ulr'  => self::origen_url,
-    'origen_file'  => self::origen_file,
-    'origen_database'  => self::origen_database,
-    'alineacion'  => self::alineacion,   
+
+    'PASO1' => self::PASO1,
+    'PASO2' => self::PASO2,
+    'ORIGEN_URL'  => self::ORIGEN_URL,
+    'ORIGEN_FILE'  => self::ORIGEN_FILE,
+    'ORIGEN_DB'  => self::ORIGEN_DB,
+    'ALINEACION'  => self::ALINEACION,   
   ];
  
-  const paso1 = "1.1 descripcion";
-  const paso2 = "1.2 descripcion";
-  const paso3 = "1.3 descripcion";
-  const origen_url = "2: origen url";
-  const origen_file = "2: origen file";
-  const origen_database = "2: origen database";
-  const alineacion = "3: alineacion";
+  const PASO1 = "1.1 descripcion";
+  const PASO2 = "1.2 descripcion";
+  const ORIGEN_URL = "2: origen url";
+  const ORIGEN_FILE = "2: origen file";
+  const ORIGEN_DB = "2: origen database";
+  const ALINEACION = "3: alineacion";
 
   public static function getValues(){
       return self::$types;
@@ -35,3 +33,4 @@ class EstadoAltaDatosEnum {
       return array_search($value, self::$types);
   }
 }
+

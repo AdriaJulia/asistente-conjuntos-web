@@ -20,3 +20,23 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+
+  .checkboxOne label {
+    padding-inline-start: 20px;
+ }
+
+  .checkboxOne input {
+    opacity: inherit;
+    height: auto;
+    width: auto;
+    display: inline;
+}
+
+.fecha-inicio-group {
+   display: inline-block;
+}
+
+.fecha-fin-group {
+  display: inline
+}

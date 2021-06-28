@@ -32,6 +32,9 @@ class SoporteFormProcessor
 
     public function __invoke(Request $request): array
     { 
+        if (empty($request->getSession()->getId())) {
+            session_start(); 
+        }
         $errorProceso= "";
         $soporte = new SoporteDto();
         $form = $this->formFactory->create(SoporteFormType::class, $soporte);  
@@ -40,6 +43,6 @@ class SoporteFormProcessor
             //envía los datos directamente del dto
             [$soporte,$errorProceso] = $this->soporteManager->envia($soporte,$request->getSession());                  
         }
-        return [$form, $soporte];
+        return [$form, $soporte,$errorProceso];
     }  
 }

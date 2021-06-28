@@ -20,10 +20,12 @@ class SoporteDto {
     }
 
     public function toJsonData() : string {
+      $titulo = addslashes($this->titulo);
+      $descripcion= base64_encode($this->descripcion);
       return "{  
                 \"tipoPeticion\":\"{$this->tipoPeticion}\",
-                \"titulo\":\"{$this->titulo}\",
-                \"descripcion\":\"{$this->descripcion}\",
+                \"titulo\":\"{$titulo}\",
+                \"descripcion\":\"{$descripcion}\",
                 \"nombre\":\"{$this->nombre}\",
                 \"emailContacto\":\"{$this->emailContacto}\"
              }";

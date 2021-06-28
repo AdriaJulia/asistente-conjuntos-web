@@ -771,10 +771,14 @@ var asignarAtributosAsistente = {
 
 function ponerAsignadoJson(that){
 
-    var valor = that.parent().parent().find("select").val().trim();
+    var valor = that.parent().parent().find("select").val();
+    if (valor!=null){
+      valor = valor.trim();
+    }
     var tieneValor = (valor!=="");
     
     if (tieneValor) {
+       valor += '&&&' + that.parent().parent().find("select option:selected").text().trim();
        var campo = that.parent().parent().parent().find("label").text().trim();
        campo = campo.replace("Alineacion","");
        var encontrado = false;

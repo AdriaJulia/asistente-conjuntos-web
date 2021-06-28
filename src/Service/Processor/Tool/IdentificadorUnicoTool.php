@@ -50,8 +50,8 @@ class IdentificadorUnicoTool
      * Parametros:
      *             identificador:  identificador      
      */
-    public function ExiteIdentificador($denominacion):bool {
-       $identificador = ProcessorTool::clean($denominacion);
+    public function ExiteIdentificador($titulo):bool {
+       $identificador = ProcessorTool::clean($titulo);
        return in_array($identificador,$this->identificadores); 
     }
 }

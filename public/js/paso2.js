@@ -7,20 +7,23 @@ $(document).ready(function() {
     });
     $('#divvocabularios > div > input[type=text]').attr('style', 'width: 300px !important');
     $('#divservicios > div > input[type=text]').attr('style', 'width: 300px !important');
+    $('#licencias').hide();
+    $("#actionButtons").show();    
 });
-$('#vocabularios').on('itemAdded', function(event) {
+
+$('#diccionarioDatos_vocabularios').on('itemAdded', function(event) {
 var tag = event.item;
 if (!is_valid_url(tag)) {
       alert('No es una url');
-      $('#vocabularios').tagsinput('remove', tag, {preventPost: true});
+      $('#diccionarioDatos_vocabularios').tagsinput('remove', tag, {preventPost: true});
 }
 });
 
-$('#servicios').on('itemAdded', function(event) {
+$('#calidadDato_servicios').on('itemAdded', function(event) {
 var tag = event.item;
     if (!is_valid_url(tag)) {
         alert('No es una url'); 
-         $('#servicios').tagsinput('remove', tag, {preventPost: true});         
+         $('#calidadDato_servicios').tagsinput('remove', tag, {preventPost: true});         
     }
 });
 

@@ -26,11 +26,17 @@ class DescripcionDatosManager
         return $request['data'];
     }
 
+
     public function find(int $id, $sesion): ?DescripcionDatos
     {
         $request = $this->ra->getDescripciondatosId($id,$sesion);
         $des = new DescripcionDatos();
-        return $des->getFromArray($request['data']);
+        if ($request['statusCode'] >=400){
+            return $des;
+        } else { 
+            return $des->getFromArray($request['data']);
+        }
+       
     }
 
     public function new(): DescripcionDatos
@@ -43,6 +49,13 @@ class DescripcionDatosManager
     public function create($descripcion, $sesion): DescripcionDatos
     {
         $request = $this->ra->createDescripciondatos($descripcion, $sesion);
+        $des = new DescripcionDatos();
+        return $des->getFromArray($request['data']);
+    }
+
+    public function clone($id, $sesion): DescripcionDatos
+    {
+        $request = $this->ra->cloneDescripciondatos($id, $sesion);
         $des = new DescripcionDatos();
         return $des->getFromArray($request['data']);
     }
@@ -60,12 +73,17 @@ class DescripcionDatosManager
     }
 
 
-    public function saveWorkflow($descripcion, $sesion): DescripcionDatos
+    public function saveWorkflow($descripcion, $sesion): array 
     {
         $request = $this->ra->updateWorkflowDescripciondatos($descripcion, $sesion);
         $des = new DescripcionDatos();
-        return $des->getFromArray($request['data']);
+        $errorProceso = "";
+        if (isset($request['data']['descripcionDatos'])) {  
+            $des->getFromArray($request['data']['descripcionDatos']);
+        }
+        if (isset($request['data']['errorProceso'])) {
+            $errorProceso=$request['data']['errorProceso'];
+        }
+        return array($des,$errorProceso);
     }
-
-
 }

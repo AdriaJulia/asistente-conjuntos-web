@@ -2,8 +2,10 @@
 
 namespace App\Form\Type;
 
-use App\Enum\FinalidadDatosEnum;
 
+
+use App\Form\Type\CalidadDatoType;
+use App\Form\Type\DiccionarioDatosTypeType;
 use App\Service\RestApiRemote\RestApiClient;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Form\Model\DescripcionDatosDto;
@@ -33,87 +35,56 @@ class DescripcionDatosPaso2FormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('organoResponsable', ChoiceType::class, [
+            ->add('publicador', ChoiceType::class, [
                 "row_attr" => [
                     "class" => "form-group"
                 ],
                 'choices' =>$this->clientHttprest->GetOrganismosPublicos(),
                 'attr' => [
-                    'class' => 'dropdown'
+                    'class' => 'select big'
                 ],
-                'label' => 'Órgano responsable*',
-                'placeholder' => 'Selecciona una opción...',
+                'label' => 'Publicador*',
+                'placeholder' => 'Seleccione una organización entre las disponibles',
                 'required' => false,
-                'help'=>'Esta información se ha confeccionado con los datos aportados al dar de alta la organización publicadora, para modificarla utiliza la pizarra de administración de tu organización.'
+                'help'=>'En esta sección se muestran la organización encargada de la publicación de este 
+                         conjunto de datos tal y cómo se facilitarán a los usuarios. Esta información se ha confeccionado con los datos aportados al dar de alta 
+                         la organización publicadora, para modificarla utiliza la pizarra de administración de tu organización.'
             ])
-            ->add('finalidad', ChoiceType::class, [ 
+            ->add('calidadDato', CalidadDatoType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                 ],
-                'choices' => FinalidadDatosEnum::getValues(),
-                'attr' => [
-                    'class' => 'dropdown'
-                ],
-                'label' => 'Finalidad*',
-                'placeholder' => 'Selecciona una opción...',
+                'label' => 'Calidad del dato',
                 'required' => false,
-                'help'=>'Elige el que creas que se adapta mejor a la información que contiene tu conjunto de datos.'
             ])
-            /*
-            ->add('condiciones', TextType::class,[
+            ->add('diccionarioDatos', DiccionarioDatosType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                 ],
-                'attr' => [
-                    'placeholder' => 'Escribe el texto',
-                    "spellcheck"=>"true"
-                ],
-                'label' => 'Condiciones de uso',
+                'label' => 'Diccionario de datos',
                 'required' => false,
-                'help'=>''
-           ])
-           
+            ])
             ->add('licencias', TextType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                 ],
                 'attr' => [
-                    'placeholder' => "Escribe el texto...",
+                    'placeholder' => "Creative Commons Attribution 4.0",
+                    'readonly' => 'true',
+                    "value" => "Creative Commons Attribution 4.0",
                     "spellcheck"=>"true"
                 ],
-                'label' => 'Licencia tipo aplicable y Condiciones de uso',
+                'label' => 'Licencia',
                 'required' => false,
                 'help_html' => true,
-                'help'=>'Para promover la máxima reutilización, en Aragón Open Data establecemos por defecto una licencia Creative Commons Attribution 4.0 según se expone en la sección Términos de uso. Si tu conjunto de datos por alguna razón legal, contractual o de otro tipo no puede ser ofrecido con esta licencia escríbenos a opendata@aragon.es y la modificaremos.'
-               ])*/
-            ->add('vocabularios', TextType::class,[
-                "row_attr" => [
-                    'id' => 'divvocabularios',
-                    "class" => "form-group",
-                ],
-                "attr"=>[
-                    'id' => 'inputvocabularios',
-                    'data-role' => 'tagsinput',
-                    'placeholder' => 'Inserta una URL y pulsa ENTER'
-                ],
-                "required" => false,
-                'help'=>'Puedes introducir una o varias URLs y pulsar ENTER para añadir cada una.'
-                ])
-            ->add('servicios', TextType::class,[
-                "row_attr" => [
-                    'id' => 'divservicios',
-                    'class' => 'form-group',
-                    "style" => "margin-top: 20px;"
-                ],
-                "attr"=>[
-                    'id' => 'inputservicios',
-                    'data-role' => 'tagsinput',
-                    'placeholder' => 'Inserta una URL y pulsa ENTER',
-               ],
-               "label" => "Servicios y estándares implicados",
-               "required" => false,
-               'help'=>'Puedes introducir una o varias URLs y pulsar ENTER para añadir cada una'
-            ]);
+                'help'=>'Para promover la máxima reutilización, en Aragón Open Data establecemos por defecto una licencia Creative Commons Attribution 4.0 
+                         según se expone en la sección "Términos de uso" (&nbsp;<span url="http://opendata.aragon.es/terminos" data="null" class="inlineCardView-content-wrap" 
+                         contenteditable="false" draggable="true"><a class="sc-clWJBl jHCBBV" href="http://opendata.aragon.es/terminos" target="_blank" tabindex="0" 
+                         role="button" data-testid="inline-card-resolved-view"><img class="smart-link-icon sc-jeSenI eNjdmv" 
+                         src="https://opendata.aragon.es/assets/general/favicon.ico"></span><span>Aragón Open Data</span></span></a></span></span></span></span> ). 
+                         Si tu conjunto de datos por alguna razón legal, contractual o de otro tipo no puede ser ofrecido con esta licencia escríbenos 
+                         a <a href="mailto:opendata@aragon.es">opendata@aragon.es</a> y la modificaremos.</p>'
+               ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -140,15 +111,11 @@ class DescripcionDatosPaso2FormType extends AbstractType
 
     public function validate($data, ExecutionContextInterface $context,$payload): void
     {
-       if (empty($data->organoResponsable)){ 
-            $context->buildViolation('El órgano responsable no puede estar vacío')
-            ->atPath("organoResponsable")
+       if (empty($data->publicador)){ 
+            $context->buildViolation('El publicador no puede estar vacío')
+            ->atPath("publicador")
             ->addViolation();
        }
-       if (empty($data->finalidad)){
-            $context->buildViolation('La finalidad no puede estar vacía')
-            ->atPath("finalidad")
-            ->addViolation();
-      }
+
     }
 }

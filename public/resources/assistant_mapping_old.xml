@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Assistant_mapping 
+    xmlns:gtfs="http://vocab.gtfs.org/terms#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:prov="http://www.w3.org/ns/prov#"
+    xmlns:eli="http://data.europa.eu/eli/ontology/"
+    xmlns:sosa="http://www.w3.org/ns/sosa/"
+    xmlns:org="http://www.w3.org/ns/org#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:bio="http://purl.org/vocab/bio/0.1/"
+    xmlns:dcat="https://www.w3.org/TR/vocab-dcat-2/"
+    xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
+    xmlns="http://opendata.aragon.es/def/ei2av2#"
+    xmlns:schema="http://schema.org/"
+    xmlns:time="http://www.w3.org/2006/time#"
+    xmlns:ocds="http://data.tbfy.eu/ontology/ocds#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:qb="http://purl.org/linked-data/cube#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xml:base="http://opendata.aragon.es/def/ei2av2"
+	xmlns:ei2a="http://opendata.aragon.es/def/ei2a#" 
+	xmlns:dcterm="http://www.domain4.com#">
+	<Entity rdf:type="foaf:Person" rdfs:label="Persona" rdfs:comment="Texto descriptivo para aclarar cómo incorporar datos relacionados con la entidad Persona." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#61-persona">
+		<Property attribute="org:holds">
+			<Entity rdf:type="org:Post" rdfs:label="Puesto">
+				<Property attribute="org:role">
+					<Entity rdf:type="org:Role" rdfs:label="Nombre del Puesto"></Entity>
+				</Property>
+				<Property attribute="org:postIn">
+					<Entity rdf:type="org:Organization" rdfs:label="Organización"></Entity>
+				</Property>
+			</Entity>
+		</Property>		
+	</Entity>
+	<Entity rdf:type="org:Organization" rdfs:label="Organización" rdfs:comment="Texto descriptivo para aclarar cómo incorporar datos relacionados con la entidad Organización." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#62-organizaci%C3%B3n">
+		<Property attribute="org:hasSite">
+			<Entity rdf:type="org:Site" rdfs:label="Centro">
+				<Property attribute="org:siteAddress">
+					<Entity rdf:type="vcard:Location" rdfs:label="Lugar"></Entity>
+				</Property>
+			</Entity>
+		</Property>
+		<Property attribute="org:subOrganizationOf">
+			<Entity rdf:type="org:Organization" rdfs:label="Organización padre"></Entity>
+		</Property>
+		<Property attribute="ei2a:legislature">
+			<Entity rdf:type="ei2a:Legislature" rdfs:label="Legislatura"></Entity>
+		</Property>
+		<Property attribute="org:resultedFrom">
+			<Entity rdf:type="org:ChangeEvent" rdfs:label="Cambio">
+				<Property attribute="org:originalOrganization">
+					<Entity rdf:type="org:Organization" rdfs:label="Organización predecesora"></Entity>	
+				</Property>
+			</Entity>
+		</Property>
+	</Entity>
+	<Entity rdf:type="org:Site" rdfs:label="Centro" rdfs:comment="Texto descriptivo para aclarar cómo incorporar datos relacionados con la entidad Centro." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#62-organizaci%C3%B3n">
+		<Property attribute="org:siteAddress">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar"></Entity>
+		</Property>
+	</Entity>
+	<Entity rdf:type="vcard:Location" rdfs:label="Lugar" rdfs:comment="Texto descriptivo para aclarar cómo incorporar datos relacionados con la entidad Centro." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#63-lugar">		
+	</Entity>
+	<Entity rdf:type="schema:CreativeWork" rdfs:label="Documento" rdfs:comment="Texto descriptivo para aclarar cómo incorporar datos relacionados con la entidad Documento." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#66-documento">
+		<Property attribute="org:organization">
+			<Entity rdf:type="org:Organization" rdfs:label="Organización"></Entity>
+		</Property>
+		<Property attribute="org:hasSite">
+			<Entity rdf:type="org:Site" rdfs:label="Centro">
+				<Property attribute="org:siteAddress">
+					<Entity rdf:type="vcard:Location" rdfs:label="Lugar"></Entity>
+				</Property>
+			</Entity>
+		</Property>
+		<Property attribute="org:siteAddress">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar"></Entity>
+		</Property>
+		<Property attribute="schema:contributor">
+			<Entity rdf:type="foaf:Person" rdfs:label="Creador"></Entity>
+		</Property>
+		<Property attribute="schema:hasPart">
+			<Entity rdf:type="schema:CreativeWork" rdfs:label="Documento hijo"></Entity>
+		</Property>
+		<Property attribute="schema:isPartOf">
+			<Entity rdf:type="schema:CreativeWork" rdfs:label="Documento padre"></Entity>
+		</Property>
+		<Property attribute="schema:locationCreated">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar de creación"></Entity>
+		</Property>
+	</Entity>
+	<Entity rdf:type="schema:Event" rdfs:label="Evento" rdfs:comment="Texto descriptivo para aclarar cómo incorporar datos relacionados con la entidad Evento." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#64-evento">
+		<Property attribute="schema:location">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar"></Entity>
+		</Property>
+	</Entity>
+	<Entity rdf:type="sosa:Featureofinterest" rdfs:label="Dispositivo (Internet de las cosas)" rdfs:comment="Texto descriptivo para aclarar cómo incorporar datos relacionados con la entidad Dispositivo." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#614-dispositivo-internet-de-las-cosas-iot">
+		<Property attribute="sosa:observableProperty">
+			<Entity rdf:type="sosa:Observation" rdfs:label="Observación"></Entity>
+		</Property>
+		<Property attribute="org:siteAddress">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar"></Entity>
+		</Property>
+	</Entity>
+	<Entity rdf:type="qb:ComponentSpecification" rdfs:label="DataCube" rdfs:comment="Texto descriptivo para aclarar cómo incorporar datos relacionados con la entidad datacube." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#613-datacube">
+		<Property attribute="qb:dimension">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:label="Dimensión (literal)"></Entity>
+		</Property>
+		<Property attribute="qb:dimension">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:label="Dimensión (fecha)"></Entity>
+		</Property>
+		<Property attribute="qb:dimension">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:label="Dimensión (Persona)" rdfs:range="foaf:Person"></Entity>
+		</Property>
+		<Property attribute="qb:dimension">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:label="Dimensión (Organización)" rdfs:range="org:Organization"></Entity>
+		</Property>
+		<Property attribute="qb:dimension">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:label="Dimensión (Centro)" rdfs:range="org:Site"></Entity>
+		</Property>
+		<Property attribute="qb:dimension">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:label="Dimensión (Lugar)" rdfs:range="vcard:Location"></Entity>
+		</Property>
+		<Property attribute="qb:dimension">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:label="Dimensión (Documento)" rdfs:range="schema:CreativeWork"></Entity>
+		</Property>
+		<Property attribute="qb:dimension">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:label="Dimensión (Evento)" rdfs:range="schema:Event"></Entity>
+		</Property>
+		<Property attribute="qb:dimension">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:label="Dimensión (Dispositivo)" rdfs:range="sosa:Featureofinterest"></Entity>
+		</Property>
+		<Property attribute="qb:measure">
+			<Entity rdf:type="qb:MeasureProperty" rdfs:label="Medida"></Entity>
+		</Property>
+	</Entity>
+</Assistant_mapping>

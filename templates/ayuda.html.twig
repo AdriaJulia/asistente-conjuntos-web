@@ -3,6 +3,7 @@
 {% block title %}Asistente de creación de conjunto de datos - Ayuda{% endblock title %}
 
 {% block body %}
+
 <div class="container">
     <div class="row">
         <div class="col col-12 col-md-3 col-navegacion">
@@ -10,716 +11,808 @@
                 <p>Ayuda</p>
             </div>
             <div class="cuerpo">
-    <div class="categoria">
-        <p class="titulo" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Asistente de creación de un conjunto de datos</p>
-        <div id="collapseOne" class="collapse show" style=""> 
-            <div class="cuerpo">            
-                <div class="categoria">        
-                    <p class="titulo" data-toggle="collapse" data-target="#collapseStepOne" aria-expanded="true" aria-controls="collapseStepOne">1. Descripción de los datos</p>
-                    <ul id="collapseStepOne" class="collapse show" style="">
+                <div class="categoria"> 
+                    <p class="titulo" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Asistente de creación de un conjunto de datos</p>
+                    <div id="collapseOne" class="collapse show" style=""> 
+                        <div class="cuerpo">            
+                            <div class="categoria">
+                                <p class="titulo" data-toggle="collapse" data-target="#collapseStepOne" aria-expanded="true" aria-controls="collapseStepOne">Paso 0. Creación</p>
+                                <ul id="collapseStepOne" class="collapse show" style="">
+                                    <li>
+                                        <a href="#" onclick="javascript: navega('paso0_nuevo_conjunto')">a) Nuevo conjunto de datos</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="javascript: navega('paso0_nueva_distribucion')">b) Nueva distribución</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="categoria">        
+                                <p class="titulo" data-toggle="collapse" data-target="#collapseStepTwo" aria-expanded="true" aria-controls="collapseStepTwo">Paso 1. Contenido</p>
+                                <ul id="collapseStepTwo" class="collapse show" style="">
+                                    <li>
+                                        <a href="#" onclick="javascript: navega('paso1_contenido')">Información de Contenido</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="categoria">        
+                                <p class="titulo" data-toggle="collapse" data-target="#collapseStepThree" aria-expanded="true" aria-controls="collapseStepThree">Paso 2. Contexto</p>
+                                <ul id="collapseStepThree" class="collapse show" style="">
+                                    <li>
+                                        <a href="#" onclick="javascript: navega('paso2_contexto')">Información de Contexto</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="categoria">
+                                <p class="titulo" data-toggle="collapse" data-target="#collapseStepFour" aria-expanded="true" aria-controls="collapseStepFour">Paso 3. Estructura - Origen</p>
+                                <ul id="collapseStepFour" class="collapse show" style="">
+                                    <li>
+                                        <a href="#" onclick="javascript: navega('paso3_origen_archivo')">a) Origen en Archivo</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="javascript: navega('paso3_origen_url')">b) Origen en URL </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="javascript: navega('paso3_origen_basedatos')">c) Origen en Base de Datos</a>
+                                    </li>
+                                </ul>    
+                            </div>
+                            <div class="categoria">
+                                <p class="titulo" data-toggle="collapse" data-target="#collapseStepFive" aria-expanded="true" aria-controls="collapseStepFive">Paso 4. Estructura - Integración</p>
+                                <ul id="collapseStepFive" class="collapse show" style="">
+                                    <li>
+                                        <a href="#" onclick="javascript: navega('paso4_integracion_seleccion')">a) Alineamiento mediante selección de atributos</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="javascript: navega('paso4_integracion_xml')">b) Alineamiento mediante XML de mapeo</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cuerpo"> 
+                <div class="categoria">
+                    <p class="titulo" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">Listado de conjuntos de datos</p>
+                    <ul id="collapseFive" class="collapse show" style="">
                         <li>
-                            <a href="javascript: visible(11);">1.1. Contenido</a>
-                        </li>
-                        <li>
-                            <a href="javascript: visible(12);">1.2. Contexto</a>
-                        </li>
-                        <li>
-                            <a href="javascript: visible(13);">1.3. Estructura</a>
+                            <a href="#" onclick="javascript: navega('listado_info')">Info de Listado</a>
                         </li>
                     </ul>
                 </div>
                 <div class="categoria">
-                    <p class="titulo" data-toggle="collapse" data-target="#collapseStepTwo" aria-expanded="true" aria-controls="collapseStepTwo">2. Origen de los datos</p>
-                    <ul id="collapseStepTwo" class="collapse show" style="">
+                    <p class="titulo" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">Ficha del conjunto de datos</p>
+                    <ul id="collapseSix" class="collapse show" style="">
                         <li>
-                            <a href="javascript: visible(21);">2.a. Origen en URL</a>
-                        </li>
-                         <li>
-                            <a href="javascript: visible(22);">2.b. Origen en archivo</a>
-                        </li>
-                         <li>
-                            <a href="javascript: visible(23);">2.c. Origen en Base de Datos</a>
-                        </li>
-                    </ul>    
-                </div>
-                <div class="categoria">
-                    <p class="titulo" data-toggle="collapse" data-target="#collapseStepThree" aria-expanded="true" aria-controls="collapseStepThree">3. Integración de los datos</p>
-                    <ul id="collapseStepThree" class="collapse show" style="">
-                        <li>
-                            <a href="javascript: visible(31);">3.1. Selección de entidad principal del EI2A</a>
-                        </li>
-                        <li>
-                            <a href="javascript: visible(32);">3.2. Alineación con los atributos</a>
+                            <a href="#" onclick="javascript: navega('ficha_info')">Info de Ficha</a>
                         </li>
                     </ul>
                 </div>
-            </div>
-        </div>
-            </div>
-            <div class="categoria">
-                <p class="titulo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Listado de conjuntos de datos</p>
-                <ul id="collapseTwo" class="collapse show" style="">
-                    <li>
-                        <a href="javascript: visible(41);">Info de Listado</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="categoria">
-                <p class="titulo" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Ficha del conjunto de datos</p>
-                <ul id="collapseThree" class="collapse show" style="">
-                    <li>
-                        <a href="javascript: visible(51);">Info de Ficha</a>
-                    </li>
-                </ul>
-            </div>
-        </div>                  
+            </div>   
         </div>
         <div class="col col-12 col-md-9 col-seccion">
-            <div id="ayuda_10" class="wrapCol">
-                <div class="contenido">
-                    <div class="wrapCol">
-                        <div class="header-resource">
-                            <a style="display: inline-flex;margin-right: 110px;"href="#" id="soporte_10" onclick="solicitarSoporte();" class="btn">Solicitud de soporte</a>
-                            <a style="display: inline-flex" href="#" id="volver_10" onclick="volver();" class="btn">Volver</a>
-                            <div class="h1-container">
-                                <h1>1. Descripción de los datos</h1>
-                            </div>                            
-                        </div>
-                        <div class="contenido">
-                            <div id="ayuda_11" class="grupo grupo-subtitulo">
-                                <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene tres pasos principales:</h3>
-                                    <ul>
-                                        <li style="color:#b57809"><b>1. Descripción de los datos</b> donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
-                                        <li><b>2. Origen de los datos</b> donde el usuario configura el acceso a los datos que desea incorporar.</li>
-                                        <li><b>3. Integración de los datos</b> donde el usuario relaciona sus datos con la Estructura de Información Interoperable de Aragón EI2A.</li>
-                                    </ul>
-                                <h3 class="titulo-principal">1.1. Contenido:</h3>
-                                <p>El primer paso consiste en completar los siguientes campos relacionados con la descripción del contenido del conjunto de datos que se desea incorporar. Las características de los campos son las siguientes:<p>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Campo</th>
-                                            <th>Obligatorio</th>
-                                            <th>Descripción</th>
-                                            <th>Información</th>                        
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Denominación</td>
-                                            <td>Si</td>
-                                            <td>Nombre del conjunto de datos.</td>
-                                            <td>Debe ser único porque se va a convertir en su identificador.</td>                               
-                                        </tr>
-                                        <tr>
-                                            <td>Descripción</td>
-                                            <td>Si</td>
-                                            <td>Texto breve que describe el contenido del conjunto de datos.</td>
-                                            <td>La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias, este es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Frecuencia de actualización</td>
-                                            <td>No</td>
-                                            <td>Frecuencia de tiempo con la que se actualizan los datos.</td>
-                                            <td>Este campo sirve para indicar con qué frecuencia (Anual, Semestral, Cuatrimestral, Trimestral, Mensual, Diaria o Instantánea) se actualiza la información aquí contenida.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Fecha de Inicio</td>
-                                            <td>No</td>
-                                            <td>Fecha de inicio del periodo temporal del que contiene información tu conjunto de datos.</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Fecha de Final</td>
-                                            <td>No</td>
-                                            <td>Fecha final del periodo temporal del que contiene información tu conjunto de datos</td>
-                                            <td>Si tu conjunto de datos está vivo y se va refrescando a medida que pasa el tiempo, deja este campo en blanco. Si has indicado una fecha de inicio, en ese caso entenderemos que tu conjunto de datos contiene información desde la fecha que indiques hasta la actualidad.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Territorio que abarcan</td>
-                                            <td>Si</td>
-                                            <td>Ambito geográfico del que tu conjunto de datos contiene información</td>
-                                            <td>Selecciona el ámbito deseado y si es "Provincia", "Comarca" o "Localidad", escribe el nombre y la función de autocompletado te permitirá seleccionar el valor normalizado del que disponemos. En el caso de no encontrar el nombre requerido, introduce el valor en "Otros".</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div id="ayuda_12" class="grupo grupo-subtitulo">
-                                <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene tres pasos principales:</h3>
-                                    <ul>
-                                        <li style="color:#b57809"><b>1. Descripción de los datos</b> donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
-                                        <li><b>2. Origen de los datos</b> donde el usuario configura el acceso a los datos que desea incorporar.</li>
-                                        <li><b>3. Integración de los datos</b> donde el usuario relaciona sus datos con la Estructura de Información Interoperable de Aragón EI2A.</li>
-                                    </ul>
-                                <h3 class="titulo-principal">1.2. Contexto:</h3>
-                                <p>Aquí se introduce la información relacionada con el contexto del conjunto de datos que se desea incorporar. Las características de los campos son las siguientes:<p>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Campo</th>
-                                            <th>Obligatorio</th>
-                                            <th>Descripción</th>
-                                            <th>Notas</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Órgano responsable</td>
-                                            <td>Si</td>
-                                            <td>Organización encargada de la publicación de este conjunto de datos.</td>
-                                            <td>Esta información se ha confeccionado con los datos aportados al dar de alta la organización publicadora, para modificarla utiliza la pizarra de administración de tu organización.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Finalidad</td>
-                                            <td>Si</td>
-                                            <td>Estos son los temas conforme a la Norma Técnica de Interoperabilidad</td>
-                                            <td>Elige el que creas que se adapta mejor a la información que contiene tu conjunto de datos</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Licencia tipo aplicable y condiciones de uso</td>
-                                            <td>No</td>
-                                            <td>Tipo de licencia</td>
-                                            <td>Para promover la máxima reutilización, en Aragón Open Data establecemos por defecto una licencia Creative Commons Attribution 4.0 según se expone en la sección Términos de uso. Si tu conjunto de datos por alguna razón legal, contractual o de otro tipo no puede ser ofrecido con esta licencia escríbenos a opendata@aragon.es y la modificaremos</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Vocabularios</td>
-                                            <td>No</td>
-                                            <td>Vocabularios relacionados</td>
-                                            <td>Puedes introducir una o varias URLs y pulsar ENTER para añadir cada una</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Servicios y estándares implicados</td>
-                                            <td>No</td>
-                                            <td>Si has utilizado alguna metodología para controlar la calidad de los datos este es el lugar para explicarla, por ejemplo normas ISO, normas concretas… etc. Si tus metodologías de control de calidad están explicadas en un enlace externo, copia aquí la dirección o direcciones.</td>
-                                            <td>Puedes introducir una o varias URLs y pulsar ENTER para añadir cada una</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div id="ayuda_13" class="grupo grupo-subtitulo">
-                                <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene tres pasos principales:</h3>
-                                    <ul>
-                                        <li style="color:#b57809"><b>1. Descripción de los datos</b> donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
-                                        <li><b>2. Origen de los datos</b> donde el usuario configura el acceso a los datos que desea incorporar.</li>
-                                        <li><b>3. Integración de los datos</b> donde el usuario relaciona sus datos con la Estructura de Información Interoperable de Aragón EI2A.</li>
-                                    </ul>
-                                <h3 class="titulo-principal">1.3. Estructura:</h3>
-                                <p>La estructura del conjunto de datos se describe en este apartado. Las características de los campos son las siguientes:<p>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Campo</th>
-                                            <th>Obligatorio</th>
-                                            <th>Descripción</th>
-                                            <th>Notas</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Estructura</td>
-                                            <td>No</td>
-                                            <td>Información sobre la estructura de los datos.</td>
-                                            <td>Introduce un resumen sobre como se encuentran estructurados los datos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Denominación y orden de aspectos formales como las instancias o entidades que ofrece</td>
-                                            <td>No</td>
-                                            <td>Granularidad de los datos</td>
-                                            <td>Introduce una breve descripción sobre la granularidad de los datos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Formatos disponibles</td>
-                                            <td>No</td>
-                                            <td>Formatos disponibles en los que se encuentran disponibles los datos.</td>
-                                            <td>Introduce una breve descripción sobre los formatos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Etiquetas</td>
-                                            <td>No</td>
-                                            <td>Cada uno de los tags que se pueden enlazar al conjunto de datos.</td>
-                                            <td>Introduce el texto y pulsa ENTER para añadir uno.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>          
-                    </div>
+            <div id="ayuda_paso0" class="wrapCol" style="display:none">
+                <div class="header-resource">  
+                    <a style="display: inline-flex;margin-right: 110px;" href="/asistentecamposdatos/soporte" target="_blank" class="btn">Solicitud de soporte</a>
+                    <div class="h1-container">
+                        <h1>Paso 0. Creación</h1>
+                    </div>                            
                 </div>
-            </div>
-            <div id="ayuda_20" class="wrapCol">
                 <div class="contenido">
-                    <div class="wrapCol">
-                        <div class="header-resource">
-                            <a style="display: inline-flex;margin-right: 110px;"href="#" id="soporte_20" onclick="solicitarSoporte();" class="btn">Solicitud de soporte</a>
-                            <a style="display: inline-flex" href="#" id="volver_20" onclick="volver();" class="btn">Volver</a>
-                           
-                            <div class="h1-container">
-                                <h1>2. Origen de los datos</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contenido">
-                        <div id="ayuda_21" class="grupo grupo-subtitulo">
-                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene tres pasos principales:</h3>
+                    <div class="grupo grupo-subtitulo">
+                        <div id="ayuda_paso0_nuevo_conjunto" class="grupo grupo-subtitulo" style="display:none">
+                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene cuatro pasos principales:</h3>
                                 <ul>
-                                    <li><b>1. Descripción de los datos</b> donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
-                                    <li style="color:#b57809"><b>2. Origen de los datos</b> donde el usuario configura el acceso a los datos que desea incorporar.</li>
-                                    <li><b>3. Integración de los datos</b> donde el usuario relaciona sus datos con la Estructura de Información Interoperable de Aragón EI2A.</li>
+                                    <li style="color:#b57809">0. Creación de un nuevo conjunto de datos o creación de una nueva distribución dentro de un conjunto de datos ya existente.</li>
+                                    <li>1. Descripción del contenido de los datos, donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
+                                    <li>2. Descripción del contexto los datos, donde el usuario incluye la información de todo lo que rodea al conjunto de datos.</li>
+                                    <li>3. Origen de los datos, donde el usuario configura el acceso a la distribución de los datos que desea incorporar.</li>
+                                    <li>4. Integración de los datos, donde el usuario relaciona cada campo de sus datos con la Estructura de Información Interoperable de Aragón EI2A</li>
                                 </ul>
-                            <h3 class="titulo-principal">2.a. Origen en URL</h3>
-                            <p>En el paso 2, el usuario tiene tres tipos de posibilidades para cargar los datos: URL, archivo o base de datos.<p>
+                                <br>
+                            <h3 class="titulo-principal">a) Nuevo conjunto de datos:</h3>
+                            <p>Si lo que deseas es crear un nuevo conjunto de datos, debes elegir la opción "--Nuevo conjunto de datos--" disponible en la lista desplegable y pulsar en el botón "Siguiente...". Al crear un nuevo conjunto de datos, debes tener en cuenta lo siguiente:</p>
                             <ul>
-                                <li>
-                                    Los pasos a seguir en cada uno de ellos son similares:
-                                    <ul>
-                                        <li>El usuario selecciona el origen de sus datos (Url archivo, o base de datos).</li>
-                                        <li>El usuario informa el formulario que parece en cada caso.</li>
-                                        <li>El usuario pulsa el botón “comprobar”. La página responderá al usuario con la aprobación o no, de la carga solicitada.</li>
-                                        <li>Si la carga es resultado de una comprobación valida, la página mostrará la estructura de los datos a modo de listado de campos subidos.</li>
-                                        <li>El usuario guarda el origen de los datos y puede continuar con el siguiente paso.</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>Los formatos permitidos son XML, JSON, CSV,  XLS y XLSX. Esto quiere decir que la url informada ha de tener como destino un archivo accesible de manera directa y pública. No serán válidas las url con redirecciones o no públicas.</p>
-                            <ul>   
-                                <li>
-                                    A modo de ejemplo ponemos algunas url validas
-                                    <ul>
-                                        <li>http://dominio.ejemplo.com/datos.xml</li>
-                                        <li>http://dominio.ejemplo.com/datos.json</li>
-                                        <li>http://dominio.ejemplo.com/datos.csv</li>
-                                        <li>http://dominio.ejemplo.com/datos.xls</li>  
-                                        <li>http://dominio.ejemplo.com/datos.xlsx</li>                                  
-                                    </ul>
-                                </li>
+                                <li>Al ser un nuevo conjunto de datos, el asistente pasará por los pasos 1 y 2, con el fin de introducir toda la información relacionada con el contenido y el contexto de los datos.</li>
+                                <li>Si quieres añadir más de una distribución dentro de un mismo conjunto de datos, puedes crear el conjunto de datos y posteriormente, crear una nueva distribución dentro de este conjunto de datos. En el listado aparecerán como registros diferentes.</li>
+                                <li>Este registro definirá la información de contenido y contexto para todas las distribuciones que se añadan posteriormente, por lo que si se requiere modificar algun dato de los pasos 1 o 2, tendrá que ser en el registro del conjunto de datos inicial.</li>
                             </ul>   
-                            <ul>   
-                                <li>
-                                    Además del formato permitido, el sistema solo admite las cargas de los datos en plantillas reconocibles que se pueden descargar desde los siguientes enlaces:
-                                    <ul>
-                                        <li><a href="/shared/Libro1.xml" class="descarga">Enlace a plantilla XML</a></li>
-                                        <li><a href="/shared/Libro1.json" class="descarga">Enlace a plantilla JSON</a></li>
-                                        <li><a href="/shared/Libro1.csv" class="descarga">Enlace a plantilla CSV</a></li>
-                                        <li><a href="/shared/Libro1.xls" class="descarga">Enlace a plantilla XLS</a></li>   
-                                        <li><a href="/shared/Libro1.xlsx" class="descarga">Enlace a plantilla XLSX</a></li>                                
-                                    </ul>
-                                </li>
+                        </div>
+                        <div id="ayuda_paso0_nueva_distribucion" class="grupo grupo-subtitulo" style="display:none">
+                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene cuatro pasos principales:</h3>
+                                <ul>
+                                    <li style="color:#b57809">0. Creación de un nuevo conjunto de datos o creación de una nueva distribución dentro de un conjunto de datos ya existente.</li>
+                                    <li>1. Descripción del contenido de los datos, donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
+                                    <li>2. Descripción del contexto los datos, donde el usuario incluye la información de todo lo que rodea al conjunto de datos.</li>
+                                    <li>3. Origen de los datos, donde el usuario configura el acceso a la distribución de los datos que desea incorporar.</li>
+                                    <li>4. Integración de los datos, donde el usuario relaciona cada campo de sus datos con la Estructura de Información Interoperable de Aragón EI2A</li>
+                                </ul>
+                                <br>
+                            <h3 class="titulo-principal">b) Nueva distribución en un conjunto de datos ya existente:</h3>
+                            <p>Si lo que deseas es crear una nueva distribución de datos dentro de un conjunto de datos ya existente en el asistente, debes elegir el conjunto de datos, disponible en la lista desplegable y pulsar en el botón "Siguiente...". Al crear una nueva distribución de un conjunto de datos existente, debes tener en cuenta lo siguiente:</p>
+                            <ul>
+                                <li>Al ser dentro de un conjunto de datos ya existente, el asistente saltará los pasos 1 y 2, y pasará directamente al paso 3, ya que esta información se comparte y recupera del conjunto de datos introducido inicialmente.</li>
+                                <li>Puedes añadir las distribuciones que necesites dentro de un conjunto de datos.</li>
+                                <li>Si se requiere modificar algun dato del contenido o contexto del conjunto de datos (pasos 1 o 2), tendrá que ser en el registro del conjunto de datos inicial.</li>
+                            </ul>   
+                        </div>
+                    </div>
+                </div>          
+            </div>
+            <div id="ayuda_paso1" class="wrapCol" style="display:none">
+                <div class="header-resource">  
+                    <a style="display: inline-flex;margin-right: 110px;" href="/asistentecamposdatos/soporte" target="_blank" class="btn">Solicitud de soporte</a>
+                    <div class="h1-container">
+                        <h1>Paso 1. Contenido</h1>
+                    </div>                            
+                </div>
+                <div class="contenido">
+                    <div class="grupo grupo-subtitulo">
+                        <div id="ayuda_paso1_contenido" class="grupo grupo-subtitulo" style="display:none">
+                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene cuatro pasos principales:</h3>
+                                <ul>
+                                    <li>0. Creación de un nuevo conjunto de datos o creación de una nueva distribución dentro de un conjunto de datos ya existente.</li>
+                                    <li style="color:#b57809">1. Descripción del contenido de los datos, donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
+                                    <li>2. Descripción del contexto los datos, donde el usuario incluye la información de todo lo que rodea al conjunto de datos.</li>
+                                    <li>3. Origen de los datos, donde el usuario configura el acceso a la distribución de los datos que desea incorporar.</li>
+                                    <li>4. Integración de los datos, donde el usuario relaciona cada campo de sus datos con la Estructura de Información Interoperable de Aragón EI2A</li>
+                                </ul>
+                                <br>
+                            <h3 class="titulo-principal">Información de Contenido:</h3>
+                            <p>El primer paso consiste en completar la información más descriptiva del contenido del conjunto de datos que se desea incorporar. Las características de los campos son las siguientes:</p>
+                            <p></p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Campo</th>
+                                        <th>Obligatorio</th>
+                                        <th>Descripción</th>
+                                        <th>Más información</th>                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Título</td>
+                                        <td>Sí</td>
+                                        <td>Nombre del conjunto de datos.</td>
+                                        <td>Debe ser único porque se va a convertir en su identificador.</td>                               
+                                    </tr>
+                                    <tr>
+                                        <td>Descripción</td>
+                                        <td>Sí</td>
+                                        <td>Texto breve que describe el contenido del conjunto de datos.</td>
+                                        <td>La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información. En algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles la realidad del dato.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Temática</td>
+                                        <td>Sí</td>
+                                        <td>Estos son los temas conforme a la Norma Técnica de Interoperabilidad.</td>
+                                        <td>Elige el que creas que se adapta mejor a la información que contiene tu conjunto de datos. Puedes consultar los conceptos disponibles en el ANEXO IV: <a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2013-2380" target="_blank">Ir a enlace</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Etiquetas</td>
+                                        <td>No</td>
+                                        <td>Introduce un listado de etiquetas que describan el contenido de tu conjunto de datos.</td>
+                                        <td>Utiliza palabras comunes para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son palabras que provienen de EuroVoc (<a href="http://eurovoc.europa.eu/drupal/?q=es" target="_blank">Ir a enlace</a>) y su uso mejora mucho la interoperabilidad del conjunto de datos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Frecuencia de actualización</td>
+                                        <td>No</td>
+                                        <td>Frecuencia de tiempo con la que se actualiza la información del conjunto de los datos.</td>
+                                        <td>La frecuencia puede ser anual, semestral, cuatrimestral, trimestral, mensual, diaria o instantánea.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cobertura temporal del conjunto de datos</td>
+                                        <td>No</td>
+                                        <td>Periodo temporal del que contiene información el conjunto de datos.</td>
+                                        <td>Si el conjunto de datos está vivo y se va refrescando a medida que pasa el tiempo, deja vacía la caja de "hasta…". En ese caso entenderemos que tu conjunto de datos contiene información desde la fecha que indiques hasta la actualidad.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cobertura geográfica</td>
+                                        <td>Sí</td>
+                                        <td>Ambito geográfico del que tu conjunto de datos contiene información</td>
+                                        <td>Selecciona el ámbito deseado y si es "Provincia", "Comarca" o "Municipio", escribe el nombre y la función de autocompletado te permitirá seleccionar el valor normalizado del que disponemos. En el caso de no encontrar el nombre requerido, introduce el valor en "Otros".</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Idiomas</td>
+                                        <td>No</td>
+                                        <td>Idiomas en el que se encuentran los datos.</td>
+                                        <td>Puedes seleccionar uno o varios.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nivel Detalle</td>
+                                        <td>No</td>
+                                        <td>Este campo debe indicar el menor nivel de detalle al que se refiere el conjunto de datos.</td>
+                                        <td>El menor nivel de detalle se puede referir a diferentes "dimensiones" del conjunto de datos si es que este las tuviera, por lo que en este campo se admite más de una palabra. Por ejemplo el menor nivel de detalle dentro de una "dimensión" temporal podrían ser segundos, minutos, horas…; en la "dimensión" espacial podría ser calle, código postal, municipio…; en la "dimensión" de entidades podría ser persona, escuela, parque natural. Escribe la primera letra de cada nivel de detalle en mayúscula y el resto en minúscula.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+            <div id="ayuda_paso2" class="wrapCol" style="display:none">
+                <div class="header-resource">  
+                    <a style="display: inline-flex;margin-right: 110px;" href="/asistentecamposdatos/soporte" target="_blank" class="btn">Solicitud de soporte</a>
+                    <div class="h1-container">
+                        <h1>Paso 2. Contexto</h1>
+                    </div>                            
+                </div>
+                <div class="contenido">
+                    <div class="grupo grupo-subtitulo">
+                        <div id="ayuda_paso2_contexto" class="grupo grupo-subtitulo" style="display:none">
+                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene cuatro pasos principales:</h3>
+                                <ul>
+                                    <li>0. Creación de un nuevo conjunto de datos o creación de una nueva distribución dentro de un conjunto de datos ya existente.</li>
+                                    <li>1. Descripción del contenido de los datos, donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
+                                    <li style="color:#b57809">2. Descripción del contexto los datos, donde el usuario incluye la información de todo lo que rodea al conjunto de datos.</li>
+                                    <li>3. Origen de los datos, donde el usuario configura el acceso a la distribución de los datos que desea incorporar.</li>
+                                    <li>4. Integración de los datos, donde el usuario relaciona cada campo de sus datos con la Estructura de Información Interoperable de Aragón EI2A</li>
+                                </ul>
+                                <br>
+                            <h3 class="titulo-principal">Información de Contexto:</h3>
+                            <p>Aquí se introduce la información relacionada con el contexto del conjunto de datos que se desea incorporar. Las características de los campos son las siguientes:</p><p>
+                            </p><table>
+                                <thead>
+                                    <tr>
+                                        <th>Campo</th>
+                                        <th>Obligatorio</th>
+                                        <th>Descripción</th>
+                                        <th>Más información</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Publicador</td>
+                                        <td>Sí</td>
+                                        <td>Organización encargada de la publicación de este conjunto de datos.</td>
+                                        <td>Esta información se ha confeccionado con los datos aportados al dar de alta la organización publicadora, para modificarla utiliza la pizarra de administración de tu organización.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Calidad del dato</td>
+                                        <td>No</td>
+                                        <td>Metodologías utilizadas para controlar la calidad de los datos (normas ISO, normas concretas, etc...)</td>
+                                        <td>Puedes añadir una descripción y/o introducir una o varias URLs y pulsar ENTER para añadir cada una en el control Urls</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Diccionario de datos</td>
+                                        <td>No</td>
+                                        <td>Comentarios o cualquier clase de información que ayude a la comprensión del conjunto de datos.</td>
+                                        <td>Puedes añadir una descripción y/o introducir una o varias URLs y pulsar ENTER para añadir cada una en el control Urls</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+            <div id="ayuda_paso3" class="wrapCol" style="display:none">
+                <div class="header-resource">
+                    <a style="display: inline-flex;margin-right: 110px;" href="/asistentecamposdatos/soporte" target="_blank" class="btn">Solicitud de soporte</a>
+                    <div class="h1-container">
+                        <h1>Paso 3. Estructura - Origen</h1>
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div class="grupo grupo-subtitulo">                        
+                        <div id="ayuda_paso3_origen_archivo" class="grupo grupo-subtitulo" style="display:none">
+                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene cuatro pasos principales:</h3>
+                                <ul>
+                                    <li>0. Creación de un nuevo conjunto de datos o creación de una nueva distribución dentro de un conjunto de datos ya existente.</li>
+                                    <li>1. Descripción del contenido de los datos, donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
+                                    <li>2. Descripción del contexto los datos, donde el usuario incluye la información de todo lo que rodea al conjunto de datos.</li>
+                                    <li style="color:#b57809">3. Origen de los datos, donde el usuario configura el acceso a la distribución de los datos que desea incorporar.</li>
+                                    <li>4. Integración de los datos, donde el usuario relaciona cada campo de sus datos con la Estructura de Información Interoperable de Aragón EI2A</li>
+                                </ul>
+                                <br>
+                            <h3 class="titulo-principal">a) Origen en Archivo</h3>
+                            <p>En el paso 3, el usuario tiene tres tipos de posibilidades para definir el origen de los datos: Archivo, URL o Base de datos.</p><p></p>
+                                En el caso de Archivo, los pasos a seguir son los siguientes:
+                                <ul>
+                                    <li>Selecciona el origen "Archivo" en el campo "Acceso al recurso"</li>
+                                    <li>Introduce un nombre para la distribución de los datos a incorporar, que sea diferente a cualquier otra introducida previamente para evitar confusiones.</li>
+                                    <li>Si lo deseas, puedes añadir una descripción para completar con más detalle el contenido de la distribución.</li>
+                                    <li>Pulsa en el botón "Selecciona un archivo de tipo XML, JSON, CSV, XLS o XLSX" y escoge un fichero de uno de esos formatos.</li>
+                                    <li>Pulsa en el botón "Comprobar origen" para validar si la estructura del fichero cumple con el estándar predefinido por el asistente.</li>
+                                    <li>Si se cumple con la validación, se visualiza el listado de campos que contiene el archivo subido. En caso contrario, se podrá visualizar el error, informando de la línea en la que se encuentra el conflicto con la validación.</li>
+                                    <li>Para finalizar y avanzar al siguiente paso, pulsa en el botón "Guardar y continuar...".</li>                      
+                                </ul>
+                            <p>Para cualquier distribución de datos, el usuario debe cumplimentar los siguientes campos relacionados con su descripción. Las características de los campos son las siguientes:</p><p>
+                            </p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Campo</th>
+                                        <th>Obligatorio</th>
+                                        <th>Descripción</th>
+                                        <th>Más información</th>                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>Sí</td>
+                                        <td>Introduce un nombre descriptivo.</td>
+                                        <td>Puedes utilizar el mismo nombre que para el conjunto de datos.</td>                               
+                                    </tr>
+                                    <tr>
+                                        <td>Descripción</td>
+                                        <td>No</td>
+                                        <td>Descripción que aporte más información sobre la distribución que se quiere incorporar</td>
+                                        <td>Es opcional.</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                            <p></p>
+                            <p>Los formatos permitidos son XML, JSON, CSV y XLS. Además de la restricción por formato, el sistema solo admite las cargas de los datos en plantillas reconocibles y descargables en los siguientes enlaces:</p>  
+                            <ul>
+                                <li><a href="/shared/Libro1.xml" class="descarga">Enlace a plantilla XML</a></li>
+                                <li><a href="/shared/Libro1.json" class="descarga">Enlace a plantilla JSON</a></li>
+                                <li><a href="/shared/Libro1.csv" class="descarga">Enlace a plantilla CSV</a></li>
+                                <li><a href="/shared/Libro1.xls" class="descarga">Enlace a plantilla XLS</a></li>  
+                                <li><a href="/shared/Libro1.xlsx" class="descarga">Enlace a plantilla XLSX</a></li>                                  
                             </ul>
-                            <p>Como se puede observar tras la descarga de las plantillas, la estructura ha de tener un único nivel entre los datos y los encabezados han de coincidir con los nombres de los campos.</p>
-                            <p>De esta forma la carga de datos ha de tener una escritura de tabla plana, sin agrupamientos ni subniveles, ni filtros, ni otros elementos condicionantes.</p>
-                             <table>
-                                    <thead>
+                            <p>Como se puede observar tras la descarga de las plantillas, la estructura ha de tener un único nivel entre los datos y los encabezados, que han de coincidir con los nombres de los campos.</p>
+                            <p>La carga de datos debe tener una escritura de tabla plana, sin agrupamientos, ni subniveles, ni filtros, ni otros elementos condicionantes.</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Extensión</th>
+                                        <th>Nota sobre la extensión para la correcta carga de los datos</th>
+                                </tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CSV</td>
+                                        <td>Tal y como viene en la plantilla descargable en el punto anterior, utilizando el caracter ';' como separador de campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>La primera linea debe tener los nombres de los campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Se recomienda que la primera columna sea el valor identificador de cada registro.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Las fechas se deben poner en formato 'dd/mm/yyyy'.</td>
+                                    </tr>
                                         <tr>
-                                            <th>Extensión</th>
-                                            <th>Nota sobre la estensión para la correcta carga de los datos</th>
-                                    </thead>
-                                    <tbody>
+                                        <td></td>
+                                        <td>Asegúrate de guardar el archivo en fomato UTF8, de lo contrario podría perder caracteres especiales, acentos, diéresis...</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XLS y XLSX</td>
+                                        <td>Solo se lee la primera hoja del libro Excel.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>La primera linea debe tener los nombres de los campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Se recomienda que la primera columna sea el valor identificador de cada registro.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>No debe tener filtros, agrupamientos, formatos o condiciones.</td>
+                                    </tr>
                                         <tr>
-                                            <td>CSV</td>
-                                            <td>El formato csv tal y como viene en la plantilla, separa sus campos por ';'.</td>
-                                        </tr>
+                                        <td></td>
+                                        <td>Asegúrate de guardar el archivo en fomato UTF8, de lo contrario podría perder caracteres especiales, acentos, diéresis...</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XML</td>
+                                        <td>Solo se permite un nivel de anidamiento: Uno con el nombre de la fila y el segundo, con los campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Asegúrate de guardar el archivo en fomato UTF8, de lo contrario podría perder caracteres especiales, acentos, diéresis...</td>
+                                    </tr>
                                         <tr>
-                                            <td></td>
-                                            <td>La primera linea se toma como titulos de los campos.</td>
-                                        </tr>
+                                        <td>JSON</td>
+                                        <td>Solo se permite un nivel de anidamiento: Uno con el nombre del grupo y el segundo, con los campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Asegúrate de guardar el archivo en fomato UTF8, de lo contrario podría perder caracteres especiales, acentos, diéresis...</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                        </div>
+                        <div id="ayuda_paso3_origen_url" class="grupo grupo-subtitulo" style="display:none">
+                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene cuatro pasos principales:</h3>
+                                <ul>
+                                    <li>0. Creación de un nuevo conjunto de datos o creación de una nueva distribución dentro de un conjunto de datos ya existente.</li>
+                                    <li>1. Descripción del contenido de los datos, donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
+                                    <li>2. Descripción del contexto los datos, donde el usuario incluye la información de todo lo que rodea al conjunto de datos.</li>
+                                    <li style="color:#b57809">3. Origen de los datos, donde el usuario configura el acceso a la distribución de los datos que desea incorporar.</li>
+                                    <li>4. Integración de los datos, donde el usuario relaciona cada campo de sus datos con la Estructura de Información Interoperable de Aragón EI2A</li>
+                                </ul>
+                                <br>
+                            <h3 class="titulo-principal">b) Origen en URL</h3>
+                            <p>En el paso 3, el usuario tiene tres tipos de posibilidades para definir el origen de los datos: Archivo, URL o Base de datos.</p><p></p>
+                                En el caso de Archivo, los pasos a seguir son los siguientes:
+                                <ul>
+                                    <li>Selecciona el origen "URL" en el campo "Acceso al recurso"</li>
+                                    <li>Introduce un nombre para la distribución de los datos a incorporar, que sea diferente a cualquier otra introducida previamente para evitar confusiones.</li>
+                                    <li>Si lo deseas, puedes añadir una descripción para completar con más detalle el contenido de la distribución.</li>
+                                    <li>Introduce la URL del fichero a incorporar en el campo "Url".</li>
+                                    <li>Pulsa en el botón "Comprobar origen" para validar si la estructura del fichero cumple con el estándar predefinido por el asistente.</li>
+                                    <li>Si se cumple con la validación, se visualiza el listado de campos que contiene el archivo subido. En caso contrario, se podrá visualizar el error, informando de la línea en la que se encuentra el conflicto con la validación.</li>
+                                    <li>Para finalizar y avanzar al siguiente paso, pulsa en el botón "Guardar y continuar...".</li>                      
+                                </ul>
+                            <p>Para cualquier distribución de datos, el usuario debe cumplimentar los siguientes campos relacionados con su descripción. Las características de los campos son las siguientes:</p><p>
+                            </p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Campo</th>
+                                        <th>Obligatorio</th>
+                                        <th>Descripción</th>
+                                        <th>Más información</th>                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>Sí</td>
+                                        <td>Introduce un nombre descriptivo.</td>
+                                        <td>Puedes utilizar el mismo nombre que para el conjunto de datos.</td>                               
+                                    </tr>
+                                    <tr>
+                                        <td>Descripción</td>
+                                        <td>No</td>
+                                        <td>Descripción que aporte más información sobre la distribución que se quiere incorporar</td>
+                                        <td>Es opcional.</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                            <p></p>
+                            <p>Los formatos permitidos son XML, JSON, CSV y XLS. Además de la restricción por formato, el sistema solo admite las cargas de los datos en plantillas reconocibles y descargables en los siguientes enlaces:</p>  
+                            <ul>
+                                <li><a href="/shared/Libro1.xml" class="descarga">Enlace a plantilla XML</a></li>
+                                <li><a href="/shared/Libro1.json" class="descarga">Enlace a plantilla JSON</a></li>
+                                <li><a href="/shared/Libro1.csv" class="descarga">Enlace a plantilla CSV</a></li>
+                                <li><a href="/shared/Libro1.xls" class="descarga">Enlace a plantilla XLS</a></li>  
+                                <li><a href="/shared/Libro1.xlsx" class="descarga">Enlace a plantilla XLSX</a></li>                                  
+                            </ul>
+                            <p>Como se puede observar tras la descarga de las plantillas, la estructura ha de tener un único nivel entre los datos y los encabezados, que han de coincidir con los nombres de los campos.</p>
+                            <p>La carga de datos debe tener una escritura de tabla plana, sin agrupamientos, ni subniveles, ni filtros, ni otros elementos condicionantes.</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Extensión</th>
+                                        <th>Nota sobre la extensión para la correcta carga de los datos</th>
+                                </tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CSV</td>
+                                        <td>Tal y como viene en la plantilla descargable en el punto anterior, utilizando el caracter ';' como separador de campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>La primera linea debe tener los nombres de los campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Se recomienda que la primera columna sea el valor identificador de cada registro.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Las fechas se deben poner en formato 'dd/mm/yyyy'.</td>
+                                    </tr>
                                         <tr>
-                                            <td></td>
-                                            <td>La primera columna se recomienda que sea el id de la entidad.</td>
-                                        </tr>
+                                        <td></td>
+                                        <td>Asegúrate de guardar el archivo en fomato UTF8, de lo contrario podría perder caracteres especiales, acentos, diéresis...</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XLS y XLSX</td>
+                                        <td>Solo se lee la primera hoja del libro Excel.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>La primera linea debe tener los nombres de los campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Se recomienda que la primera columna sea el valor identificador de cada registro.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>No debe tener filtros, agrupamientos, formatos o condiciones.</td>
+                                    </tr>
                                         <tr>
-                                            <td></td>
-                                            <td>Las fechas se deben poner en formato 'dd/mm/yyyy'.</td>
-                                        </tr>
-                                         <tr>
-                                            <td></td>
-                                            <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
-                                        </tr>
+                                        <td></td>
+                                        <td>Asegúrate de guardar el archivo en fomato UTF8, de lo contrario podría perder caracteres especiales, acentos, diéresis...</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XML</td>
+                                        <td>Solo se permite un nivel de anidamiento: Uno con el nombre de la fila y el segundo, con los campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Asegúrate de guardar el archivo en fomato UTF8, de lo contrario podría perder caracteres especiales, acentos, diéresis...</td>
+                                    </tr>
                                         <tr>
-                                            <td>XLS y XLSX</td>
-                                            <td>La fila se 1 interpreta como contenedora de los nombre de los campos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>Solo se lee la sopapa primera.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>La primera columna se recomienda que sea el id de la entidad.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td> No ha de tener ni filtros, ni agrupamientos, ni formato datos.</td>
-                                        </tr>
-                                         <tr>
-                                            <td></td>
-                                            <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XML</td>
-                                            <td>Solo se permite un nivel de anidamiento: Uno con el nombre de la fila y un segundo con los campos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
-                                        </tr>
-                                         <tr>
-                                            <td>JSON</td>
-                                            <td>Solo se permite un nivel de anidamiento: Uno con el nombre del grupo y un segundo con los campos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
-                                        </tr>
-                                    </tbody>
-                                </table> 
+                                        <td>JSON</td>
+                                        <td>Solo se permite un nivel de anidamiento: Uno con el nombre del grupo y el segundo, con los campos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Asegúrate de guardar el archivo en fomato UTF8, de lo contrario podría perder caracteres especiales, acentos, diéresis...</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
                         </div>  
-                        <div id="ayuda_22" class="grupo grupo-subtitulo">
-                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene tres pasos principales:</h3>
+                        <div id="ayuda_paso3_origen_basedatos" class="grupo grupo-subtitulo" style="display:none">
+                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene cuatro pasos principales:</h3>
                                 <ul>
-                                    <li><b>1. Descripción de los datos</b> donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
-                                    <li style="color:#b57809"><b>2. Origen de los datos</b> donde el usuario configura el acceso a los datos que desea incorporar.</li>
-                                    <li><b>3. Integración de los datos</b> donde el usuario relaciona sus datos con la Estructura de Información Interoperable de Aragón EI2A.</li>
+                                    <li>0. Creación de un nuevo conjunto de datos o creación de una nueva distribución dentro de un conjunto de datos ya existente.</li>
+                                    <li>1. Descripción del contenido de los datos, donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
+                                    <li>2. Descripción del contexto los datos, donde el usuario incluye la información de todo lo que rodea al conjunto de datos.</li>
+                                    <li style="color:#b57809">3. Origen de los datos, donde el usuario configura el acceso a la distribución de los datos que desea incorporar.</li>
+                                    <li>4. Integración de los datos, donde el usuario relaciona cada campo de sus datos con la Estructura de Información Interoperable de Aragón EI2A</li>
                                 </ul>
-                            <h3 class="titulo-principal">2.b. Origen en archivo</h3>
-                            <p>En el paso 2, el usuario tiene tres tipos de posibilidades para cargar los datos: URL, archivo o base de datos.<p>
-                            <ul>   
-                                <li>
-                                    Los pasos a seguir en cada uno de ellos son similares:
-                                    <ul>
-                                        <li>El usuario selecciona el origen de sus datos (Url archivo, o base de datos).</li>
-                                        <li>El usuario informa el formulario que parece en cada caso.</li>
-                                        <li>El usuario pulsa el botón “comprobar”. La página responderá al usuario con la aprobación o no, de la carga solicitada.</li>
-                                        <li>Si la carga es resultado de una comprobación valida, la página mostrará la estructura de los datos a modo de listado de campos subidos.</li>
-                                        <li>El usuario guarda el origen de los datos y puede continuar con el siguiente paso.</li>                                    
-                                    </ul>
-                                </li>
+                                <br>
+                            <h3 class="titulo-principal">c) Origen en Base de datos</h3>
+                            <p>En el paso 3, el usuario tiene tres tipos de posibilidades para definir el origen de los datos: Archivo, URL o Base de datos.</p><p></p>
+                                En el caso de Archivo, los pasos a seguir son los siguientes:
+                                <ul>
+                                    <li>Selecciona el origen "Base de datos" en el campo "Acceso al recurso"</li>
+                                    <li>Introduce un nombre para la distribución de los datos a incorporar, que sea diferente a cualquier otra introducida previamente para evitar confusiones.</li>
+                                    <li>Si lo deseas, puedes añadir una descripción para completar con más detalle el contenido de la distribución.</li>
+                                    <li>Selecciona el tipo de base de datos de entre las disponibles (SQL Server, MySQL, PostgreSQL o Oracle).</li>
+                                    <li>Introduce la información de Host, Puerto, Servicio (solo Oracle), Esquema, Tabla, Usuario y Contraseña. Es preferible que el usuario se denomine "opendata", con el fin de mantener la normalización establecida por Aragón Open Data.</li>
+                                    <li>Pulsa en el botón "Comprobar origen" para validar la conexión y la estructura de la tabla o vista indicada.</li>
+                                    <li>Si se cumple con la validación, se visualiza el listado de campos que contiene la tabla o vista indicada.</li>
+                                    <li>Para finalizar y avanzar al siguiente paso, pulsa en el botón "Guardar y continuar...".</li>                      
+                                </ul>
+                            <p>Para cualquier distribución de datos, el usuario debe cumplimentar los siguientes campos relacionados con su descripción. Las características de los campos son las siguientes:</p><p>
+                            </p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Campo</th>
+                                        <th>Obligatorio</th>
+                                        <th>Descripción</th>
+                                        <th>Más información</th>                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>Sí</td>
+                                        <td>Introduce un nombre descriptivo.</td>
+                                        <td>Puedes utilizar el mismo nombre que para el conjunto de datos.</td>                               
+                                    </tr>
+                                    <tr>
+                                        <td>Descripción</td>
+                                        <td>No</td>
+                                        <td>Descripción que aporte más información sobre la distribución que se quiere incorporar</td>
+                                        <td>Es opcional.</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                            <p></p>
+                            <p>Las bases de datos permitidas son SQL Server, MySQL, PostgreSQL y Oracle. Restricciones generales:</p>  
+                            <ul>
+                                <li>El acceso debe ser a una tabla o vista pública, de cualquiera de las bases de datos permitidas.</li>
+                                <li>El sistema no detecta registros duplicados, ni campos con valor null. Es responsabilidad del usuario, disponer de una tabla o vista donde la información se encuentre normalizada.</li>                                
                             </ul>
-                            <p>Los formatos permitidos son XML, JSON, CSV y XLS.</p>  
-                            <ul>   
-                                <li>
-                                    Además del formato permitido, es sistema solo admite las cargas de los datos en plantillas reconocibles y descargables en los siguientes enlaces:
-                                    <ul>
-                                        <li><a href="/shared/Libro1.xml" class="descarga">Enlace a plantilla XML</a></li>
-                                        <li><a href="/shared/Libro1.json" class="descarga">Enlace a plantilla JSON</a></li>
-                                        <li><a href="/shared/Libro1.csv" class="descarga">Enlace a plantilla CSV</a></li>
-                                        <li><a href="/shared/Libro1.xls" class="descarga">Enlace a plantilla XLS</a></li>  
-                                        <li><a href="/shared/Libro1.xlsx" class="descarga">Enlace a plantilla XLSX</a></li>                                  
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>Como se puede observar tras la descarga de las plantilla, la estructura ha de tener un único nivel entre los datos y los encabezados que han de coincidir, con los nombres de os campos.</p>
-                            <p>De esta forma la carga de datos ha de tener una escritura de tabla plana, son agrupamientos ni subniveles, ni filtros, ni otros elementos condicionantes.</p>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Extensión</th>
-                                            <th>Nota sobre la estensión para la correcta carga de los datos</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>CSV</td>
-                                            <td>El formato csv tal y como viene en la plantilla, separa suss campos por ';'.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>La primera linea se toma como titulos de los campos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>La primera columna se recomienda que sea el id de la entidad</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>Las fechas se deben poner en formato 'dd/mm/yyyy'.</td>
-                                        </tr>
-                                         <tr>
-                                            <td></td>
-                                            <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XLS y XLSX</td>
-                                            <td>La fila se 1 interpreta como contenedora de los nombre de los campos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>Solo se lee la sopapa primera.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>La primera columna se recomienda que sea el id de la entidad.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td> No ha de tener ni filtros, ni agrupamientos, ni formato datos.</td>
-                                        </tr>
-                                         <tr>
-                                            <td></td>
-                                            <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XML</td>
-                                            <td>Solo se permite un nivel de anidamiento: Uno con el nombre de la fila y un segundo con los campos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
-                                        </tr>
-                                         <tr>
-                                            <td>JSON</td>
-                                            <td>Solo se permite un nivel de anidamiento: Uno con el nombre del grupo y un segundo con los campos.</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>Asegurese de gurdar el archivo en fomato UTF8, de lo contrario podria perder caresteres especiles, acentos, diéresis...</td>
-                                        </tr>
-                                    </tbody>
-                                </table> 
                         </div>
-                        <div id="ayuda_23" class="grupo grupo-subtitulo">
-                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene tres pasos principales:</h3>
-                                <ul>
-                                    <li><b>1. Descripción de los datos</b> donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
-                                    <li style="color:#b57809"><b>2. Origen de los datos</b> donde el usuario configura el acceso a los datos que desea incorporar.</li>
-                                    <li><b>3. Integración de los datos</b> donde el usuario relaciona sus datos con la Estructura de Información Interoperable de Aragón EI2A.</li>
-                                </ul>
-                            <h3 class="titulo-principal">2.c. Origen en base de datos</h3>
-                            <p>En el paso 2, el usuario tiene tres tipos de posibilidades para cargar los datos: URL, archivo o base de datos.<p>
-                            <ul>   
-                                <li>
-                                    Los pasos a seguir en cada uno de ellos son similares:
-                                    <ul>
-                                        <li>El usuario selecciona el origen de sus datos (Url archivo, o base de datos).</li>
-                                        <li>El usuario informa el formulario que parece en cada caso.</li>
-                                        <li>El usuario pulsa el botón “comprobar”. La página responderá al usuario con la aprobación o no, de la carga solicitada.</li>
-                                        <li>Si la carga es resultado de una comprobación valida, la página mostrará la estructura de los datos a modo de listado de campos subidos.</li>
-                                        <li>El usuario guarda el origen de los datos y puede continuar con el siguiente paso.</li>                                    
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>Las bases de datos permitidas son SQLSever, Mysql, PostGrestSQL y Oracle</p>  
-                            <ul>   
-                                <li>
-                                    Restricciones generales:
-                                    <ul>
-                                        <li>El acceso se ha de hacer una tabla o vista pública de cualquiera de las BD permitidas.</li>
-                                        <li>El sistema, no detecta duplicados, ni campos con valor null. Es responsabilidad del usuario, hacer una tabla o vista donde la información esté normalizad</li>                                
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>         
                     </div>
                 </div>
             </div>
-            <div id="ayuda_30" class="wrapCol">
-                <div class="contenido">
-                    <div class="wrapCol">
-                        <div class="header-resource">
-                            <a style="display: inline-flex;margin-right: 110px;"href="#" id="soporte_30" onclick="solicitarSoporte();" class="btn">Solicitud de soporte</a>
-                            <a style="display: inline-flex" href="#" id="volver_30" onclick="volver();" class="btn">Volver</a>
-                           
-                            <div class="h1-container">
-                                <h1>3. Integración de los datos</h1>
-                            </div>
-                        </div>
-                        <div class="contenido">
-                            <div id="ayuda_31" class="grupo grupo-subtitulo">
-                                <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene tres pasos principales:</h3>
-                                <ul>
-                                    <li><b>1. Descripción de los datos</b> donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
-                                    <li><b>2. Origen de los datos</b> donde el usuario configura el acceso a los datos que desea incorporar.</li>
-                                    <li style="color:#b57809"><b>3. Integración de los datos</b> donde el usuario relaciona sus datos con la Estructura de Información Interoperable de Aragón EI2A.</li>
-                                </ul>
-                                <h3 class="titulo-principal">3.1. Selección de entidad principal del EI2A</h3>
-                                <p>En este paso, el usuario dispone de la opción de alinear los campos de la tabla indicada como origen de datos, con el estándar de datos establecido por el Gobierno de Aragón a través del modelo ontológico EI2A. Este paso permite conectar e integrar el nuevo conjunto de datos con el resto de datasets de Aragón Open Data.</p>
-                                <p>El proceso es opcional y si el usuario no desea realizarlo, dispone de la opción "Omitir paso" para finalizar el asistente.</p>
-                                <p>La primera acción a realizar es escoger cuál es la entidad principal que representa a los datos que se quieren incorporar.</p>                                
-                            </div>
-                            <div id="ayuda_32" class="grupo grupo-subtitulo">
-                                <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene tres pasos principales:</h3>
-                                <ul>
-                                    <li><b>1. Descripción de los datos</b> donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
-                                    <li><b>2. Origen de los datos</b> donde el usuario configura el acceso a los datos que desea incorporar.</li>
-                                    <li style="color:#b57809"><b>3. Integración de los datos</b> donde el usuario relaciona sus datos con la Estructura de Información Interoperable de Aragón EI2A.</li>
-                                </ul>
-                                <h3 class="titulo-principal">3.2. Alineación con los atributos</h3>
-                                <p>Después de escoger la entidad principal que representa a los datos que se quieren incorporar (paso 3.1), el usuario debe indicar a qué atributo corresponde cada uno de los campos de la tabla origen.</p>
-                                <p>Por cada campo de origen, se puede asignar un atributo relacionado con la entidad principal o si es necesario, con un atributo de una entidad relacionada con la principal.</p>
-                                <p>Los atributos de la entidad principal y las entidades relacionadas junto con sus atributos disponibles, aparecen en la lista desplegable proporcionada para la asignación de cada campo.</p>
-                                <p>Para realizar un emparejamiento, seleccionar un valor de la lista desplegable y pulsar en el botón "Asignar". Según se vayan emparejando campos y atributos, se irán visualizando en la parte superior de "Campos asignados". Si se desea eliminar un emparejamiento, se puede pulsar en el botón "Eliminar" correspondiente y el campo volverá a la sección de pendientes de emparejar.</p>
-                                <ul>
-                                    <li>
-                                        Una vez finalizado el asistente el usuario podrá:
-                                        <ul>
-                                            <li>Acceder al paso 1 a través del listado para modificar el conjunto de datos.</li>
-                                            <li>Solicitar la publicación del conjunto de datos para que desde la administración se valide su incorporación en el banco de datos de Aragón Open Data.</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>          
+            <div id="ayuda_paso4" class="wrapCol" style="display:none">
+                <div class="header-resource">
+                    <a style="display: inline-flex;margin-right: 110px;" href="/asistentecamposdatos/soporte" target="_blank" class="btn">Solicitud de soporte</a>
+                    <div class="h1-container">
+                        <h1>Paso 4. Estructura - Integración</h1>
                     </div>
                 </div>
-            </div>  
-            <div id="ayuda_40" class="wrapCol">
                 <div class="contenido">
-                    <div class="wrapCol">
-                        <div class="header-resource">
-                            <a style="display: inline-flex;margin-right: 110px;"href="#" id="soporte_40" onclick="solicitarSoporte();" class="btn">Solicitud de soporte</a>
-                            <a style="display: inline-flex" href="#" id="volver_40" onclick="volver();" class="btn">Volver</a>
-                            <div class="h1-container">
-                                <h1>Listado de conjunto de datos</h1>
-                            </div>
+                    <div class="grupo grupo-subtitulo">
+                        <div id="ayuda_paso4_integracion_seleccion" class="grupo grupo-subtitulo" style="display:none">
+                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene cuatro pasos principales:</h3>
+                                <ul>
+                                    <li>0. Creación de un nuevo conjunto de datos o creación de una nueva distribución dentro de un conjunto de datos ya existente.</li>
+                                    <li>1. Descripción del contenido de los datos, donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
+                                    <li>2. Descripción del contexto los datos, donde el usuario incluye la información de todo lo que rodea al conjunto de datos.</li>
+                                    <li>3. Origen de los datos, donde el usuario configura el acceso a la distribución de los datos que desea incorporar.</li>
+                                    <li style="color:#b57809">4. Integración de los datos, donde el usuario relaciona cada campo de sus datos con la Estructura de Información Interoperable de Aragón EI2A</li>
+                                </ul>
+                                <br>
+                            <h3 class="titulo-principal">a) Alineamiento mediante selección de atributos</h3>                            
+                            <p>Este paso permite conectar e integrar el nuevo conjunto de datos con el resto de datasets de Aragón Open Data. El proceso es opcional y si el usuario no desea realizarlo, dispone de la opción "Omitir y publicar" para finalizar el asistente y enviar la solicitud de publicación a los administradores sin esta información. La integración con el modelo ontológico del EI2A se puede realizar de dos formas:</p>
+                            <ul>
+                                <li>Alineamiento mediante selección de atributos</li>
+                                <li>Alineamiento mediante XML de mapeo</li>
+                            </ul>
+                            <p>En el caso del alineamiento mediante la selección y asignación de atributos, los pasos a seguir son los siguientes:</p>
+                            <ul>
+                                <li>La primera acción a realizar es escoger cuál es la entidad principal, que propone el modelo ontológico EI2A, que representa a los datos que se quieren incorporar.</li>
+                                <li>Una vez seleccionada, si la entidad principal dispone de clasificación, aparecerá el campo "Selecciona tipo de entidad" para elegir cual es la que representa mejor a los datos que se van a incorporar.</li>
+                                <li>A continuación, el usuario debe indicar a qué atributo corresponde cada uno de los campos del origen incorporado en el asistente, dentro del paso 3.</li>
+                                <li>Además de los atributos de la entidad principal, existe la posibilidad de incorporar otras entidades relacionadas con esa entidad principal, siempre que lo permita el modelo, mediante la opción de elegir la entidad y atributo disponibles en cada caso.</li>
+                                <li>Para completar un emparejamiento, seleccionar un valor de la lista desplegable y pulsar en el botón "Asignar atributo". Según se vayan emparejando campos y atributos, se irán visualizando en la parte superior de "Campos asignados". Si se desea eliminar un emparejamiento, se puede pulsar en el botón "Eliminar" correspondiente y el campo volverá a la sección de pendientes de emparejar.</li>
+                                <li>Para finalizar, pulsar en el botón "Guardar y publicar" y el conjunto de datos entrará en estado "En espera de validación" por parte de los administradores de Aragón Open Data.</li>
+                            </ul>                                                        
                         </div>
-                        <div class="contenido">
-                            <div id="ayuda_41" class="grupo grupo-subtitulo">
-                                <h3 class="titulo-principal">Descripción</h3>
-                                <p>Es la página principal después del login, donde los usuarios navegarán automáticamente.<p>
-                                <p>En esa encontramos un listado y unas opciones de búsqueda a modo de encabezado.<p>
-                                <h3 class="titulo-principal">Las opciones búsqueda</h3>
-                                <p>Se compone de dos zonas para vista de los administradores:</p>
+                        <div id="ayuda_paso4_integracion_xml" class="grupo grupo-subtitulo" style="display:none">
+                            <h3 class="titulo-principal">El asistente para la creación de un conjunto de datos tiene cuatro pasos principales:</h3>
                                 <ul>
-                                    <li>Filtros por estado. Los botones de estado disponibles son:
-                                        <ul>
-                                            <li>En espera de validación</li>
-                                            <li>En corrección</li>
-                                            <li>Desechado</li>
-                                            <li>Validado</li>
-                                            <li>Solicitud de modificación</li>
-                                        </ul>
-                                    </li>
-                                    <li>Caja de búsqueda, para buscar el conjunto de datos mediante texto libre.</li>
+                                    <li>0. Creación de un nuevo conjunto de datos o creación de una nueva distribución dentro de un conjunto de datos ya existente.</li>
+                                    <li>1. Descripción del contenido de los datos, donde el usuario incluye la información más descriptiva del conjunto de datos.</li>
+                                    <li>2. Descripción del contexto los datos, donde el usuario incluye la información de todo lo que rodea al conjunto de datos.</li>
+                                    <li>3. Origen de los datos, donde el usuario configura el acceso a la distribución de los datos que desea incorporar.</li>
+                                    <li style="color:#b57809">4. Integración de los datos, donde el usuario relaciona cada campo de sus datos con la Estructura de Información Interoperable de Aragón EI2A</li>
                                 </ul>
-                                <h3 class="titulo-principal">El resultado de la búsqueda o listado</h3>
-                                <p>Los resultados de la búsqueda se componen de los siguientes elementos:
-                                <ul>
-                                    <li>Información sobre el número de resultados obtenidos.</li>
-                                    <li>Paginado de resultados.</li>
-                                    <li>Cada encabezado ordena alfabéticamente de manera ascendente y descendente.</li>
-                                </ul> 
-                                <p>El listado de resultados muestra los siguientes campos</p>
-                                <ul>
-                                    <li>Nombre del conjunto de datos (<i>con enlace a ficha de conjunto de datos, o al último paso del asistente donde se quedó el usuario o al paso primero si no finalizo el mismo</i>).</li>
-                                    <li>Nombre de usuario solicitante.</li>
-                                    <li>Fecha de creación.</li>
-                                    <li>Fecha de última modificación.</li>
-                                </ul>   
-                                <p>Los administradores visualizan todos los que se encuentren en cualquier estado, excepto “Borrador”.</p>
-                                <p>Los demás usuarios verán sus conjuntos de datos en todos sus estados.</p> 
-                            </div>
-                        </div>          
-                    </div>
-                </div>
-            </div>                  
-            <div id="ayuda_50"class="wrapCol">
-                <div class="contenido">
-                    <div class="wrapCol">
-                        <div class="header-resource">
-                            <a style="display: inline-flex;margin-right: 110px;"href="#" id="soporte_50" onclick="solicitarSoporte();" class="btn">Solicitud de soporte</a>
-                            <a style="display: inline-flex" href="#" id="volver_50" onclick="volver();" class="btn">Volver</a>
-                            <div class="h1-container">
-                                <h1>Ficha del conjunto de datos</h1>
-                            </div>
+                                <br>
+                            <h3 class="titulo-principal">b) Alineamiento mediante XML de mapeo</h3>                            
+                            <p>Este paso permite conectar e integrar el nuevo conjunto de datos con el resto de datasets de Aragón Open Data. El proceso es opcional y si el usuario no desea realizarlo, dispone de la opción "Omitir y publicar" para finalizar el asistente y enviar la solicitud de publicación a los administradores sin esta información. La integración con el modelo ontológico del EI2A se puede realizar de dos formas:</p>
+                            <ul>
+                                <li>Alineamiento mediante selección de atributos</li>
+                                <li>Alineamiento mediante XML de mapeo</li>
+                            </ul>
+                            <p>En el caso del alineamiento mediante XML de mapeo, se debe incorporar un fichero XML con la estructura establecida para realizar el alinemiento de los campos de origen con la entidad o entidades del modelo ontológico del EI2A y sus atributos.</p>
                         </div>
-                        <div class="contenido">
-                            <div id="ayuda_51" class="grupo grupo-subtitulo">
-                                <h3 class="titulo-principal">Descripción general</h3>
-                                <p>Es la página donde se muestra toda la información del conjunto de datos, una vez terminado el asistente.</p>
-                                <p>El acceso o navegación a la ficha se realiza a través del campo descripción en el listado de resultados del conjunto de datos.</p>
-                                <p>Al carga la página se realiza una comprobación de que la estructura de los datos aprobados en la misma que la actual. Si la comprobación falla, la página muestra una alerta a modo de popup indicándolo.</p>
-                                <p>La ficha se compone de:</p>
-                                <ul>
-                                    <li>Una barra de acciones posibles sobre el conjunto de datos.</li>
-                                    <li>Todos los atributos cumplimentados por el usuario en el asistente de creación del conjunto de datos.</li>
-                                    <li>Una muestra del conjunto de datos subido en formato de lista ordenable.</li>
-                                </ul>
-                                <h3 class="titulo-principal">Funcionamiento</h3>
-                                <p>La barra de acciones posibles contiene los siguientes botones:</p>
-                                <ul>
-                                    <li>
-                                        Botones que se muestran a los usuarios:
-                                        <ul>
-                                            <li>Con conjunto de datos en estado ‘Borrador’ y ‘En corrección'-> botón: ‘Solicitar publicación’ que solicita la publicación al admnistrador</li>
-                                            <li>Con conjunto de datos en estado -> botón: ‘Solicitar publicación’ que solicita la publicación al administrador</li>
-                                            <li>Con conjunto de datos en estado ‘Validado’ -> botón: ‘Solicitar modificación’ que solicita el poder modificar los datos validados anteriormente</li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        Botones que se muestran a los administradores:
-                                        <ul>
-                                            <li>Con conjunto de datos en estado ‘En espera de validación’ -> botones : ‘Validar’, ‘Corregir’ y ‘Desechar’.</li>
-                                            <li>Con conjunto de datos en estado ‘Solicitud de modificación’ -> botones : ‘Validar’, ‘Desechar’.</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <p>Al pulsar cualquiera de estos botones aparece una ventana emergente, con un cuadro de texto para que los usuarios y administradores puedan enviarse indicaciones acerca del cambio de estado, tanto en su solicitud (para los usuarios), como en su respuesta (para los administradores).</p>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Tipo usuario</th>
-                                            <th>Estado actual</th>
-                                            <th>Botón</th>
-                                            <th>Estado final</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Usuario</td>
-                                            <td>Borrador</td>
-                                            <td>Solicitar publicación</td>
-                                            <td>En espera de validación</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Usuario</td>
-                                            <td>En corrección</td>
-                                            <td>Solicitar publicación</td>
-                                            <td>En espera de validación</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Usuario</td>
-                                            <td>Borrador</td>
-                                            <td>Solicitar modificación</td>
-                                            <td>En espera de validación</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Administrador</td>
-                                            <td>Solicitud de modificación</td>
-                                            <td>Validar</td>
-                                            <td>En correción</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Administrador</td>
-                                            <td>Solicitud de modificación</td>
-                                            <td>Desechar</td>
-                                            <td>Validado</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Administrador</td>
-                                            <td>En espera de validación</td>
-                                            <td>Validar</td>
-                                            <td>Validado</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Administrador</td>
-                                            <td>Solicitud de modificación</td>
-                                            <td>Desechar</td>
-                                            <td>Desechado</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Administrador</td>
-                                            <td>En espera de validación</td>
-                                            <td>Corregir</td>
-                                            <td>En corrección</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>          
-                    </div>
-                </div>
+                    </div>   
+                </div>          
             </div>
-        </div>        
-    </div> 
-</div> 
+            <div id="ayuda_listado" class="wrapCol" style="display:none">
+                <div class="header-resource">
+                    <a style="display: inline-flex;margin-right: 110px;" href="/asistentecamposdatos/soporte" target="_blank" class="btn">Solicitud de soporte</a>
+                    <div class="h1-container">
+                        <h1>Listado de conjunto de datos</h1>
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div id="ayuda_listado_info" class="grupo grupo-subtitulo" style="display:none">                        
+                        <p>Es la página principal del asistente donde el usuario encuentra el listado de conjuntos de datos y distribuciones que ha generado en el sistema.</p>
+                        <p>Además del listado, se encuentra disponible una zona de búsqueda para facilitar las búsquedas que se deseen realizar con los siguientes elementos:</p>                                                
+                        <ul>
+                            <li>Filtro por estado con las siguientes opciones: Borrador, En espera de validación, Solicitud de modificación, En corrección, Validado o Desechado.</li>
+                            <li>Filtro para buscar cualquier texto que pueda aparecer en el título de la distribución o el nombre del conjunto de datos al que pertenece.</li>
+                        </ul>                        
+                        <p>La parte superior del listado se compone de los siguientes elementos:</p>
+                        <ul>
+                            <li>Información sobre el número de resultados obtenidos.</li>
+                            <li>Opción de paginar por un número diferente de resultados</li>
+                            <li>Título de cada columna con la opción de poder ordenar de forma ascendente o descendente por cualquiera de ellos.</li>
+                        </ul>
+                        <p>Cada registro del listado muestra una distribución de un conjunto de datos con la siguiente información:</p>
+                        <ul>
+                            <li>Estado en el que se encuentra (Borrador, En espera de validación, Solicitud de modificación, En corrección, Validado o Desechado)</li>
+                            <li>Título (<i>con enlace a ficha de conjunto de datos, o al último paso del asistente donde se quedó el usuario</i>).</li>
+                            <li>Nombre de usuario solicitante. (solo administradores)</li>
+                            <li>Conjunto de datos al que pertenece la distribución.</li>
+                            <li>Si es una distribución principal o no.</li>
+                            <li>Fecha de creación.</li>
+                            <li>Fecha de última modificación.</li>
+                        </ul>   
+                        <p>En cuanto a la privacidad de cada registro:</p>
+                        <ul>
+                            <li>Los administradores visualizan todos los que se encuentren en cualquier estado, excepto “Borrador”.</li>
+                            <li>Los demás usuarios ven sus conjuntos de datos en todos sus estados.</li> 
+                        </ul>
+                    </div>
+                </div>         
+            </div>
+            <div id="ayuda_ficha" class="wrapCol" style="display:none">
+                <div class="header-resource">
+                    <a style="display: inline-flex;margin-right: 110px;" href="/asistentecamposdatos/soporte" target="_blank" class="btn">Solicitud de soporte</a>
+                    <div class="h1-container">
+                        <h1>Ficha del conjunto de datos</h1>
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div id="ayuda_ficha_info" class="grupo grupo-subtitulo" style="display:none">                        
+                        <p>Es la página donde se muestra toda la información de la distribución de un conjunto de datos, una vez terminado el asistente. El acceso o navegación a la ficha se realiza a través del campo descripción en el listado principal del asistente. Al cargar la página se realiza una comprobación de que la estructura de los datos aprobados sigue cumpliendo las validaciones establecidas. Si la comprobación falla, la página muestra una alerta a modo de pop-up indicándolo.</p>
+                        <p>La ficha se compone de:</p>
+                        <ul>
+                            <li>Una barra de acciones posibles sobre la distribución del conjunto de datos.</li>
+                            <li>Toda la información cumplimentada por el usuario en el asistente.</li>
+                            <li>Una muestra de la distribución del conjunto de datos en formato de lista ordenable.</li>
+                        </ul>    
+                        <p></p>                    
+                        <p>Las acciones disponibles para cada usuario dependiendo de su rol y/o el estado de la distribución, se muestran en forma de botón en esta zona. Al pulsar cualquiera de estos botones aparece una ventana emergente, con un cuadro de texto para que los usuarios y administradores puedan enviarse indicaciones acerca del cambio de estado, tanto en su solicitud (para los usuarios), como en su respuesta (para los administradores). Son las siguientes:</p>                        
+                        <ul>
+                            <li><b>Editar</b>: Para modificar la distribución del conjunto de datos</li>
+                            <li><b>Solicitar publicación</b>: Para solicitar la validación y publicación del conjunto de datos</li>
+                            <li><b>Validar</b>: Para confirmar y publicar en las opciones elegidas, los datos validados</li>
+                            <li><b>Desechar</b>: Para indicar que los datos solicitados no son útiles o ya forman parte de Aragón Open Data.</li>
+                            <li><b>Solicitar corrección</b>: Para pasar a realizar una modificación, corrección o actualización de los datos.</li>
+                            <li><b>Aceptar</b>: Para aceptar la solicitud de modificación o actualización de los datos ya validados anteriormente.</li>
+                            <li><b>Rechazar</b>:Para aceptar la solicitud de modificación o actualización de los datos ya validados anteriormente.</li>
+                            <li><b>Solicitar modificación</b>: Para solicitar la modificación o actualización de los datos ya validados anteriormente.</li>
+                        </ul>
+                        <p></p>
+                        <p>Las situaciones en las que aparecen cada uno de los botones y los estados destino en cada caso, son los siguientes:</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rol</th>
+                                    <th>Estado actual</th>
+                                    <th>Botón</th>
+                                    <th>Objetivo / Estado de destino</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Usuario</td>
+                                    <td>Borrador</td>
+                                    <td>Editar</td>
+                                    <td>Acceder a la edición de los datos</td>
+                                </tr>
+                                <tr>
+                                    <td>Usuario</td>
+                                    <td>En corrección</td>
+                                    <td>Editar</td>
+                                    <td>Acceder a la edición de los datos</td>
+                                </tr>
+                                <tr>
+                                    <td>Usuario</td>
+                                    <td>En corrección</td>
+                                    <td>Solicitar publicación</td>
+                                    <td>Solicitar la validación de los datos a los administradores, una vez han sido corregidos</td>
+                                </tr>
+                                <tr>
+                                    <td>Usuario</td>
+                                    <td>Validado</td>
+                                    <td>Solicitar modificación</td>
+                                    <td>Solicitud de modificación</td>
+                                </tr>
+                                <tr>
+                                    <td>Administrador</td>
+                                    <td>En corrección</td>
+                                    <td>Editar</td>
+                                    <td>Acceder a la edición de los datos</td>
+                                </tr>
+                                <tr>
+                                    <td>Administrador</td>
+                                    <td>En espera de validación</td>
+                                    <td>Validar</td>
+                                    <td>Validado</td>
+                                </tr>
+                                <tr>
+                                    <td>Administrador</td>
+                                    <td>En espera de validación</td>
+                                    <td>Desechar</td>
+                                    <td>Desechado</td>
+                                </tr>
+                                <tr>
+                                    <td>Administrador</td>
+                                    <td>En espera de validación</td>
+                                    <td>Solicitar corrección</td>
+                                    <td>En corrección</td>
+                                </tr>
+                                <tr>
+                                    <td>Administrador</td>
+                                    <td>Solicitud de modificación</td>
+                                    <td>Aceptar</td>
+                                    <td>En correción</td>
+                                </tr>
+                                <tr>
+                                    <td>Administrador</td>
+                                    <td>Solicitud de modificación</td>
+                                    <td>Rechazar</td>
+                                    <td>Desechado</td>
+                                </tr>
+                                <tr>
+                                    <td>Administrador</td>
+                                    <td>Validado</td>
+                                    <td>Solicitar corrección</td>
+                                    <td>En corrección</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>       
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}

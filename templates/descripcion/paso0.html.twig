@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Asistente de creación de conjunto de datos - Creación{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput-typeahead.css">  
+     <link href="{{ asset('theme/bootstrap-tagsinput.css') }}" type="text/css" rel="stylesheet" />
+     
+{% endblock %}
+
+{% block body %}
+<div class="container" style="display:{{ permisoEdicion }}">
+	<div class="row">                  
+        <div id="col02" class="col col-12">
+             <div class="form formtheme01">
+                <h1>Asistente de creación de conjunto de datos</h1>
+                <div>
+                  <div class="box">
+                    {{ form_start(paso0_form) }}
+                    <div class="fieldset fieldset01">
+                        <fieldset class="mediumLabels">
+                            <h2>Selección para la creación de nuevo conjunto de datos o distribución</h2>
+                            <div>
+                                {{ form_widget(paso0_form) }}
+                                <div id="actionButtons" class="fieldset actionButtons" style="display: none;">
+                                    <fieldset>
+                                        <input class="submit principal" type="submit" id="siguiente" value="Siguiente...">
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                   {{ form_end(paso0_form) }}
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+{% block javascripts %}
+   {{ parent() }}
+       <!-- AUTOCOMPLETE -->
+    <script type="text/javascript" src="/theme/libraries/jquery.autocomplete.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-
+    <script type='text/javascript' src='/js/datepicker-es.js'></script>
+    <script type="text/javascript" src="/js/paso0.js"></script>
+{% endblock %}
+

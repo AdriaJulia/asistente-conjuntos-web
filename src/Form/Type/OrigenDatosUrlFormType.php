@@ -8,10 +8,11 @@ use App\Enum\TipoBaseDatosEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 
@@ -31,8 +32,34 @@ class OrigenDatosUrlFormType extends AbstractType
                   'attr' => [
                       'class' => 'select big',
                   ],
+                  'label'=>'Acceso al recurso:',
+                  'help' => 'Seleccione la forma de cómo se va a obtener el recurso.',
                   'data' => 'url'
             ])
+            ->add('nombre', textType::class,[
+                "row_attr" => [
+                    "class" => "form-group"
+                ],
+                'attr' => [
+                    'class' => 'select big',
+                    'placeholder' => 'Escribe un texto',
+                ],
+                'label'=>'Nombre:',
+                'help' => 'Introduce un nombre descriptivo puedes utilizar el mismo nombre que para el conjunto de datos.',
+                'required' => true
+            ])
+            ->add('descripcion', TextareaType::class,[
+                "row_attr" => [
+                  "class" => "form-group"
+                ],
+                'attr' => [
+                    'class' => 'select big',
+                    'placeholder' => 'Introduce un nombre descriptivo',  
+                ],
+                'label'=>'Descripción:',
+                'help' => 'Si deseas dar más detalle sobre los datos',
+                'required' => false
+             ])
             ->add('url', UrlType::class,[
                 "row_attr" => [
                     "class" => "form-group"
@@ -74,6 +101,11 @@ class OrigenDatosUrlFormType extends AbstractType
     }
     public function validate($data, ExecutionContextInterface $context,$payload): void
     {
+        if (empty($data->nombre)) {
+            $context->buildViolation('El nombre no puede estar vacío')
+            ->atPath('nombre')
+            ->addViolation();
+        }
         $url = $data->url;
         $extension = strtolower(substr($url, -5));
         if (!filter_var($url, FILTER_VALIDATE_URL)) {

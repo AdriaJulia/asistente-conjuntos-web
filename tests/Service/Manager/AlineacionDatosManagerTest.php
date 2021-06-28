@@ -43,29 +43,27 @@ class AlineacionDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
 
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
     
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso2);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -73,7 +71,7 @@ class AlineacionDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -87,6 +85,8 @@ class AlineacionDatosManagerTest extends WebTestCase
 
         $descripcionDatosDto->idDescripcion = $id;
         $descripcionDatosDto->tipoOrigen = TipoOrigenDatosEnum::URL;
+        $descripcionDatosDto->nombre = "tipo-origen-datos-test-url-json";
+        $descripcionDatosDto->descripcion = "Esta es la descripcion del tipo origen datos url json";
         $descripcionDatosDto->url = "http://localhost:8080/storage/default/Libro1.json";
         $descripcionDatosDto->data = "";
         $descripcionDatosDto->tipoBaseDatos = "";
@@ -101,6 +101,8 @@ class AlineacionDatosManagerTest extends WebTestCase
         
         $origenDatos->setIdDescripcion($descripcionDatosDto->idDescripcion);
         $origenDatos->setTipoOrigen($descripcionDatosDto->tipoOrigen);
+        $origenDatos->setNombre($descripcionDatosDto->nombre);
+        $origenDatos->setDescripcion($descripcionDatosDto->descripcion);
         $origenDatos->setData($descripcionDatosDto->url);
         $origenDatos->setUsuario($username);
         $origenDatos->setSesion($session->getId());

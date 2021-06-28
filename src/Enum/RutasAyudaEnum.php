@@ -9,35 +9,31 @@ namespace App\Enum;
 class RutasAyudaEnum {
 
   private static $types = [
-      'DESCRIPCION_PASO11' => self::DESCRIPCION_PASO11, 
-      'DESCRIPCION_PASO12' => self::DESCRIPCION_PASO12, 
-      'DESCRIPCION_PASO13' => self::DESCRIPCION_PASO13, 
+      'DESCRIPCION_DISTRIBUCION' => self::DESCRIPCION_DISTRIBUCION, 
+      'DESCRIPCION_CONTENIDO' => self::DESCRIPCION_CONTENIDO, 
+      'DESCRIPCION_CONTEXTO' => self::DESCRIPCION_CONTEXTO, 
       'ORIGEN_DATOS_URL' => self::ORIGEN_DATOS_URL, 
       'ORIGEN_DATOS_FILE' => self::ORIGEN_DATOS_FILE, 
       'ORIGEN_DATOS_DB' => self::ORIGEN_DATOS_DB, 
-      'ALINEACION_DATOS' => self::ALINEACION_DATOS,  
-      'LISTADO_GENERAL' => self::LISTADO_GENERAL, 
-      'LISTADO_ACCIONES' => self::LISTADO_ACCIONES, 
-      'FICHA_GENERAL' => self::FICHA_GENERAL,
-      'FICHA_ACCIONES' => self::FICHA_ACCIONES,    
+      'ALINEACION_EI2A' => self::ALINEACION_EI2A, 
+      'ALINEACION_XML' => self::ALINEACION_XML,   
+      'LISTADO_DESCRIPCION' => self::LISTADO_DESCRIPCION, 
+      'FICHA_DESCRIPCION' => self::FICHA_DESCRIPCION,
     ];
    
-  const DESCRIPCION_PASO11= "11";
-  const DESCRIPCION_PASO12 = "12";
-  const DESCRIPCION_PASO13= "13";
+  const DESCRIPCION_DISTRIBUCION = "paso0_nuevo_conjunto";
+  const DESCRIPCION_CONTENIDO= "paso1_contenido";
+  const DESCRIPCION_CONTEXTO= "paso2_contexto";
 
-  const ORIGEN_DATOS_FILE = "21";
-  const ORIGEN_DATOS_URL = "22";
-  const ORIGEN_DATOS_DB = "23";
+  const ORIGEN_DATOS_FILE = "paso3_origen_archivo";
+  const ORIGEN_DATOS_URL = "paso3_origen_url";
+  const ORIGEN_DATOS_DB = "paso3_origen_basedatos";
 
-  const ALINEACION_DATOS = "31";
+  const ALINEACION_EI2A = "paso4_integracion_seleccion";
+  const ALINEACION_XML = "paso4_integracion_xml";
 
-  const LISTADO_GENERAL = "41";
-  const LISTADO_ACCIONES = "42";
-
-  const FICHA_GENERAL = "51";
-  const FICHA_ACCIONES = "52";
-
+  const LISTADO_DESCRIPCION = "listado_info";
+  const FICHA_DESCRIPCION = "ficha_info";
 
 
   public static function getValues(){

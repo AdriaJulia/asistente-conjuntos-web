@@ -27,7 +27,7 @@ class OrigenDatos
      */
     private $id;
 
-    /**
+   /**
      * @ORM\Column(type="string", length=64)
      */
     private $tipoOrigen;
@@ -38,9 +38,24 @@ class OrigenDatos
     private $tipoBaseDatos; 
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=64)
      */
-    private $data;
+    private $tipoAlineacion;
+
+    /**
+     * @ORM\Column(type="string", length=512, nullable=true)
+     */
+    private $nombreOriginalFile;
+
+    /**
+     * @ORM\Column(type="string", length=512, nullable=true)
+     */
+    private $nombre;
+
+     /**
+     * @ORM\Column(type="text",  nullable=true)
+     */
+    private $descripcion;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
@@ -83,7 +98,7 @@ class OrigenDatos
     private $usuario;
 
      /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $sesion;
 
@@ -92,6 +107,10 @@ class OrigenDatos
     */
     private $campos;
 
+    /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+    */
+    private $extension;
 
     /**
      *  @ORM\Column(type="string", length=512, nullable=true)
@@ -99,9 +118,20 @@ class OrigenDatos
     private $alineacionEntidad; 
 
     /**
+     *  @ORM\Column(type="string", length=128, nullable=true)
+     */
+    private $subtipoEntidad; 
+
+    /**
      *  @ORM\Column(type="text", nullable=true)
      */
     private $alineacionRelaciones;
+
+
+    /**
+     *  @ORM\Column(type="text", nullable=true)
+     */
+    private $alineacionXml;
 
     /**
      * @ORM\OneToOne(targetEntity=DescripcionDatos::class, inversedBy="origenDatos", cascade={"persist"})
@@ -151,6 +181,20 @@ class OrigenDatos
         return $this;
     }
 
+
+    public function getTipoAlineacion(): ?string 
+    {
+        return $this->tipoAlineacion;
+    }
+
+    public function setTipoAlineacion(string $tipoAlineacion): self
+    {
+        $this->tipoAlineacion = $tipoAlineacion;
+
+        return $this;
+    }
+
+
     public function getTipoBaseDatos(): ?string
     {
         return $this->tipoBaseDatos;
@@ -171,6 +215,44 @@ class OrigenDatos
     public function setData(?string $data): self
     {
         $this->data = $data;
+
+        return $this;
+    }
+
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(?string $nombre): self
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    public function getNombreOriginalFile(): ?string
+    {
+        return $this->nombreOriginalFile;
+    }
+
+    public function setNombreOriginalFile(?string $nombreOriginalFile): self
+    {
+        $this->nombreOriginalFile = $nombreOriginalFile;
+
+        return $this;
+    }
+
+    
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(?string $descripcion): self
+    {
+        $this->descripcion = $descripcion;
 
         return $this;
     }
@@ -271,6 +353,19 @@ class OrigenDatos
         return $this;
     }
 
+
+    public function getSubtipoEntidad(): ?string
+    {
+        return $this->subtipoEntidad;
+    }
+
+    public function setSubtipoEntidad(?string $subtipoEntidad): self
+    {
+        $this->subtipoEntidad = $subtipoEntidad;
+
+        return $this;
+    }
+    
     public function getAlineacionRelaciones(): ?string
     {
         return $this->alineacionRelaciones;
@@ -279,6 +374,18 @@ class OrigenDatos
     public function setAlineacionRelaciones(?string $alineacionRelaciones): self
     {
         $this->alineacionRelaciones = $alineacionRelaciones;
+
+        return $this;
+    }
+
+    public function getAlineacionXml(): ?string
+    {
+        return $this->alineacionXml;
+    }
+
+    public function setAlineacionXml(?string $alineacionXml): self
+    {
+        $this->alineacionXml = $alineacionXml;
 
         return $this;
     }
@@ -320,6 +427,18 @@ class OrigenDatos
 
         return $this;
     }
+    public function getExtension(): ?string
+    {
+        return $this->extension;
+    }
+
+    public function setExtension(?string $extension): self
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
 
     public function getCreadoEl(): ?\DateTimeInterface
     {
@@ -371,6 +490,9 @@ class OrigenDatos
     }
 
     public function toJsonData() : string {
+        $descripcion = base64_encode($this->getDescripcion());
+        $nombre = addslashes($this->getNombre());
+        $nombreOriginalFile = $this->getNombreOriginalFile();
         $idDescripcion = 0;
         if ($this->getDescripcionDatos() != null) {
             $idDescripcion = $this->getDescripcionDatos()->getId();
@@ -380,6 +502,9 @@ class OrigenDatos
       return "{  
                 \"idDescripcion\":\"{$idDescripcion}\",
                 \"tipoOrigen\":\"{$this->getTipoOrigen()}\",
+                \"nombreOriginalFile\":\"{$nombreOriginalFile}\",
+                \"nombre\":\"{$nombre}\",
+                \"descripcion\":\"{$descripcion}\",
                 \"data\":\"{$this->getData()}\",
                 \"sesion\":\"{$this->getSesion()}\",
                 \"usuario\":\"{$this->getUsuario()}\"
@@ -391,7 +516,11 @@ class OrigenDatos
 
         return "{
             \"alineacionEntidad\":\"{$this->getAlineacionEntidad()}\",
+            \"subtipoEntidad\":\"{$this->getSubtipoEntidad()}\", 
+            \"tipoAlineacion\":\"{$this->getTipoAlineacion()}\",
             \"alineacionRelaciones\":\"{$this->getAlineacionRelaciones()}\",
+            \"nombreOriginalFile\":\"{$this->getNombreOriginalFile()}\",     
+            \"alineacionXml\":\"{$this->getAlineacionXml()}\",
             \"sesion\":\"{$this->getSesion()}\",
             \"usuario\":\"{$this->getUsuario()}\"
         }";
@@ -406,15 +535,20 @@ class OrigenDatos
         } else if ($this->idDescripcion != null) {
             $idDescripcion = $this->idDescripcion ;
         }
-
+        $servicio = empty($this->getServicio()) ? "" : $this->getServicio();
+        $esquema = empty($this->getEsquema()) ? "" : $this->getEsquema();
+        $descripcion = base64_encode($this->getDescripcion());
+        $nombre = addslashes($this->getNombre());
         return "{
             \"idDescripcion\":\"{$idDescripcion}\",
             \"tipoOrigen\":\"{$this->getTipoOrigen()}\",
+            \"nombre\":\"{$nombre}\",
+            \"descripcion\":\"{$descripcion}\",
             \"tipoBaseDatos\":\"{$this->getTipoBaseDatos()}\",
             \"host\":\"{$this->getHost()}\",
             \"puerto\":\"{$this->getPuerto()}\",
-            \"servicio\":\"{$this->getServicio()}\",
-            \"esquema\":\"{$this->getEsquema()}\",
+            \"servicio\":\"{$servicio}\",
+            \"esquema\":\"{$esquema}\",
             \"tabla\":\"{$this->getTabla()}\",
             \"usuarioDB\":\"{$this->getUsuarioDB()}\",
             \"contrasenaDB\":\"{$this->getContrasenaDB()}\",
@@ -426,16 +560,18 @@ class OrigenDatos
 
     public function getFromArray($array) : self {
  
-         
+        
         $res = new self();
-        if ($array !=null) {
+        if (($array !=null) && is_array($array)) {
             if (array_key_exists('idDescripcion',$array )) {
                $res->idDescripcion = $array['idDescripcion'];
             }
-        
             $res->id = $array['id'];
             $res->data = $array['data'];
+            $res->extension = $array['extension'];
             $res->tipoOrigen = $array['tipoOrigen'];
+            $res->nombre = $array['nombre'];
+            $res->descripcion = $array['descripcion'];
             $res->tipoBaseDatos = $array['tipoBaseDatos'];
             $res->host = $array['host'];
             $res->puerto = $array['puerto'];
@@ -444,8 +580,11 @@ class OrigenDatos
             $res->tabla = $array['tabla'];
             $res->usuarioDB = $array['usuarioDB'];
             $res->contrasenaDB = $array['contrasenaDB'];
+            $res->tipoAlineacion = $array['tipoAlineacion'];
             $res->alineacionEntidad = $array['alineacionEntidad'];
+            $res->subtipoEntidad = $array['subtipoEntidad'];
             $res->alineacionRelaciones = $array['alineacionRelaciones'];
+            $res->alineacionXml = $array['alineacionXml'];
             $res->usuario =  $array['usuario'];
             $res->sesion =  $array['sesion'];
             $res->campos =  $array['campos'];
@@ -460,18 +599,32 @@ class OrigenDatos
         $uri = "";
         switch ($this->getTipoBaseDatos()) {
             case TipoBaseDatosEnum::MYSQL:
-                $uri = "{URI:{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={$this->getHost()})(PORT={$this->getPuerto()}))CONNECT_DATA=(SERVICE_NAME={$this->getHost()}))";
+                //mysql://OPENDATA_USR:0p3n-DATA@172.27.28.181:3306/webiaf?charset=utf8&init_command=SET NAMES UTF8",
+                $uri = "mysql://{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@{$this->getHost()}:{$this->getPuerto()}/{$this->getEsquema()}";
+                if (!empty($this->getServicio())){
+                    $uri = $uri . "?" . $this->getServicio();
+                }
                 break;
             case TipoBaseDatosEnum::ORACLE:
-                $uri = "{URI:{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={$this->getHost()})(PORT={$this->getPuerto()}))CONNECT_DATA=(SERVICE_NAME={$this->getHost()}))";
+                //"oracle://OPEN_DATA:compartir@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=mallen.educa.aragon.es)(Port=1521)))(CONNECT_DATA=(SID=orac)))",
+                $uri = "oracle://{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={$this->getHost()})(PORT={$this->getPuerto()})) ";
+                if (!empty($this->getServicio())){
+                    $uri = $uri . " (CONNECT_DATA=({$this->getServicio()})))";
+                } else {
+                    $uri = $uri . ")";
+                }
                 break;
             break; 
             case TipoBaseDatosEnum::SQLSERVER:
-                $uri = "{URI:{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={$this->getHost()})(PORT={$this->getPuerto()}))CONNECT_DATA=(SERVICE_NAME={$this->getHost()}))";
+                $uri = "sqlserver://{$this->getHost()}:{$this->getPuerto()};instanceName={$this->getEsquema()};user={$this->getUsuarioDB()};password={$this->getContrasenaDB()};";
                 break;
             break; 
             case TipoBaseDatosEnum::POSTGRESQL:
-                $uri = "{URI:{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={$this->getHost()})(PORT={$this->getPuerto()}))CONNECT_DATA=(SERVICE_NAME={$this->getHost()}))";
+                //"postgresql://opendata_usr:opendata_usr@biv-idearagon-02.aragon.local:5432/bdideaigar",
+                $uri = "postgresql://{$this->getUsuarioDB()}:{$this->getContrasenaDB()}@{$this->getHost()}:{$this->getPuerto()}/{$this->getEsquema()}";
+                if (!empty($this->getServicio())){
+                    $uri = $uri . "?" . $this->getServicio();
+                }
                 break;
             break; 
         }         

@@ -52,9 +52,17 @@
                                             </div>
                                             {{ form_end(soporte_form) }}
                                         {% else %}
-                                            <div class='ok'>
-                                                <p> Mensaje enviado con éxito, en breve nos pondremos en contacto con usted. </p>
-                                            </div>
+                                             {% if not errorProceso is empty  %}
+                                                <div class='ko'>
+                                                    <p> Error al enviar el email. <br/> </p>
+                                                    <p> Error para el administrador: {{ errorProceso }} </p>
+                                                </div>
+                                            {% else %}
+                                                <div class='ok'>
+                                                    <p> Mensaje enviado con éxito. <br/> En breve nos pondremos en contacto con usted. </p>
+                                                </div>
+                                            {% endif %}
+
                                         {% endif %}
                                     </div>
                                 </div>

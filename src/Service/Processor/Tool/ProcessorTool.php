@@ -11,7 +11,7 @@ class ProcessorTool
 {
      /***
      * Descripcion: Limpia una cadena de caracteres especiales acentos y espacios
-     *              la funcion se utiliza para hacer el identificador de la denominacion
+     *              la funcion se utiliza para hacer el identificador del titulo
      *              
      *              
      * Parametros:

@@ -51,29 +51,27 @@ class DescripcionDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
    
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
     
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso2);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -81,7 +79,7 @@ class DescripcionDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -99,30 +97,28 @@ class DescripcionDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
 
 
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
     
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso2);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -130,21 +126,21 @@ class DescripcionDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         //paso1,2
-        $descripcionDatosDto->organoResponsable = "Organo responsable";
-        $descripcionDatosDto->finalidad = "finalidad conjunto datos";
-        $descripcionDatosDto->condiciones = "condiciones conjunto datos";
+        $descripcionDatosDto->publicador = "Publicador";
+        $descripcionDatosDto->tematica = "tematica conjunto datos";
         $descripcionDatosDto->licencias = "licencias conjunto datos";
         $descripcionDatosDto->vocabularios = "vocabulario1, vocabulario2";
+        $descripcionDatosDto->descripcionVocabularios = "descripcion Vocabularios";
         $descripcionDatosDto->servicios = "servicios1, servicio2";
+        $descripcionDatosDto->descripcionServicios = "descripcion Servicios";
 
-        $descripcionDatos->setOrganoResponsable($descripcionDatosDto->organoResponsable);
-        $descripcionDatos->setFinalidad($descripcionDatosDto->finalidad);
-        $descripcionDatos->setCondiciones($descripcionDatosDto->condiciones);
+        $descripcionDatos->setpublicador($descripcionDatosDto->publicador);
+        $descripcionDatos->setFinalidad($descripcionDatosDto->tematica);
         $descripcionDatos->setLicencias($descripcionDatosDto->licencias);
         $descripcionDatos->setVocabularios($descripcionDatosDto->vocabularios);
         $descripcionDatos->setServicios($descripcionDatosDto->servicios);
 
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso3);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos->updatedTimestamps();
 
         $descripcionDatos = $this->descripcionDatosManager->save($descripcionDatos, $session);  
@@ -153,7 +149,7 @@ class DescripcionDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
 
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
 
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");
@@ -171,30 +167,28 @@ class DescripcionDatosManagerTest extends WebTestCase
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
 
          //paso1,1
-        $descripcionDatosDto->denominacion = "Denominación conjunto datos";
+        $descripcionDatosDto->titulo = "Título conjunto datos";
         $descripcionDatosDto->descripcion = "Descripcion conjunto datos";
-        $descripcionDatosDto->territorio = "CM:La Ribagorza";
+        $descripcionDatosDto->coberturaGeografica = "CM:La Ribagorza";
         $descripcionDatosDto->frecuenciaActulizacion = "Semestral";
         $descripcionDatosDto->fechaInicio = "2021-01-01";
         $descripcionDatosDto->fechaFin = "2021-01-31";
-        $descripcionDatosDto->instancias = "Intacia1,intancia2,Intancia3";
 
-   
-        $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+
+        $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+        $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
         $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-        $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
+        $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
         
         $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
         $descripcionDatos->setFechaInicio(new \DateTime($descripcionDatosDto->fechaInicio));
         $descripcionDatos->setFechaFin(new \DateTime($descripcionDatosDto->fechaFin));
-        $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
     
         $username = $session->getName();
         $descripcionDatos->setUsuario($username);
         $descripcionDatos->setSesion($session->getId());
         $descripcionDatos->setEstado(EstadoDescripcionDatosEnum::BORRADOR);
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::paso2);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::PASO2);
         $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos, $session);  
         $descripcionDatos->updatedTimestamps();
 
@@ -203,13 +197,13 @@ class DescripcionDatosManagerTest extends WebTestCase
 
          //paso1,3
         $descripcionDatos->setEstructura($descripcionDatosDto->estructura);
-        $descripcionDatos->setEstructuraDenominacion($descripcionDatosDto->estructuraDenominacion);
+        $descripcionDatos->setNivelDetalle($descripcionDatosDto->nivelDetalle);
         $descripcionDatos->setLicencias($descripcionDatosDto->licencias);
-        $descripcionDatos->setFormatos($descripcionDatosDto->formatos);
         $descripcionDatos->setEtiquetas($descripcionDatosDto->etiquetas);
+        $descripcionDatos->setIdiomas($descripcionDatosDto->idiomas);
          
         $descripcionDatos->setSesion($session->getId());
-        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::origen_url);
+        $descripcionDatos->setEstadoAlta(EstadoAltaDatosEnum::ORIGEN_URL);
 
         $descripcionDatos->updatedTimestamps();
 
@@ -217,7 +211,7 @@ class DescripcionDatosManagerTest extends WebTestCase
         $idexiste = !empty($id);
  
         $this->assertTrue($idexiste);
-        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->denominacion), $descripcionDatos->getIdentificacion());
+        $this->assertEquals(ProcessorTool::clean($descripcionDatosDto->titulo), $descripcionDatos->getIdentificacion());
  
         $contains = "html:contains('Nombre del conjunto de Datos')";
         $crawler = $this->client->request('GET', "/asistentecamposdatos/$id");

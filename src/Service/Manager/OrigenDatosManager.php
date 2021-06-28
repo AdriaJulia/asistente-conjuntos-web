@@ -47,9 +47,17 @@ class OrigenDatosManager
                 $campos = array();
                 $errorProceso =  $request['data']; 
             } else {
-                $datos = $request['data']['data'];
-                $campos = $request['data']['campos'];
-                $errorProceso =  $request['data']['error_proceso']; 
+                if (isset($request['data']['data'])) {
+                    $datos = $request['data']['data'];
+                } else {
+                    $errorProceso =  $request['data'] ." "; 
+                }
+                if (isset($request['data']['campos'])){
+                    $campos = $request['data']['campos'];
+                }
+                if (isset($request['data']['error_proceso'])){
+                    $errorProceso .=  $request['data']['error_proceso']; 
+                }
             }
 
         } else {

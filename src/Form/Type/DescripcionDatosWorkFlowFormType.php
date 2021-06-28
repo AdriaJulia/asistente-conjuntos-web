@@ -24,7 +24,7 @@ class DescripcionDatosWorkFlowFormType extends AbstractType
 
         $builder
             ->add('porcesaAdo', CheckboxType::class,[
-                'required' => false, 
+                  'required' => false, 
             ])
             ->add('descripcion', TextType::class)
             ->add('estado', TextType::class);

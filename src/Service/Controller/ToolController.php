@@ -3,8 +3,11 @@
 namespace App\Service\Controller; 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+
+use App\Service\Processor\Tool\OntologiasAlineacionTool;
 use App\Entity\DescripcionDatos;
 use App\Entity\OrigenDatos;
+use App\Enum\TipoAlineacionEnum;
 use App\Enum\TipoOrigenDatosEnum;
 use App\Enum\RutasAyudaEnum;
 use App\Enum\EstadoDescripcionDatosEnum;
@@ -20,16 +23,20 @@ class ToolController
 {
 
     private $urlAyuda = "";
+    private $urlSoporte = "";
     private $urlCrear = "";
     private $urlMenu = "";
     private $urlGeneratorInterface;
-
+    private $ontologiasAlineacionTool;
     /**
     * Descripción: Inyecto el manejador de url
     */
-    public function __construct(UrlGeneratorInterface $urlGeneratorInterface)
+    public function __construct(UrlGeneratorInterface $urlGeneratorInterface,
+                                OntologiasAlineacionTool $ontologiasAlineacionTool)
+                               
     {
        $this->urlGeneratorInterface = $urlGeneratorInterface;
+       $this->ontologiasAlineacionTool = $ontologiasAlineacionTool;
     }
 
     /***
@@ -44,11 +51,13 @@ class ToolController
         if (empty($this->urlAyuda)){
             $this->urlAyuda = $this->urlGeneratorInterface->generate('asistentecamposdatos_ayuda_index',["pagina"=>$paso]);  
         }
-        $pagina_actual = $this->getPaginaActual($server);
-        $urlAyuda =  $this->urlAyuda ."?locationAnterior={$pagina_actual}";   
+
+        if (empty($this->urlSoporte)){
+            $this->urlSoporte = "/asistentecamposdatos/ayuda/soporte";
+        }
 
         if (empty($this->urlCrear)){
-            $this->urlCrear =  $this->urlGeneratorInterface->generate("insert_asistentecamposdatos_paso1");
+            $this->urlCrear =  $this->urlGeneratorInterface->generate("insert_asistentecamposdatos_paso0");
         }
         if ($this->DameUsuarioActual($usurioActual)[0]!= "MOCKSESSID"){
             if (empty($this->urlMenu)){
@@ -57,7 +66,9 @@ class ToolController
         } else {
             $this->urlMenu = "";
         }
-        return [$urlAyuda, 
+
+        return [$this->urlAyuda, 
+                $this->urlSoporte, 
                 $this->urlCrear,
                 $this->urlMenu];
     }
@@ -78,9 +89,9 @@ class ToolController
                  $estadoDescripcion = "Borrador";
                  $estadoKey = EstadoDescripcionDatosEnum::BORRADOR_KEY;
                  break;
-             case EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION:
+             case EstadoDescripcionDatosEnum::EN_ESPERA_VALIDACION:
                  $estadoDescripcion = "En espera de validación";
-                 $estadoKey = EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION_KEY;
+                 $estadoKey = EstadoDescripcionDatosEnum::EN_ESPERA_VALIDACION_KEY;
                  break;
              case EstadoDescripcionDatosEnum::EN_ESPERA_MODIFICACION:
                  $estadoDescripcion = "Solicitud de modificación";
@@ -127,42 +138,42 @@ class ToolController
         if (($data->getEstado()==EstadoDescripcionDatosEnum::BORRADOR) || 
             ($data->getEstado()==EstadoDescripcionDatosEnum::EN_CORRECCION)) {
             switch ($data->getEstadoAlta()) {  
-                case EstadoAltaDatosEnum::paso1:
+                case EstadoAltaDatosEnum::PASO1:
                     $link = $this->urlGeneratorInterface->generate('update_asistentecamposdatos_paso1',["id"=>$data->getId()]);
                     break;
-                case EstadoAltaDatosEnum::paso2:
+                case EstadoAltaDatosEnum::PASO2:
                     $link = $this->urlGeneratorInterface->generate('update_asistentecamposdatos_paso2',["id"=>$data->getId()]);
                     break;
-                case EstadoAltaDatosEnum::paso3:
-                    $link = $this->urlGeneratorInterface->generate('update_asistentecamposdatos_paso3',["id"=>$data->getId()]);
-                    break;
-                case EstadoAltaDatosEnum::origen_database:
+                case EstadoAltaDatosEnum::ORIGEN_DB:
                     if (empty($linkCreaOrigendatos)){
                         $link = $this->urlGeneratorInterface->generate('update_asistentecamposdatos_database',["iddes"=>$data->getId(),"id"=>$origenDatos->getId()]);
                     } else {
                         $link = $linkCreaOrigendatos;
                     }
                     break;
-                case EstadoAltaDatosEnum::origen_file:
+                case EstadoAltaDatosEnum::ORIGEN_FILE:
                     if (empty($linkCreaOrigendatos)){
                         $link = $this->urlGeneratorInterface->generate('update_asistentecamposdatos_file',["iddes"=>$data->getId(),"id"=>$origenDatos->getId()]);
                     } else {
                         $link = $linkCreaOrigendatos;
                     }  
                     break;
-                case EstadoAltaDatosEnum::origen_url:
+                case EstadoAltaDatosEnum::ORIGEN_URL:
                     if (empty($linkCreaOrigendatos)){
                         $link = $this->urlGeneratorInterface->generate('update_asistentecamposdatos_url',["iddes"=>$data->getId(), "id"=>$origenDatos->getId()]);
                     } else {
                         $link = $linkCreaOrigendatos;
                     }  
                     break;
-                case EstadoAltaDatosEnum::alineacion:
-                    if (empty($linkCreaOrigendatos)){
-                        $link = $this->urlGeneratorInterface->generate('insert_alineacion',["iddes"=>$data->getId(), "id"=>$origenDatos->getId(), "origen" =>  $origenDatos->getTipoOrigen()]);
+                case EstadoAltaDatosEnum::ALINEACION:
+                    $origenDatos = ($data->getOrigenDatos()); 
+                    if ($origenDatos->getTipoAlineacion()==TipoAlineacionEnum::CAMPOS) {
+                        $link = $this->urlGeneratorInterface->generate('insert_campos_alineacion',["iddes"=>$data->getId(), "id"=>$origenDatos->getId(), "origen" =>  $origenDatos->getTipoOrigen()]);
+                    } else if ($origenDatos->getTipoAlineacion()==TipoAlineacionEnum::XML) {
+                        $link = $this->urlGeneratorInterface->generate('insert_xml_alineacion',["iddes"=>$data->getId(), "id"=>$origenDatos->getId(), "origen" =>  $origenDatos->getTipoOrigen()]);
                     } else {
-                        $link = $linkCreaOrigendatos;
-                    } 
+                        $link = $this->urlGeneratorInterface->generate('insert_campos_alineacion',["iddes"=>$data->getId(), "id"=>$origenDatos->getId(), "origen" =>  TipoOrigenDatosEnum::URL]);
+                    }
                     break;                                                                                                                                  
                 default:
                     $link = $this->urlGeneratorInterface->generate('update_asistentecamposdatos_paso1',["id"=>$data->getId()]);
@@ -196,12 +207,18 @@ class ToolController
      *              
      * Parametros:
      *             usurioActual:  usuario actual
-     *             usuariodatos:  usuario de los datos           
+     *             usuariodatos:  usuario de los datos
+     *             principal:       si es una distribucion principal           
      */
-    public  function DamePermisoUsuarioActual($usuariodatos,$usurioActual) : string {
-        [$usuario , $esAdminitrador ] = $this->DameUsuarioActual($usurioActual);
-        $permisoEdicion = (($esAdminitrador) || ($usuario == $usuariodatos)) ? "block" : "none";
-        return $permisoEdicion; 
+    public  function DamePermisoUsuarioActual($usuariodatos,$usurioActual,$principal) : string {
+        $permisoEdicion = "";
+        if (!$principal) {
+            $permisoEdicion = "none";
+        } else {
+            [$usuario , $esAdminitrador ] = $this->DameUsuarioActual($usurioActual);
+            $permisoEdicion = (($esAdminitrador) || ($usuario == $usuariodatos)) ? "block" : "none";
+            return $permisoEdicion; 
+        }
     }
 
     /***
@@ -242,7 +259,7 @@ class ToolController
         $verEditar = "none";
 
         if ($esAdminitrador) {
-            if ($estado == EstadoDescripcionDatosEnum::EN_ESPERA_PUBLICACION ){
+            if ($estado == EstadoDescripcionDatosEnum::EN_ESPERA_VALIDACION ){
                 $verbotonesAdminValidar = "block";
                 $verbotonesAdminDesechar = "block";
                 $verbotonesAdminCorregir = "block";
@@ -252,15 +269,19 @@ class ToolController
                 $verbotonesAdminDesechar = "block";
             } else if ($estado == EstadoDescripcionDatosEnum::EN_CORRECCION ) {
                 $verEditar = "block";
+            } else if ($estado == EstadoDescripcionDatosEnum::VALIDADO){
+                $verbotonesAdminEditar = "block";
             }
         } else {
             if ( $estado == EstadoDescripcionDatosEnum::VALIDADO){
-                $verbotonesModificacion = "block";
+                $verbotonesAdminEditar = "block";
             }
             if ( $estado == EstadoDescripcionDatosEnum::BORRADOR ||  
-                  $estado == EstadoDescripcionDatosEnum::EN_CORRECCION ){
-                $verbotonesPublicacion = "block";
+                 $estado == EstadoDescripcionDatosEnum::EN_CORRECCION ){
                 $verEditar = "block";
+            }
+            if ( $estado == EstadoDescripcionDatosEnum::EN_CORRECCION ){
+               $verbotonesPublicacion = "block";
             }
         }
         return [$verbotonesAdminValidar, $verbotonesAdminDesechar,$verbotonesAdminCorregir,
@@ -281,13 +302,79 @@ class ToolController
     public function getOntologiasFicha(OrigenDatos $origenDatos): array {
 
         $campos = !empty($origenDatos->getCampos()) ? explode(";",$origenDatos->getCampos()) : array();
-        $ontologia =  (!empty($origenDatos->getAlineacionEntidad()))  ? $origenDatos->getAlineacionEntidad(): "";
-        $tableAlineacion = (!empty($origenDatos->getAlineacionRelaciones()))  ? get_object_vars(json_decode(str_replace(",}","}",$origenDatos->getAlineacionRelaciones()))) : array();
+        $ontologia = "";
+        foreach($this->ontologiasAlineacionTool->GetOntologias() as $key =>$value){
+           if ($origenDatos->getAlineacionEntidad() == $value) {
+            $ontologia = $key;
+           }
+        }
+        $temp = (!empty($origenDatos->getAlineacionRelaciones()))  ? get_object_vars(json_decode(str_replace(",}","}",$origenDatos->getAlineacionRelaciones()))) : array();
+        $tableAlineacion = [];
+        foreach($temp as $key => $value){
+            $temp2 =  explode("&&&",$value);
+            $value = end($temp2);
+            array_push($tableAlineacion, array("key"=>$key,"value"=>$value));
+        }
 
         return [ $campos , $ontologia , $tableAlineacion];
     }
 
- 
+    /***
+     * Descripcion: comprueba que los campos nuevos esten en los alineados antiguos
+     *    camposActuales:    array conjunto de campos del origen delos datos
+     *    camposDistintos:   falg si hay cambios
+     *    camposAlineados:   array de los alienados
+                    
+     * Parametros:
+     *             campos:  cadena con los campos
+     *             camposAlineados:   array con los campos alineados    
+     */
+    public function getOntologiasAlienedas($campos,$alineaciones): array {
+
+        $camposDistintos = false;
+           //tomo los campos Actuales
+        $camposActuales =  !empty($campos) ? explode(";",$campos) : array();
+        $camposAlineados = array_keys($alineaciones); 
+        if (count($camposActuales) && count($camposAlineados) ) { 
+            foreach($camposAlineados as $camposAlineado){
+                if (array_search($camposAlineado,$camposActuales)===false) {
+                    $camposDistintos = true;
+                    break;
+                }
+            }
+        }
+        return [$camposActuales , $camposDistintos, $camposAlineados];
+    }
+
+
+    /***
+     * Descripcion: devuelve una alinecion-relaciones valida respecto a los campos y la alinecionrelaciones actual 
+     *    nuevaAlinecion:  string con la nueva alineacion
+     *         
+     * Parametros:
+     *             campos:  cadena con los campos
+     *             camposAlineados:   array con los campos alineados    
+     */
+    public function getNuevaAlineacion($campos,$alineaciones): string {
+
+        $nuevaAlinecion = "{";
+           //tomo los campos Actuales
+        $camposActuales =  !empty($campos) ? explode(";",$campos) : array();
+        $camposAlineadosKeys = array_keys($alineaciones); 
+        if (count($camposActuales) && count($camposAlineadosKeys) ) {
+            foreach($camposAlineadosKeys as $camposAlineadokey){
+                if (array_search($camposAlineadokey,$camposActuales)!==false) {
+                    $alinecion = "\"{$camposAlineadokey}\":\"{$alineaciones[$camposAlineadokey]}\",";
+                    $nuevaAlinecion .= $alinecion;
+                }
+            }
+            $nuevaAlinecion = (strlen($nuevaAlinecion)>1) ? substr($nuevaAlinecion,0,-1) : $nuevaAlinecion;
+        }
+        $nuevaAlinecion .= "}";
+        return $nuevaAlinecion;
+    }
+
+
      /***
      * Descripcion: devuelve la url para volver al origen datos desde la pagina de alineación.
      *              Solo para controlador AlineacionDatosController.
@@ -313,7 +400,7 @@ class ToolController
  
  
     /***
-     * Descripcion: devuelve la url para ir al origen de datos desde el paso 1.3
+     * Descripcion: devuelve la url para ir al origen de datos desde el paso 3
      *              solo para controlador DescripcionDatosController
      *              
      * Parametros:
@@ -337,20 +424,23 @@ class ToolController
         return $locationSiguiente;
     }
 
-    /***
-     * Descripcion: devuelve la url de soporte con el parametro locationAnterior ques la pagina de donde se 
-     *              le llama.
-     *              para todos los controladores
+
+     /***
+     * Descripcion: devuelve la url para ir al origen de datos desde el paso 4
+     *              solo para controlador DescripcionDatosController
      *              
      * Parametros:
-     *             server:  objeto _SERVER del php del controlador         
+     *             descripcionDatos: objeto con la descripción de los datos         
      */
-    public function getSoporte($server){
+    public function DameSiguienteAlineacion($tipoAlineacionEnum ,$iddes, $id, $origen){
+        $locationSiguiente = "";
 
-        $urlSoporte = $this->urlGeneratorInterface->generate('asistentecamposdatos_ayuda_soporte');
-        $actual_link = $this->getPaginaActual($server);
-        $urlSoporte .= "?locationAnterior={$actual_link}";
-        return $urlSoporte;
+        if ($tipoAlineacionEnum == TipoAlineacionEnum::XML)  {
+            $locationSiguiente =  $this->urlGeneratorInterface->generate('insert_xml_alineacion',["iddes"=>$iddes, "id"=>$id,"origen"=>$origen]);
+        } else {
+            $locationSiguiente =  $this->urlGeneratorInterface->generate('insert_campos_alineacion',["iddes"=>$iddes, "id"=>$id,"origen"=>$origen ]);
+        }
+        return $locationSiguiente;
     }
 
     /***
@@ -367,7 +457,6 @@ class ToolController
         }
         return $actual_link;
     }
-
 }
 
 

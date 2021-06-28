@@ -81,4 +81,12 @@ class RestApiClientDescripcion
         $url .= "/{$id}";
         return $this->restApiClient->DeleteContent($url, $token, $session);
     }
+
+    public function cloneDescripciondatos(int $id,
+                                           Session $session) : array{
+        $token = $this->restApiClient->GetTokenSession($session,false);
+        $url = $this->params->get('host_restapi') . RutasApirestEnum::DESCRIPCION_DATOS_CLONE;
+        $url .= "/{$id}";
+        return $this->restApiClient->PostContent($url, "", $token, $session);
+    }
 }

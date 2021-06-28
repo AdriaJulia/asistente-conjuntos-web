@@ -1,10 +1,28 @@
 var table;
 $(document).ready(function() {
-   table = $('#grid').DataTable({
-        language: {
-            url: '/theme/resources/datatable.es-es.json'
-        }
+    if ($("#esAdmnistrador")){
+        table = $('#grid').DataTable({
+            language: {
+                url: '/theme/resources/datatable.es-es.json'
+            },
+            "order": [[ 5, "desc" ]]
+        });
+    } else {
+        table = $('#grid').DataTable({
+            language: {
+                url: '/theme/resources/datatable.es-es.json'
+            },
+            "order": [[6, "desc" ]]
+        });
+    }
+
+    $.each($('.th-fecha'), function(object,value){
+        $(value).css("min-width","120px");
     });
+    $.each($('.th-data'), function(object,value){
+        $(value).css("min-width","150px");
+    });
+
 });
 
 $('#search').on( 'keyup', function () {
@@ -20,7 +38,7 @@ $('#table-filter').change(function() {
       case 'BORRADOR':
           value = 'Borrador';
           break;
-      case 'EN_ESPERA_PUBLICACION':
+      case 'EN_ESPERA_VALIDACION':
             value = 'En espera de validación';
             break;
       case 'EN_ESPERA_MODIFICACION':
@@ -43,3 +61,4 @@ $('#table-filter').change(function() {
   table.columns(column_index).search(value , true, false).draw();             
    // $(this).val() will work here
 });
+

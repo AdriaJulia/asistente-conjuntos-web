@@ -2,8 +2,11 @@
 
 namespace App\Form\Type; 
 
+use App\Enum\FinalidadDatosEnum;
 use App\Service\Processor\Tool\IdentificadorUnicoTool;
-use App\Form\Type\TerritorioType;
+use App\Form\Type\CoberturaGeograficaType;
+use App\Form\Type\CoberturaTemporalType;
+use App\Form\Type\IdiomasType;
 use App\Form\Model\DescripcionDatosDto;
 use App\Enum\FrecuenciaActualizacionEnum;
 use Symfony\Component\Form\AbstractType;
@@ -39,22 +42,24 @@ class DescripcionDatosPaso1FormType extends AbstractType
             'aragon' => true, // checked
             'provincia' => false, // unchecked
             'comarca' => false, // unchecked
-            'localidad' => false, // unchecked
+            'municipio' => false, // unchecked
             'otros' => false, // unchecked
         );
 
-        $builder           
-            ->add('denominacion', TextType::class, [
+        $builder 
+                 
+            ->add('titulo', TextType::class, [
                 "row_attr" => [
                     "class" => "form-group",
                     "spellcheck"=>"true"
                 ],
                 'attr' => [
                     'placeholder' => 'Escribe un texto',
+                    'class' => 'select big',
                 ],
-                'label' => 'Denominación*',
+                'label' => 'Título*',
                 'required' => false,
-                'help'=>'Debe ser único porque se va a convertir en su identificador.' 
+                'help'=>'Por favor, dale una denominación del conjunto de datos. El nombre que des al conjunto de datos es importante porque se convierte en su identificador.' 
             ])
             ->add('descripcion', TextareaType::class, [
                 "row_attr" => [
@@ -66,8 +71,42 @@ class DescripcionDatosPaso1FormType extends AbstractType
                     'placeholder' => 'Escribe un texto detallado',
                  ],
                 'required' => false,
-                'label' => 'Descripción',
-                'help'=>'La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias, este es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información.'
+                'label' => 'Descripción*',
+                'help'=>'La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente qué contiene el mismo. 
+                         Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este es el lugar en el que puedes mencionarlas de forma que los usuarios 
+                         puedan saber el alcance de la información. En algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles 
+                         la realidad del dato.'
+            ])
+            ->add('tematica', ChoiceType::class, [ 
+                "row_attr" => [
+                    "class" => "form-group"
+                ],
+                'choices' => FinalidadDatosEnum::getValues(),
+                'attr' => [
+                    'class' => 'dropdown'
+                ],
+                'label' => 'Temática*',
+                'placeholder' => 'Selecciona una opción...',
+                'required' => false,
+                'help'=>'Estos son los temas conforme a la Norma Técnica de Interoperabilidad: elige el que crea que se adapta mejor a la información que contiene tu conjunto de datos.'
+            ])
+            ->add('etiquetas', TextType::class,[
+                "row_attr" => [
+                    'id' => 'divetiquetas',
+                    "class" => "form-group"
+                ],
+                "attr"=>[
+                    'id' => 'inputetiquetas',
+                    'data-role' => 'tagsinput',
+                    'placeholder' => 'Inserta una y pulsa ENTER'
+                ],
+                "required" => false,
+                'help_html' => true,
+                'label'=>'Etiquetas',
+                'help' => "Por favor, introduce un listado de etiquetas que describan el contenido de tu conjunto de datos. 
+                           Utiliza palabras comunes para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son palabras que provienen de 
+                           EuroVoc ( <a href ='http://eurovoc.europa.eu/drupal/?q=es'>http://eurovoc.europa.eu/drupal/?q=es</a>) y su uso mejora mucho la interoperabilidad 
+                           del conjunto de datos.<br> Escribe la primera letra en mayúscula y el resto en minúscula."
             ])
             ->add('frecuenciaActulizacion', ChoiceType::class, [
                 "row_attr" => [
@@ -78,71 +117,63 @@ class DescripcionDatosPaso1FormType extends AbstractType
                     'class' => 'dropdown',
                 ],
                 'placeholder' => 'Selecciona una opción...',
-                'help'=>'Este campo sirve para indicar con qué frecuencia (Anual, Semestral, Cuatrimestral, Trimestral, Mensual, Diaria o Instantánea) se actualiza la información aquí contenida.',
+                'help'=>'Por favor, indica la frecuencia con la que se actualiza la información del conjunto de datos',
                 'label' => 'Frecuencia de actualización',
-                'required' => false])
-            ->add('fechaInicio', DateType::class, [
-                "row_attr" => [
-                    "class" => "form-group"
-                ],
-                'widget' => 'single_text',
-                'html5' => false,
-                'attr' => [
-                    'placeholder' => 'Escoge una fecha...',
-                    'class' => 'datepicker',
-                    'class' => 'datepicker',
-                    'dateFormat' => 'yy-mm-dd',
-               ],
-               'help'=>'',
-               'label' => 'Fecha de inicio',
-               'placeholder' => 'Escoge una fecha...',
-               'required' => false,
+                'required' => false
             ])
-            ->add('fechaFin', DateType::class, [
-                "row_attr" => [
-                    "class" => "form-group"
-                ],
-                'widget' => 'single_text',
-                'html5' => false,
-                'attr' => [
-                    'placeholder' => 'Escoge una fecha o déjalo en blanco...',
-                    'class' => 'datepicker',
-                    'dateFormat' => 'yy-mm-dd',
-                ],
-                'label' => 'Fecha final',
-                'required' => false,
-                'help'=>'Si tu conjunto de datos está vivo y se va refrescando a medida que pasa el tiempo, deja este campo en blanco. Si has indicado una fecha de inicio, en ese caso entenderemos que tu conjunto de datos contiene información desde la fecha que indiques hasta la actualidad.'
-            ])
-            ->add('territorio', HiddenType::class,[
+            ->add('coberturaTemporal', CoberturaTemporalType::class,[
+                    "row_attr" => [
+                        'id' => 'coberturaTemporal',
+                        "class" => "form-group"
+                    ],
+                    'invalid_message' => 'Una de las fechas introducida no tiene un formato correcto',
+                    'label' =>'Cobertura temporal del conjunto de datos',
+                    'help' => 'Por favor, indica en este campo el periodo temporal del que contiene información tu conjunto de datos. Si tu conjunto de datos está vivo y 
+                               se va refrescando a medida que pasa el tiempo, deja seleccionada la casilla de selección que aparece en la parte de "hasta…". 
+                               En ese caso entenderemos que tu conjunto de datos contiene información desde la fecha que indiques hasta la actualidad',
+                    'required' => false
+            ])  
+            ->add('coberturaGeografica', HiddenType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                 ],
             ]) 
-            ->add('territorios', TerritorioType::class,[
+            ->add('coberturasGeograficas', CoberturaGeograficaType::class,[
                 "row_attr" => [
                     "class" => "form-group"
                 ],
-                'label' => 'Territorio que abarcan',
+                'label' => 'Cobertura geográfica',
                 'data' =>  $myCustomFormData,
-                'help' => 'Selecciona el ámbito deseado y si es "Provincia", "Comarca" o "Localidad", escribe el nombre y la función de autocompletado te permitirá seleccionar el valor normalizado del que disponemos. En el caso de no encontrar el nombre requerido, introduce el valor en "Otros".'
-              ]
-            );
-            /*
-            ->add('instancias', TextType::class,[
-                    "row_attr" => [
-                        "class" => "form-group",
-                        "spellcheck"=>"true"
+                'help' => 'Por favor introduce el ámbito geográfico del que tu conjunto de datos contiene información. 
+                           Únicamente es posible escribir dentro de una de las opciones que se muestran y además hay que hacerlo con uno de los territorios que se da en los 
+                           listados (salvo si se rellena el campo otro).'
+            ])
+            ->add('coberturaIdioma', IdiomasType::class,[
+                "row_attr" => [
+                    "class" => "form-group",
+                ],
+                'label' => 'Idiomas',
+                'help' => ' Por favor, selecciona el idioma o idiomas en los que existe información en tu conjunto de datos',
+                'required' => false,
+            ])
+            ->add('nivelDetalle', TextareaType::class,[
+                "row_attr" => [
+                    "class" => "form-group"
                 ],
                 "attr"=>[
-                    'data-role' => 'tagsinput',
-                    'placeholder' => 'Inserte url y pulse enter',
+                    'placeholder' => 'Escribe un texto detallado...',
+                    "spellcheck"=>"true"
                 ],
-                'help' =>  'Puede introducir varias instancias el campo es multivalor',
-                'label' => 'Instancias o entidades que representan',
-                'required' => false
-               ]
-            )
-            */
+                'required' => false,
+                'label'=>'Nivel de detalle',
+                'help_html' => true,
+                'help' => 'Este campo debe indicar el menor nivel de detalle al que se refiere el conjunto de datos. 
+                           El menor nivel de detalle se puede referir a diferentes "dimensiones" del conjunto de datos si es que este las tuviera, 
+                           por lo que en este campo se admite más de una palabra. Por ejemplo el menor nivel de detalle dentro de una "dimensión" 
+                           temporal podrían ser segundos, minutos, horas…; en la "dimensión" espacial podría ser calle, código postal, municipio…; 
+                           en la "dimensión" de entidades podría ser persona, escuela, parque natural. <br> Escribe la primera letra de cada nivel 
+                           de detalle en mayúscula y el resto en minúscula'
+             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -169,20 +200,19 @@ class DescripcionDatosPaso1FormType extends AbstractType
 
     public function validate($data, ExecutionContextInterface $context,$payload): void
     {
-       if (empty($data->denominacion)){
-            $context->buildViolation('La denominación no puede estar vacía')
-            ->atPath("denominacion")
+       if (empty($data->titulo)){
+            $context->buildViolation('El título no puede estar vacío')
+            ->atPath("titulo")
             ->addViolation();
        }
        $this->identificadorUnicoTool->Inicializa();
        if (!isset($data->id)) {
-            if ($this->identificadorUnicoTool->ExiteIdentificador($data->denominacion)){
-                $context->buildViolation('Ya existe un conjunto de datos con esta denominación')
-                ->atPath("denominacion")
+            if ($this->identificadorUnicoTool->ExiteIdentificador($data->titulo)){
+                $context->buildViolation('Ya existe un conjunto de datos con ese título')
+                ->atPath("titulo")
                 ->addViolation();
             }
        }
-
 
        if (empty($data->descripcion)){
             $context->buildViolation('La descripción no puede estar vacía')
@@ -190,5 +220,10 @@ class DescripcionDatosPaso1FormType extends AbstractType
             ->addViolation();
        }
 
+       if (empty($data->tematica)){
+        $context->buildViolation('La temática no puede estar vacía')
+        ->atPath("tematica")
+        ->addViolation();
+       }
     }
 }

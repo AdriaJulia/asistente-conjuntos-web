@@ -13,6 +13,20 @@ $("#tipoOrigen").change(function () {
     }
     window.location.href = url;
 });
+$("#tipoBaseDatos").change(function () {
+    var tipo = this.value;
+    if (tipo=="ORACLE") {
+        $('label[for ="esquema"]').text("Esquema"); 
+    } 
+});
+
+if ($("#muestaModal").val()==="") {
+    $("#camposErrormodal").modal("show");
+}
+
+if ($('#existe').val() == "1") {
+   $("#camposErrormodal").modal("show");
+}
 
 $("#siguiente").on("click", function(e){
    $('input[name ="modoFormulario"]').val("insert");    
@@ -35,6 +49,7 @@ $(function() {
         $('#archivoCargado > table > tbody > tr > td').text($("#selectorarchivo > input").val().replace(/C:\\fakepath\\/i, ''))
         $("#lineaArchivoActual").attr("style","display:none");
         $("input[class=rounded]").attr("style","display:revert"); 
+        $("input[id=siguiente]").attr("style","display:none");
         $("div[class=ok]").attr("style","display:none"); 
         $("div[class=ko]").attr("style","display:none");
     });
@@ -53,4 +68,11 @@ $(document).ready(function() {
         }
         $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
     }
+    if ($("div[class=ko]").text()!=""){
+        $('input[name ="modoFormulario"]').val("test"); 
+    }
+    var tipo = $("#tipoBaseDatos").value;
+    if (tipo=="ORACLE") {
+        $('label[for ="esquema"]').text("Esquema"); 
+    } 
 });

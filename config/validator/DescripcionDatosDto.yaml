@@ -1,9 +1,9 @@
 App\Form\Model\DescripcionDatosDto:
     properties:
-        denominacion:
+        titulo:
             - Length:
                 min: 3
-                minMessage: 'La denominación debe tener un minimo de {{ limit }} caracteres'
+                minMessage: 'El título debe tener un minimo de {{ limit }} caracteres'
                 allowEmptyString: false
         usuario:
             - NotBlank:  { message: 'El usuario del conjunto datos es requerido' , groups: [workflow] }

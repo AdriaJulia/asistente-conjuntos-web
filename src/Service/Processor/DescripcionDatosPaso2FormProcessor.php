@@ -39,26 +39,30 @@ class DescripcionDatosPaso2FormProcessor
                              Request $request): array
     { 
 
+        if (empty($request->getSession()->getId())) {
+            session_start(); 
+        }
+
         //inicializo con el la descripcion de los datos
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
         $proximoEstadoAlta = $descripcionDatos->getEstadoAlta();
         //asigno el estado del asistente
-        if ($proximoEstadoAlta == EstadoAltaDatosEnum::paso2) {
-            $proximoEstadoAlta = EstadoAltaDatosEnum::paso3;
+        if ($proximoEstadoAlta == EstadoAltaDatosEnum::PASO2) {
+            $proximoEstadoAlta = EstadoAltaDatosEnum::ORIGEN_URL;
         }
         $form = $this->formFactory->create(DescripcionDatosPaso2FormType::class, $descripcionDatosDto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
                //recojo los datos del formulario
-            $descripcionDatos->setOrganoResponsable($descripcionDatosDto->organoResponsable);
-            $descripcionDatos->setFinalidad($descripcionDatosDto->finalidad);
-            //$descripcionDatos->setCondiciones($descripcionDatosDto->condiciones);
-            //se quita erl campo ya que se unifica con licencias se deja por posible retoma
-            $descripcionDatos->setCondiciones("");
+            $descripcionDatos->setPublicador($descripcionDatosDto->publicador);
+           
+            $descripcionDatos->setVocabularios($descripcionDatosDto->diccionarioDatos['vocabularios']);
+            $descripcionDatos->setDescripcionVocabularios($descripcionDatosDto->diccionarioDatos['descripcion']);
+
+            $descripcionDatos->setServicios($descripcionDatosDto->calidadDato['servicios']);
+            $descripcionDatos->setDescripcionServicios($descripcionDatosDto->calidadDato['descripcion']);
 
             $descripcionDatos->setLicencias($this->params->get("licencia_conjunto_datos"));
-            $descripcionDatos->setVocabularios($descripcionDatosDto->vocabularios);
-            $descripcionDatos->setServicios($descripcionDatosDto->servicios);
 
             $descripcionDatos->setSesion($request->getSession()->getId());
             $descripcionDatos->updatedTimestamps();

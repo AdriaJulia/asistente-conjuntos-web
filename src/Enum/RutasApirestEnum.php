@@ -9,6 +9,7 @@ class RutasApirestEnum {
 
   private static $types = [
       'DESCRIPCION_DATOS' => self::DESCRIPCION_DATOS, 
+      'DESCRIPCION_DATOS_CLONE' => self::DESCRIPCION_DATOS_CLONE,
       'DESCRIPCION_DATOS_POST_WORKFLOW' => self::DESCRIPCION_DATOS_POST_WORKFLOW, 
       'ORIGEN_DATOS_GET' => self::ORIGEN_DATOS, 
       'ORIGEN_DATOS_FICHA_GET' => self::ORIGEN_DATOS_FICHA, 
@@ -26,6 +27,7 @@ class RutasApirestEnum {
    
 
   const DESCRIPCION_DATOS = "/api/v1/descripciondatos";
+  const DESCRIPCION_DATOS_CLONE ="/api/v1/descripciondatos/clone";
   const DESCRIPCION_DATOS_POST_WORKFLOW = "/api/v1/descripciondatos/workflow";
 
   const ORIGEN_DATOS= "/api/v1/origendatos";

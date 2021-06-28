@@ -38,6 +38,9 @@ class OrigenDatosUrlFormProcessor
                              OrigenDatos $origenDatos,
                              Request $request): array
     { 
+        if (empty($request->getSession()->getId())) {
+            session_start(); 
+        }
         $id = "";
         $errorProceso= "";
         $campos = "";
@@ -71,6 +74,9 @@ class OrigenDatosUrlFormProcessor
                 //recojo los datos del formulario
                 $origenDatos->setIdDescripcion($idDescripcion);
                 $origenDatos->setTipoOrigen($origenDatosDto->tipoOrigen);
+                $origenDatos->setNombre($origenDatosDto->nombre);
+                $origenDatos->setNombreOriginalFile("");
+                $origenDatos->setDescripcion($origenDatosDto->descripcion);
                 $data = $origenDatosDto->url;
                 $origenDatos->setData($data);
                 // esto es para poder hacer los test unitarios sin LDAP

@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Enum\EstadoDescripcionDatosEnum;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Service\Manager\OrigenDatosManager;
 use App\Service\Manager\DescripcionDatosManager;
 use App\Service\Processor\OrigenDatosFileFormProcessor;
 use App\Service\Processor\OrigenDatosUrlFormProcessor;
 use App\Service\Processor\OrigenDatosDataBaseFormProcessor;
 use App\Enum\RutasAyudaEnum;
+use App\Enum\TipoAlineacionEnum;
+use App\enum\TipoOrigenDatosEnum;
 use App\Service\Controller\ToolController;
 use App\Service\CurrentUser;
 use FOS\RestBundle\View\View;
@@ -28,6 +31,7 @@ class OrigenDatosController extends AbstractController
 
     private $ClassBody = "asistente comunidad usuarioConectado";
     private $urlAyuda = "";
+    private $urlSoporte = "";
     private $urlCrear = "";
     private $urlMenu = "";
 
@@ -50,21 +54,31 @@ class OrigenDatosController extends AbstractController
                                     OrigenDatosManager $origenDatosManager,
                                     DescripcionDatosManager $descripcionDatosManager,
                                     LoggerInterface $logger,
+                                    UrlGeneratorInterface $urlGeneratorInterface,
                                     ToolController $toolController,
                                     Request $request) {
         $errorProceso = "";
+        $camposDistintos  = "";
+        $camposAlineados = "";
+        $camposActuales = "";
         $origenDatos = $origenDatosManager->new();    
         $id=null;
         $Istest = true;
         $muestraSiguiente = "";
-        //tomo la url para el botón anterior
-        $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
+        $locationAnterior = "";
+        $existe = false;
         //tomo las urls del menu superior
-        [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_URL,$this->getUser());
+        [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_URL,$this->getUser());
         [$form,$campos,$id,$Istest,$errorProceso]  = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
         if (!empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";
         } 
+         //tomo la url para el botón anterior
+        if ($descripcionDatosManager->find($iddes,$request->getSession())->getDistribucion()>0) {
+            $locationAnterior ="";
+        } else {
+            $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso2',["id"=>$iddes]);
+        }
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
             if ($Istest) {
@@ -85,16 +99,26 @@ class OrigenDatosController extends AbstractController
                     'ClassBody' => $this->ClassBody,
                     'urlCrear' =>  $this->urlCrear,
                     'urlAyuda' =>  $this->urlAyuda,
+                    'urlSoporte' =>  $this->urlSoporte,
                     'urlMenu' =>  $this->urlMenu,
+                    'camposDistintos' => $camposDistintos,
+                    'camposAlineados' => $camposAlineados,
+                    'camposActuales' => $camposActuales,
                     'permisoEdicion' => "block",
+                    'existe' => $existe,
                     'origen_form' => $form->createView(),
                     'errors' => $form->getErrors()
                 ]);
             } else {
-                    return $this->redirectToRoute('insert_alineacion',["id"=>$id,"iddes"=>$iddes,"origen"=>"url"]); 
+                $locationSiguiente = $locationSiguiente =  $toolController->DameSiguienteAlineacion(TipoAlineacionEnum::CAMPOS, $iddes, $id,TipoOrigenDatosEnum::URL);                         
+                return $this->redirect($locationSiguiente);
             }
         } else {
             $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
+            //si es hijo quito el enlace a anterior
+            if ($descripcionDatos->getDistribucion()>0) {
+                $locationAnterior ="";
+            }
             // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
             $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
                                                                               $this->getUser(),
@@ -109,8 +133,13 @@ class OrigenDatosController extends AbstractController
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
+                'urlSoporte' =>  $this->urlSoporte,
                 'urlMenu' =>  $this->urlMenu,
+                'camposDistintos' => $camposDistintos,
+                'camposAlineados' => $camposAlineados,
+                'camposActuales' => $camposActuales,
                 'permisoEdicion' => $permisoEdicion,
+                'existe' => $existe,
                 'origen_form' => $form->createView(),
                 'errors' => $form->getErrors()
             ]);
@@ -136,22 +165,40 @@ class OrigenDatosController extends AbstractController
                                      OrigenDatosManager $origenDatosManager,
                                      DescripcionDatosManager $descripcionDatosManager,
                                      LoggerInterface $logger,
+                                     UrlGeneratorInterface $urlGeneratorInterface,
                                      ToolController $toolController,
                                      Request $request) {
         $errorProceso = "";
+        $camposDistintos  = "";
+        $camposAlineados = "";
+        $camposActuales = "";
         $archivoActual = "";
         $origenDatos = $origenDatosManager->new();
-         //tomo la url para el botón anterior
-        $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
+        $existe = false;
+
         $id=null;
         $Istest = true;
         $muestraSiguiente = "";
          //tomo las urls del menu superior
-        [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_FILE,$this->getUser());
-        [$form,$campos,$id, $Istest,  $archivoActual, $errorProceso] = ($origenDatosFormProcessor)($iddes,$origenDatos, $request);
+        [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_FILE,$this->getUser());
+        [$form,$campos,$id, $Istest,  $archivoActual, $existe, $errorProceso] = ($origenDatosFormProcessor)($iddes,$origenDatos, $request);
+
+        if (!empty($archivoActual)) {
+            if (!empty($request->getSession()->get('NombreOriginalFile'))) {
+                $archivoActual = $request->getSession()->get('NombreOriginalFile');
+            } else {
+                $archivoActual = basename($archivoActual);
+            }
+        }
         if (!empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";
         } 
+         //tomo la url para el botón anterior
+        if ($descripcionDatosManager->find($iddes,$request->getSession())->getDistribucion()>0) {
+            $locationAnterior ="";
+        } else {
+            $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso2',["id"=>$iddes]);
+        }
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
             if ($Istest) {
@@ -172,16 +219,26 @@ class OrigenDatosController extends AbstractController
                     'ClassBody' => $this->ClassBody,
                     'urlCrear' =>  $this->urlCrear,
                     'urlAyuda' =>  $this->urlAyuda,
+                    'urlSoporte' =>  $this->urlSoporte,
                     'urlMenu' =>  $this->urlMenu,
+                    'camposDistintos' => $camposDistintos,
+                    'camposAlineados' => $camposAlineados,
+                    'camposActuales' => $camposActuales,
                     'permisoEdicion' => "block",
+                    'existe' => $existe,
                     'origen_form' => $form->createView(),
                     'errors' => $form->getErrors()
                 ]);
             } else {
-                return $this->redirectToRoute('insert_alineacion',["id"=>$id,"iddes"=>$iddes,"origen"=>"file"]); 
+                $locationSiguiente = $locationSiguiente =  $toolController->DameSiguienteAlineacion(TipoAlineacionEnum::CAMPOS, $iddes, $id,TipoOrigenDatosEnum::ARCHIVO);                 
+                return $this->redirect($locationSiguiente);
             }
         } else {
             $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
+              //si es hijo quito el enlace a anterior
+            if ($descripcionDatos->getDistribucion()>0) {
+                $locationAnterior ="";
+            }
             // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
             $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
                                                                               $this->getUser(),
@@ -198,8 +255,13 @@ class OrigenDatosController extends AbstractController
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
+                'urlSoporte' =>  $this->urlSoporte,
                 'urlMenu' =>  $this->urlMenu,
+                'camposDistintos' => $camposDistintos,
+                'camposAlineados' => $camposAlineados,
+                'camposActuales' => $camposActuales,
                 'permisoEdicion' => $permisoEdicion,
+                'existe' => $existe,
                 'origen_form' => $form->createView(),
                 'errors' => $form->getErrors()
             ]);
@@ -225,21 +287,30 @@ class OrigenDatosController extends AbstractController
                                          OrigenDatosManager $origenDatosManager,
                                          DescripcionDatosManager $descripcionDatosManager,
                                          LoggerInterface $logger,
+                                         UrlGeneratorInterface $urlGeneratorInterface,
                                          ToolController $toolController,
                                          Request $request) {
         $errorProceso = "";
+        $camposDistintos  = "";
+        $camposAlineados = "";
+        $camposActuales = "";
         $origenDatos = $origenDatosManager->new();
-         //tomo la url para el botón anterior
-        $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
         $id=null;
         $Istest = true;
         $muestraSiguiente = "";
+        $existe = false;
         //tomo las urls del menu superior
-        [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
+               [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
         [$form,$campos,$id, $Istest, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
         if (!empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";
         } 
+         //tomo la url para el botón anterior
+         if ($descripcionDatosManager->find($iddes,$request->getSession())->getDistribucion()>0) {
+            $locationAnterior ="";
+        } else {
+            $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso2',["id"=>$iddes]);
+        }
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
              if ($Istest) {
@@ -260,16 +331,26 @@ class OrigenDatosController extends AbstractController
                     'ClassBody' => $this->ClassBody,
                     'urlCrear' =>  $this->urlCrear,
                     'urlAyuda' =>  $this->urlAyuda,
+                    'urlSoporte' =>  $this->urlSoporte,
                     'urlMenu' =>  $this->urlMenu,
+                    'camposDistintos' => $camposDistintos,
+                    'camposAlineados' => $camposAlineados,
+                    'camposActuales' => $camposActuales,
                     'permisoEdicion' => "block",
+                    'existe' => $existe,
                     'origen_form' => $form->createView(),
                     'errors' => $form->getErrors()
                 ]);
             } else {
-                return $this->redirectToRoute('insert_alineacion',["id"=>$id,"iddes"=>$iddes,"origen"=>"database"]); 
+                $locationSiguiente = $locationSiguiente =  $toolController->DameSiguienteAlineacion(TipoAlineacionEnum::CAMPOS, $iddes, $id,TipoOrigenDatosEnum::BASEDATOS);            
+                return $this->redirect($locationSiguiente);
             }
         } else {
             $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
+              //si es hijo quito el enlace a anterior
+            if ($descripcionDatos->getDistribucion()>0) {
+                $locationAnterior ="";
+            }
             // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
             $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
                                                                               $this->getUser(),
@@ -285,8 +366,13 @@ class OrigenDatosController extends AbstractController
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
+                'urlSoporte' =>  $this->urlSoporte,
                 'urlMenu' =>  $this->urlMenu,
+                'camposDistintos' => $camposDistintos,
+                'camposAlineados' => $camposAlineados,
+                'camposActuales' => $camposActuales,
                 'permisoEdicion' => $permisoEdicion,
+                'existe' => $existe,
                 'origen_form' => $form->createView(),
                 'errors' => $form->getErrors()
             ]);
@@ -318,19 +404,33 @@ class OrigenDatosController extends AbstractController
                                     Request $request) {
 
         $errorProceso = "";
+        $camposDistintos  = "";
+        $camposAlineados = "";
+        $camposActuales = "";
+        $existe = false;
         //tomo el objeto origendatos existente en la descripcion
         $origenDatos = $origenDatosManager->find($id, $request->getSession());
-         //tomo la url para el botón anterior
-        $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
+
+        //tomo los campos alineados del regitro actual
+        $camposAlineados = (!empty($origenDatos->getAlineacionRelaciones()))  ? get_object_vars(json_decode(str_replace(",}","}",$origenDatos->getAlineacionRelaciones()))) : array();
+
         $id=null;
         $Istest = true;
         $muestraSiguiente ="";
         //tomo las urls del menu superior
-        [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_URL,$this->getUser());
+               [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_URL,$this->getUser());
         [$form,$campos,$id, $Istest, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
+        //compruebo que los nuevo campos esten en los campos ya alieneados
+        [$camposActuales ,$camposDistintos,$camposAlineados]= $toolController->getOntologiasAlienedas($campos,$camposAlineados);
         if (!empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";
         } 
+        //tomo la url para el botón anterior
+        if ($descripcionDatosManager->find($iddes,$request->getSession())->getDistribucion()>0) {
+            $locationAnterior ="";
+        } else {
+            $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso2',["id"=>$iddes]);
+        }
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
             if ($Istest) {
@@ -351,16 +451,27 @@ class OrigenDatosController extends AbstractController
                     'ClassBody' => $this->ClassBody,
                     'urlCrear' =>  $this->urlCrear,
                     'urlAyuda' =>  $this->urlAyuda,
+                    'urlSoporte' =>  $this->urlSoporte,
                     'urlMenu' =>  $this->urlMenu,
+                    'camposDistintos' => $camposDistintos,
+                    'camposAlineados' => $camposAlineados,
+                    'camposActuales' => $camposActuales,
                     'permisoEdicion' => "block",
+                    'existe' => $existe,
                     'origen_form' => $form->createView(),
                     'errors' => $form->getErrors()
                 ]);
             } else {
-                return $this->redirectToRoute('insert_alineacion',["id"=>$id,"iddes"=>$iddes,"origen"=>"url"]); 
+                $alineacion =  isset($origenDatos) ? $origenDatos->getTipoAlineacion() : TipoAlineacionEnum::CAMPOS;
+                $locationSiguiente = $locationSiguiente =  $toolController->DameSiguienteAlineacion($alineacion, $iddes, $id,TipoOrigenDatosEnum::URL);       
+                return $this->redirect($locationSiguiente);
             }
         } else {
             $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
+              //si es hijo quito el enlace a anterior
+            if ($descripcionDatos->getDistribucion()>0) {
+                $locationAnterior ="";
+            }
             // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
             $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
                                                                               $this->getUser(),
@@ -376,8 +487,13 @@ class OrigenDatosController extends AbstractController
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
+                'urlSoporte' =>  $this->urlSoporte,
                 'urlMenu' =>  $this->urlMenu,
+                'camposDistintos' => $camposDistintos,
+                'camposAlineados' => $camposAlineados,
+                'camposActuales' => $camposActuales,
                 'permisoEdicion' => $permisoEdicion,
+                'existe' => $existe,
                 'origen_form' => $form->createView(),
                 'errors' => $form->getErrors()
             ]);
@@ -411,20 +527,40 @@ class OrigenDatosController extends AbstractController
 
         $errorProceso = "";
         $archivoActual = "";
+        $camposDistintos  = "";
+        $camposAlineados = "";
+        $camposActuales = "";
+        $existe = false;
          //tomo el objeto origendatos existente en la descripcion
         $origenDatos = $origenDatosManager->find($id, $request->getSession());
-         //tomo la url para el botón anterior
-        $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
+
+        //tomo los campos alineados del regitro actual
+        $camposAlineados = (!empty($origenDatos->getAlineacionRelaciones()))  ? get_object_vars(json_decode(str_replace(",}","}",$origenDatos->getAlineacionRelaciones()))) : array();
         $id=null;
         $Istest = true;
         $muestraSiguiente = null;
        //tomo las urls del menu superior
-        [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_FILE,$this->getUser());
-        [$form,$campos,$id, $Istest,  $archivoActual, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
+               [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_FILE,$this->getUser());
+
+        [$form,$campos,$id, $Istest,  $archivoActual, $existe, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
+        if (!empty($archivoActual)) {
+            if (!empty($request->getSession()->get('NombreOriginalFile'))) {
+                $archivoActual = $request->getSession()->get('NombreOriginalFile');
+            } else {
+                $archivoActual = basename($archivoActual);
+            }
+        }
+        //compruebo que los nuevo campos esten en los campos ya alieneados
+        [$camposActuales ,$camposDistintos,$camposAlineados] = $toolController->getOntologiasAlienedas($campos,$camposAlineados);
         if (!empty($archivoActual) || !empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";
         } 
-
+        //tomo la url para el botón anterior
+        if ($descripcionDatosManager->find($iddes,$request->getSession())->getDistribucion()>0) {
+            $locationAnterior ="";
+        } else {
+            $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso2',["id"=>$iddes]);
+        }
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
         //si es test devuelvo el resultado del test, si no redirijo al paso3
              if ($Istest) {
@@ -445,16 +581,27 @@ class OrigenDatosController extends AbstractController
                     'ClassBody' => $this->ClassBody,
                     'urlCrear' =>  $this->urlCrear,
                     'urlAyuda' =>  $this->urlAyuda,
+                    'urlSoporte' =>  $this->urlSoporte,
                     'urlMenu' =>  $this->urlMenu,
+                    'camposDistintos' => $camposDistintos,
+                    'camposAlineados' => $camposAlineados,
+                    'camposActuales' => $camposActuales,
                     'permisoEdicion' => "block",
+                    'existe' => $existe,
                     'origen_form' => $form->createView(),
                     'errors' => $form->getErrors()
                 ]);
             } else {
-                return $this->redirectToRoute('insert_alineacion',["id"=>$id,"iddes"=>$iddes,"origen"=>"file"]); 
+                $alineacion =  isset($origenDatos) ? $origenDatos->getTipoAlineacion() : TipoAlineacionEnum::CAMPOS;
+                $locationSiguiente = $locationSiguiente =  $toolController->DameSiguienteAlineacion($alineacion, $iddes, $id,TipoOrigenDatosEnum::ARCHIVO);       
+                return $this->redirect($locationSiguiente);
             }
         } else {
             $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
+              //si es hijo quito el enlace a anterior
+            if ($descripcionDatos->getDistribucion()>0) {
+                $locationAnterior ="";
+            }
             // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
             $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
                                                                               $this->getUser(),
@@ -470,8 +617,13 @@ class OrigenDatosController extends AbstractController
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
+                'urlSoporte' =>  $this->urlSoporte,
                 'urlMenu' =>  $this->urlMenu,
+                'camposDistintos' => $camposDistintos,
+                'camposAlineados' => $camposAlineados,
+                'camposActuales' => $camposActuales,
                 'permisoEdicion' => $permisoEdicion,
+                'existe' => $existe,
                 'origen_form' => $form->createView(),
                 'errors' => $form->getErrors()
             ]);
@@ -503,19 +655,34 @@ class OrigenDatosController extends AbstractController
                                          Request $request) {
 
         $errorProceso = "";
+        $camposDistintos  = "";
+        $camposAlineados = "";
+        $camposActuales = "";
+        $existe = false;
+        
         //tomo el objeto origendatos existente en la descripcion
         $origenDatos = $origenDatosManager->find($id, $request->getSession());
-         //tomo la url para el botón anterior
-        $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso3',["id"=>$iddes]);
+
+        //tomo los campos alineados del regitro actual
+        $camposAlineados = (!empty($origenDatos->getAlineacionRelaciones()))  ? get_object_vars(json_decode(str_replace(",}","}",$origenDatos->getAlineacionRelaciones()))) : array();
         $id=null;
         $Istest = true;
         $muestraSiguiente = "";
         //tomo las urls del menu superior
-        [$this->urlAyuda, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
+               [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
         [$form,$campos,$id, $Istest, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
+
+        //compruebo que los nuevo campos esten en los campos ya alieneados
+        [$camposActuales ,$camposDistintos,$camposAlineados]= $toolController->getOntologiasAlienedas($campos,$camposAlineados);
         if (!empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";
         } 
+        //tomo la url para el botón anterior
+        if ($descripcionDatosManager->find($iddes,$request->getSession())->getDistribucion()>0) {
+            $locationAnterior ="";
+        } else {
+            $locationAnterior = $this->generateUrl('update_asistentecamposdatos_paso2',["id"=>$iddes]);
+        }
         if ($form->isSubmitted() && $form->isValid() && empty($errorProceso)) {
             //si es test devuelvo el resultado del test, si no redirijo al paso3
             if ($Istest) {
@@ -536,16 +703,27 @@ class OrigenDatosController extends AbstractController
                     'ClassBody' => $this->ClassBody,
                     'urlCrear' =>  $this->urlCrear,
                     'urlAyuda' =>  $this->urlAyuda,
+                    'urlSoporte' =>  $this->urlSoporte,
                     'urlMenu' =>  $this->urlMenu,
+                    'camposDistintos' => $camposDistintos,
+                    'camposAlineados' => $camposAlineados,
+                    'camposActuales' => $camposActuales,
                     'permisoEdicion' => "block",
+                    'existe' => $existe,
                     'origen_form' => $form->createView(),
                     'errors' => $form->getErrors()
                 ]);
             } else {
-                return $this->redirectToRoute('insert_alineacion',["id"=>$id,"iddes"=>$iddes,"origen"=>"database"]); 
+                $alineacion =  isset($origenDatos) ? $origenDatos->getTipoAlineacion() : TipoAlineacionEnum::CAMPOS;
+                $locationSiguiente = $locationSiguiente =  $toolController->DameSiguienteAlineacion($alineacion, $iddes, $id,TipoOrigenDatosEnum::BASEDATOS);       
+                return $this->redirect($locationSiguiente);
             }
         } else {
             $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
+              //si es hijo quito el enlace a anterior
+            if ($descripcionDatos->getDistribucion()>0) {
+                $locationAnterior ="";
+            }
             // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
             $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
                                                                               $this->getUser(),
@@ -561,8 +739,13 @@ class OrigenDatosController extends AbstractController
                 'ClassBody' => $this->ClassBody,
                 'urlCrear' =>  $this->urlCrear,
                 'urlAyuda' =>  $this->urlAyuda,
+                'urlSoporte' =>  $this->urlSoporte,
                 'urlMenu' =>  $this->urlMenu,
+                'camposDistintos' => $camposDistintos,
+                'camposAlineados' => $camposAlineados,
+                'camposActuales' => $camposActuales,
                 'permisoEdicion' => $permisoEdicion,
+                'existe' => $existe,
                 'origen_form' => $form->createView(),
                 'errors' => $form->getErrors()
             ]);

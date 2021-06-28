@@ -2,7 +2,7 @@
 
 namespace App\Service\Processor;
 
-use App\Service\RestApiRemote\RestApiClient;
+use App\Service\RestApiRemote\GaodCoreRestApiClient;
 use App\Enum\EstadoDescripcionDatosEnum;
 use App\Enum\TipoOrigenDatosEnum;
 use App\Form\Type\DescripcionDatosWorkFlowFormType;
@@ -13,6 +13,8 @@ use App\Service\Manager\DescripcionDatosManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use App\Service\CurrentUser;
 use Symfony\Component\HttpFoundation\Request;
+
+use Psr\Log\LoggerInterface;
 
 /*
  * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
@@ -26,23 +28,30 @@ class DescripcionDatosWorkFlowFormProcessor
     private $descripcionDatosManager;
     private $formFactory;
     private $restApiClient;
+    private $logger;
 
     public function __construct(
         CurrentUser $currentUser,
         DescripcionDatosManager $descripcionDatosManager,
-        RestApiClient $restApiClient,
-        FormFactoryInterface $formFactory
+        GaodCoreRestApiClient $restApiClient,
+        FormFactoryInterface $formFactory,
+        LoggerInterface $logger
     ) {
         $this->currentUser = $currentUser;
         $this->descripcionDatosManager = $descripcionDatosManager;
         $this->formFactory = $formFactory;
         $this->restApiClient = $restApiClient;
+        $this->logger = $logger;{}
     }
 
     public function __invoke(DescripcionDatos $descripcionDatos,
                              Request $request): array
     { 
-
+        $errorProceso = "";
+        $error = "";
+        if (empty($request->getSession()->getId())) {
+            session_start(); 
+        }
          //el origen de datos actual nunca  es nuevo
         $descripcionDatosDto = DescripcionDatosDto::createFromDescripcionDatos($descripcionDatos);
         //inicializo con el origen de datos
@@ -50,43 +59,52 @@ class DescripcionDatosWorkFlowFormProcessor
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //recojo los datos del formulario
+                    //si no aparece el check hay que tratarlo ahora
+            $descripcionDatosDto->porcesaAdo = ($descripcionDatosDto->porcesaAdo==null) ? "0" : $descripcionDatosDto->porcesaAdo;
             $descripcionDatos->setSesion($request->getSession()->getId());
-            $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
+            $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion); 
             $descripcionDatos->setEstado($descripcionDatosDto->estado);
             $descripcionDatos->setProcesaAdo($descripcionDatosDto->porcesaAdo);
             $descripcionDatos->updatedTimestamps();
              
+            $resourceid ="";
             $origendatos = $descripcionDatos->getOrigenDatos();
+
             if (($descripcionDatosDto->estado==EstadoDescripcionDatosEnum::VALIDADO) && 
-                ($origendatos->getTipoOrigen() ==TipoOrigenDatosEnum::BASEDATOS))
+                ($origendatos->getTipoOrigen() ==TipoOrigenDatosEnum::BASEDATOS) && empty($descripcionDatos->getGaodcoreResourceId()))
             {
+                $object_location = $origendatos->getTabla();
+                $object_location_schema = "";
+                $temp = explode(".",$origendatos->getTabla());
+                if (count($temp)==2) {
+                    $object_location_schema = $temp[0];
+                    $object_location = $temp[1];
+                }
+
                 $uriGaodecore = $origendatos->getGaodcoreUri();
-                $IdGaodecore =  $this->restApiClient->GetGaodcoreResource($uriGaodecore,$origendatos->getEsquema(),true,$descripcionDatos->getIdentificacion());   
-                $descripcionDatos->setGaodcoreResourceId($IdGaodecore['resourceid']);
-            } else {
-                $descripcionDatos->setGaodcoreResourceId("");
+                $nameresource = $origendatos->getId() . " " .  $origendatos->getNombre();
+                [$IdGaodecore, $error] =  $this->restApiClient->GetGaodcoreResource($uriGaodecore, 
+                                                                                    $object_location_schema, 
+                                                                                    $object_location, 
+                                                                                    true, 
+                                                                                    $nameresource); 
+                if (empty($error)) {
+                    $resourceid = $IdGaodecore['resourceid'];
+                }
             }
-            /*
-            switch ($descripcionDatosDto->estado) {
-                case EstadoDescripcionDatosEnum::EN_ESPERA:
-                    $this->mailtool->sendEmail($descripcionDatos, $descripcionDatosDto->descripcion);
-                    break;
-                case EstadoDescripcionDatosEnum::DESECHADO:
-                    $this->mailtool->sendEmail($descripcionDatos, $descripcionDatosDto->descripcion);
-                    break;
-                case EstadoDescripcionDatosEnum::VALIDADO:
-                    $this->mailtool->sendEmail($descripcionDatos, $descripcionDatosDto->descripcion);
-                    break;
-                case EstadoDescripcionDatosEnum::EN_CORRECCION:
-                    $this->mailtool->sendEmail($descripcionDatos, $descripcionDatosDto->descripcion);
-                    break;
+            $descripcionDatos->setGaodcoreResourceId($resourceid);
+   
+            if (!empty($error)){
+                $errorProceso = $error;
+                $this->logger->error($errorProceso);
             }
-*/
-           //envío a apirest
-            $descripcionDatos = $this->descripcionDatosManager->saveWorkflow($descripcionDatos,$request->getSession()); 
-            
-            
+
+            [$descripcionDatos,$error] = $this->descripcionDatosManager->saveWorkflow($descripcionDatos,$request->getSession());  
+            if (!empty($error)){
+                $errorProceso .= " " . $error;
+                $this->logger->error($errorProceso);
+            } 
         }
-        return [$form];
+        return [$form,$errorProceso];
     }
 }

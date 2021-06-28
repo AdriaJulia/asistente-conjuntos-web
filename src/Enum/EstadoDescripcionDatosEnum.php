@@ -8,7 +8,7 @@ class EstadoDescripcionDatosEnum {
 
   private static $types = [
       'BORRADOR' => self::BORRADOR,
-      'EN_ESPERA_PUBLICACION' => self::EN_ESPERA_PUBLICACION,
+      'EN_ESPERA_VALIDACION' => self::EN_ESPERA_VALIDACION,
       'EN_ESPERA_MODIFICACION' => self::EN_ESPERA_MODIFICACION,
       'VALIDADO'  => self::VALIDADO,
       'DESECHADO'  => self::DESECHADO,
@@ -16,14 +16,14 @@ class EstadoDescripcionDatosEnum {
     ];
    
   const BORRADOR = "BORRADOR";
-  const EN_ESPERA_PUBLICACION = "EN_ESPERA_PUBLICACION"; 
+  const EN_ESPERA_VALIDACION = "EN_ESPERA_VALIDACION"; 
   const EN_ESPERA_MODIFICACION= "EN_ESPERA_MODIFICACION";
   const VALIDADO = "VALIDADO"; 
   const DESECHADO = "DESECHADO"; 
   const EN_CORRECCION = "EN_CORRECCION"; 
 
   const BORRADOR_KEY = "borrador";
-  const EN_ESPERA_PUBLICACION_KEY = "espera"; 
+  const EN_ESPERA_VALIDACION_KEY = "espera"; 
   const EN_ESPERA_MODIFICACION_KEY= "espera";
   const VALIDADO_KEY = "validado"; 
   const DESECHADO_KEY = "desechado"; 

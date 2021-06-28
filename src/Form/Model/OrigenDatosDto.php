@@ -13,6 +13,8 @@ class OrigenDatosDto {
     public $id;
     public $idDescripcion;
     public $tipoOrigen;
+    public $nombre;
+    public $descripcion;
     public $data;
     public $tipoBaseDatos;
     public $host;
@@ -39,6 +41,8 @@ class OrigenDatosDto {
         $dto = new self();
         $dto->id = $origenDatos->getId();
         $dto->tipoOrigen = $origenDatos->getTipoOrigen();
+        $dto->nombre = $origenDatos->getNombre();
+        $dto->descripcion = $origenDatos->getDescripcion();
         $dto->data = $origenDatos->getData();
         $dto->tipoBaseDatos = $origenDatos->getTipoBaseDatos();
         $dto->host = $origenDatos->getHost();

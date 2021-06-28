@@ -28,17 +28,17 @@ class DescripcionDatos
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=512, nullable=true)
+     * @ORM\Column(type="string", length=512, nullable=false)
      */
-    private $denominacion;
+    private $titulo;
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=true)
+     * @ORM\Column(type="string", length=512, nullable=false)
      */
     private $identificacion;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=false)
      */
     private $descripcion;
 
@@ -58,35 +58,25 @@ class DescripcionDatos
     private $fechaFin;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=128, nullable=true)
      */
-    private $territorio;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $instancias;
+    private $coberturaGeografica;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $organoResponsable;
+    private $publicador;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $finalidad;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $condiciones;
-
+    private $tematica;
 
      /**
      * @ORM\Column(type="string",length=255, nullable=true)
      */
     private $licencias;
+
 
     /**
      * @ORM\Column(type="string", length=1024, nullable=true)
@@ -94,42 +84,57 @@ class DescripcionDatos
     private $vocabularios;
 
     /**
+     * @ORM\Column(type="text",  nullable=true)
+     */
+    private $descripcionVocabularios;
+
+    /**
      * @ORM\Column(type="string", length=1024, nullable=true)
      */
     private $servicios;
 
     /**
-     * @ORM\Column(type="string", length=1024, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $descripcionServicios;
+
+    /**
+     * @ORM\Column(type="string", length=1024, nullable=false)
      */
     private $etiquetas;
 
     /**
-     * @ORM\Column(type="text",  nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $estructura;
-
+    private $idiomas;
+    
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $estructuraDenominacion;
+    private $nivelDetalle;
 
     /**
-     * @ORM\Column(type="string", length=5120, nullable=true)
-     */
-    private $formatos;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $usuario;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $estado;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="integer", nullable=true))
+     */
+    private $estadoCkan;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true))
+     */
+    private $distribucion;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true))
      */
     private $estadoAlta;
 
@@ -144,21 +149,21 @@ class DescripcionDatos
      */
     private $procesaAdo;
 
-
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $sesion;
 
     /**
-     * @ORM\Column(name="creado_el", type="datetime")
+     * @ORM\Column(name="creado_el", type="datetime", nullable=false))
      */
     private $creadoEl;
 
     /**
-     * @ORM\Column(name="actualizado_en", type="datetime")
+     * @ORM\Column(name="actualizado_en", type="datetime", nullable=false))
      */
     private $actualizadoEn; 
+
 
     /**
      * @ORM\OneToOne(targetEntity=OrigenDatos::class, mappedBy="descripcionDatos", cascade={"persist"})
@@ -170,14 +175,14 @@ class DescripcionDatos
         return $this->id;
     }
 
-    public function getDenominacion(): ?string
+    public function getTitulo(): ?string
     {
-        return $this->denominacion;
+        return $this->titulo;
     }
 
-    public function setDenominacion(?string $denominacion): self
+    public function setTitulo(?string $titulo): self
     {
-        $this->denominacion = $denominacion;
+        $this->titulo = $titulo;
 
         return $this;
     }
@@ -242,77 +247,54 @@ class DescripcionDatos
         return $this;
     }
 
-    public function getTerritorio(): ?string
+    public function getCoberturaGeografica(): ?string
     {
-        return $this->territorio;;
+        return $this->coberturaGeografica;;
     }
 
 
-    public function getTerritorioFicha(): ?string
+    public function getCoberturaGeograficaFicha(): ?string
     {
-        $territorio = $this->territorio;
-        $territorio = str_replace("CO:","Comunidad de: ",$territorio);
-        $territorio = str_replace("CM:","Comarca de: ",$territorio);
-        $territorio = str_replace("LO:","Localidad de: ",$territorio);
-        $territorio = str_replace("PR:","Provincia de: ",$territorio);
-        $territorio = str_replace("OT:","Otros territorios de: ",$territorio);
-        return $territorio;
+        $coberturaGeografica = $this->coberturaGeografica;
+        $coberturaGeografica = str_replace("CO:","Comunidad de: ",$coberturaGeografica);
+        $coberturaGeografica = str_replace("CM:","Comarca de: ",$coberturaGeografica);
+        $coberturaGeografica = str_replace("MU:","Municipio de: ",$coberturaGeografica);
+        $coberturaGeografica = str_replace("PR:","Provincia de: ",$coberturaGeografica);
+        $coberturaGeografica = str_replace("OT:","Otros territorios de: ",$coberturaGeografica);
+        return $coberturaGeografica;
     }
 
-    public function setTerritorio(?string $territorio): self
+    public function setCoberturaGeografica(?string $coberturaGeografica): self
     {
-        $this->territorio = $territorio;
+        $this->coberturaGeografica = $coberturaGeografica;
 
         return $this;
     }
 
-    public function getInstancias(): ?string
+    public function getPublicador(): ?string
     {
-        return $this->instancias;
+        return $this->publicador;
     }
 
-    public function setInstancias(?string $instancias): self
+    public function setPublicador(?string $publicador): self
     {
-        $this->instancias = $instancias;
+        $this->publicador = $publicador;
 
         return $this;
     }
 
-    public function getOrganoResponsable(): ?string
+    public function getTematica(): ?string
     {
-        return $this->organoResponsable;
+        return $this->tematica;
     }
 
-    public function setOrganoResponsable(?string $organoResponsable): self
+    public function setTematica(?string $tematica): self
     {
-        $this->organoResponsable = $organoResponsable;
+        $this->tematica = $tematica;
 
         return $this;
     }
 
-    public function getFinalidad(): ?string
-    {
-        return $this->finalidad;
-    }
-
-    public function setFinalidad(?string $finalidad): self
-    {
-        $this->finalidad = $finalidad;
-
-        return $this;
-    }
-
-    public function getCondiciones(): ?string
-    {
-        return $this->condiciones;
-    }
-
-    public function setCondiciones(?string $condiciones): self
-    {
-        $this->condiciones = $condiciones;
-
-        return $this;
-    }
 
     public function getVocabularios(): ?string
     {
@@ -326,6 +308,19 @@ class DescripcionDatos
         return $this;
     }
 
+    public function getDescripcionVocabularios(): ?string
+    {
+        return $this->descripcionVocabularios;
+    }
+
+    public function setDescripcionVocabularios(?string $descripcionVocabularios): self
+    {
+        $this->descripcionVocabularios = $descripcionVocabularios;
+
+        return $this;
+    }
+    
+
     public function getServicios(): ?string
     {
         return $this->servicios; 
@@ -334,6 +329,18 @@ class DescripcionDatos
     public function setServicios(?string $servicios): self
     {
         $this->servicios = $servicios;
+
+        return $this;
+    }
+
+    public function getDescripcionServicios(): ?string
+    {
+        return $this->descripcionServicios;
+    }
+
+    public function setDescripcionServicios(?string $descripcionServicios): self
+    {
+        $this->descripcionServicios = $descripcionServicios;
 
         return $this;
     }
@@ -350,26 +357,27 @@ class DescripcionDatos
         return $this;
     }
 
-    public function getEstructura(): ?string
+    public function getIdiomas(): ?string
     {
-        return $this->estructura;
+        return $this->idiomas;
     }
 
-    public function setEstructura(?string $estructura): self
+    public function setIdiomas(?string $idiomas): self
     {
-        $this->estructura = $estructura;
+        $this->idiomas = $idiomas;
 
         return $this;
     }
 
-    public function getEstructuraDenominacion(): ?string
+
+    public function getNivelDetalle(): ?string
     {
-        return $this->estructuraDenominacion;
+        return $this->nivelDetalle;
     }
 
-    public function setEstructuraDenominacion(?string $estructuraDenominacion): self
+    public function setNivelDetalle(?string $nivelDetalle): self
     {
-        $this->estructuraDenominacion = $estructuraDenominacion;
+        $this->nivelDetalle = $nivelDetalle;
 
         return $this;
     }
@@ -386,17 +394,19 @@ class DescripcionDatos
         return $this;
     }
 
-    public function getFormatos(): ?string
+ 
+    public function getDistribucion(): ?int
     {
-        return $this->formatos;
+        return $this->distribucion;
     }
 
-    public function setFormatos(?string $formatos): self
+    public function setDistribucion(?int $distribucion): self
     {
-        $this->formatos = $formatos;
+        $this->distribucion = $distribucion;
 
         return $this;
     }
+
 
     public function getUsuario(): ?string
     {
@@ -544,23 +554,32 @@ class DescripcionDatos
 
     public function toJsonCreate() : string {
 
+      
         $fechaInicio = !empty($this->getFechaInicio()) ? date_format($this->getFechaInicio(),'Y-m-d H:i'):  null;
         $fechaFin =  !empty($this->getFechaFin()) ?  date_format($this->getFechaFin(),'Y-m-d H:i') : null;
-        $json = "{";
-            $json = !empty($this->getFechaInicio()) ?  $json . "\"fechaInicio\":\"{$fechaInicio}\"," : $json;
-            $json = !empty($this->getFechaFin()) ?  $json . "\"fechaFin\":\"{$fechaFin }\"," : $json;
-            $json = !empty($this->getDenominacion()) ?  $json . "\"denominacion\":\"{$this->getDenominacion()}\"," : $json;
-            $json = !empty($this->getIdentificacion()) ?  $json . "\"identificacion\":\"{$this->getIdentificacion()}\"," : $json;
-            $json = !empty($this->getDenominacion()) ?  $json . "\"denominacion\":\"{$this->getDenominacion()}\"," : $json;
-            $json = !empty($this->getFrecuenciaActulizacion()) ?  $json . "\"frecuenciaActulizacion\":\"{$this->getFrecuenciaActulizacion()}\"," : $json;
-            $json = !empty($this->getDescripcion()) ?  $json . "\"descripcion\":\"{$this->getDescripcion()}\"," : $json;
-            $json = !empty($this->getTerritorio()) ?  $json . "\"territorio\":\"{$this->getTerritorio()}\"," : $json;
-            $json = !empty($this->getInstancias()) ?  $json . "\"instancias\":\"{$this->getInstancias()}\"," : $json;
-
-            $json = $json . "\"usuario\":\"{$this->getUsuario()}\",";
-            $json = $json . "\"sesion\":\"{$this->getSesion()}\",";
-            $json = $json . "\"estado\":\"{$this->getEstado()}\",";
-            $json = $json . "\"estadoAlta\":\"{$this->getEstadoAlta()}\"}";
+        $descripcion= base64_encode($this->getDescripcion());
+        $coberturaGeografica = addslashes($this->getCoberturaGeografica());
+        $titulo = addslashes($this->getTitulo());
+        $niveldetalle= base64_encode($this->getNivelDetalle());
+        $idiomas = addslashes($this->getIdiomas());
+        $json ="{";
+        $json = !empty($this->getTitulo()) ?  $json . "\"titulo\":\"{$titulo}\"," : $json;
+        $json = !empty($this->getIdentificacion()) ?  $json . "\"identificacion\":\"{$this->getIdentificacion()}\"," : $json;
+        $json = !empty($this->getDescripcion()) ?  $json . "\"descripcion\":\"{$descripcion}\"," : $json;
+        $json = !empty($this->getFechaInicio()) ?  $json . "\"fechaInicio\":\"{$fechaInicio}\"," : $json;
+        $json = !empty($this->getFechaFin()) ?  $json . "\"fechaFin\":\"{$fechaFin}\"," : $json;
+        $json = !empty($this->getFrecuenciaActulizacion()) ?  $json . "\"frecuenciaActulizacion\":\"{$this->getFrecuenciaActulizacion()}\"," : $json;
+        $json = !empty($this->getCoberturaGeografica()) ?  $json . "\"coberturaGeografica\":\"{$coberturaGeografica}\"," : $json;
+        $json = !empty($this->getTematica()) ?  $json . "\"tematica\":\"{$this->getTematica()}\"," : $json;
+        $json = !empty($this->getEtiquetas()) ?  $json . "\"etiquetas\":\"{$this->getEtiquetas()}\"," : $json;
+        $json = !empty($this->getIdiomas()) ?  $json . "\"idiomas\":\"{$idiomas}\"," : $json;
+        $json = !empty($this->getNivelDetalle()) ?  $json . "\"nivelDetalle\":\"{$niveldetalle}\"," : $json;
+        $json = $json . "\"distribucion\":\"{$this->getDistribucion()}\",";
+        $json = $json . "\"usuario\":\"{$this->getUsuario()}\",";
+        $json = $json . "\"sesion\":\"{$this->getSesion()}\",";
+        $json = $json . "\"estado\":\"{$this->getEstado()}\",";
+        $json = $json . "\"estadoAlta\":\"{$this->getEstadoAlta()}\"}";
+            
           return  $json;
     }
 
@@ -568,41 +587,51 @@ class DescripcionDatos
  
         $fechaInicio = !empty($this->getFechaInicio()) ? date_format($this->getFechaInicio(),'Y-m-d H:i'):  null;
         $fechaFin =  !empty($this->getFechaFin()) ?  date_format($this->getFechaFin(),'Y-m-d H:i') : null;
+        $descripcion= base64_encode($this->getDescripcion());
+        $descripcionVocabularios= base64_encode($this->getDescripcionVocabularios());
+        $descripcionServicios= base64_encode($this->getDescripcionServicios());
+        $niveldetalle= base64_encode($this->getNivelDetalle());
+        
+        $titulo = addslashes($this->getTitulo());
+        $idiomas = addslashes($this->getIdiomas());
+
         $json ="{";
-            $json = !empty($this->getFechaInicio()) ?  $json . "\"fechaInicio\":\"{$fechaInicio}\"," : $json;
-            $json = !empty($this->getFechaFin()) ?  $json . "\"fechaFin\":\"{$fechaFin }\"," : $json;
-            $json = !empty($this->getDenominacion()) ?  $json . "\"denominacion\":\"{$this->getDenominacion()}\"," : $json;
+            $json = !empty($this->getTitulo()) ?  $json . "\"titulo\":\"{$titulo}\"," : $json;
             $json = !empty($this->getIdentificacion()) ?  $json . "\"identificacion\":\"{$this->getIdentificacion()}\"," : $json;
-            $json = !empty($this->getDenominacion()) ?  $json . "\"denominacion\":\"{$this->getDenominacion()}\"," : $json;
+            $json = !empty($this->getDescripcion()) ?  $json . "\"descripcion\":\"{$descripcion}\"," : $json;
+            $json = !empty($this->getFechaInicio()) ?  $json . "\"fechaInicio\":\"{$fechaInicio}\"," : $json;
+            $json = !empty($this->getFechaFin()) ?  $json . "\"fechaFin\":\"{$fechaFin}\"," : $json;
             $json = !empty($this->getFrecuenciaActulizacion()) ?  $json . "\"frecuenciaActulizacion\":\"{$this->getFrecuenciaActulizacion()}\"," : $json;
-            $json = !empty($this->getDescripcion()) ?  $json . "\"descripcion\":\"{$this->getDescripcion()}\"," : $json;
-            $json = !empty($this->getTerritorio()) ?  $json . "\"territorio\":\"{$this->getTerritorio()}\"," : $json;
-            $json = !empty($this->getInstancias()) ?  $json . "\"instancias\":\"{$this->getInstancias()}\"," : $json;
-         
-            $json = !empty($this->getOrganoResponsable()) ?  $json . "\"organoResponsable\":\"{$this->getOrganoResponsable()}\"," : $json;
-            $json = !empty($this->getFinalidad()) ?  $json . "\"finalidad\":\"{$this->getFinalidad()}\"," : $json;
-            $json = !empty($this->getCondiciones()) ?  $json . "\"condiciones\":\"{$this->getCondiciones()}\"," : $json;
+            $json = !empty($this->getCoberturaGeografica()) ?  $json . "\"coberturaGeografica\":\"{$this->getCoberturaGeografica()}\"," : $json;
+            $json = !empty($this->getPublicador()) ?  $json . "\"publicador\":\"{$this->getPublicador()}\"," : $json;
+            $json = !empty($this->getTematica()) ?  $json . "\"tematica\":\"{$this->getTematica()}\"," : $json;
             $json = !empty($this->getLicencias()) ?  $json . "\"licencias\":\"{$this->getLicencias()}\"," : $json;
             $json = !empty($this->getVocabularios()) ?  $json . "\"vocabularios\":\"{$this->getVocabularios()}\"," : $json;
+            $json = !empty($this->getDescripcionVocabularios()) ?  $json . "\"descripcionVocabularios\":\"{$descripcionVocabularios}\"," : $json;
             $json = !empty($this->getServicios()) ?  $json . "\"servicios\":\"{$this->getServicios()}\"," : $json;
+            $json = !empty($this->getDescripcionServicios()) ?  $json . "\"descripcionServicios\":\"{$descripcionServicios}\"," : $json;
             $json = !empty($this->getEtiquetas()) ?  $json . "\"etiquetas\":\"{$this->getEtiquetas()}\"," : $json;
-            $json = !empty($this->getEstructura()) ?  $json . "\"estructura\":\"{$this->getEstructura()}\"," : $json;
-            $json = !empty($this->getEstructuraDenominacion()) ?  $json . "\"estructuraDenominacion\":\"{$this->getEstructuraDenominacion()}\"," : $json;
-            $json = !empty($this->getFormatos()) ?  $json . "\"formatos\":\"{$this->getFormatos()}\"," : $json;
+            $json = !empty($this->getIdiomas()) ?  $json . "\"idiomas\":\"{$idiomas}\"," : $json;
+            $json = !empty($this->getNivelDetalle()) ?  $json . "\"nivelDetalle\":\"{$niveldetalle}\"," : $json;
+            $json = $json . "\"distribucion\":\"{$this->getDistribucion()}\",";
             $json = $json . "\"usuario\":\"{$this->getUsuario()}\",";
             $json = $json . "\"sesion\":\"{$this->getSesion()}\",";
             $json = $json . "\"estado\":\"{$this->getEstado()}\",";
             $json = $json . "\"estadoAlta\":\"{$this->getEstadoAlta()}\"}";
+            
             return  $json;
     }
 	
     public function toJsonWorkflow() : string {
         $gaodcore = !empty($this->getGaodcoreResourceId()) ? $this->getGaodcoreResourceId() : "";
+        $procesaAdo = !empty($this->getProcesaAdo()) ? $this->getProcesaAdo() : "0";
+        $descripcion= base64_encode($this->getDescripcion());
         return "{
-            \"descripcion\":\"{$this->getDescripcion()}\",
+            \"descripcion\":\"{$descripcion}\",
             \"usuario\":\"{$this->getUsuario()}\",
             \"sesion\":\"{$this->getSesion()}\",
             \"estado\":\"{$this->getEstado()}\",
+            \"procesaAdo\":\"{$procesaAdo}\",
             \"gaodCoreResourceId\":\"{$gaodcore}\"
           }";
     }
@@ -613,7 +642,7 @@ class DescripcionDatos
         $origen = new OrigenDatos();
         $res = new self();
         $res->id = $array['id'];
-        $res->denominacion = $array['denominacion'];
+        $res->titulo = $array['titulo'];
         $res->identificacion = $array['identificacion'];
         $res->descripcion = $array['descripcion'];
         $res->frecuenciaActulizacion = $array['frecuenciaActulizacion'];
@@ -623,21 +652,22 @@ class DescripcionDatos
         if ($array['fechaFin']!= null) {
             $res->fechaFin = new \DateTime($array['fechaFin']);
         }
-        $res->territorio = $array['territorio'];
-        $res->instancias =  $array['instancias'];
-        $res->organoResponsable =  $array['organoResponsable'];
-        $res->finalidad =  $array['finalidad'];
-        $res->condiciones =  $array['condiciones'];
+        $res->coberturaGeografica = $array['coberturaGeografica'];
+        $res->publicador =  $array['publicador'];
+        $res->tematica =  $array['tematica'];
         $res->vocabularios =  $array['vocabularios'];
-        $res->formatos = $array['formatos'];
+        $res->descripcionVocabularios =  $array['descripcionVocabularios'];
         $res->servicios =  $array['servicios'];
+        $res->descripcionServicios =  $array['descripcionServicios'];
         $res->etiquetas =  $array['etiquetas'];
-        $res->estructura =  $array['estructura'];
-        $res->estructuraDenominacion =  $array['estructuraDenominacion'];
+        $res->idiomas =  $array['idiomas'];
+        $res->nivelDetalle =  $array['nivelDetalle'];
         $res->licencias =  $array['licencias'];
+        $res->distribucion =  $array['distribucion'];
         $res->usuario =  $array['usuario'];
         $res->sesion =  $array['sesion'];
         $res->estado = $array['estado'];
+        $res->gaodcoreResourceId =  $array['gaodcoreResourceId'];
         $res->estadoAlta = $array['estadoAlta'];
         $res->creadoEl = new \DateTime($array['creadoEl']);
         $res->actualizadoEn = new \DateTime($array['actualizadoEn']);
@@ -649,45 +679,45 @@ class DescripcionDatos
  
         [$estadoKey, $estadoDescripcion] = $ToolController->DameEstadoDatos($this->getEstado());
         $identificador = $this->getIdentificacion();
-        $denominacion = $this->getDenominacion();
+        $titulo = $this->getTitulo();
         $descripcion = $this->getDescripcion();
         $frecuencia = !empty($this->getFrecuenciaActulizacion()) ? $this->getFrecuenciaActulizacion() : "";
         $inicio =  ($this->getFechaInicio()!=null) ? $this->getFechaInicio()->format('Y-m-d') : "";
         $fin =  ($this->getFechaFin()!=null)  ? $this->getFechaFin()->format('Y-m-d') : ""; 
-        $territorio =  ($this->getTerritorio()!=null)  ? $this->getTerritorioFicha() : "";      
-        $Instancias = !empty($this->getInstancias()) ? explode(",",$this->getInstancias()) : array();
-        $organo =  !empty($this->getOrganoResponsable()) ?  $this->getOrganoResponsable() : "";
-        $condiciones =  !empty($this->getCondiciones())  ? $this->getCondiciones() : "";
-        $finalidad =  !empty($this->getFinalidad())  ? $this->getFinalidad() : "";;
-        $licencias =  !empty($this->getLicencias()) ? $this->getLicencias() : ""; ;
+        $coberturaGeografica =  ($this->getCoberturaGeografica()!=null)  ? $this->getCoberturaGeograficaFicha() : "";      
+        $publicador =  !empty($this->getPublicador()) ?  $this->getPublicador() : "";
+        $tematica =  !empty($this->getTematica())  ? $this->getTematica() : "";
+        $licencias =  !empty($this->getLicencias()) ? $this->getLicencias() : ""; 
         $vocabularios = !empty($this->getVocabularios()) ? explode(",",$this->getVocabularios()) : array();
+        $descripcionVocabularios = !empty($this->getDescripcionVocabularios()) ? $this->getDescripcionVocabularios() : "";
         $servicios = !empty($this->getServicios()) ? explode(",",$this->getServicios()) : array();
+        $descripcionServicios = !empty($this->getServicios()) ? $this->getDescripcionServicios() : "";
         $etiquetas = !empty($this->getEtiquetas()) ? explode(",",$this->getEtiquetas()) : array();
-        $estructura =  !empty($this->getEstructura()) ?  $this->getEstructura() : "";
-        $estructuraDenominacion =  !empty($this->getEstructuraDenominacion()) ?  $this->getEstructuraDenominacion():  "";
-        $formatos =  !empty($this->getFormatos())  ? $this->getFormatos(): "";
+        $idiomas = !empty($this->getIdiomas()) ? explode(",",$this->getIdiomas()) : array();
+        $nivelDetalle =  !empty($this->getNivelDetalle()) ?  $this->getNivelDetalle():  "";
+        $distribucion =  !empty($this->getDistribucion()) ?  $this->getDistribucion():  "-1";
 
 
         $datos  = array("estado"=>$estadoDescripcion,
                         "estadoKey" =>  $estadoKey,
                         "identificador"=> $identificador,
-                        "denominacion" =>  $denominacion, 
+                        "titulo" =>  $titulo, 
                         "descripcion" => $descripcion,
                         "frecuencia" => $frecuencia,
                         "fechaInicio" =>$inicio,
                         "fechaFin" =>$fin,
-                        "territorio" =>$territorio,
-                        "instancias" => $Instancias,
-                        "organo" => $organo,
-                        "condiciones"=> $condiciones,
-                        "finalidad" => $finalidad,
+                        "coberturaGeografica" =>$coberturaGeografica,
+                        "publicador" => $publicador,
+                        "tematica" => $tematica,
                         "licencias" =>  $licencias,
                         "vocabularios" =>  $vocabularios,
+                        "descripcionVocabularios" =>  $descripcionVocabularios,
                         "servicios" =>   $servicios,
+                        "descripcionServicios" =>   $descripcionServicios,
                         "etiquetas" =>  $etiquetas,
-                        "estructura" =>  $estructura,
-                        "estructuraDenominacion" =>  $estructuraDenominacion,
-                        "formatos" => $formatos);
+                        "idiomas" => $idiomas,
+                        "nivelDetalle" =>  $nivelDetalle,
+                        "distribucion" => $distribucion);
         return $datos;
     }
 

@@ -4,6 +4,7 @@
 
 {% block body %}
 <div class="container" style="display:{{ permisoEdicion }}">
+        <input type="hidden" id="existe" value="{{ existe }}"/>
 		<div class="row">                  
         <div id="col02" class="col col-12">
              <div class="form formtheme01">
@@ -13,17 +14,14 @@
                         <li class="paso01 complete">
                             <span>1</span>
                         </li>
-                        <li class="paso01-1 complete">
-                            <span></span>
-                        </li>
-                        <li class="paso01-2 complete">
-                            <span></span>
-                        </li>
-                        <li class="paso02 active">
+                        <li class="paso02 complete">
                             <span>2</span>
                         </li>
-                        <li class="paso03 uncomplete">
+                        <li class="paso04 active">
                             <span>3</span>
+                        </li>
+                        <li class="paso03 uncomplete">
+                            <span>4</span>
                         </li>
                     </ul>
                 </div>
@@ -32,8 +30,8 @@
                     {{ form_start(origen_form) }}
                     <div class="fieldset fieldset01">
                         <fieldset class="mediumLabels">
-                            <legend>Paso 2</legend>
-                            <h2>Origen del conjunto de datos</h2>
+                            <legend>Paso 3</legend>
+                            <h2>Estructura - Origen</h2>
                             <div>
                                 {{ form_widget(origen_form) }}
                                 <div >
@@ -83,7 +81,9 @@
                                 </div>
                                 <div class="fieldset actionButtons">
                                     <fieldset>
-                                        <input class="submit" value="Anterior" onclick="location.href='{{ locationAnterior }}'">
+                                        {% if locationAnterior %}
+                                            <input class="submit" value="Anterior" onclick="location.href='{{ locationAnterior }}'">
+                                        {% endif %}
                                         {% if muestraSiguiente %}
                                             <input id="siguiente" class="submit principal" type="submit" value="Guardar y siguiente...">
                                         {% endif %}
@@ -97,6 +97,47 @@
             </div>
         </div>
 	</div>
+</div>
+<div class="modal fade" id="camposErrormodal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aviso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if camposDistintos %} 
+                    <div id="muestaModal" />
+                    <p>La estructura de campos actual, respecto a la que se aprobó ha cambiado.</p>
+                    <p>Si continua perderá parte o la totalidad el alinemiento realizado.</p>
+                    <p> Campos Alineados: </p>
+                    <ul>
+                        {% for campo in camposAlineados %}
+                            <li>
+                                {{ campo }}
+                            </li>
+                        {% endfor %}
+                    </ul>                                                                            
+                    <p> Campos Actuales: </p>  
+                    <ul>
+                        {% for campo in camposActuales %}
+                            <li>
+                                {{ campo }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if existe %} 
+                    <p>Ya existe un archivo con ese nombre y extensión.</p>
+                    <p>Si continuas con el asistente el archivo será remplazado.</p>
+                    <p>Si el archivo ya existente, pertenece a otra distribución de este origen de datos, los datos se perderán.</p>
+                {% endif %}
+                <input class="btn primary" type="button" value="Aceptar" data-dismiss="modal">
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

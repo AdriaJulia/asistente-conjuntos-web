@@ -4,8 +4,8 @@
 
 {% block body %}
 <div class="container" style="display:{{ permisoEdicion }}">
-    <div class="row">     
-       <input type='hidden' id="entidadPrincipal" value='{{ entidadPrincipal }}'/>         
+    <div class="row">  
+        <input type='hidden' id="subtipo" value='{{ subtipo }}'/>            
         <div id="col02" class="col col-12">
             <div class="form formtheme01">
                 <h1>Asistente de creación de conjunto de datos</h1>
@@ -14,17 +14,14 @@
                         <li class="paso01 complete">
                             <span>1</span>
                         </li>
-                        <li class="paso01-1 complete">
-                            <span></span>
-                        </li>
-                        <li class="paso01-2 complete">
-                            <span></span>
-                        </li>
                         <li class="paso02 complete">
                             <span>2</span>
                         </li>
-                        <li class="paso03 active">
+                        <li class="paso04 complete">
                             <span>3</span>
+                        </li>
+                        <li class="paso03 active">
+                            <span>4</span>
                         </li>
                     </ul>
                 </div>
@@ -33,17 +30,28 @@
                         {{ form_start(alineacion_form) }}
                         <div class="fieldset fieldset01">
                             <fieldset class="mediumLabels">
-                                <legend>Paso 3</legend>
-                                <h2>Integración de los datos - Alineamiento con el modelo EI2A</h2>
+                                <legend>Paso 4</legend>
+                                <h2>Estructura - Integración</h2>
                                 <div class="fieldsetContent">
-                                    <p id="alineacionEntidad_help">Elige cuál es la entidad que representa tus datos principalmente y a continuación empareja tus atributos con sus propiedades. Si en tus datos tienes más entidades, que se relacionan con la principal, también puedes escogerlas en la lista desplegable disponible para cada atributo y vincular tus atributos con sus propiedades.</p>
+                                    <p id="alineacionEntidad_help">Puedes relacionar tus datos con la <a href='https://opendata.aragon.es/def/ei2av2/' target='_blank'>Estructura de Información Interoperable de Aragón EI2A</a> para identificarlos mejor y poderlos conectar con otros datos diferentes. Elige cuál es la mejor entidad que representa tus datos de las disponibles y empareja tus atributos con sus propiedades. Si en tus datos tienes más entidades, que se relacionan con la principal, también puedes escogerlas en la lista desplegable disponible para cada atributo y vincular tus atributos con sus propiedades</p>
                                     <br/>
                                     {{ form_widget(alineacion_form) }}
-                                      <div class="fieldset actionButtons">
+                                    <div class="form-group" id="archivoCargado" style="display:none">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                                 <tr><i>Archivo temporal</i><tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div id="actionButtons" class="fieldset actionButtons" style="display: none;">
                                         <fieldset>
                                             <input class="submit" value="Anterior" onclick="location.href='{{ locationAnterior }}'">
-                                            <input class="submit principal" type="submit" value="Omitir paso" onclick="enviar('omitir');">
-                                            <input class="submit principal" type="submit" value="Guardar y siguiente..." onclick="enviar('guardar')";>
+                                            <input class="submit principal" type="submit" value="Omitir y publicar" onclick="enviar('omitir');">
+                                            <input class="submit principal" type="submit" value="Guardar y publicar" onclick="enviar('guardar')";>
                                         </fieldset>
                                     </div>
                                 </div>

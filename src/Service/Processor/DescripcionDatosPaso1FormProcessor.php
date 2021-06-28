@@ -4,6 +4,7 @@ namespace App\Service\Processor;
 
 
 use App\Enum\EstadoAltaDatosEnum;
+use App\Enum\EstadoDistribucionEnum;
 use App\enum\FrecuenciaActualizacionEnum;
 use App\Entity\DescripcionDatos;
 use App\Enum\EstadoDescripcionDatosEnum;
@@ -49,6 +50,11 @@ class DescripcionDatosPaso1FormProcessor
     public function __invoke(DescripcionDatos $descripcionDatos,
                              Request $request): array
     { 
+        
+        if (empty($request->getSession()->getId())) {
+            session_start(); 
+        }
+
          //si el origen de datos actual no es nuevo
         if (!empty($descripcionDatos->getId())){
             // creo el formulario vacío con los datos actuales
@@ -56,28 +62,33 @@ class DescripcionDatosPaso1FormProcessor
             $form = $this->formFactory->create(DescripcionDatosPaso1FormType::class, $descripcionDatosDto);
             $proximoEstadoAlta = $descripcionDatos->getEstadoAlta();
              //asigno el estado del asistente
-            if ($proximoEstadoAlta!=EstadoAltaDatosEnum::paso2) {
-                $proximoEstadoAlta=EstadoAltaDatosEnum::paso2;
+            if ($proximoEstadoAlta!=EstadoAltaDatosEnum::PASO2) {
+                $proximoEstadoAlta=EstadoAltaDatosEnum::PASO2;
             }  
         } else {
             //creo el formulario vacío 
             $form = $this->formFactory->create(DescripcionDatosPaso1FormType::class); 
-            $proximoEstadoAlta = EstadoAltaDatosEnum::paso2;
+            $proximoEstadoAlta = EstadoAltaDatosEnum::PASO2;
         }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //recojo los datos del formulario
             $descripcionDatosDto = $form->getData();   
 
-            $descripcionDatos->setDenominacion($descripcionDatosDto->denominacion);
-            $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->denominacion));
+            $descripcionDatos->setTitulo($descripcionDatosDto->titulo);
+            $descripcionDatos->setIdentificacion(ProcessorTool::clean($descripcionDatosDto->titulo));
             $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion);
-            $descripcionDatos->setTerritorio($descripcionDatosDto->territorio);
-            
-            $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);    
-            $descripcionDatos->setFechaInicio($descripcionDatosDto->fechaInicio);
-            $descripcionDatos->setFechaFin($descripcionDatosDto->fechaFin);
-            $descripcionDatos->setInstancias($descripcionDatosDto->instancias);
+            $descripcionDatos->setTematica($descripcionDatosDto->tematica);
+            $descripcionDatos->setEtiquetas($descripcionDatosDto->etiquetas);
+            $descripcionDatos->setFrecuenciaActulizacion($descripcionDatosDto->frecuenciaActulizacion);  
+            $descripcionDatos->setFechaInicio($descripcionDatosDto->coberturaTemporal['fechaInicio']);
+            $descripcionDatos->setFechaFin($descripcionDatosDto->coberturaTemporal['fechaFin']);       
+            $descripcionDatos->setCoberturaGeografica($descripcionDatosDto->coberturaGeografica);
+            $idiomas = $this->dameIdiomas($descripcionDatosDto->coberturaIdioma);
+            $descripcionDatos->setIdiomas($idiomas);
+            $descripcionDatos->setNivelDetalle($descripcionDatosDto->nivelDetalle);
+
+
 
             // esto es para poder hacer los test unitarios sin LDAP
             if ($this->currentUser->getCurrentUser()!=null){
@@ -93,6 +104,8 @@ class DescripcionDatosPaso1FormProcessor
           //ahora distingo si la llamada es de un origen nuevo o existente 
             $descripcionDatos->updatedTimestamps();
             if (empty($descripcionDatosDto->id)){
+                //si es nuevo no tiene hijos
+                $descripcionDatos->setDistribucion(EstadoDistribucionEnum::SIN_HIJOS);
                 $descripcionDatos = $this->descripcionDatosManager->create($descripcionDatos,$request->getSession());  
             } else {
                 $descripcionDatos = $this->descripcionDatosManager->save($descripcionDatos,$request->getSession()); 
@@ -100,4 +113,19 @@ class DescripcionDatosPaso1FormProcessor
         }
         return [$form, $descripcionDatos];
     }
+
+    private function dameIdiomas($coverturaIdiomas) : string{
+        $idiomas = "";
+        foreach ($coverturaIdiomas['lenguajes'] as $key=>$value) {
+           if ($value!=="Otro") {
+            $idiomas .= $value . ",";
+           } else {
+             $idiomas .= $coverturaIdiomas['otroslenguajes'] . ",";
+           }
+        }
+        $idiomas = (strlen($idiomas)>0)? substr($idiomas,0,-1):$idiomas; 
+        return $idiomas;
+    }
 }
+
+ 

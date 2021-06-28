@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Assistant_mapping xmlns:gtfs="http://vocab.gtfs.org/terms#"
+ xmlns:foaf="http://xmlns.com/foaf/0.1/"
+ xmlns:prov="http://www.w3.org/ns/prov#"
+ xmlns:eli="http://data.europa.eu/eli/ontology/"
+ xmlns:sosa="http://www.w3.org/ns/sosa/"
+ xmlns:org="http://www.w3.org/ns/org#"
+ xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+ xmlns:owl="http://www.w3.org/2002/07/owl#"
+ xmlns:bio="http://purl.org/vocab/bio/0.1/"
+ xmlns:dcat="https://www.w3.org/TR/vocab-dcat-2/"
+ xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
+ xmlns="http://opendata.aragon.es/def/ei2av2#"
+ xmlns:schema="http://schema.org/"
+ xmlns:time="http://www.w3.org/2006/time#"
+ xmlns:ocds="http://data.tbfy.eu/ontology/ocds#"
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+ xmlns:qb="http://purl.org/linked-data/cube#"
+ xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+ xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xml:base="http://opendata.aragon.es/def/ei2av2" 
+ xmlns:ei2a="http://opendata.aragon.es/"
+ xmlns:dcterm="http://www.domain4.com#"
+ xmlns:datosgob="http://datos.gob.es/"
+ xmlns:geo="https://www.geonames.org/ontology#">
+    <Entity attribute="dc:identifier" rdf:type="foaf:Person" rdfs:label="Persona" rdfs:comment="Para la incorporación de datos de personas, es conveniente disponer de un campo que sirva como CODIGO_MUN único de la persona y relacionarlo con el atributo 'dc:identifier'. Para incluir el nombre de la persona se puede optar por completar el atributo 'foaf:name' y si se tiene por separado nombre y apellidos, Nombre persona (foaf:givenName) para el nombre y Apellidos (foaf:familyName) para los apellidos. Es posible completar la información de la persona con su teléfono (foaf:phone), correo electrónico (foaf:mbox), página web (foaf:homepage), biografía (bio:biography) y foto (foaf:img). \n\n Por otra parte, es posible incluir la información del puesto que ocupa la persona en una organización, a través de la entidad relacionada 'Puesto' y 'Nombre del puesto', donde se puede indicar la fecha de comienzo (time:hasBeginning) y final (time:hasEnd) y el nombre concreto del puesto (dc:title). Finalmente es posible relacionarlo con la organización o unidad organizativa donde ejerce ese puesto (Organización)." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#61-persona" rdf:ID="http://opendata.aragon.es/recurso/persona/{CODIGO_ID}">
+		<Property attribute="org:holds" rdf:ID="http://opendata.aragon.es/recurso/persona/cargo/{ID_CARGO}">
+			<Entity rdf:type="org:Post" rdfs:label="Puesto" rdf:ID="http://opendata.aragon.es/recurso/persona/cargo/{ID_CARGO}">
+				<Property attribute="org:role" rdf:ID="http://opendata.aragon.es/recurso/persona/cargo/rol/{ID_CARGO}">
+					<Entity rdf:type="org:Role" rdfs:label="Nombre del Puesto" rdf:ID="http://opendata.aragon.es/recurso/persona/cargo/rol/{ID_CARGO}"></Entity>
+				</Property>
+				<Property attribute="org:postIn">
+					<Entity rdf:type="org:Organization" rdfs:label="Organización"></Entity>
+				</Property>
+			</Entity>
+		</Property>		
+	</Entity>
+	<Entity attribute="dc:identifier" rdf:type="org:Organization" rdfs:label="Organización" rdfs:comment="La entidad Organización sirve para representar un conjunto de personas organizadas conjuntamente u otra estructura social, comercial o política. El grupo tiene un propósito o razón de existencia común, que va más allá del conjunto de personas que lo integran.\n\n Dentro de la entidad Organización existen diferentes tipos que se pueden seleccionar desde la lista titulada 'Selecciona tipo de entidad'. Principalmente, es conveniente disponer de un campo que contenga un CODIGO_MUN (org:identifier) que sea un valor único para identificar de manera inequívoca a cada entidad.\n\n Es posible completar la información de la organización con los atributos CODIGO_MUN de la organización (org:identifier) que sirve para disponer de una identificación única desde el punto de vista más legal, como por ejemplo el CIF de una empresa, Fecha de creación (dc:date), Descripción y observaciones (dc:description) y Página web (foaf:homepage).\n\n También es posible incluir la creación del Centro y Lugar donde se puede localizar esa organización, incluyendo CODIGO_MUN (dc:identifier) y nombre del Centro y nombre (vcard:fn), localidad (vcard:locality), provincia (vcard:region), código postal (vcard:postal-code), dirección (vcard:street-address), email (vcard:email), Teléfono (vcard:tel) e información geográfica como coordenadas o shape (geo:SpatialThing) para definir el Lugar." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#62-organización">
+		<Classification>
+			<Property rdf:about="ei2a:kos/organizacion" attribute="org:classification" rdfs:label="General" rdf:ID="http://opendata.aragon.es/recurso/organizacion/{CODIGO_ID}"></Property>
+			<Property rdf:about="datosgob:kos/sector-publico/sector/sector-publico" attribute="org:classification" rdfs:label="Unidad organizativa del gobierno de Aragón" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/unidad-organizativa/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:A.ADM2" attribute="org:classification" rdfs:label="Diputación provincial" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/diputacion/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:A.ADM3" attribute="org:classification" rdfs:label="Comarca" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/comarca/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:P.PPL" attribute="org:classification" rdfs:label="Municipio" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/municipio/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:CTRM" attribute="org:classification" rdfs:label="Hospital" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/hospital/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:CTRM" attribute="org:classification" rdfs:label="Centro de salud" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/centro-salud/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:SCH" attribute="org:classification" rdfs:label="Centro educativo" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/centro-educativo/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:SNTR" attribute="org:classification" rdfs:label="Centro de salud mental" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/centro-salud-mental/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:L.INDS" attribute="org:classification" rdfs:label="Polígono industrial" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/poligono-industrial/{CODIGO_ID}"></Property>
+			<Property rdf:about="ei2a:kos/promotor" attribute="org:classification" rdfs:label="Promotor" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/promotor/{CODIGO_ID}"></Property>
+			<Property rdf:about="datosgob:kos/sector-publico/sector/sector-publico" attribute="org:classification" rdfs:label="Sociedad mercantil" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/sociedad-mercantil/{CODIGO_ID}"></Property>
+			<Property rdf:about="datosgob:kos/sector-publico/sector/sector-publico" attribute="org:classification" rdfs:label="Fundación" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/fundacion/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:A.ADMD" attribute="org:classification" rdfs:label="Mancomunidad" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/mancomunidad/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:A.ADMD" attribute="org:classification" rdfs:label="Villa / Tierra" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/villas-tierras/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:A.ADMD" attribute="org:classification" rdfs:label="Consorcio" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/consorcio/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:A.ADMD" attribute="org:classification" rdfs:label="Agrupación secretarial" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/agrupacion-secretarial/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:P.PPLL" attribute="org:classification" rdfs:label="Núcleo urbano" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/nucleo/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:P.PPLL" attribute="org:classification" rdfs:label="Entidad singular" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/entidad-singular/{CODIGO_ID}"></Property>
+			<Property rdf:about="geo:P.PPLL" attribute="org:classification" rdfs:label="Entidad menor" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/entidad-menor/{CODIGO_ID}"></Property>
+			<Property rdf:about="datosgob:kos/sector-publico/sector/sector-publico" attribute="org:classification" rdfs:label="Organismo autónomo" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/organismo-autonomo/{CODIGO_ID}"></Property>
+			<Property rdf:about="datosgob:kos/sector-publico/sector/sector-publico" attribute="org:classification" rdfs:label="Organización complementaria" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/organizacion-complementaria/{CODIGO_ID}"></Property>
+			<Property rdf:about="datosgob:kos/sector-publico/sector/comercio" attribute="org:classification" rdfs:label="Oficina del consumidor" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/oficina-consumidor/{CODIGO_ID}"></Property>
+			<Property rdf:about="datosgob:kos/sector-publico/sector/sector-publico" attribute="org:classification" rdfs:label="Dirección de interés" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/direccion-interes/{CODIGO_ID}"></Property>
+		</Classification>
+        <Property type="onlyfieldLink" rdf:label="General" attribute="org:subOrganizationOf" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/general/{CODIGO_ID}"/> 
+        <Property type="onlyfieldLink" rdf:label="Unidad organizativa del gobierno de Aragón" attribute="org:subOrganizationOf" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/unidad-organizativa/{CODIGO_ID}"/> 
+	    <Property type="onlyfieldLink" rdf:label="Diputación provincial" attribute="org:subOrganizationOf" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/diputacion/{CODIGO_ID}"/> 
+ 		<Property type="onlyfieldLink" rdf:label="Comarca" attribute="org:subOrganizationOf" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/comarca/{CODIGO_ID}"/> 
+	    <Property type="onlyfieldLink" rdf:label="Municipio" attribute="org:subOrganizationOf" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/municipio/{CODIGO_ID}"/> 
+		<Property type="onlyfieldLink" rdf:label="Legislatura" attribute="base:legislature" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/unidad-organizativa/{ID_ENTIDAD_PADRE}"/>
+		<Property type="fieldLink" attribute="org:hasSite" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/centro/{CLASIFICATION}/{CODIGO_ID}">
+			<Entity rdf:type="org:Site" rdfs:label="Centro" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/centro/{CLASIFICATION}/{CODIGO_ID}">
+				<Property type="fieldLink" attribute="org:siteAddress" rdfs:label="Lugar" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/lugar/{CLASIFICATION}/{CODIGO_ID}">
+					<Entity rdf:type="vcard:Location" rdfs:label="Lugar" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/lugar/{CLASIFICATION}/{CODIGO_ID}"></Entity>
+				</Property>
+			</Entity>
+		</Property>
+	</Entity>
+	<Entity attribute="dc:identifier" rdf:type="org:Site" rdfs:label="Centro" rdfs:comment="Es posible incluir la creación del Centro y Lugar donde se puede localizar una organización, incluyendo CODIGO_MUN (dc:identifier) y nombre del Centro y nombre (vcard:fn), localidad (vcard:locality), provincia (vcard:region), código postal (vcard:postal-code), dirección (vcard:street-address), email (vcard:email), Teléfono (vcard:tel) e información geográfica como coordenadas o shape (geo:SpatialThing) para definir el Lugar." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#62-organización" rdf:ID="http://opendata.aragon.es/recurso/centro/{CODIGO_ID}">
+		<Property attribute="org:siteAddress">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar" rdf:ID="http://opendata.aragon.es/recurso/lugar/{CODIGO_ID}"></Entity>
+		</Property>
+	</Entity>
+	<!-- tiene sub tipos miradores-paisaje -->
+	<Entity attribute="vcard:fn" rdf:type="vcard:Location" rdfs:label="Lugar" rdfs:comment="En el Lugar se puede incluir la información geográfica como las coordenadas o un shape que delimita un área geográfica o un punto geográfico.\n\n También es posible establecer la relación con otro Lugar." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#63-lugar" rdf:ID="http://opendata.aragon.es/recurso/lugar/{CODIGO_ID}">	   
+		<Property attribute="vcard:org">
+			<Entity rdf:type="org:Organization" rdfs:label="Organización" rdf:ID="http://opendata.aragon.es/recurso/organizacion/{CODIGO_ID}"></Entity>
+		</Property>
+		<Property type="onlyfieldLink" rdf:label="Diputación provincial" attribute="vcard:org" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/diputacion/{CODIGO_ID}"/> 
+		<Property type="onlyfieldLink" rdf:label="Comarca" attribute="vcard:org" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/comarca/{CODIGO_ID}"/> 
+		<Property type="onlyfieldLink" rdf:label="Municipio" attribute="vcard:org" rdf:ID="http://opendata.aragon.es/recurso/sector-publico/organizacion/municipio/{CODIGO_ID}"/>
+	</Entity>
+	<Entity attribute="schema:identifier" rdf:type="schema:CreativeWork" rdfs:label="Documento" rdfs:comment="Esta entidad ofrece la posibilidad de integrar la información de cualquier tipo de documento, como por ejemplo expedientes, obras de arte, símbolos municipales o páginas web. Principalmente es conveniente establecer un CODIGO_MUN (schema:identifier) y un título (schema:title).\n\n Entre los atributos que se pueden incluir para un documento se encuentran: Fecha de publicación (eli:date_publication), URL (schema:url), Idioma (schema:inLanguage), Tamaño (schema:size) o Creador (schema:creator).\n\n Por otra parte es posible establecer una relación con una Organización, indicar que forma parte de un Documento más grande o que tiene determinados Documentos hijo y por último, establecer la relación con un Lugar o con una Persona que haya contribuido a su creación o elaboración." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#66-documento" rdf:ID="http://opendata.aragon.es/recurso/documento/{CODIGO_ID}">
+		<Property attribute="org:organization">
+			<Entity rdf:type="org:Organization" rdfs:label="Organización" rdf:ID="http://opendata.aragon.es/recurso/organizacion/{CODIGO_TYPE_ID}/{CODIGO_ID}"></Entity>
+		</Property>
+		<Property type="fieldLink" attribute="org:hasSite" rdf:ID="http://opendata.aragon.es/recurso/documento/centro/{CLASIFICATION}/{CODIGO_ID}">
+			<Entity rdf:type="org:Site" rdfs:label="Centro" rdf:ID="http://opendata.aragon.es/recurso/documento/centro/{CLASIFICATION}/{CODIGO_ID}">
+				<Property type="fieldLink" attribute="org:siteAddress" rdfs:label="Lugar" rdf:ID="http://opendata.aragon.es/recurso/documento/lugar/{CLASIFICATION}/{CODIGO_ID}">
+					<Entity rdf:type="vcard:Location" rdfs:label="Lugar" rdf:ID="http://opendata.aragon.es/recurso/documento/lugar/{CLASIFICATION}/{CODIGO_ID}"></Entity>
+				</Property>
+			</Entity>
+		</Property>
+		<Property attribute="org:siteAddress">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar" rdf:ID="http://opendata.aragon.es/recurso/lugar/{CODIGO_ID}"></Entity>
+		</Property>
+		<Property attribute="schema:contributor">
+			<Entity rdf:type="foaf:Person" rdfs:label="Creador" rdf:ID="http://opendata.aragon.es/recurso/persona/{CODIGO_ID}"></Entity>
+		</Property>
+		<Property attribute="schema:hasPart">
+			<Entity rdf:type="schema:CreativeWork" rdfs:label="Documento hijo" rdf:ID="http://opendata.aragon.es/recurso/documento/{CODIGO_ID}"></Entity>
+		</Property>
+		<Property attribute="schema:isPartOf">
+			<Entity rdf:type="schema:CreativeWork" rdfs:label="Documento padre" rdf:ID="http://opendata.aragon.es/recurso/documento/{CODIGO_ID}"></Entity>
+		</Property>
+		<Property attribute="schema:locationCreated">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar de creación" rdf:ID="http://opendata.aragon.es/recurso/lugar/{CODIGO_ID}"></Entity>
+		</Property>
+	</Entity>
+	<Entity attribute="schema:identifier" rdf:type="schema:Event" rdfs:label="Evento" rdfs:comment="Es conveniente la incorporación de un CODIGO_MUN (schema:identifier) para cada evento, con el fin de poder identificar de manera inequívoca a cada uno de ellos. Los principales atributos que se pueden establecer son: Nombre (schema:name), Descripción (schema:description), Fecha de inicio (schema:startDate), Fecha de final (schema:endDate), Horario del evento (schema:eventSchedule) e imagen (schema:image).\n\n A su vez, es posible relacionarlo con un Lugar, indicando Nombre (vcard:fn), Dirección (vcard:street-address), Localidad (vcard:locality), Provincia (vcard:region), Código postal (vcard:postal-code), Teléfono (vcard:tel), Email (vcard:email) o datos de geoposicionamiento (geo:SpatialThing)." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#64-evento" rdf:ID="http://opendata.aragon.es/recurso/evento/{CODIGO_ID}">
+		<Property attribute="schema:location">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar" rdf:ID="http://opendata.aragon.es/recurso/lugar/{CODIGO_ID}"></Entity>
+		</Property>
+	</Entity>
+	<Entity attribute="dc:identifier" rdf:type="sosa:Featureofinterest" rdfs:label="Dispositivo (Internet de las cosas)" rdfs:comment="Mediante esta entidad es posible modelar dispositivos y sus observaciones. Es conveniente disponer de un campo que contenga un CODIGO_MUN (dc:identifier) y un nombre (dc:title), además de poder disponer de una fecha (dc:date) y un enlace con un Lugar y una Observación que contiene un valor y una fecha y hora de la captura de la observación." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#614-dispositivo-internet-de-las-cosas-iot" rdf:ID="http://opendata.aragon.es/recurso/dispositivo-iot/{CODIGO_ID}">
+		<Property attribute="sosa:observableProperty">
+			<Entity rdf:type="sosa:Observation" rdfs:label="Observación"></Entity>
+		</Property>
+		<Property attribute="org:siteAddress">
+			<Entity rdf:type="vcard:Location" rdfs:label="Lugar" rdf:ID="http://opendata.aragon.es/recurso/lugar/{CODIGO_ID}"></Entity>
+		</Property>
+	</Entity>
+	<Entity attribute="{CODIGO_ID}" rdf:type="qb:ComponentSpecification" rdfs:label="Datos cuantitativos (Datacube)" rdfs:comment="Para realizar esta integración es necesario definir una estructura que permita entender cómo leer los datos y para ello basta con identificar qué atributos concretos representan lo que en el modelo de Datacube se denomina 'Dimensión' y los que representan una 'Medida'. Medida, es cada una de las observaciones realizadas que contienen el dato concreto medido y Dimensión, es un concepto por el cual se pueden clasificar los datos indicados en las medidas, que permite clasificar la información y relacionarla con otras entidades." rdf:about="https://github.com/aragonopendata/EI2A-ontologia/tree/2.0.0#613-datacube" rdf:ID="http://opendata.aragon.es/recurso/observacion/{nombreDS}">
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="xsd:string">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (literal)" rdfs:range="xsd:string"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="xsd:datetime">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (fecha)" rdfs:range="xsd:datetime"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="foaf:Person">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Persona)" rdfs:about="http://opendata.aragon.es/recurso/{CODIGO_ID}" rdfs:range="foaf:Person"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="org:Organization">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Organización)" rdfs:about="http://opendata.aragon.es/recurso/{CODIGO_ID}" rdfs:range="org:Organization"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="org:Organization">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Diputación)" rdfs:about="http://opendata.aragon.es/recurso/sector-publico/organizacion/diputacion/{CODIGO_ID}" rdfs:range="org:Organization"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="org:Organization">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Comarca)" rdfs:about="http://opendata.aragon.es/recurso/sector-publico/organizacion/comarca/{CODIGO_ID}" rdfs:range="org:Organization"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="rg:Organization">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Municipio)" rdfs:about="http://opendata.aragon.es/recurso/sector-publico/organizacion/municipio/{CODIGO_ID}" rdfs:range="org:Organization"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="org:Site">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Centro)" rdfs:about="http://opendata.aragon.es/recurso/{CODIGO_ID}" rdfs:range="org:Site"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="vcard:Location">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Lugar)" rdfs:about="http://opendata.aragon.es/recurso/{CODIGO_ID}" rdfs:range="vcard:Location"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="schema:CreativeWork">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Documento)" rdfs:about="http://opendata.aragon.es/recurso/{CODIGO_ID}" rdfs:range="schema:CreativeWork"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="schema:Event">
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Evento)" rdfs:about="http://opendata.aragon.es/recurso/{CODIGO_ID}" rdfs:range="schema:Event"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:dimension" rdf:ID="ei2a:recurso/dimensionproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="sosa:Featureofinterest"> 
+			<Entity rdf:type="qb:DimensionProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/dimensionproperty/{nombreDS}-dimension/{ORDEN}" rdfs:label="Dimensión (Dispositivo)" rdfs:about="http://opendata.aragon.es/recurso/{CODIGO_ID}" rdfs:range="sosa:Featureofinterest"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:measure" rdf:ID="ei2a:recurso/measureproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="xsd:string">
+			<Entity rdf:type="qb:MeasureProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/measureproperty/{nombreDS}-medida/{ORDEN}" rdfs:label="Medida (literal)" rdfs:range="xsd:string"></Entity>
+		</Property>
+		<Property type="link" attribute="qb:measure" rdf:ID="ei2a:recurso/measureproperty/{IDENTIFICADOR}/{ORDEN}" rdfs:range="xsd:decimal">
+			<Entity rdf:type="qb:MeasureProperty" rdfs:subClassOf="qb:ComponentProperty" rdf:ID="http://opendata.aragon.es/recurso/measureproperty/{nombreDS}-medida/{ORDEN}" rdfs:label="Medida (número)" rdfs:range="xsd:decimal"></Entity>
+		</Property>
+	</Entity>
+</Assistant_mapping>

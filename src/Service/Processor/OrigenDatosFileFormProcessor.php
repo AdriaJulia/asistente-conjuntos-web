@@ -8,6 +8,7 @@ use App\Form\Type\OrigenDatosFileFormType;
 use App\Form\Model\OrigenDatosDto;
 use App\Entity\OrigenDatos;
 use App\Service\Manager\OrigenDatosManager;
+use App\Service\Manager\DescripcionDatosManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use App\Service\CurrentUser;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,17 +24,20 @@ class OrigenDatosFileFormProcessor
 {
     private $currentUser;
     private $origenDatosManager;
+    private $descripcionDatosManager;
     private $formFactory;
     private $params;
 
     public function __construct(
         CurrentUser $currentUser,
         OrigenDatosManager $origenDatosManager,
+        DescripcionDatosManager $descripcionDatosManager,
         ContainerBagInterface $params,
         FormFactoryInterface $formFactory
     ) {
         $this->currentUser = $currentUser;
         $this->origenDatosManager = $origenDatosManager;
+        $this->descripcionDatosManager = $descripcionDatosManager;
         $this->formFactory = $formFactory;
         $this->params = $params;
     }
@@ -42,11 +46,15 @@ class OrigenDatosFileFormProcessor
                              OrigenDatos $origenDatos,
                              Request $request): array
     { 
+        if (empty($request->getSession()->getId())) {
+            session_start(); 
+        }
         $id = "";
         $errorProceso= "";
         $campos = "";
         $prueba = false;
         $archivoActual = "";
+        $originalName = "";
          //si el origen de datos actual no es nuevo
         if (!empty($origenDatos->getId())){
             $origenDatosDto = OrigenDatosDto::createFromOrigenDatos($origenDatos);
@@ -54,8 +62,7 @@ class OrigenDatosFileFormProcessor
             if ($origenDatosDto->tipoOrigen == TipoOrigenDatosEnum::ARCHIVO ) {
                 //cargo la url a data
                 $origenDatosDto->archivo = $origenDatosDto->data;
-                $host_restapi = $this->params->get('host_restapi');
-                $archivoActual = "{$host_restapi}/storage/default/{$origenDatos->getData()}"; 
+                $archivoActual =$origenDatos->getData(); 
             } else {
                   //borro la url a data
                 $origenDatosDto->data = "";
@@ -74,20 +81,22 @@ class OrigenDatosFileFormProcessor
             $origenDatosDto = $form->getData();  
             $prueba = ($origenDatosDto->modoFormulario==ModoFormularioOrigenEnum::Test);
             $request->getSession()->get("fileRequest","");
-            $host_restapi = $this->params->get('host_restapi');
+           // $host_restapi = $this->params->get('host_restapi');
             $fileProbado =  $request->getSession()->get("fileProbado","");
             
             $extesionNombre = "";
             if ($form->isValid()) {    
                 $origenDatos->setIdDescripcion($idDescripcion);
                 $origenDatos->setTipoOrigen($origenDatosDto->tipoOrigen);
+                $origenDatos->setNombre($origenDatosDto->nombre);
+                $origenDatos->setDescripcion($origenDatosDto->descripcion);
                 //si el archivo ya se ha subido y no es una comprobación
                 if (!empty($fileProbado) && !$prueba) {
                     $originalName =  $fileProbado;
                     $ext = explode(".", $originalName);
                     $pos = count($ext) -1;
                     $extesionNombre = $ext[$pos];
-                    $fileaB64 = "{$host_restapi}/storage/default/{$fileProbado}";
+                    $fileaB64 = $fileProbado;
                 } else {
                      //si no tengo que subir el archivo y para eso tengo que pasarlo a Base64
                      //el que guarda el archivo apirest
@@ -150,24 +159,39 @@ class OrigenDatosFileFormProcessor
                     $origenDatos->setSesion($request->getSession()->getId());
                     $origenDatos->updatedTimestamps();
                     $origenDatos->setCampos("");
+                    foreach($request->files as $file) {
+                        if ($file!=null) {
+                            $origenDatos->setNombreOriginalFile($file->getClientOriginalName());
+                        }
+                    }
                         //ahora distingo si la llamada es de un origen nuevo o existente y prueba o guradar
                     if (empty($origenDatosDto->id)){
                         if ($prueba) {
                             [$origenDatos,$errorProceso] = $this->origenDatosManager->PruebaData($origenDatos,$request->getSession()); 
-                            $request->getSession()->set("fileProbado", $origenDatos->getData()); 
-                            $archivoActual = $origenDatos->getData();
+                            if ($origenDatos!==null) {
+                                $request->getSession()->set("fileProbado", $origenDatos->getData()); 
+                                $request->getSession()->set('NombreOriginalFile',$file->getClientOriginalName());
+                                $archivoActual = $origenDatos->getData();
+                            }
                         } else {
+                            $origenDatos->setNombreOriginalFile($request->getSession()->get('NombreOriginalFile'));
                             [$origenDatos,$errorProceso] = $this->origenDatosManager->createData($origenDatos,$request->getSession());  
                             $request->getSession()->remove("fileProbado"); 
+                            $request->getSession()->remove("NombreOriginalFile"); 
                         }
                     } else {
                         if ($prueba) {
                             [$origenDatos,$errorProceso] = $this->origenDatosManager->PruebaData($origenDatos,$request->getSession());
-                            $request->getSession()->set("fileProbado", $origenDatos->getData()); 
-                            $archivoActual = $origenDatos->getData();  
+                            if ($origenDatos!==null) {
+                                $request->getSession()->set("fileProbado", $origenDatos->getData()); 
+                                $request->getSession()->set('NombreOriginalFile',$file->getClientOriginalName());
+                                $archivoActual = $origenDatos->getData();  
+                            }
                         } else {
+                            $origenDatos->setNombreOriginalFile($request->getSession()->get('NombreOriginalFile'));
                             [$origenDatos,$errorProceso] = $this->origenDatosManager->saveData($origenDatos,$request->getSession());  
-                            $request->getSession()->remove("fileProbado"); 
+                            $request->getSession()->remove("fileProbado");
+                            $request->getSession()->remove("NombreOriginalFile");  
                         }    
                     }
  
@@ -178,7 +202,15 @@ class OrigenDatosFileFormProcessor
                 }
                 
             }
+        } 
+        $descripcion  =  $this->descripcionDatosManager->find($idDescripcion,$request->getSession());
+        $ruta = $this->params->get("path_storage") . "/" . $descripcion->getIdentificacion();
+        $existe =false;
+        if (file_exists($ruta)) {
+            $myfiles["resultado"] = array_diff(scandir($ruta), array('.', '..')); 
+            $archivoBuscar =  basename($originalName);
+            $existe = in_array($archivoBuscar,$myfiles['resultado']); 
         }  
-        return [$form, $campos, $id, $prueba, $archivoActual ,$errorProceso];
+        return [$form, $campos, $id, $prueba, $archivoActual , $existe, $errorProceso];
     }
 }

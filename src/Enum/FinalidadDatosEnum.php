@@ -2,7 +2,7 @@
 namespace App\Enum;
 
 /**
- * Descripcion: Enumerado del las opciones del combo finalidad de los datos
+ * Descripcion: Enumerado del las opciones del combo tematica de los datos
  */
 
 class FinalidadDatosEnum {
