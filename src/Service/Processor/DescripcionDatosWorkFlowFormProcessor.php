@@ -18,9 +18,9 @@ use Psr\Log\LoggerInterface;
 
 /*
  * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
- *              Controla la validacion del formulario y serializa el Dto a la clase entidad
- *              Envía los datos a su persistencia a traves de repositorio  
- *              La clase se crea para el formulario cambio de estado (botones de la ficha)
+ *              Controla la validación del formulario y serializa el Dto a la clase entidad
+ *              Envía los datos a su persistencia a través de repositorio  
+ *              La clase se crea para el formulario cambio de estado (botones de la ficha) popup
 */
 class DescripcionDatosWorkFlowFormProcessor
 {
@@ -59,7 +59,7 @@ class DescripcionDatosWorkFlowFormProcessor
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //recojo los datos del formulario
-                    //si no aparece el check hay que tratarlo ahora
+            //si no aparece el check hay que tratarlo ahora
             $descripcionDatosDto->porcesaAdo = ($descripcionDatosDto->porcesaAdo==null) ? "0" : $descripcionDatosDto->porcesaAdo;
             $descripcionDatos->setSesion($request->getSession()->getId());
             $descripcionDatos->setDescripcion($descripcionDatosDto->descripcion); 
@@ -88,22 +88,21 @@ class DescripcionDatosWorkFlowFormProcessor
                                                                                     $object_location, 
                                                                                     true, 
                                                                                     $nameresource); 
-                if (empty($error)) {
+                if (!empty($error)) {
+                    $errorProceso .= " " . $error;
+                    $this->logger->error($errorProceso);
+                } else {
                     $resourceid = $IdGaodecore['resourceid'];
+                    $descripcionDatos->setGaodcoreResourceId($resourceid);
                 }
             }
-            $descripcionDatos->setGaodcoreResourceId($resourceid);
-   
-            if (!empty($error)){
-                $errorProceso = $error;
-                $this->logger->error($errorProceso);
-            }
-
-            [$descripcionDatos,$error] = $this->descripcionDatosManager->saveWorkflow($descripcionDatos,$request->getSession());  
-            if (!empty($error)){
-                $errorProceso .= " " . $error;
-                $this->logger->error($errorProceso);
-            } 
+            if (empty($errorProceso)) {
+                [$descripcionDatos,$error] = $this->descripcionDatosManager->saveWorkflow($descripcionDatos,$request->getSession());  
+                if (!empty($error)){
+                    $errorProceso .= " " . $error;
+                    $this->logger->error($errorProceso);
+                } 
+            }   
         }
         return [$form,$errorProceso];
     }

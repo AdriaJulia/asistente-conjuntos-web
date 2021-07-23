@@ -6,8 +6,8 @@ use App\Form\Model\SoporteDto;
 use App\Service\RestApiLocal\RestApiSoporte;
 
 /*
- * Descripción: Es el repositorio del envío mail soporte d
- *              las operaciones de envío las realiza a traves de llamadas apirest
+ * Descripción: Es el repositorio del envío mail soporte
+ *              las operaciones de envío las realiza a través de llamadas apirest
  *              creadas por su correspondiete utilidad de llamadas http 
 */
 class SoporteManager

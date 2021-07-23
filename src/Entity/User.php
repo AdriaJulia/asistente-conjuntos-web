@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *              Esta anotada con Doctrine, pero no persite en ninguna BD
  *              WebSite envía todas las operaciones de persistencia via apitest 
  *              que es donde realmente se guardan los datos.
- *              la notacion ORM a que el modelo de seguridad lo pide.
+ *              la notación ORM a que el modelo de seguridad lo pide.
  *              
  */
 
@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 */
 class User  implements UserInterface
 {
-        /**
+    /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")

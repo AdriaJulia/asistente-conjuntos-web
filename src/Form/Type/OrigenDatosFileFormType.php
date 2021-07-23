@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 
 /*
- * Descripción: Es clase la que define el formulario paso2 en su formato fichero      
+ * Descripción: Es clase la que define el formulario paso 3 en su formato fichero      
  */
 class OrigenDatosFileFormType extends AbstractType
 {

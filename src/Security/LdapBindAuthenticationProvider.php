@@ -16,9 +16,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 /*
  * Descripción: Refactorización del proveedor de autenticación Ldap
- *              Es necesario por las especificación de los ditintos ramales Ldap del gobierno de aragon y la forma acceder a ellos.
+ *              Es necesario por las especificación de los distintos ramales Ldap del gobierno de Aragón y la forma acceder a ellos.
  *              Desde aquí se genera la clave JWT para registrarse en Apirest y solicitar Tokens autorizados.
- *              También se raliza la gestion de roles dinamicamente cada vez que el usuario hace login, respecto a la configuración
+ *              También se raliza la gestión de roles dinamicamente cada vez que el usuario hace login, respecto a la configuración
  *              actual de administradores. 
  *                   
  */
@@ -37,17 +37,20 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
     private $params;
 
     
-    public function __construct(LdapInterface $ldap, 
-                                string $baseDn, 
+    public function __construct(LdapInterface $ldap = null, 
+                                string $baseDn = null, 
                                 string $searchDn = null, 
                                 string $searchPassword = null, 
-                                array  $defaultRoles = [], 
+                                array  $defaultRoles = null, 
                                 string $uidKey = null, 
                                 string $filter = null, 
                                 string $passwordAttribute = null, 
                                 array  $extraFields = ["mail"],
                                 ContainerBagInterface $params)
     {
+        if ($defaultRoles == null) {
+            $defaultRoles = [];
+        }
         $this->params = $params;
         if (null === $uidKey) {
             $uidKey = 'uid';
@@ -157,10 +160,10 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
     }
 
     /***
-     * Descripcion: Es la funcion que intercepta la autenticación y lanza el proceso 
+     * Descripción: Es la función que intercepta la autenticación y lanza el proceso 
      *              de loging personalizado contra el LDAP
      *              
-     * Parametros:
+     * Parámetros:
      *             username: nombre de usuario del formulario
      *             password: contraseña de usuario del formulario
      */
@@ -174,7 +177,7 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
             //recojo el nombre usuario Ldap
             $aragonUsername = $login[0];
             $username = $login[0];
-            //asigno el nombre de la rama segun el dominio del usuario
+            //asigno el nombre de la rama según el dominio del usuario
             $aragonRama = ($login[1]=="ext.aragon.es") ? "dga" : $login[1];
         }
         //preparo la consulta LDAP
@@ -221,12 +224,12 @@ class LdapBindAuthenticationProvider extends LdapUserProvider
     }
 
  
-     /***
-     * Descripcion: Obtiene un alfanumérico dado una entrada (el correo del usuario) 
+    /***
+     * Descripción: Obtiene un alfanumérico dado una entrada (el correo del usuario) 
      *              El objetivo es obtener una contraseña aleatoria (pero simpre la misma dado un correo)
-     *              para utilizar en JWT y que el proceso de registro en Apirest sea transparete al usuario
+     *              para utilizar en JWT y que el proceso de registro en Apirest sea transparente al usuario
      *              
-     * Parametros:
+     * Parámetros:
      *             string: correo del usuario
      */
     function encrypt($string) {

@@ -10,7 +10,7 @@ use Psr\Log\LoggerInterface;
 
  /*
  * Descripción: Clase que realiza las llamadas a otras Apirest de 3º como la del gobierno de Aragón  para 
- *              la optencion de datos necesarios 
+ *              la obtención de datos necesarios 
 */
 class RestApiClient
 {
@@ -26,9 +26,9 @@ class RestApiClient
     }
     
     /*
-     * Descripción: Devuelve las organismos públicos del paso 1.2
+     * Descripción: Devuelve las organismos públicos del paso 2
      * 
-     * Parametros: ontologia principal
+     * Parámetros: ontologia principal
     */     
     public function GetOrganismosPublicos():array {
         $organismosview = array();
@@ -47,26 +47,20 @@ class RestApiClient
     }
 
     /*
-     * Descripción: Funcion generica para llamadas get apirest de 3º
+     * Descripción: Función genérica para llamadas get apirest de 3
      * 
-     * Parametros: ruta: ruta get de los datos que se desea obtener
+     * Parámetros: 
+     *              ruta: ruta get de los datos que se desea obtener
+     *              autorizacion: autorización de la llamada
     */  
 
-    public function GetInformation($ruta, $autorization=""): array {
+    public function GetInformation($ruta): array {
         $content = array();
 
         $headers =  [
             'content-type' => 'application/json',
             'accept' => 'application/json'
         ];
-        if (!empty($autorization)) {
-            $autorization= "Basic " . $autorization;
-            $headers =  [
-                'content-type' => 'application/json',
-                'accept' => 'application/json',
-                'authorization' => $autorization
-            ];
-        }
         try{
             $response = $this->client->request('GET', $ruta, [
                 'timeout' => 2.5,
@@ -95,34 +89,30 @@ class RestApiClient
 
 
     /*
-     * Descripción: Funcion generica para llamadas get apirest de 3º
+     * Descripción: Función genérica para llamadas get apirest de 3º
      * 
-     * Parametros: ruta: ruta get de los datos que se desea obtener
+     * Parámetros: 
+     *               ruta: ruta get de los datos que se desea obtener
+     *               parameters: parametros de la llamada
+     *               autorizacion: autorización de la llamada
     */  
 
-    public function PostInformation($ruta,$parameters,$autorization=""): array {
+    public function PostInformation($ruta,$parameters): array {
         $content = array();
 
         $headers =  [
             'content-type' => 'application/json',
             'accept' => 'application/json'
         ];
-        if (!empty($autorization)) {
-            $autorization= "Basic " . $autorization;
-            $headers =  [
-                'content-type' => ' application/x-www-form-urlencoded',
-                'accept' => 'application/json',
-                'authorization' => $autorization
-            ];
-        }
 
         try{
+
             $response = $this->client->request('POST', $ruta, [
                 'timeout' => 2.5,
                 'headers' => $headers,
                 'body' => $parameters
-            ]);
-            
+            ]);  
+        
             $statusCode = $response->getStatusCode();
             // $statusCode = 200
             if(($statusCode>=200) && ($statusCode<300)) {
@@ -141,6 +131,33 @@ class RestApiClient
                 $error = "Website PostInformation statusCode: {$statusCode}: - Ruta: {$ruta} - Parametros : {$paramErro}";
                 $this->logger->error($error);
             }
+        } catch(TransportException $ex){
+            $this->logger->error($ex->getMessage());
+        }
+        return $content;
+    }
+
+
+    /*
+     * Descripción: Función genérica para llamadas get apirest de 3º
+     * 
+     * Parámetros: 
+     *               ruta: ruta get de los datos que se desea obtener
+     *               parameters: parametros de la llamada
+    */  
+
+    public function PostCurlInformation($ruta,$parameters): array {
+        $content = array();
+
+        try{
+            $curl = curl_init($ruta);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($parameters));
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $content = (array) json_decode($response);
+
         } catch(TransportException $ex){
             $this->logger->error($ex->getMessage());
         }

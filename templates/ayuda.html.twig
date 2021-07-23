@@ -624,7 +624,7 @@
                                 </ul>
                                 <br>
                             <h3 class="titulo-principal">a) Alineamiento mediante selección de atributos</h3>                            
-                            <p>Este paso permite conectar e integrar el nuevo conjunto de datos con el resto de datasets de Aragón Open Data. El proceso es opcional y si el usuario no desea realizarlo, dispone de la opción "Omitir y publicar" para finalizar el asistente y enviar la solicitud de publicación a los administradores sin esta información. La integración con el modelo ontológico del EI2A se puede realizar de dos formas:</p>
+                            <p>Este paso permite conectar e integrar el nuevo conjunto de datos con el resto de datasets de Aragón Open Data. El proceso es opcional y si el usuario no desea realizarlo, dispone de la opción "Omitir paso" para finalizar el asistente. La integración con el modelo ontológico del EI2A se puede realizar de dos formas:</p>
                             <ul>
                                 <li>Alineamiento mediante selección de atributos</li>
                                 <li>Alineamiento mediante XML de mapeo</li>
@@ -636,7 +636,7 @@
                                 <li>A continuación, el usuario debe indicar a qué atributo corresponde cada uno de los campos del origen incorporado en el asistente, dentro del paso 3.</li>
                                 <li>Además de los atributos de la entidad principal, existe la posibilidad de incorporar otras entidades relacionadas con esa entidad principal, siempre que lo permita el modelo, mediante la opción de elegir la entidad y atributo disponibles en cada caso.</li>
                                 <li>Para completar un emparejamiento, seleccionar un valor de la lista desplegable y pulsar en el botón "Asignar atributo". Según se vayan emparejando campos y atributos, se irán visualizando en la parte superior de "Campos asignados". Si se desea eliminar un emparejamiento, se puede pulsar en el botón "Eliminar" correspondiente y el campo volverá a la sección de pendientes de emparejar.</li>
-                                <li>Para finalizar, pulsar en el botón "Guardar y publicar" y el conjunto de datos entrará en estado "En espera de validación" por parte de los administradores de Aragón Open Data.</li>
+                                <li>Para finalizar, pulsar en el botón "Guardar y siguiente..." y el conjunto de datos entrará en estado "En espera de validación" por parte de los administradores de Aragón Open Data.</li>
                             </ul>                                                        
                         </div>
                         <div id="ayuda_paso4_integracion_xml" class="grupo grupo-subtitulo" style="display:none">
@@ -650,7 +650,7 @@
                                 </ul>
                                 <br>
                             <h3 class="titulo-principal">b) Alineamiento mediante XML de mapeo</h3>                            
-                            <p>Este paso permite conectar e integrar el nuevo conjunto de datos con el resto de datasets de Aragón Open Data. El proceso es opcional y si el usuario no desea realizarlo, dispone de la opción "Omitir y publicar" para finalizar el asistente y enviar la solicitud de publicación a los administradores sin esta información. La integración con el modelo ontológico del EI2A se puede realizar de dos formas:</p>
+                            <p>Este paso permite conectar e integrar el nuevo conjunto de datos con el resto de datasets de Aragón Open Data. El proceso es opcional y si el usuario no desea realizarlo, dispone de la opción "Omitir paso" para finalizar el asistente. La integración con el modelo ontológico del EI2A se puede realizar de dos formas:</p>
                             <ul>
                                 <li>Alineamiento mediante selección de atributos</li>
                                 <li>Alineamiento mediante XML de mapeo</li>
@@ -718,14 +718,10 @@
                         <p></p>                    
                         <p>Las acciones disponibles para cada usuario dependiendo de su rol y/o el estado de la distribución, se muestran en forma de botón en esta zona. Al pulsar cualquiera de estos botones aparece una ventana emergente, con un cuadro de texto para que los usuarios y administradores puedan enviarse indicaciones acerca del cambio de estado, tanto en su solicitud (para los usuarios), como en su respuesta (para los administradores). Son las siguientes:</p>                        
                         <ul>
-                            <li><b>Editar</b>: Para modificar la distribución del conjunto de datos</li>
-                            <li><b>Solicitar publicación</b>: Para solicitar la validación y publicación del conjunto de datos</li>
-                            <li><b>Validar</b>: Para confirmar y publicar en las opciones elegidas, los datos validados</li>
+                            <li><b>Editar</b>: Para modificar la distribución del conjunto de datos.</li>                            
+                            <li><b>Validar</b>: Para confirmar y publicar en las opciones elegidas, los datos validados.</li>
                             <li><b>Desechar</b>: Para indicar que los datos solicitados no son útiles o ya forman parte de Aragón Open Data.</li>
-                            <li><b>Solicitar corrección</b>: Para pasar a realizar una modificación, corrección o actualización de los datos.</li>
-                            <li><b>Aceptar</b>: Para aceptar la solicitud de modificación o actualización de los datos ya validados anteriormente.</li>
-                            <li><b>Rechazar</b>:Para aceptar la solicitud de modificación o actualización de los datos ya validados anteriormente.</li>
-                            <li><b>Solicitar modificación</b>: Para solicitar la modificación o actualización de los datos ya validados anteriormente.</li>
+                            <li><b>Solicitar corrección</b>: Para solicitar al usuario que realice una corrección o actualización de los datos, antes de validar.</li>
                         </ul>
                         <p></p>
                         <p>Las situaciones en las que aparecen cada uno de los botones y los estados destino en cada caso, son los siguientes:</p>
@@ -743,31 +739,25 @@
                                     <td>Usuario</td>
                                     <td>Borrador</td>
                                     <td>Editar</td>
-                                    <td>Acceder a la edición de los datos</td>
+                                    <td>Acceder a la edición de los datos. Permanece en estado "Borrador" hasta que se realiza su publicación, donde pasa al estado "En espera de validación"</td>
                                 </tr>
                                 <tr>
                                     <td>Usuario</td>
                                     <td>En corrección</td>
                                     <td>Editar</td>
-                                    <td>Acceder a la edición de los datos</td>
-                                </tr>
-                                <tr>
-                                    <td>Usuario</td>
-                                    <td>En corrección</td>
-                                    <td>Solicitar publicación</td>
-                                    <td>Solicitar la validación de los datos a los administradores, una vez han sido corregidos</td>
+                                    <td>Acceder a la edición de los datos. Permanece en estado "En corrección" hasta que es guardado de nuevo, donde pasa al estado "En espera de validación"</td>
                                 </tr>
                                 <tr>
                                     <td>Usuario</td>
                                     <td>Validado</td>
-                                    <td>Solicitar modificación</td>
-                                    <td>Solicitud de modificación</td>
+                                    <td>Editar</td>
+                                    <td>Acceder a la edición de los datos. Permanece en estado "En corrección" hasta que es guardado de nuevo, donde pasa al estado "En espera de validación"</td>
                                 </tr>
                                 <tr>
                                     <td>Administrador</td>
                                     <td>En corrección</td>
                                     <td>Editar</td>
-                                    <td>Acceder a la edición de los datos</td>
+                                    <td>Acceder a la edición de los datos. Permanece en estado "En corrección" hasta que es guardado de nuevo, donde pasa al estado "En espera de validación"</td>
                                 </tr>
                                 <tr>
                                     <td>Administrador</td>
@@ -789,21 +779,15 @@
                                 </tr>
                                 <tr>
                                     <td>Administrador</td>
-                                    <td>Solicitud de modificación</td>
-                                    <td>Aceptar</td>
-                                    <td>En correción</td>
-                                </tr>
-                                <tr>
-                                    <td>Administrador</td>
-                                    <td>Solicitud de modificación</td>
-                                    <td>Rechazar</td>
-                                    <td>Desechado</td>
+                                    <td>En espera de validación</td>
+                                    <td>Editar</td>
+                                    <td>Acceder a la edición de los datos. Permanece en estado "En corrección" hasta que es guardado de nuevo, donde pasa al estado "En espera de validación"</td>
                                 </tr>
                                 <tr>
                                     <td>Administrador</td>
                                     <td>Validado</td>
-                                    <td>Solicitar corrección</td>
-                                    <td>En corrección</td>
+                                    <td>Editar</td>
+                                    <td>Acceder a la edición de los datos. Permanece en estado "En corrección" hasta que es guardado de nuevo, donde pasa al estado "En espera de validación"</td>
                                 </tr>
                             </tbody>
                         </table>

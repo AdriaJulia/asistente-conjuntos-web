@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /*
- * Descripción: Es clase la que define el formulario de loginn
+ * Descripción: Es clase la que define el formulario de login
  */
 
 class UserFormType extends AbstractType

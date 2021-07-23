@@ -13,7 +13,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 
 /*
- * Descripción: Es la clase la que define el formulario de la alineación de los datos          
+ * Descripción: Es la clase la que define el formulario de la alineación de los datos   
+ *              cuando se selecciona alinear con un XML       
  */
 
 class AlineacionDatosXmlFormType extends AbstractType
@@ -56,15 +57,8 @@ class AlineacionDatosXmlFormType extends AbstractType
                 "class" => "form-group",
                 "id" => "selectorarchivo",
             ),  
-            // unmapped means that this field is not associated to any entity property
             'mapped' => false,
-
-            // make it optional so you don't have to re-upload the PDF file
-            // every time you edit the Product details
             'required' => false,
-
-            // unmapped fields can't define their validation using annotations
-            // in the associated entity, so you can use the PHP constraint classes
             'constraints' => [
                 new File([
                     'maxSize' => '10240k',

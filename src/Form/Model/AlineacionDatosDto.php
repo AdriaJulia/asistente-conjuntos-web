@@ -5,7 +5,7 @@ namespace App\Form\Model;
 use App\Entity\OrigenDatos;
 
 /*
- * Descripción: Es la clase dto de la entidad de la alineacion del conjunto de datos. 
+ * Descripción: Es la clase dto de la entidad de la alineación del conjunto de datos. 
  *              Es el objeto que recoge los datos de los formularios              
  */
 class AlineacionDatosDto {

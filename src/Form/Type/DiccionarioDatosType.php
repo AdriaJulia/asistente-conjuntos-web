@@ -1,5 +1,4 @@
 <?php
-// src/Form/Type/PostalAddressType.php
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -11,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 
 /*
- * Descripción: Es clase la que define el control personalizado "teritorio" en el paso 1.1  
+ * Descripción: Es clase la que define el control personalizado vocabularios  en el paso 2  
  */
 class DiccionarioDatosType extends AbstractType
 {
@@ -53,8 +52,7 @@ class DiccionarioDatosType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-            // this defines the available options and their default values when
-        // they are not configured explicitly when using the form type
+
         $resolver->setDefaults([
             'allowed_states' => null,
             'csrf_protection' => false,

@@ -2,7 +2,7 @@
 namespace App\Enum;
 
 /**
- * Descripcion: Enumerado de las rutas para llamar ala APirest según funcionalidad
+ * Descripción: Enumerado de las rutas para llamar ala APirest según funcionalidad
  */
 
 class RutasApirestEnum {

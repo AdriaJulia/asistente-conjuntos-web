@@ -2,7 +2,7 @@
 namespace App\Enum;
 
 /**
- * Descripcion: Enumerado de las extensiones soportadas 
+ * Descripción: Enumerado de las extensiones soportadas 
  */
 
 class TipoExtensionEnum {

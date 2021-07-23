@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use App\Enum\RutasAyudaEnum;
 use App\Enum\TipoOrigenDatosEnum;
-use App\Enum\EstadoAltaDatosEnum;
 use App\Enum\TipoAlineacionEnum;
 use App\Service\Controller\ToolController;
 use App\Service\Manager\DescripcionDatosManager;
@@ -13,7 +12,6 @@ use App\Service\Processor\DistribucionFormProcessor;
 use App\Service\Processor\DescripcionDatosPaso1FormProcessor;
 use App\Service\Processor\DescripcionDatosPaso2FormProcessor;
 use App\Service\Processor\DescripcionDatosWorkFlowFormProcessor;
-use App\Service\CurrentUser;
 use App\Service\Manager\OrigenDatosManager;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,13 +37,13 @@ class DescripcionDatosController extends AbstractController
      private $urlMenu = "";
 
     /***
-     * Descripcion: Accion de la llamada al listado de los datos
-     * Parametros:
+     * Descripción Acción de la llamada al listado de los datos
+     * Parámetros:
      *             pagina:                    para el paginado de los datos
      *             tamano:                    tamaño de la pagina para el paginado de los datos
-     *             descripcionDatosManager :  repositorio de la descripcion de datos
-     *             logger:                          objeto apara escribir los logs
-     *             toolController:                  herramienta de funcionalidades comunes
+     *             descripcionDatosManager :  repositorio de la descripción de datos
+     *             logger:                    objeto para escribir los logs
+     *             toolController:            herramienta de funcionalidades comunes
      *             request:                   El objeto request de la llamada
      */
      /**
@@ -53,10 +51,10 @@ class DescripcionDatosController extends AbstractController
      */
     public function IndexAction(int $pagina=1,
                                 int $tamano=0,
-                                DescripcionDatosManager $descripcionDatosManager,
-                                LoggerInterface $logger,
-                                ToolController $toolController,
-                                Request $request) {
+                                DescripcionDatosManager $descripcionDatosManager = null,
+                                LoggerInterface $logger = null,
+                                ToolController $toolController = null,
+                                Request $request = null) {
         //el class de body en este controlador no es siempre el mismo       
         $this->ClassBody = "listado comunidad usuarioConectado";
         //tomo las urls del menu superior 
@@ -67,7 +65,7 @@ class DescripcionDatosController extends AbstractController
         $esAdminitrador = false;
         if ($descripcionDatos!= array()){
             if (count($descripcionDatos['data'])>0) {
-                //por cada uno de loe elementos del listado 
+                //por cada uno de s elementos del listado 
                 foreach($descripcionDatos['data'] as $data) {
                     //recojo el estado, el enlace a la ficha, etc..
                     [$estadoKey, $estadoDescripcion] = $toolController->DameEstadoDatos($data['estado']);
@@ -78,7 +76,7 @@ class DescripcionDatosController extends AbstractController
                     $principal = ($data['distribucion']>0) ? "No" : "Si";
                     [$usuario , $esAdminitrador ]  = $toolController->DameUsuarioActual($this->getUser()); 
                      $usuario = $data['usuario'];
-                    //relleno el array odt que se va a mostrar
+                    //relleno el array dto que se va a mostrar
                     $datosGrid[] = array("estadoKey"=>$estadoKey,  
                                          "estadoDescripcion"=> $estadoDescripcion,
                                          "link" =>  $actual_link, 
@@ -105,12 +103,13 @@ class DescripcionDatosController extends AbstractController
     }
 
     /***
-     * Descripcion: Accion que muestra la ficha del conjunto de datos
-     * Parametros:
+     * Descripción Acción que muestra la ficha del conjunto de datos
+     * Parámetros:
      *             id:                        id de la descripcion de los datos que se la va a insertar el origen
      *             descripcionDatosManager:   repositorio de la descripcion de datos
      *             origenDatosManager :       repositorio del origen de datos
-     *             toolController:            clase de herramientas para procesos comunes de los controladores
+     *             logger:                    objeto para escribir los logs
+     *             toolController:            clase helper para procesos comunes de los controladores
      *             request:                   El objeto request de la llamada
      */
      /**
@@ -152,7 +151,8 @@ class DescripcionDatosController extends AbstractController
         $descripcionOrigen = "";
         $nombreOrigen = "";
         $xmlAlineacion = "";
-        //el class de body en este controlador no es siempre el mismo    
+
+        //el class de body en este controlador no es siempre el mismo      
         $this->ClassBody = "fichaRecurso comunidad usuarioConectado";  
         //tomo las urls del menu superior 
         [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::FICHA_DESCRIPCION,$this->getUser());
@@ -164,7 +164,7 @@ class DescripcionDatosController extends AbstractController
 
             if ($permisoEdicion!== "none") {
                 $tabla = null;
-                //recojo los valores de los campos del cojunto de datos formateados para la ficha 
+                //recojo los valores de los campos del conjunto de datos formateados para la ficha 
                 $datos  = $data->getToView($toolController);
                 $licencias = explode("@@",$data->getLicencias());
                 // hago el enlace para las licencias
@@ -175,17 +175,18 @@ class DescripcionDatosController extends AbstractController
                     $datos['licencias_url'] = "";
                     $datos['licencias_texto'] = "";
                 }
-                //recojo el enlace de boton "editar", que depende del últiomo estado donde se quedó el usuario en el asistente
+                //recojo el enlace de botón "editar", que depende del último estado donde se quedó el usuario en el asistente
                 [$origenDatos, $editLink] = $toolController->DameEnlaceEdicion($data);
                 //recojo la url contra la que se va alanzar cualquiera de las acciones con los botones de la ficha (validar, solicitar, etc...)
                 $urlworkflow = $this->generateUrl('asistentecamposdatos_workflow',["id"=>$data->getId()]);
                 //inicializo para la plantilla twig 
                 $tabla = array("campos" =>array(), "filas"=>0);
                 $tableAlineacion = array();
-                //recojo la informacion del paso 3 (la ontologia - entidad principal) y la lista de campos alineados
+                //recojo la información del paso 3 (la ontológía - entidad principal) y la lista de campos alineados
                 if ($origenDatos->getId()!=null) {
                     [$campos , $ontologia , $tableAlineacion] = $toolController->getOntologiasFicha($data->getOrigenDatos());
-                    [$filas, $camposActuales, $errorProceso] = $origendatosManager->DatosFicha($data->getOrigenDatos()->getId(),$request->getSession());   
+                    [$filas, $camposActuales, $errorProceso] = $origendatosManager->DatosFicha($data->getOrigenDatos()->getId(),$request->getSession()); 
+  
                     if ($origenDatos->getTipoAlineacion() == TipoAlineacionEnum::XML) {
                         $xmlAlineacion = $data->getOrigenDatos()->getAlineacionXml();
                         if ((!empty($xmlAlineacion)) && file_exists($xmlAlineacion)){
@@ -199,6 +200,10 @@ class DescripcionDatosController extends AbstractController
                     $camposDistintos = ($campos != $camposActual); 
                     $extension = $data->getOrigenDatos()->getExtension();
                     $tabla = array("campos" => $campos, "filas"=>$filas);
+
+                    if (!empty($errorProceso))  {
+                        $tabla = array("campos" =>array("Error"), "filas"=>array(array(0=>$errorProceso)));
+                    }
                     $descripcionOrigen = (!empty($data->getOrigenDatos()->getDescripcion())) ? $data->getOrigenDatos()->getDescripcion() : "";
                     $nombreOrigen = (!empty($data->getOrigenDatos()->getNombre()))  ? $data->getOrigenDatos()->getNombre() : "";
                     if ($data->getOrigenDatos()->getTipoOrigen()==TipoOrigenDatosEnum::BASEDATOS) {
@@ -213,12 +218,10 @@ class DescripcionDatosController extends AbstractController
                                             "ContrasenaDB" => $data->getOrigenDatos()->getContrasenaDB());
                     }
                 }
-        }
-        // solo se puede acceder si el usuario es el mismo que lo creó
-        
+        }      
         //recojo si el usuario es administrador para mostrar botones de su perfil o de perfil usuario (no administrador)
         [$usuario, $esAdminitrador] = $toolController->DameUsuarioActual($this->getUser());
-        // recojo los fags  de los botones para mostrarlos o no
+        // recojo los flags  de los botones para mostrarlos o no
         [$verbotonesAdminValida, 
             $verbotonesAdminDesechar,
             $verbotonesAdminCorregir,
@@ -262,10 +265,10 @@ class DescripcionDatosController extends AbstractController
     }
 
     /***
-     * Descripcion: Action de la solicitud  de un cambio de estado, al pulsar un botón de la ficha del conjunto de datos 
+     * Descripción  Action de la solicitud  de un cambio de estado, al pulsar un botón de la ficha del conjunto de datos 
      *              Es el action del popup donde se solicita el mensaje para el cambio de estado.
-     *              Este proceso envía el correo electrónico en la parte de Apirest
-     * Parametros:
+     *              Este proceso envía el correo electrónico en la parte de Apirest, si procede 
+     * Parámetros:
      *             id:                                      id de la descripcion de los datos
      *             descripcionDatosWorkFlowFormProcessor:   objeto que realiza el proceso back de la solicitud
      *             descripcionDatosManager:                 repositorio de la descripcion de datos
@@ -286,15 +289,20 @@ class DescripcionDatosController extends AbstractController
         [$form,$error] = ($descripcionDatosWorkFlowFormProcessor)($descripcionDatos, $request);
         if (!empty($error)){
             $logger->error($error);
+            $content = array("error"=>$error);
+            $response = new Response($error,Response::HTTP_BAD_REQUEST,$content);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        } else {
+            return $this->redirectToRoute('asistentecamposdatos_id',["id"=>$id]); 
         }
-        return $this->redirectToRoute('asistentecamposdatos_id',["id"=>$id]); 
     }
 
     /***
-     * Descripcion: Action de la solicitud  de un cambio de estado, al pulsar un botón de la ficha del conjunto de datos 
+     * Descripción  Action de la solicitud  de un cambio de estado, al pulsar un botón de la ficha del conjunto de datos 
      *              Este controlador se invoca desde una llamada rest javasscript para no mostrar el popup
      *              Este proceso envía el correo electrónico en la parte de Apirest
-     * Parametros:
+     * Parámetros:
      *             id:                                      id de la descripcion de los datos
      *             descripcionDatosWorkFlowFormProcessor:   objeto que realiza el proceso back de la solicitud
      *             descripcionDatosManager:                 repositorio de la descripcion de datos
@@ -332,9 +340,9 @@ class DescripcionDatosController extends AbstractController
 
 
     /***
-     * Descripcion: Formulario que da la opción de seleccionar una nueva distribución o comenzar con una ya existente
+     * Descripción Formulario que da la opción de seleccionar una nueva distribución o comenzar con una ya existente
      * 
-     * Parametros:
+     * Parámetros:
      *             distribucionFormProcessor:       objeto que realiza el proceso back de la solicitud
      *             descripcionDatosManager:         repositorio de la descripcion de datos
      *             logger:                          objeto apara escribir los logs
@@ -381,9 +389,9 @@ class DescripcionDatosController extends AbstractController
     }
 
     /***
-     * Descripcion: Inserta una descripción de datos en el formulario 1.1
+     * Descripción Inserta una descripción de datos en el formulario 1.1
      * 
-     * Parametros:
+     * Parámetros:
      *             descripcionDatosFormProcessor:   objeto que realiza el proceso back de la solicitud
      *             descripcionDatosManager:         repositorio de la descripcion de datos
      *             logger:                          objeto apara escribir los logs
@@ -403,12 +411,11 @@ class DescripcionDatosController extends AbstractController
         //el class de body en este controlador no es siempre el mismo    
         $this->ClassBody = "asistente comunidad usuarioConectado";
         //tomo las urls del menu superior  
-               [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_CONTENIDO,$this->getUser());
+        [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_CONTENIDO,$this->getUser());
 
         $descripcionDatos = $descripcionDatosManager->new();
         [$form,$descripcion] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //  $this->addFlash('success', 'It sent!'); ; 
             return $this->redirectToRoute('update_asistentecamposdatos_paso2',["id"=>$descripcion->getId()]); 
         } else {
             return $this->render('descripcion/paso1.html.twig', [
@@ -426,9 +433,9 @@ class DescripcionDatosController extends AbstractController
     }
              
     /***
-     * Descripcion: Actualiza una descripción de datos en el formulario 1.1
+     * Descripción Actualiza una descripción de datos en el formulario 1.1
      * 
-     * Parametros:
+     * Parámetros:
      *             id:                              id de la descripcion de los datos
      *             descripcionDatosFormProcessor:   objeto que realiza el proceso back de la solicitud
      *             descripcionDatosManager:         repositorio de la descripcion de datos
@@ -461,9 +468,8 @@ class DescripcionDatosController extends AbstractController
                                                                           $this->getUser(),
                                                                           $descripcionDatos->getEstado(),
                                                                           $esPadre);
-        [$form] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
+        [$form] =($descripcionDatosFormProcessor)($descripcionDatos, $request); 
         if ($form->isSubmitted() && $form->isValid()) {
-            //   $this->addFlash('success', 'Descripción actualizada'); 
             return $this->redirectToRoute('update_asistentecamposdatos_paso2',["id"=>$id]); 
         } else {
             return $this->render('descripcion/paso1.html.twig', [
@@ -481,12 +487,12 @@ class DescripcionDatosController extends AbstractController
     }
 
     /***
-     * Descripcion: Actualiza una descripción de datos en el formulario 1.2
+     * Descripción Actualiza una descripción de datos en el formulario 1.2
      * 
-     * Parametros:
-     *             id:                              id de la descripcion de los datos
+     * Parámetros:
+     *             id:                              id de la descripción de los datos
      *             descripcionDatosFormProcessor:   objeto que realiza el proceso back de la solicitud
-     *             descripcionDatosManager:         repositorio de la descripcion de datos
+     *             descripcionDatosManager:         repositorio de la descripción de datos
      *             logger:                          objeto apara escribir los logs
      *             toolController:                  herramienta de funcionalidades comunes
      *             request:                         el objeto request de la llamada
@@ -504,7 +510,7 @@ class DescripcionDatosController extends AbstractController
         //el class de body en este controlador no es siempre el mismo    
         $this->ClassBody = "asistente comunidad usuarioConectado"; 
         //tomo las urls del menu superior 
-               [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_CONTEXTO,$this->getUser());
+        [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu]  =  $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_CONTEXTO,$this->getUser());
 
         $descripcionDatos = $descripcionDatosManager->find($id, $request->getSession());
 
@@ -514,11 +520,9 @@ class DescripcionDatosController extends AbstractController
                                                                           $this->getUser(),
                                                                           $descripcionDatos->getEstado(),
                                                                           $esPadre);
-        [$form] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
 
         [$form] = ($descripcionDatosFormProcessor)($descripcionDatos, $request);
         if ($form->isSubmitted() && $form->isValid()) {
-           // $this->addFlash('success', 'It sent!'); 
             $locationSiguiente = $toolController->DameSiguienteOrigendatos($descripcionDatos);             
             return $this->redirect($locationSiguiente);
         } else {

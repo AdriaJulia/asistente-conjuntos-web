@@ -8,7 +8,7 @@ use App\Service\RestApiRemote\RestApiClient;
 use App\Service\Processor\Tool\ProcessorTool; 
  /*
  * Descripción: Clase que realiza las llamadas a otras Apirest de 3º como la del gobierno de Aragón  para 
- *              la optencion de datos necesarios 
+ *              la obtención de datos necesarios 
 */
 class GaodCoreRestApiClient
 {
@@ -33,8 +33,9 @@ class GaodCoreRestApiClient
      * */     
     private function GetGaodcoreConectorByUri($uri) : array {
         $connectorSol = array();
-        $url = $this->params->get('url_gaodcore_connector');
-        $connectors = $this->client->GetInformation($url,$this->autorization);
+        $url = $this->params->get('url_gaodcore_connector') . "/";
+        $url = str_replace("autorization",$this->autorization,$url);
+        $connectors = $this->client->GetInformation($url);
         foreach($connectors as $connector){       
            if ($connector["uri"]==$uri){
              $connectorSol= $connector;
@@ -46,68 +47,92 @@ class GaodCoreRestApiClient
 
 
     /*
-     * Descripción: Devuelve la validacion de gaodcore
-     * Parametros: 
+     * Descripción: Devuelve la validación de gaodcore
+     * Parámetros: 
      *            uri: URL de la BD
      *            objectlocation: 
     */     
     private function GetGaodcoreValidator($uri, $object_location_schema, $objectlocation) : array {
         $url = $this->params->get('url_gaodcore_validator');
-        $url = "{$url}?uri={$uri}&object_location={$objectlocation}&object_location_schema={$object_location_schema}";
-        $validator = $this->client->GetInformation($url,$this->autorization);
+        $url = str_replace("autorization",$this->autorization,$url);
+        $url = "{$url}?uri={$uri}&object_location={$objectlocation}";
+        if (!empty($object_location_schema)){
+            $url = $url . "&object_location_schema={$object_location_schema}";
+        }
+        $validator = $this->client->GetInformation($url);
         $validado = (count($validator)>0); 
         return ["validado"=>$validado];
     }
 
     /*
      * Descripción:  Devuelve el conector de gaodcore 
-     * Parametros: 
-     *            uri: URL de la BD
-     *            objectlocation: Nombre de la tabla o vista. de forma completa - Ejemplo postgreSQL: schema.table
-     *            enable: si se quiere tener activa desde el inicio
-     *            name: Nombre que se le quiera dar.
+     * Parámetros: 
+     *            uri:                    URL de la BD
+     *            object_location_schema: Nombre del esquema de la tabla o vista. de forma completa - Ejemplo postgreSQL: schema.table -> schema
+     *            objectlocation:         Nombre de la tabla o vista. de forma completa - Ejemplo postgreSQL: schema.table -> table
+     *            enable:                 si se quiere tener activa desde el inicio
+     *            name:                   Nombre que se le quiera dar.
      * 
     */    
-    
-            /*{
-  "id": 9,
-  "name": "app20",
-  "uri": "postgresql://empleo_publico:KcpHS1V5YE@bev-aodback-01.aragon.local:5432/empleo_publico_aragon",
-  "enabled": true,
-  "created_at": "2021-05-25T14:01:40.729139+02:00",
-  "updated_at": "2021-05-25T14:01:40.729186+02:00"
-}
-*/
     private function GetGaodcoreConnector($uri, $object_location_schema, $objectlocation, $enable, $name):array {
-        //primero se comprueba si ya existe el connexctor
+        //primero se comprueba si ya existe el connector
         $error = "";
         $params = array();
         $connector = $this->GetGaodcoreConectorByUri($uri);
         $validado = false;
         //si no existe lo creamos
         if (count($connector)==0){
-            //aqui validamos antes de crear el connector
+            //aquí validamos antes de crear el connector
             if ($this->GetGaodcoreValidator($uri, $object_location_schema, $objectlocation)["validado"]) {
                 //si es valido lo creamos
                 $validado = true;
-                $url = $this->params->get('url_gaodcore_connector');
+                $url = $this->params->get('url_gaodcore_connector') . "/";
+                $url = str_replace("autorization",$this->autorization,$url);
                 $params = ["uri"=>$uri, "enabled"=> $enable,"name"=>$name];
-                $connector = $this->client->PostInformation($url, $params, $this->autorization);
+                $connector = $this->client->PostCurlInformation($url, $params);
+                if (!array_key_exists('id', $connector)) {
+                    $error = "Connector no validado: " .  join(" ", $params);
+                    $connector = array();
+                }
             } else {
+                if (count($params)==0){
+                    $params = array("uri"=>$uri, "object_location_schema"=>$object_location_schema, "objectlocation"=>$objectlocation);
+                }
                 $error = "Connector no validado: " .  join(" ", $params);
             }
         }
         return [$connector, $error, $validado];
     }
 
+     /*
+     * Descripción:  Devuelve el resource del resource de gaodcore 
+     * Parámetros: 
+     *            name:                   Nombre que se le quiera dar.
+     * 
+    */    
+    private function GetGaodcoreResourceIdByName($name):array {
+        $resourceSol = array();
+        $url = $this->params->get('url_gaodcore_resource') . "/";
+        $url = str_replace("autorization",$this->autorization,$url);
+        $resources = $this->client->GetInformation($url);
+        foreach($resources as $resource){       
+           if ($resource["name"]==$name) {
+             $resourceSol=$resource;
+             break;
+           }
+        }
+        return $resourceSol;
+    }
+
 
    /*
      * Descripción:  Devuelve el recurso de gaodcore
-     * Parametros: 
-     *            name: Nombre que se le quiera dar.
-     *            connector_config: models.ForeignKey ConnectorConfig, on_delete=models.CASCADE Id del conector. Lo obtienes del paso anterior.
-     *            enable:True si se quiere tener activa desde el inicio
-     *            objectlocation: Nombre de la tabla o vista. de forma completa - Ejemplo postgreSQL: schema.table
+     * Parámetros: 
+     *            uri:                    Uri del servicio
+     *            object_location_schema: Nombre del esquema de la tabla o vista. de forma completa - Ejemplo postgreSQL: schema.table -> schema
+     *            objectlocation:         Nombre de la tabla o vista. de forma completa - Ejemplo postgreSQL: schema.table -> table
+     *            enable:                 si se quiere tener activa desde el inicio
+     *            name:                   Nombre que se le quiera dar.e
      * 
     */     
     public function GetGaodcoreResource($uri, $object_location_schema, $objectlocation, $enable, $name):array {
@@ -119,35 +144,52 @@ class GaodCoreRestApiClient
         $validado = false;
         $name = $this->processorTool->clean($name);
         $nameconector = "db-" . $name;
-        [$connector,$error,$validado] = $this->GetGaodcoreConnector($uri, $object_location_schema, $objectlocation, $enable, $nameconector);
-        //si tengo connector por que existe o porque lo he creado despues de validad
-        if (count($connector)){
-            //validamos esquema y tabla
-            $validado = (!$validado) ? $this->GetGaodcoreValidator($uri, $object_location_schema, $objectlocation)["validado"] : $validado;
-            if (!$validado) {
-                $error = "Connector no validado: " .  join(" ", $params);
-            } else {
-                //si es correcto 
-                $connector_config = $connector['id'];
-                //con el id del conector damos de alta el resource
-                $url = $this->params->get('url_gaodcore_resource');
-                $params = ["name"=>$name, 
-                        "enabled"=> $enable, 
-                        "object_location"=>$objectlocation,
-                        "object_location_schema"=>$object_location_schema, 
-                        "connector_config"=>$connector_config];
-                $resource = $this->client->PostInformation($url,$params,$this->autorization);
-                if (count($resource)>0) {
-                    //resource dado de alta
-                    $resourceid = $resource['id'];
-                    $resource = ["resourceid" => $resourceid];
+
+        //comienzo revisando si ya existe el resource;
+        $resource = $this->GetGaodcoreResourceIdByName($name);
+        if (array_key_exists('id', $resource)) {
+            $resourceid = $resource['id'];
+            $resource = ["resourceid" => $resourceid];
+        } else {
+            [$connector,$error,$validado] = $this->GetGaodcoreConnector($uri, $object_location_schema, $objectlocation, $enable, $nameconector);
+             //si tengo connector por que existe o porque lo he creado despues de validad
+             if (count($connector)){
+                //validamos esquema y tabla
+                $validado = (!$validado) ? $this->GetGaodcoreValidator($uri, $object_location_schema, $objectlocation)["validado"] : $validado;
+                if (!$validado) {
+                    $error = "Connector no validado: " .  join(" ", $params);
                 } else {
-                    $error .= " Error al generar el recurso: " . join(" ", $params);
-                    $resource = ["resourceid" => "", "error"=>$error];
+                    //si es correcto 
+                    $connector_config = $connector['id'];
+                    //con el id del conector damos de alta el resource
+
+                    $url = $this->params->get('url_gaodcore_resource') . "/";
+                    $url = str_replace("autorization",$this->autorization,$url);
+                    $params = ["name"=>$name, 
+                            "enabled"=> $enable, 
+                            "object_location"=>$objectlocation,
+                            "object_location_schema"=>$object_location_schema, 
+                            "connector_config"=>$connector_config];
+                    $resource = $this->client->PostCurlInformation($url,$params);
+                    if (count($resource)>0) {
+                        //resource dado de alta
+                        if (array_key_exists('id', $resource)) {
+                            $resourceid = $resource['id'];
+                            $resource = ["resourceid" => $resourceid];
+                        } else {
+                            $error .= " Error al generar el recurso: " . join(" ", $params);
+                            $resource = ["resourceid" => "", "error"=>$error];
+                        }
+                    } else {
+                        $error .= " Error al generar el recurso: " . join(" ", $params);
+                        $resource = ["resourceid" => "", "error"=>$error];
+                    }
                 }
             }
-        } 
+        }
+        if (!empty($error)){
+            $error = "GA_OD_CORE: " . $error;
+        }
         return [$resource, $error];
     }
-
 }

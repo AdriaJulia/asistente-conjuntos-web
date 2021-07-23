@@ -2,7 +2,7 @@
 namespace App\Enum;
 
 /**
- * Descripcion: Enumerado del las opciones del PASO3 para finalizar el asistente 
+ * Descripción: Enumerado del las opciones del PASO3 para finalizar el asistente 
  */
 
 class ModoFormularioAlineacionEnum {

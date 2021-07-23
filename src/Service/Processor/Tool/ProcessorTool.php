@@ -10,11 +10,11 @@ namespace App\Service\Processor\Tool;
 class ProcessorTool
 {
      /***
-     * Descripcion: Limpia una cadena de caracteres especiales acentos y espacios
+     * Descripción: Limpia una cadena de caracteres especiales acentos y espacios
      *              la funcion se utiliza para hacer el identificador del titulo
      *              
      *              
-     * Parametros:
+     * Parámetros:
      *             string:  cadena a convertir       
      */
     public static function clean($string) {

@@ -22,9 +22,9 @@ use Psr\Log\LoggerInterface;
 
 /*
  * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
- *              Controla la validacion del formulario y serializa el Dto a la clase entidad
- *              Envía los datos a su persistencia a traves de repositorio  
- *              La clase se crea para el formulario de descripcion de datos Paso1.1 
+ *              Controla la validación del formulario y serializa el Dto a la clase entidad
+ *              Envía los datos a su persistencia a través de repositorio  
+ *              La clase se crea para el formulario de descripción de datos Paso 0 
 */
 class DistribucionFormProcessor
 {
@@ -54,7 +54,7 @@ class DistribucionFormProcessor
         $distribuciones =  $this->descripcionDatosManager->get(1,0,$request->getSession());
         $distribucionClonada = null;
         $nueva = false;
-        //inicilizo con nueva para dar la opcion de nueva distribución
+        //inicializo con nueva para dar la opción de nueva distribución
         $seleccion["#nueva#"] = "--Nuevo conjunto de datos--";
         foreach($distribuciones['data'] as $distribucion)
         {

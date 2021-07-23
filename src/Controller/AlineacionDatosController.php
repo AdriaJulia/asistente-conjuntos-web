@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
 /*
  * Descripción: Es el controlador del paso3, muestra el formulario y guarda la entidad principal y las relaciones
  *              campo - entidad  en un array json.
- *              Todo el funcionamiento dinamico dellos cotroles se reliza con javascrip y con twig.
+ *              Todo el funcionamiento dinamico de los controles se reliza con javascrip y con twig.
  *              
  */
 class AlineacionDatosController extends AbstractController
@@ -32,17 +32,17 @@ class AlineacionDatosController extends AbstractController
     private $urlMenu = "";
 
      /***
-     * Descripcion: Inserta una entidad principal y un conjunto de campos alienados en fomato json
-     *              El conjunto de datos alineado json, se crea en un campo oculto en front según va seleccionando campos .
+     * Descripción: Inserta una entidad principal y un conjunto de campos alineados en fomato json
+     *              El conjunto de datos alineados json, se crea en un campo oculto en front según va seleccionando campos .
      *              
-     * Parametros:
-     *             iddes:                         id la descripcion de los dato de datos a actualizar
-     *             id:                            id del del origen  de datos que se dese alinear
+     * Parámetros:
+     *             iddes:                         id  del conjunto de datos a actualizar
+     *             id:                            id del del origen de datos que se desea alinear
      *             alineacionDatosFormProcessor:  proceso back del origen de datos a una llamada
      *             origenDatosManager :           repositorio del origen de datos
-     *             descripcionDatosManager :      repositorio de la descripcion de datos
-     *             toolController:                clase de herramientas para procesoso comunes de los controladores
-     *             request:                       El objeto request de la llamada
+     *             descripcionDatosManager :      repositorio de la descripción de datos
+     *             toolController:                clase helper para procesos comunes de los controladores
+     *             request:                       el objeto request de la llamada
      */
 
     /**
@@ -72,7 +72,7 @@ class AlineacionDatosController extends AbstractController
         [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu]  = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ALINEACION_EI2A,$this->getUser());
 
         //toma la url del origen de datos donde se quedo el usuario
-        $locationAnterior = $toolController->DameUrlAnteriorOrigendatos($tipoOrigen, $id, $iddes, $_SERVER);
+        $locationAnterior = $toolController->DameUrlAnteriorOrigendatos($tipoOrigen, $id, $iddes);
 
         //lanzo el proceso de actualización 
         [$form,$modoFormulario, $origenDatos,$errorProceso] = ($alineacionDatosFormProcessor)($iddes, $origenDatos, $esAdminitrador, $request);
@@ -97,7 +97,7 @@ class AlineacionDatosController extends AbstractController
         } 
         //recojo la descripción del origen datos 
         $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
-        // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
+        //solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
         $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
                                                                           $this->getUser(),
                                                                           $descripcionDatos->getEstado());                                                                 
@@ -139,16 +139,16 @@ class AlineacionDatosController extends AbstractController
    }
 
     /***
-     * Descripcion: Inserta una entidad principal y un conjunto de campos alienados en fomato xml
-     *              El conjunto de datos alineado xml.
+     * Descripción: Inserta una entidad principal y un conjunto de campos alineados en formato xml
+     *              El conjunto de datos alineados xml.
      *              
-     * Parametros:
-     *             iddes:                         id la descripcion de los dato de datos a actualizar
-     *             id:                            id del del origen  de datos que se dese alinear
+     * Parámetros:
+     *             iddes:                         id  del conjunto de datos a actualizar
+     *             id:                            id del del origen  de datos que se desea alinear
      *             alineacionDatosFormProcessor:  proceso back del origen de datos a una llamada
      *             origenDatosManager :           repositorio del origen de datos
      *             descripcionDatosManager :      repositorio de la descripcion de datos
-     *             toolController:                clase de herramientas para procesoso comunes de los controladores
+     *             toolController:                clase helper para procesoso comunes de los controladores
      *             request:                       El objeto request de la llamada
      */
 
@@ -176,7 +176,7 @@ class AlineacionDatosController extends AbstractController
          //tomo las urls del menu superior 
          [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu]  = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ALINEACION_XML,$this->getUser());
          //toma la url del origen de datos donde se quedo el usuario
-         $locationAnterior = $toolController->DameUrlAnteriorOrigendatos($tipoOrigen, $id, $iddes, $_SERVER);
+         $locationAnterior = $toolController->DameUrlAnteriorOrigendatos($tipoOrigen, $id, $iddes);
 
 
          //lanzo el proceso de actualización 
@@ -201,7 +201,7 @@ class AlineacionDatosController extends AbstractController
          } 
          //recojo la descripción del origen datos 
          $descripcionDatos = $descripcionDatosManager->find($iddes, $request->getSession());
-         // solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
+         //solo se puede acceder si el estado es correcto y el usuario es el mismo que lo creó
          $permisoEdicion = $toolController->DamePermisoUsuarioActualEstado($descripcionDatos->getUsuario(), 
                                                                            $this->getUser(),
                                                                            $descripcionDatos->getEstado());

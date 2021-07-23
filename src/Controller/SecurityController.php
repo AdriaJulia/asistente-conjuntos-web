@@ -12,8 +12,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /***
-     * Descripcion: Acción que realiza el evento login, lanza el formulario y recibe el resultado del proceso de autenticación
-     * Parametros: 
+     * Descripción: Acción que realiza el evento login, lanza el formulario y recibe el resultado del proceso de autenticación
+     * Parámetros: 
      *             request: El objeto request de la llamada
      *             authUtils: Nativo de symfony para gestionar la autenticación
      */
@@ -36,7 +36,7 @@ class SecurityController extends AbstractController
     }
 
     /***
-     * Descripcion: Acción que realiza el evento logout
+     * Descripción: Acción que realiza el evento logout
      */
     /**
      * @Route("/logout", name="app_logout")

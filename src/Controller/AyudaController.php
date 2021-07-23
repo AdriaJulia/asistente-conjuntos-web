@@ -25,17 +25,17 @@ class AyudaController extends AbstractController
 
     /***
      * Descripción: Es el action de la ayuda
-     * Parametros:
-     *             pagina:                    id de la pagina de ayuda que se va a visualiza
-     *             toolController:            clase de herramientas para procesoso comunes de los controladores
+     * Parámetros:
+     *             pagina:                    id de la página de ayuda que se va a visualiza
+     *             toolController:            clase helper para procesoso comunes de los controladores
      *             request:                   El objeto request de la llamada
      */
     /**
     * @Route("/asistentecamposdatos/ayuda/{pagina}", name="asistentecamposdatos_ayuda_index")
     */
    public function indexAction(string $pagina="distribucion",
-                               ToolController $toolController,
-                               Request $request) {
+                               ToolController $toolController=null,
+                               Request $request=null) {
 
        //el class de body en este controlador no es siempre el mismo     
       $this->ClassBody = "ayuda comunidad usuarioConectado";
@@ -54,10 +54,10 @@ class AyudaController extends AbstractController
 
 
     /***
-     * Descripcion: Action que muestra el formulario  de soporte y envía el correo
-     * Parametros:
+     * Descripción: Action que muestra el formulario  de soporte y envía el correo
+     * Parámetros:
      *             soporteFormProcessor:      proceso back que envía el coreo 
-     *             toolController:            clase de herramientas para procesoso comunes de los controladores
+     *             toolController:            clase helper  para procesoso comunes de los controladores
      *             request:                   El objeto request de la llamada
      */
     /**
@@ -68,17 +68,18 @@ class AyudaController extends AbstractController
                                    LoggerInterface $logger,
                                    Request $request) {
 
-        //el class de body en este controlador no es siempre el mismo                                  
+        //el class de body en este controlador no es siempre es el mismo                                  
         $this->ClassBody = "asistente comunidad usuarioConectado";
         //tomo las urls del menu superior 
         [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::DESCRIPCION_DISTRIBUCION,$this->getUser());
         $locationAnterior = $request->getRequestUri();
-        // este el pro
+    
         $error = "";
         [$form, $soporte,$error] = ($soporteFormProcessor)($request);
         if (!empty($error)) {
             $logger->error($error);
         }
+        //si es correcto saco la confirmación
         if ($form->isSubmitted() && $form->isValid()) {
             //muestro elm mensaje de correo enviado
             return $this->render('soporte.html.twig', [

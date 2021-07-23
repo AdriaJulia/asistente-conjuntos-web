@@ -16,7 +16,7 @@ use Proxies\__CG__\App\Entity\OrigenDatos as EntityOrigenDatos;
 
 /*
  * Descripción: Es la clase aparece como conjunto de utilidades apara los controladores por estar en todos ellos y
- *              evitar su repetición  o por sacar el código de controlador y dejarlo  mas limpio y extendible.
+ *              evitar su repetición  o por sacar el código de controlador y dejarlo  mas limpio y comprensible.
  *              Hay funciones comunes y funciones solo para un controlador en especifico.
  */              
 class ToolController
@@ -40,10 +40,10 @@ class ToolController
     }
 
     /***
-     * Descripcion: devuelve el array de las url de los enlaces del encabezado
+     * Descripción: devuelve el array de las url de los enlaces del encabezado
      *              para todos los controladores
      *              
-     * Parametros:
+     * Parámetros:
      *             server:  objeto _SERVER del php del controlador
      *             paso:    paso del asistetente paso1, paso2, ect              
      */
@@ -53,7 +53,7 @@ class ToolController
         }
 
         if (empty($this->urlSoporte)){
-            $this->urlSoporte = "/asistentecamposdatos/ayuda/soporte";
+            $this->urlSoporte = "/asistentecamposdatos/soporte";
         }
 
         if (empty($this->urlCrear)){
@@ -74,11 +74,11 @@ class ToolController
     }
 
     /***
-     * Descripcion: Devuelve el estado de la descripcion de los datos en formato para el listado
+     * Descripción: Devuelve la descripción del estado para el listado
      *              Solo para controlador DescripcionDatosController.
      *                       
-     * Parametros:
-     *              estado: estado de la descripcion de los datos                   
+     * Parámetros:
+     *              estado: estado del conjunto datos                   
      */
     public function DameEstadoDatos($estado) :array {
 
@@ -118,12 +118,12 @@ class ToolController
     }
 
     /***
-     * Descripcion: Devuelve la url del botón "editar de la ficha.
-     *              la url varia según donde lo dejo el asistente el usuario
+     * Descripción: Devuelve la url del botón "editar" de la ficha.
+     *              La url varia según donde lo dejo el asistente el usuario.
      *              Solo para controlador DescripcionDatosController.
      *              
-     * Parametros:
-     *             data: objeto descripcion de los datos       
+     * Parámetros:
+     *             data: objeto descripción de los datos       
      */
     public function DameEnlaceEdicion(DescripcionDatos $data) : array {
        
@@ -184,10 +184,10 @@ class ToolController
     }
 
     /***
-     * Descripcion: devuelve el usuario actual distinguiendo un entorno autenticado y sin autenticar
+     * Descripción: devuelve el usuario actual distinguiendo un entorno autenticado y sin autenticar
      *              para todos los controladores
      *              
-     * Parametros:
+     * Parámetros:
      *             usurioActual:  usuario actual       
      */
     public function DameUsuarioActual($usurioActual): array{
@@ -202,13 +202,13 @@ class ToolController
     }
 
      /***
-     * Descripcion: Devuelve si se tiene permisopara ver una url sin tener en cuenta el estado
+     * Descripción: Devuelve si se tiene permiso para ver una url, sin tener en cuenta el estado
      *              para todos los controladores
      *              
-     * Parametros:
+     * Parámetros:
      *             usurioActual:  usuario actual
      *             usuariodatos:  usuario de los datos
-     *             principal:       si es una distribucion principal           
+     *             principal:       si es una distribución principal           
      */
     public  function DamePermisoUsuarioActual($usuariodatos,$usurioActual,$principal) : string {
         $permisoEdicion = "";
@@ -222,31 +222,36 @@ class ToolController
     }
 
     /***
-     * Descripcion: Devuelve si se tiene permisopara ver una url
+     * Descripción: Devuelve si se tiene permisopara ver una url
      *              para todos los controladores
      *              
-     * Parametros:
+     * Parámetros:
      *             usurioActual:  usuario actual
      *             usuariodatos:  usuario de los datos
      *             estado:        estado de los datos             
      */
-    public  function DamePermisoUsuarioActualEstado( $usuariodatos,$usurioActual,$estado) : string {
+    public  function DamePermisoUsuarioActualEstado( $usuariodatos, $usurioActual,$estado) : string {
 
-        [$usuario , $esAdminitrador ] = $this->DameUsuarioActual($usurioActual);
-        $permisoEdicion = ($estado == EstadoDescripcionDatosEnum::BORRADOR  || $estado == EstadoDescripcionDatosEnum::EN_CORRECCION) ? "block" : "none";
-        if ($permisoEdicion == "block")  {
-             $permisoEdicion = (($esAdminitrador) || ($usuario == $usuariodatos)) ? "block" : "none";
+        $permisoEdicion = "none";
+        [$usuario , $esAdminitrador] = $this->DameUsuarioActual($usurioActual);
+        if ($esAdminitrador) {
+            $permisoEdicion = "block";
+        } else {
+            $permisoEdicion = ($estado == EstadoDescripcionDatosEnum::BORRADOR  || $estado == EstadoDescripcionDatosEnum::EN_CORRECCION) ? "block" : "none";
+            if ($permisoEdicion == "block")  {
+                 $permisoEdicion = (($usuario == $usuariodatos)) ? "block" : "none";
+            }
         }
         return $permisoEdicion; 
     }
 
     /***
-     * Descripcion: Devuelve el array con el estado de los botones de la ficha
+     * Descripción: Devuelve el array con el estado de los botones de la ficha
      *              Solo para controlador DescripcionDatosController.
      *              
-     * Parametros:
+     * Parámetros:
      *             esAdminitrador:  si el usuario es administrador
-     *             estado:          el estado de la descripcion de los datos             
+     *             estado:          el estado de la descripción de los datos             
      */
     public function DameBotonesFicha($esAdminitrador, $estado) : array {
 
@@ -289,14 +294,14 @@ class ToolController
     }
 
     /***
-     * Descripcion: devuelve el array compuesto por
+     * Descripción: devuelve el array compuesto por
      *    campos:            conjunto de campos del origen delos datos
      *    ontologia:         ontologia principal asignada
-     *    tableAlineacion:   tabla con los resultados de la alineación
-     *    Solo para controlador DescripcionDatosController.
+     *    tablaAlineacion:   tabla con los resultados de la alineación
      * 
+     *    Solo para controlador DescripcionDatosController.
      *                      
-     * Parametros:
+     * Parámetros:
      *             origenDatos:  objeto con el origen de datos          
      */
     public function getOntologiasFicha(OrigenDatos $origenDatos): array {
@@ -309,23 +314,23 @@ class ToolController
            }
         }
         $temp = (!empty($origenDatos->getAlineacionRelaciones()))  ? get_object_vars(json_decode(str_replace(",}","}",$origenDatos->getAlineacionRelaciones()))) : array();
-        $tableAlineacion = [];
+        $tablaAlineacion = [];
         foreach($temp as $key => $value){
             $temp2 =  explode("&&&",$value);
             $value = end($temp2);
-            array_push($tableAlineacion, array("key"=>$key,"value"=>$value));
+            array_push($tablaAlineacion, array("key"=>$key,"value"=>$value));
         }
 
-        return [ $campos , $ontologia , $tableAlineacion];
+        return [ $campos , $ontologia , $tablaAlineacion];
     }
 
     /***
-     * Descripcion: comprueba que los campos nuevos esten en los alineados antiguos
+     * Descripción: comprueba que los campos nuevos estén en los alineados antiguos
      *    camposActuales:    array conjunto de campos del origen delos datos
      *    camposDistintos:   falg si hay cambios
      *    camposAlineados:   array de los alienados
                     
-     * Parametros:
+     * Parámetros:
      *             campos:  cadena con los campos
      *             camposAlineados:   array con los campos alineados    
      */
@@ -348,16 +353,16 @@ class ToolController
 
 
     /***
-     * Descripcion: devuelve una alinecion-relaciones valida respecto a los campos y la alinecionrelaciones actual 
-     *    nuevaAlinecion:  string con la nueva alineacion
+     * Descripción: devuelve una alineación-relaciones valida respecto a los campos y la alineación-relaciones actual 
+     *    nuevaAlineacion:  string con la nueva alineación
      *         
-     * Parametros:
+     * Parámetros:
      *             campos:  cadena con los campos
      *             camposAlineados:   array con los campos alineados    
      */
     public function getNuevaAlineacion($campos,$alineaciones): string {
 
-        $nuevaAlinecion = "{";
+        $nuevaAlineacion = "{";
            //tomo los campos Actuales
         $camposActuales =  !empty($campos) ? explode(";",$campos) : array();
         $camposAlineadosKeys = array_keys($alineaciones); 
@@ -365,24 +370,26 @@ class ToolController
             foreach($camposAlineadosKeys as $camposAlineadokey){
                 if (array_search($camposAlineadokey,$camposActuales)!==false) {
                     $alinecion = "\"{$camposAlineadokey}\":\"{$alineaciones[$camposAlineadokey]}\",";
-                    $nuevaAlinecion .= $alinecion;
+                    $nuevaAlineacion .= $alinecion;
                 }
             }
-            $nuevaAlinecion = (strlen($nuevaAlinecion)>1) ? substr($nuevaAlinecion,0,-1) : $nuevaAlinecion;
+            $nuevaAlineacion = (strlen($nuevaAlineacion)>1) ? substr($nuevaAlineacion,0,-1) : $nuevaAlineacion;
         }
-        $nuevaAlinecion .= "}";
-        return $nuevaAlinecion;
+        $nuevaAlineacion .= "}";
+        return $nuevaAlineacion;
     }
 
 
      /***
-     * Descripcion: devuelve la url para volver al origen datos desde la pagina de alineación.
+     * Descripción: devuelve la url para volver al origen datos desde la pagina de alineación.
      *              Solo para controlador AlineacionDatosController.
      *              
-     * Parametros:
-     *             descripcionDatos: objeto con la descripción de los datos         
+     * Parámetros:
+     *             origen: tipo de origen del origen de los datos  
+     *             id: identificador del origen de los datos 
+     *             iddes: identificador de la distribución      
      */
-    public function DameUrlAnteriorOrigendatos($origen, $id, $iddes, $server){
+    public function DameUrlAnteriorOrigendatos($origen, $id, $iddes){
 
         switch ($origen) {
             case 'url':
@@ -400,10 +407,10 @@ class ToolController
  
  
     /***
-     * Descripcion: devuelve la url para ir al origen de datos desde el paso 3
+     * Descripción: devuelve la url para ir al origen de datos desde el paso 3
      *              solo para controlador DescripcionDatosController
      *              
-     * Parametros:
+     * Parámetros:
      *             descripcionDatos: objeto con la descripción de los datos         
      */
     public function DameSiguienteOrigendatos(DescripcionDatos $descripcionDatos){
@@ -426,11 +433,15 @@ class ToolController
 
 
      /***
-     * Descripcion: devuelve la url para ir al origen de datos desde el paso 4
+     * Descripción: devuelve la url para ir al origen de datos desde el paso 4
      *              solo para controlador DescripcionDatosController
      *              
-     * Parametros:
-     *             descripcionDatos: objeto con la descripción de los datos         
+     * Parámetros:
+     *             descripcionDatos: objeto con la descripción de los datos  
+     *             id: identificador del origen de los datos 
+     *             iddes: identificador de la distribución
+     *             origen: tipo de origen del origen de los datos  
+     *                    
      */
     public function DameSiguienteAlineacion($tipoAlineacionEnum ,$iddes, $id, $origen){
         $locationSiguiente = "";
@@ -444,9 +455,9 @@ class ToolController
     }
 
     /***
-     * Descripcion: devuelve la url de la pagina actual con las variables php
+     * Descripción: devuelve la url de la pagina actual con las variables php
      *              
-     * Parametros:
+     * Parámetros:
      *             server:  objeto _SERVER del php del controlador         
      */
     private function getPaginaActual($server) {

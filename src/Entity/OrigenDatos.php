@@ -11,7 +11,7 @@ use \DateTime;
  *              Esta anotada con Doctrine, pero no persite en ninguna BD
  *              WebSite envía todas las operaciones de persistencia via apitest 
  *              que es donde realmente se guardan los datos.
- *              la notacion ORM es debida los formularios validadores y serializadores
+ *              la notación ORM es debida los formularios validadores y serializadores
  *              
  */
 
@@ -68,17 +68,17 @@ class OrigenDatos
     private $puerto;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="string", length=256, nullable=true)
      */
     private $servicio;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="string", length=256, nullable=true)
      */
     private $esquema;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="string", length=256, nullable=true)
      */
     private $tabla;
 
@@ -103,7 +103,7 @@ class OrigenDatos
     private $sesion;
 
     /**
-     * @ORM\Column(type="string", length=1024, nullable=true)
+     * @ORM\Column(type="text",  nullable=true)
     */
     private $campos;
 
@@ -113,12 +113,12 @@ class OrigenDatos
     private $extension;
 
     /**
-     *  @ORM\Column(type="string", length=512, nullable=true)
+     * @ORM\Column(type="text",  nullable=true)
      */
     private $alineacionEntidad; 
 
     /**
-     *  @ORM\Column(type="string", length=128, nullable=true)
+     *  @ORM\Column(type="string", length=512, nullable=true)
      */
     private $subtipoEntidad; 
 

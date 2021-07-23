@@ -2,7 +2,7 @@
 namespace App\Enum;
 
 /**
- * Descripcion: Enumerado del las opciones del combo  frecuencia actualización 
+ * Descripción: Enumerado del las opciones del combo  frecuencia actualización 
  */
 
 class FrecuenciaActualizacionEnum {

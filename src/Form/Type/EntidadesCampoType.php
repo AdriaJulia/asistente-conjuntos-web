@@ -1,5 +1,5 @@
 <?php
-// src/Form/Type/PostalAddressType.php
+
 namespace App\Form\Type;
 
 use App\Form\Type\EntidadCampoType;
@@ -11,7 +11,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 /*
  * Descripción: Es clase la que define el control que contiene el conjunto de controles
- * EntidadeCampoType. Symfony pide un control para unificar. 
+ * EntidadeCampoType. Symfony pide un control para unificar.
+ * El control se utiliza en la alineación por campos 
 */
 
 class EntidadesCampoType extends AbstractType
@@ -45,8 +46,6 @@ class EntidadesCampoType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-            // this defines the available options and their default values when
-        // they are not configured explicitly when using the form type
         $resolver->setDefaults([
             'allowed_campos' => null,
             'allowed_ontologias' => null,

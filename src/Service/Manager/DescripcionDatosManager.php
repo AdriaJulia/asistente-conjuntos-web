@@ -6,8 +6,8 @@ use App\Entity\DescripcionDatos;
 use App\Service\RestApiLocal\RestApiClientDescripcion;
 
 /*
- * Descripción: Es el repositorio de la descripcion de los datos
- *              las operaciones de persistencia las realiza a traves de llamadas apirest
+ * Descripción: Es el repositorio de la descripción de los datos
+ *              las operaciones de persistencia las realiza a través de llamadas apirest
  *              creadas por su correspondiete utilidad de llamadas http 
 */
 class DescripcionDatosManager

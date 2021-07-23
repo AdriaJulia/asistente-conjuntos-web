@@ -7,7 +7,7 @@ use App\Service\RestApiLocal\RestApiClientAlineacion;
 
 /*
  * Descripción: Es el repositorio de la alineación de los datos
- *              las operaciones de persistencia las realiza a traves de llamadas apirest
+ *              las operaciones de persistencia las realiza a través de llamadas apirest
  *              creadas por su correspondiete utilidad de llamadas http 
 */
 class AlineacionDatosManager

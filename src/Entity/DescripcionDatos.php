@@ -8,11 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Service\Controller\ToolController;
 
 /*
- * Descripción: Es la clase entidad de la descripcion del conjunto de datos. 
+ * Descripción: Es la clase entidad de la descripción del conjunto de datos. 
  *              Esta anotada con Doctrine, pero no persite en ninguna BD
  *              WebSite envía todas las operaciones de persistencia via apitest 
  *              que es donde realmente se guardan los datos.
- *              la notacion ORM es debida los formularios validadores y serializadores
+ *              la notación ORM es debida los formularios validadores y serializadores
  *              
  */
 /**
@@ -28,12 +28,12 @@ class DescripcionDatos
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=512, nullable=false)
+     * @ORM\Column(type="string", length=2048, nullable=false)
      */
     private $titulo;
 
     /**
-     * @ORM\Column(type="string", length=512, nullable=false)
+     * @ORM\Column(type="string", length=2048, nullable=false)
      */
     private $identificacion;
 
@@ -79,7 +79,7 @@ class DescripcionDatos
 
 
     /**
-     * @ORM\Column(type="string", length=1024, nullable=true)
+     * @ORM\Column(type="string", length=2048, nullable=true)
      */
     private $vocabularios;
 
@@ -89,7 +89,7 @@ class DescripcionDatos
     private $descripcionVocabularios;
 
     /**
-     * @ORM\Column(type="string", length=1024, nullable=true)
+     * @ORM\Column(type="string", length=2048, nullable=true)
      */
     private $servicios;
 
@@ -99,7 +99,7 @@ class DescripcionDatos
     private $descripcionServicios;
 
     /**
-     * @ORM\Column(type="string", length=1024, nullable=false)
+     * @ORM\Column(type="string", length=2048, nullable=false)
      */
     private $etiquetas;
 
@@ -536,12 +536,10 @@ class DescripcionDatos
 
     public function setOrigenDatos(?OrigenDatos $origenDatos): self
     {
-        // unset the owning side of the relation if necessary
         if ($origenDatos === null && $this->origenDatos !== null) {
             $this->origenDatos->setDescripcionDatos(null);
         }
 
-        // set the owning side of the relation if necessary
         if ($origenDatos !== null && $origenDatos->getDescripcionDatos() !== $this) {
             $origenDatos->setDescripcionDatos($this);
         }
@@ -720,6 +718,4 @@ class DescripcionDatos
                         "distribucion" => $distribucion);
         return $datos;
     }
-
-
 }

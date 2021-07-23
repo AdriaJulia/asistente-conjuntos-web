@@ -2,7 +2,7 @@
 namespace App\Enum;
 
 /**
- * Descripcion: Enumerado de los tipos BD
+ * Descripción: Enumerado de los tipos BD
  */
 
 class TipoBaseDatosEnum {

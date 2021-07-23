@@ -2,6 +2,6 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 app_index:
-    path: /adopool/index
+    path: /Aodpool/index
     controller: App\Controller\DefaultController::index
     methods: GET

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 
 /*
- * Descripción: Clase que realiza las llamadas A la API  a la apirest de la funcionalidad descripcion datos
+ * Descripción: Clase que realiza las llamadas A la API  a la apirest de la funcionalidad descripción datos
  *              La Clase trabaja a trabes de RestApiClient como un adaptador de la misma.
  *              Actual como DAL de la WEB.
 */

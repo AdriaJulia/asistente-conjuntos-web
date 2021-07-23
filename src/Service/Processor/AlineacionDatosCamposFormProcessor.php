@@ -18,9 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 /*
  * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
- *              Controla la validacion del formulario y serializa el Dto a la clase entidad
- *              Envía los datos a su persistencia a traves de repositorio  
- *              La clase se crea para el formulario de alineación Paso3 
+ *              Controla la validación del formulario y serializa el Dto a la clase entidad
+ *              Envía los datos a su persistencia a través de repositorio  
+ *              La clase se crea para el formulario de alineación Paso 4 por campos
 */
 class AlineacionDatosCamposFormProcessor
 {
@@ -87,7 +87,7 @@ class AlineacionDatosCamposFormProcessor
                                   'allowed_decripcion'=>$descripcionOntologia,
                                   'allowed_enlace'=>$enlaceOntologia);
             }
-              //tomo los campos alineados del registro actual
+            //tomo los campos alineados del registro actual
             $camposAlineados = (!empty($alineacionDatosDto->alineacionRelaciones))  ? 
                                  get_object_vars(json_decode(str_replace(",}","}",$alineacionDatosDto->alineacionRelaciones))) : 
                                     array();
@@ -110,7 +110,7 @@ class AlineacionDatosCamposFormProcessor
         if ($form->isSubmitted()) {
              //recojo los datos del formulario
             $alineacionDatosDto = $form->getData(); 
-            //el formulario se puede guradar /omitir / o que muestre las seleción de campos
+            //el formulario se puede guradar /omitir / o que muestre las selección de campos
             // esto se envía desde un campo oculto
             $guardar = ($modoFormulario== ModoFormularioAlineacionEnum::Guardar);
             $omitir = ($modoFormulario== ModoFormularioAlineacionEnum::Omitir);

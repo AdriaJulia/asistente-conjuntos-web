@@ -1,5 +1,5 @@
 <?php
-// src/EventSubscriber/RequestSubscriber.php
+
 namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -8,6 +8,11 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
+/**
+ * Descripción: Esta clase es parte de la sobreescritura del login para la integración con 
+ *              LDAP del cliente. Basicamente lo que hace es llamar a la autenticación Ssobre escrita
+ *              si el usuario no está logueado.  
+ */
 class RequestSubscriber implements EventSubscriberInterface
 {
     use TargetPathTrait;

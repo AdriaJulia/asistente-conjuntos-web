@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Enum\EstadoDescripcionDatosEnum;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Service\Manager\OrigenDatosManager;
 use App\Service\Manager\DescripcionDatosManager;
 use App\Service\Processor\OrigenDatosFileFormProcessor;
@@ -13,8 +11,6 @@ use App\Enum\RutasAyudaEnum;
 use App\Enum\TipoAlineacionEnum;
 use App\enum\TipoOrigenDatosEnum;
 use App\Service\Controller\ToolController;
-use App\Service\CurrentUser;
-use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,8 +19,8 @@ use Psr\Log\LoggerInterface;
 
 /*
  * Descripción: Es el controlador de todas la llamadas del paso 2, donde se crean y actualizan 
- *              los orígenes de datos a un a descripcion.
- *              Los orígenes pueden ser de fichero, url o base datos en cualquier formato.
+ *              el origen de datos de una distribución. 
+ *              Los orígenes pueden ser de fichero, url (xml, json, csv, xsl, xlsx) o base datos.
  */
 class OrigenDatosController extends AbstractController
 {
@@ -36,13 +32,13 @@ class OrigenDatosController extends AbstractController
     private $urlMenu = "";
 
     /***
-     * Descripcion: Crea, inserta un origen de datos por una url elegida en el formulario a una descripcion de datos dada por id
+     * Descripción: Crea, inserta un origen de datos por una url elegida en el formulario a una descripción de datos dada por id
      *              La misma llamada es contralada para el test (comprobación), como para el guardado.
-     * Parametros:
-     *             iddes:                     id de la descripcion de los datos que se la va a insertar el origen
+     * Parámetros:
+     *             iddes:                     id de la descripción de los datos que se la va a insertar el origen
      *             origenDatosFormProcessor:  proceso back del origen de datos a una llamada
      *             origenDatosManager :       repositorio del origen de datos
-     *             descripcionDatosManager :  repositorio de la descripcion de datos
+     *             descripcionDatosManager :  repositorio de la descripción de datos
      *             toolController:            clase de herramientas para procesoso comunes de los controladores
      *             request:                   El objeto request de la llamada
      */
@@ -53,8 +49,6 @@ class OrigenDatosController extends AbstractController
                                     OrigenDatosUrlFormProcessor $origenDatosFormProcessor,
                                     OrigenDatosManager $origenDatosManager,
                                     DescripcionDatosManager $descripcionDatosManager,
-                                    LoggerInterface $logger,
-                                    UrlGeneratorInterface $urlGeneratorInterface,
                                     ToolController $toolController,
                                     Request $request) {
         $errorProceso = "";
@@ -147,9 +141,9 @@ class OrigenDatosController extends AbstractController
     }
 
     /***
-     * Descripcion: Crea, inserta un origen de datos por un fichero elegida en el formulario a una descripcion de datos dada por id
+     * Descripción: Crea, inserta un origen de datos por un fichero elegida en el formulario a una descripcion de datos dada por id
      *              La misma llamada es contralada para el test (comprobación), como para el guardado.
-     * Parametros:
+     * Parámetros:
      *             iddes:                     id de la descripcion de los datos que se la va a insertar el origen
      *             origenDatosFormProcessor:  proceso back del origen de datos a una llamada
      *             origenDatosManager :       repositorio del origen de datos
@@ -164,8 +158,6 @@ class OrigenDatosController extends AbstractController
                                      OrigenDatosFileFormProcessor $origenDatosFormProcessor,
                                      OrigenDatosManager $origenDatosManager,
                                      DescripcionDatosManager $descripcionDatosManager,
-                                     LoggerInterface $logger,
-                                     UrlGeneratorInterface $urlGeneratorInterface,
                                      ToolController $toolController,
                                      Request $request) {
         $errorProceso = "";
@@ -269,9 +261,9 @@ class OrigenDatosController extends AbstractController
     }
 
     /***
-     * Descripcion: Crea, inserta un origen de datos por una base de datos elegida en el formulario a una descripcion de datos dada por id
+     * Descripción: Crea, inserta un origen de datos por una base de datos elegida en el formulario a una descripcion de datos dada por id
      *              La misma llamada es contralada para el test (comprobación), como para el guardado.
-     * Parametros:
+     * Parámetros:
      *             iddes:                     id de la descripcion de los datos que se la va a insertar el origen
      *             origenDatosFormProcessor:  proceso back del origen de datos a una llamada
      *             origenDatosManager :       repositorio del origen de datos
@@ -286,8 +278,6 @@ class OrigenDatosController extends AbstractController
                                          OrigenDatosDataBaseFormProcessor $origenDatosFormProcessor,
                                          OrigenDatosManager $origenDatosManager,
                                          DescripcionDatosManager $descripcionDatosManager,
-                                         LoggerInterface $logger,
-                                         UrlGeneratorInterface $urlGeneratorInterface,
                                          ToolController $toolController,
                                          Request $request) {
         $errorProceso = "";
@@ -300,7 +290,7 @@ class OrigenDatosController extends AbstractController
         $muestraSiguiente = "";
         $existe = false;
         //tomo las urls del menu superior
-               [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
+        [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
         [$form,$campos,$id, $Istest, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
         if (!empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";
@@ -380,9 +370,9 @@ class OrigenDatosController extends AbstractController
     }
 
     /***
-     * Descripcion: Actualiza un origen de datos por una url elegida en el formulario a una descripcion de datos dada por id.
+     * Descripción: Actualiza un origen de datos por una url elegida en el formulario a una descripcion de datos dada por id.
      *              La misma llamada es contralada para el test (comprobación), como para el guardado.
-     * Parametros:
+     * Parámetros:
      *             id:                        id del origen de dartos a actualizar
      *             iddes:                     id de la descripcion de los datos que se la va a insertar el origen
      *             origenDatosFormProcessor:  proceso back del origen de datos a una llamada
@@ -399,7 +389,6 @@ class OrigenDatosController extends AbstractController
                                     OrigenDatosUrlFormProcessor $origenDatosFormProcessor,
                                     OrigenDatosManager $origenDatosManager,
                                     DescripcionDatosManager $descripcionDatosManager,
-                                    LoggerInterface $logger,
                                     ToolController $toolController,
                                     Request $request) {
 
@@ -418,9 +407,9 @@ class OrigenDatosController extends AbstractController
         $Istest = true;
         $muestraSiguiente ="";
         //tomo las urls del menu superior
-               [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_URL,$this->getUser());
+        [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_URL,$this->getUser());
         [$form,$campos,$id, $Istest, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
-        //compruebo que los nuevo campos esten en los campos ya alieneados
+        //compruebo que los nuevo campos estén en los campos ya alineados
         [$camposActuales ,$camposDistintos,$camposAlineados]= $toolController->getOntologiasAlienedas($campos,$camposAlineados);
         if (!empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";
@@ -502,9 +491,9 @@ class OrigenDatosController extends AbstractController
 
 
     /***
-     * Descripcion: Actualiza un origen de datos por una archivo elegida en el formulario a una descripcion de datos dada por id
+     * DescripciónActualiza un origen de datos por una archivo elegida en el formulario a una descripcion de datos dada por id
      *              La misma llamada es contralada para el test (comprobación), como para el guardado.
-     * Parametros:
+     * Parámetros:
      *             id:                        id del origen de dartos a actualizar
      *             iddes:                     id de la descripcion de los datos que se la va a insertar el origen
      *             origenDatosFormProcessor:  proceso back del origen de datos a una llamada
@@ -550,7 +539,7 @@ class OrigenDatosController extends AbstractController
                 $archivoActual = basename($archivoActual);
             }
         }
-        //compruebo que los nuevo campos esten en los campos ya alieneados
+        //compruebo que los nuevo campos esten en los campos ya alineados
         [$camposActuales ,$camposDistintos,$camposAlineados] = $toolController->getOntologiasAlienedas($campos,$camposAlineados);
         if (!empty($archivoActual) || !empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";
@@ -631,9 +620,9 @@ class OrigenDatosController extends AbstractController
     }
 
     /***
-     * Descripcion: Actualiza un origen de datos por una base de datos elegida en el formulario a una descripcion de datos dada por id
+     * DescripciónActualiza un origen de datos por una base de datos elegida en el formulario a una descripcion de datos dada por id
      *              La misma llamada es contralada para el test (comprobación), como para el guardado.
-     * Parametros:
+     * Parámetros:
      *             id:                        id del origen de dartos a actualizar
      *             iddes:                     id de la descripcion de los datos que se la va a insertar el origen
      *             origenDatosFormProcessor:  proceso back del origen de datos a una llamada
@@ -669,10 +658,10 @@ class OrigenDatosController extends AbstractController
         $Istest = true;
         $muestraSiguiente = "";
         //tomo las urls del menu superior
-               [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
+        [$this->urlAyuda, $this->urlSoporte, $this->urlCrear, $this->urlMenu] = $toolController->getAyudaCrearMenu($_SERVER,RutasAyudaEnum::ORIGEN_DATOS_DB,$this->getUser());
         [$form,$campos,$id, $Istest, $errorProceso] = ($origenDatosFormProcessor)($iddes, $origenDatos, $request);
 
-        //compruebo que los nuevo campos esten en los campos ya alieneados
+        //compruebo que los nuevo campos estén en los campos ya alineados
         [$camposActuales ,$camposDistintos,$camposAlineados]= $toolController->getOntologiasAlienedas($campos,$camposAlineados);
         if (!empty($campos)) {
             $muestraSiguiente = "muestraSiguiente";

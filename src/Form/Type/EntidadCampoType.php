@@ -1,5 +1,4 @@
 <?php
-// src/Form/Type/PostalAddressType.php
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -17,7 +16,8 @@ use Symfony\Component\Form\FormBuilderInterface;
  *    Combo con las entidades principales a seleccionar
  *    Botón para asignar.
  * 
- * El funcionamiento del botón y la composicion del json , etc.. se realiza con javascript
+ * El funcionamiento del botón y la composición del json , etc.. se realiza con javascript
+ * El control se utiliza en la alineación por campos 
  *             
  */
 class EntidadCampoType extends AbstractType
@@ -52,8 +52,6 @@ class EntidadCampoType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-            // this defines the available options and their default values when
-        // they are not configured explicitly when using the form type
         $resolver->setDefaults([
             'allowed_ontologias' => null,
             'atribute_name' => null,

@@ -2,7 +2,7 @@
 namespace App\Enum;
 
 /**
- * Descripcion: Enumerado de las rutas de la ayuda según funcionalidad
+ * Descripción: Enumerado de las rutas de la ayuda según funcionalidad
  */
 
 

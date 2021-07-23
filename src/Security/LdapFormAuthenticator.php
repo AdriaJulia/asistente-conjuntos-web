@@ -70,7 +70,6 @@ class LdapFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        //in this scenario, this method is by-passed since user authentication need to be managed before in getUser method.
         return true;
     }
 

@@ -27,9 +27,9 @@ class IdentificadorUnicoTool
      
 
      /***
-     * Descripcion: Inserta un identificador al array estático de identificados
+     * Descripción: Inserta un identificador al array estático de identificados
      *                          
-     * Parametros:
+     * Parámetros:
      *             nuevoIdentificador: identificador a insertar en el array      
      */
      public function Inicializa() :void {
@@ -45,9 +45,9 @@ class IdentificadorUnicoTool
      }
 
      /***
-     * Descripcion: Comprueba si existe el nuevo identificador
+     * Descripción: Comprueba si existe el nuevo identificador
      *                         
-     * Parametros:
+     * Parámetros:
      *             identificador:  identificador      
      */
     public function ExiteIdentificador($titulo):bool {

@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 
 /*
- * Descripción: Es clase la que define el formulario paso 1.1 de la descripcion de los datos de los datos          
+ * Descripción: Es clase la que define el formulario paso 1 de la descripción de los datos de los datos          
  */
 
 class DescripcionDatosPaso1FormType extends AbstractType

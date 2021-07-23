@@ -1440,6 +1440,13 @@
     <rdfs:domain rdf:resource="http://www.w3.org/ns/org#Organization"/>
     <rdfs:comment xml:lang="es">Enlace con Centro</rdfs:comment>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/org#linkedTo">
+    <skos:altLabel xml:lang="es">Organizacion relacionada</skos:altLabel>
+    <rdfs:label xml:lang="es">Organizacion relacionada</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/org#Organization"/>
+    <rdfs:comment xml:lang="es">Organizacion relacionada</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/ns/org#Organization"/>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="http://www.w3.org/ns/org#originalOrganization">
     <rdfs:range rdf:resource="http://www.w3.org/ns/org#Organization"/>
     <rdfs:label xml:lang="es">Organización que ha sido creada tras un evento</rdfs:label>

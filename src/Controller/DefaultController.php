@@ -1,14 +1,12 @@
 <?php
 namespace App\Controller;
-
-use App\Service\RestApiRemote\GaodCoreRestApiClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 /*
- * Descripción: para que cargue la pagina principal
+ * Descripción: para que cargue la pagina principal y redirija a la home
  */
 class DefaultController extends AbstractController
 {
@@ -16,7 +14,7 @@ class DefaultController extends AbstractController
      /**
      * @Route("/")
      */
-    public function index(GaodCoreRestApiClient $gaodCoreRestApiClient): Response
+    public function index(): Response
     {
         return $this->redirect("/asistentecamposdatos");
     }

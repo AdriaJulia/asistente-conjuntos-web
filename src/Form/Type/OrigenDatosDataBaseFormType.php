@@ -17,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /*
- * Descripción: Es clase la que define el formulario paso2 en su formato Base datos       
+ * Descripción: Es clase la que define el formulario paso 3 en su formato Base datos       
  */
 class OrigenDatosDataBaseFormType extends AbstractType
 {

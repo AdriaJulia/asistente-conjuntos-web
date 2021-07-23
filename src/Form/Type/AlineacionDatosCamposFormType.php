@@ -15,7 +15,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 
 /*
- * Descripción: Es la clase la que define el formulario de la alineación de los datos          
+ * Descripción: Es la clase la que define el formulario de la alineación de los datos  
+ *              cuando se selecciona alinear con los campos        
  */
 
 class AlineacionDatosCamposFormType extends AbstractType

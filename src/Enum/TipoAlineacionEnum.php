@@ -2,7 +2,7 @@
 namespace App\Enum;
 
 /**
- * Descripcion: Enumerado de los tipos de orígenes  de datos admitidos
+ * Descripción: Enumerado de los tipos de orígenes  de datos admitidos
  */
 
 class TipoAlineacionEnum {

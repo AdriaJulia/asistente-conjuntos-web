@@ -2,7 +2,7 @@
 namespace App\Enum;
 
 /**
- * Descripcion: Enumerado del estado del asistente 
+ * Descripción: Enumerado del estado del asistente 
  */
 class EstadoDistribucionEnum {
 

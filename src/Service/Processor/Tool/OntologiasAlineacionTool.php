@@ -42,7 +42,7 @@ class OntologiasAlineacionTool
    /** 
      * Descripción: utilidad que cambia la clave de un registro en un array
      * 
-     * Parametros: 
+     * Parámetros: 
      *        array : el array a tratar
      *        old_key: la clave a cambiar
      *        new _key: la nueva clave   
@@ -73,7 +73,7 @@ class OntologiasAlineacionTool
    /** 
      * Descripción: Devuelve laa subentidades definidas para una entidad en el mapping
      * 
-     * Parametros: ontologia principal  
+     * Parámetros: ontologia principal  
      */ 
      public function GetSubEntidades($ontologia):array {
          $subentidades  = array();
@@ -98,7 +98,7 @@ class OntologiasAlineacionTool
      * Descripción: Devuelve los atributos de una ontologia principal
      *              Se rastrean los atributos de la ontologia  y todas sus subentidades de manera recursiva 
      * 
-     * Parametros: ontologia principal  
+     * Parámetros: ontologia principal  
      */ 
     public function GetOntologia($ontologia):array {
       $nombreOntologia = $this->DameNombreOntologia($ontologia);
@@ -112,7 +112,8 @@ class OntologiasAlineacionTool
          //si el lemento es la entidad selccionada
          if ($this->getAtributeXML($Entry,"rdf","type") == $ontologia) {
             //recojo las subentidades
-            $subentiadesEntarda = $this->DameSubEntidades($Entry,"","", array(),0);
+            $arraySubentidades= array();
+            $subentiadesEntarda = $this->DameSubEntidades($Entry,"","", $arraySubentidades,0);
             //preparo un array para tratar os datos
             foreach($subentiadesEntarda as $key=>$value) {
                $subentides[$key] = $value;
@@ -142,11 +143,11 @@ class OntologiasAlineacionTool
              $nombreOntologia = $nombreOntologias[count($nombreOntologias) -1];
              
              //si la ontologia tiene rango se lo separo para tratar la ontologia
-             //la funcion getAtributosEntidadHerencia se lo vuelve a juntar
+             //la función getAtributosEntidadHerencia se lo vuelve a juntar
             
-             //le paso ya la ontologia con la url completa
              $ontologiaExtendida = $this->ExtiendeEntidad($ontologia);
-             //ahora busco los atrubutos heredasdos
+ 
+             //ahora busco los atributos heredasdos
              //es decir la entidad puede hereda atributos de una superior
              $ontologiaPrincipal = $this->getAtributosEntidadHerencia($ontologia,
                                                                       $ontologiaExtendida,
@@ -183,7 +184,7 @@ class OntologiasAlineacionTool
    /** 
      * Descripción: Devuelve el array de atributos en formato clave valor de un nodo y sus padres en herecia
      * 
-     * Parametros: 
+     * Parámetros: 
      *             ontologia:  nombre ontologia contraida con prefijo
      *             ontologiaExtendida: nombre ontologia extendida url completa
      *             nombreOntologia: Nombre de la ontologia para las etiquetas
@@ -256,7 +257,7 @@ class OntologiasAlineacionTool
          //miro que la ultima propiedad no sea igual que la primera
          //por ejemplo en herencias de tipo igual que la 
          //para borrar y que quede correcto
-         //ento pasa cuando la propiedad es del mimo tipo que su padre
+         //entro pasa cuando la propiedad es del mimo tipo que su padre
          $temp = explode(">",$key1);
          $cuenta = count($temp) -1;
          if ($temp[$cuenta]==$ontologia) {
@@ -285,7 +286,7 @@ class OntologiasAlineacionTool
     /** 
      * Descripción: Devuelve la descripcion y el enlace del la ontologia
      *
-     * Parametros: ontologia principal  
+     * Parámetros: ontologia principal  
      */ 
    public function GetDescricionEnlaceOntologia($ontologia): array {
       $descripcion = null;
@@ -396,8 +397,8 @@ class OntologiasAlineacionTool
       if (!empty($range)){
          $key = $key . "?" . $range;
       }
-      if (!empty($label)){
-         $key = $key . "&" . urlencode($label);
+      if (!empty($label) && (strpos($key,"qb:ComponentSpecification")!==false)){
+         $key = $key. "&" . urlencode($label);
       }
       $keys = array_keys($arraySubentidades);
       if(array_search($key,$keys,true)===false) {
@@ -411,7 +412,7 @@ class OntologiasAlineacionTool
    /** 
      * Descripción: Loas ontologias Padre de la principal
      * 
-     * Parametros: ontologia principal prefijada  
+     * Parámetros: ontologia principal prefijada  
      */ 
     private function DameEntidadesPadre($entidad): array 
     {
@@ -437,7 +438,7 @@ class OntologiasAlineacionTool
    /** 
      * Descripción: Devuelve el nombre (label) de la ontologia 
      * 
-     * Parametros: ontologia principal prefijada  
+     * Parámetros: ontologia principal prefijada  
      */ 
    private function DameNombreOntologia($ontologia): string 
    {
@@ -454,7 +455,7 @@ class OntologiasAlineacionTool
    /** 
      * Descripción: Devuelve el nombre (label) de la ontologia 
      * 
-     * Parametros: ontologia principal prefijada  
+     * Parámetros: ontologia principal prefijada  
      */ 
     private function DameIdentificadorOntologia($ontologia): string 
     {
@@ -472,7 +473,7 @@ class OntologiasAlineacionTool
    /** 
     * Descripción: Devuelve la entidad extendida por su prefijo
     * 
-    * Parametros: ontologia prefijada
+    * Parámetros: ontologia prefijada
     */ 
    private function ExtiendeEntidad($ontologia) : string {
       $extendida = "";
@@ -493,7 +494,7 @@ class OntologiasAlineacionTool
    /** 
     * Descripción: Devuelve la entidad comprimida por su prefijo
     * 
-    * Parametros: ontologiaextendida : nombre de la entidad extendido
+    * Parámetros: ontologiaextendida : nombre de la entidad extendido
     */ 
     private function ComprimeEntidad($ontologiaextendida) : string {
       $comprimida = "";
@@ -515,7 +516,7 @@ class OntologiasAlineacionTool
    /** 
     * Descripción: Nos devuelve el array de dominios que pertenece un atributo
     *
-    * Parametros: atributo: el atributo a analizar
+    * Parámetros: atributo: el atributo a analizar
     */ 
    private function DameDominiosAtributo($atributo) : array {
       $dominios = array();
@@ -534,7 +535,7 @@ class OntologiasAlineacionTool
    /** 
     * Descripción: Nos indica si el atributo esta en el dominio de la entidad
     *
-    * Parametros: atributo: el atributo a analizar
+    * Parámetros: atributo: el atributo a analizar
     *             dominio:  el dominio a compara
     */ 
   private function AtributoPerteneceEntidad($atributo, $dominio) :bool {
@@ -562,7 +563,7 @@ class OntologiasAlineacionTool
   /** 
    * Descripción: Devuelve el nombre del atributo de tipo fieldLink dado una url
    *             
-   * Parametros: propiedadPrefijada:: la url que corresponde al filldlink que busco  
+   * Parámetros: propiedadPrefijada:: la url que corresponde al filldlink que busco  
    */ 
   private function getNombreFieldLink($propiedadPrefijada): string {
       $nombre = "";
@@ -570,6 +571,7 @@ class OntologiasAlineacionTool
       //pude estar aquí
       foreach($this->simpleowl->children('owl',true)->ObjectProperty as $ObjectProperty) {
          $atribute = $this->getAtributeXML($ObjectProperty,"rdf","about");
+         $atribute = empty($atribute) ? $this->getAtributeXML($ObjectProperty,"rdf","ID") : $atribute;
          if ($atribute==$propiedadExtendida) { 
             $node = $ObjectProperty->Children('rdfs',true)->label;
             $nombre = ((array)iterator_to_array($node)['label'])[0];
@@ -579,7 +581,8 @@ class OntologiasAlineacionTool
       //o aquí
       if (empty($nombre)){
          foreach($this->simpleowl->children('owl',true)->FunctionalProperty as $FunctionalProperty) {
-            $atribute = $this->getAtributeXML($FunctionalProperty,"rdf","ID");
+            $atribute = $this->getAtributeXML($FunctionalProperty,"rdf","about");
+            $atribute = empty($atribute) ? $this->getAtributeXML($FunctionalProperty,"rdf","ID") : $atribute;
             if ($atribute==$propiedadExtendida) { 
                $node = $FunctionalProperty->Children('rdfs',true)->label;
                $nombre = ((array)iterator_to_array($node)['label'])[0];
@@ -594,7 +597,7 @@ class OntologiasAlineacionTool
   /** 
    * Descripción: Devuelve los atributos de una ontologia principal
    *             
-   * Parametros: Entidad entidad de la que voy a sacar lo atributos
+   * Parámetros: Entidad entidad de la que voy a sacar lo atributos
    *             NombreEntidad: para formar el label
    */ 
    private function getAtributesEntidad($Entidad,$NombreEntidad): array {
@@ -628,7 +631,7 @@ class OntologiasAlineacionTool
   /** 
    * Descripción: Devuelve en clave valor el atributo y su valor para el combo
    *             
-   * Parametros: atributo: atributo extendido  
+   * Parámetros: atributo: atributo extendido  
    *             entidad: entidad prefijada  
    *             separador: para distinguir el tipo ontologico    
    */ 
@@ -673,7 +676,7 @@ class OntologiasAlineacionTool
      * Descripción: Devuelve el atributo label o comment
      *             
      * 
-     * Parametros: 
+     * Parámetros: 
      *                node: node donde se busca 
      *                pefix: prefijo 
      */ 
@@ -688,7 +691,7 @@ class OntologiasAlineacionTool
      * Descripción: Devuelve el atributo about o ID de una ontologia principal
      *             
      * 
-     * Parametros: 
+     * Parámetros: 
      *                node: node donde se busca 
      *                pefix: prefijo 
      */ 
@@ -706,7 +709,7 @@ class OntologiasAlineacionTool
    /** 
     * Descripción: Devuelve los atributos de una ontologia principal
     *             
-    * Parametros: 
+    * Parámetros: 
     *                node: node donde se busca 
     *                pefix: prefijo 
     *                name: nombre del atributo  
@@ -734,7 +737,7 @@ class OntologiasAlineacionTool
    /** 
      * Descripción: Devuelve un tributo prefijado de uno extendido  
      * 
-     * Parametros: atributo: el atributo  
+     * Parámetros: atributo: el atributo  
     */ 
    private function AtributoPrefijado($atributo): string {
         $prefijado = "";
@@ -753,7 +756,7 @@ class OntologiasAlineacionTool
    /** 
      * Descripción: Devuelve la lista de nodos del tipo dado
      * 
-     * Parametros: node: el nodo principal
+     * Parámetros: node: el nodo principal
      *             prefix: el prefijo que buscamos
      *             $name:  el tipo de nodo por su nombre
     */ 

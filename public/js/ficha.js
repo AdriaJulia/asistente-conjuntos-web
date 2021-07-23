@@ -22,6 +22,7 @@ if ($("#muestraError").val()) {
    $("#camposErrormodal").modal("show");
 }
 function submitForm(){
+    $("#popError").hide()
     var urlworkflow = $("#urlworkflow").val();
     $.ajax({
         type: "POST",
@@ -31,8 +32,9 @@ function submitForm(){
         success: function(response){
             location.reload();
         },
-        error: function( e ){
-            alert("Error en el sistema. Póngase en contacto con el administrador");
+        error: function(e){
+            $("#popError").show()
+            $("#lavelError").text("Error en el sistema:" + e.responseText + ". Póngase en contacto con el administrador")
         }
     });
 }

@@ -15,8 +15,7 @@ use Psr\Log\LoggerInterface;
 /*
  * Descripción: Clase que lanza la solicitud sobre la rest API.
  *              Se instancia desde el constructor de las distintas clases de acceso a la rest API en este mismo namepace.
- *              Su principal funcionalidad es hacer puente entre estas llamadas a la rest API y la obtención 
- *              y refresco del JWT en ada llamada.
+ *              Su principal funcionalidad es hacer puente entre estas llamadas a la rest API y la obtención y refresco del JWT en ada llamada.
  *              También prepara todo los demás encabezados comunes a todas la llamadas cualquiera  que sea la funcionalidad.
 */
 class RestApiClient
@@ -37,13 +36,13 @@ class RestApiClient
     }
     
     /*
-     * Descripción: Registro del usuario para la optencion del JWT.
-     *              Este usurio se persiste en la BD y no tiene nada que ver con el LDAP, 
+     * Descripción: Registro del usuario para la obtención del JWT.
+     *              Este usuario se persiste en la BD y no tiene nada que ver con el LDAP, 
      *              es para la seguridad de las llamadas a la Apirest con JWT.
      *              El nombre del usuario y el correo si es el mismo que el de LDAP, 
      *              pero son usuarios de sisteas de seguridad distintos. 
      * 
-     * Parametros: 
+     * Parámetros: 
      *          session sesion request
     */ 
     public function register(Session $session){
@@ -61,7 +60,7 @@ class RestApiClient
     /*
      * Descripción: Obtención de un token JWT por su usuario y contraseña
      * 
-     * Parametros: 
+     * Parámetros: 
      *          session: sesion request
      *          usario: usuario JWT
      *          contasena: contraseña JWT
@@ -86,7 +85,7 @@ class RestApiClient
      * Descripción: Obtención de un token JWT en sesion, para no hacer la llamada apirest todo el rato
      *              El token jwt dura una hora
      * 
-     * Parametros: 
+     * Parámetros: 
      *          session: sesion request
      *          renew:   si renueva el token
     */ 
@@ -106,7 +105,7 @@ class RestApiClient
     /*
      * Descripción: Llamada get api rest
      * 
-     * Parametros: 
+     * Parámetros: 
      *          url: url a la que se llama
      *          token: token JWT
      *          session: sesion request
@@ -129,7 +128,7 @@ class RestApiClient
     /*
      * Descripción: Llamada post api rest
      * 
-     * Parametros: 
+     * Parámetros: 
      *          url: url a la que se llama
      *          jsondata: datos que se envían
      *          token: token JWT
@@ -138,7 +137,7 @@ class RestApiClient
     public function PostContent($url, $jsondata, $token, $session): array {
          //dame contenido
         $contex = array("URL" =>$url);
-        $this->logger->info($jsondata,$contex);
+       // $this->logger->info($jsondata,$contex);
         $content = $this->PostInformation($url, $jsondata, $token);
           //si devuelves error 401 es ie el token JWT esta caducado y tengo que pedir otro.
         if ($content['statusCode']==401) {
@@ -151,7 +150,7 @@ class RestApiClient
     /*
      * Descripción: Llamada delete api rest
      * 
-     * Parametros: 
+     * Parámetros: 
      *          url: url a la que se llama
      *          token: token JWT
      *          session: sesion request
@@ -169,9 +168,9 @@ class RestApiClient
 
     /*
      * Descripción: Llamada get api rest
-     *              Esta funcion es para hacer trasparente los errores de renovacion de JWT y registro Usuario JWT
+     *              Esta función es para hacer trasparente los errores de renovación de JWT y registro Usuario JWT
      * 
-     * Parametros: 
+     * Parámetros: 
      *          url: url a la que se llama
      *          token: token JWT
     */ 
@@ -189,6 +188,7 @@ class RestApiClient
         }  else {
             $response = $this->client->request('GET', $ruta, [
                 'headers' => [
+                    'timeout' => 60,
                     'content-type' => 'application/json',
                     'accept' => 'application/json'
                 ],
@@ -221,9 +221,9 @@ class RestApiClient
 
     /*
      * Descripción: Llamada post api rest
-     *              Esta funcion es para hacer trasparente los errores de renovacion de JWT y registro Usuario JWT
+     *              Esta función es para hacer trasparente los errores de renovación de JWT y registro Usuario JWT
      * 
-     * Parametros: 
+     * Parámetros: 
      *          url: url a la que se llama
      *          token: token JWT
     */ 
@@ -243,6 +243,7 @@ class RestApiClient
         }  else {
             $response = $this->client->request('POST', $ruta, [
                 'headers' => [
+                    'timeout' => 60,
                     'content-type' => 'application/json',
                     'accept' => 'application/json'
                 ],
@@ -271,9 +272,9 @@ class RestApiClient
 
     /*
      * Descripción: Llamada delete api rest
-     *              Esta funcion es para hacer trasparente los errores de renovacion de JWT y registro Usuario JWT
+     *              Esta función es para hacer trasparente los errores de renovación de JWT y registro Usuario JWT
      * 
-     * Parametros: 
+     * Parámetros: 
      *          url: url a la que se llama
      *          token: token JWT
     */ 
@@ -292,7 +293,7 @@ class RestApiClient
     }
 
      /*
-     * Descripción: Esta funcion es para hacer las pruebas unitarias sin tener que estar logeado con LDAP 
+     * Descripción: Esta función es para hacer las pruebas unitarias sin tener que estar logeado con LDAP 
      * 
     */ 
     private function dameUsuarioJWT(): array {

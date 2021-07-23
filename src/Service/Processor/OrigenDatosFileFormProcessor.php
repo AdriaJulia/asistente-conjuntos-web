@@ -14,10 +14,12 @@ use App\Service\CurrentUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
+use Psr\Log\LoggerInterface;
+
 /*
  * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
- *              Controla la validacion del formulario y serializa el Dto a la clase entidad
- *              Envía los datos a su persistencia a traves de repositorio  
+ *              Controla la validación del formulario y serializa el Dto a la clase entidad
+ *              Envía los datos a su persistencia a través de repositorio  
  *              La clase se crea para el formulario origen de datos en su version de fichero el test como el guardado
 */
 class OrigenDatosFileFormProcessor
@@ -27,19 +29,22 @@ class OrigenDatosFileFormProcessor
     private $descripcionDatosManager;
     private $formFactory;
     private $params;
+    private $logger;
 
     public function __construct(
         CurrentUser $currentUser,
         OrigenDatosManager $origenDatosManager,
         DescripcionDatosManager $descripcionDatosManager,
         ContainerBagInterface $params,
-        FormFactoryInterface $formFactory
+        FormFactoryInterface $formFactory,
+        LoggerInterface $logger
     ) {
         $this->currentUser = $currentUser;
         $this->origenDatosManager = $origenDatosManager;
         $this->descripcionDatosManager = $descripcionDatosManager;
         $this->formFactory = $formFactory;
         $this->params = $params;
+        $this->logger = $logger;
     }
 
     public function __invoke(int $idDescripcion,

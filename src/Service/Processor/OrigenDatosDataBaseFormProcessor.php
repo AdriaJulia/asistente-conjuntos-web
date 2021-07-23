@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 /*
  * Descripción: Clase que realiza el trabajo de validar y enviar los datos al repositorio corespondiente
- *              Controla la validacion del formulario y serializa el Dto a la clase entidad
- *              Envía los datos a su persistencia a traves de repositorio  
+ *              Controla la validación del formulario y serializa el Dto a la clase entidad
+ *              Envía los datos a su persistencia a través de repositorio  
  *              La clase se crea para el formulario origen de datos en su version de base datostanto el test como el guardado
 */
 class OrigenDatosDataBaseFormProcessor
