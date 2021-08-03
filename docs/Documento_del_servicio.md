@@ -21,7 +21,7 @@ Los usuarios acceden al servicio mediante su identificación a través del LDAP 
 
 ## 2. Tecnologías
 
-Las tecnologías usadas en el proyecto y sus versiones son las sisguientes:
+Las tecnologías usadas en el proyecto y sus versiones son las siguientes:
 
 - PHP -> 7.46
 - PostgreSQL -> 9.6.12
