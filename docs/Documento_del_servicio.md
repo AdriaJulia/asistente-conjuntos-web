@@ -28,7 +28,7 @@ Las tecnologías usadas en el proyecto y sus versiones son las sisguientes:
 
 ## 3. Componentes del servicio
 
-![](docs/images/asistente_diagrama_arquitectura.png)
+![](images/asistente_diagrama_arquitectura.png)
 
 La ejecución principal del asistente se realiza a través de la aplicación **WEB** donde el usuario debe realizar login contra el **LDAP** del Gobierno de Aragón. El usuario genera un conjunto de datos siguiendo el asistente y guarda toda la información en la base de datos interna **PostgreSQL** a través del **API**.
 
